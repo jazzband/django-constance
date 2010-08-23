@@ -1,20 +1,35 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
 
+{% block extrahead %}
+{{ block.super }}
+<style>
+#result_list .changed {
+    background-color: #ff9;
+}
+#result_list .changed td.value_name{
+    font-weight: bold;
+}
+#result_list td{
+    vertical-align: middle;
+}
+</style>
+{% endblock %}
+
 {% block content %}
   <div id="content-main">
     <div class="module" id="changelist">
         <form id="changelist-form" action="" method="post">{% csrf_token %}
-            <table cellspacing="0" id="result_list">
-                <tr>
+            <table cellspacing="0" id="result_list" width="100%">
+                <tr class="name">
                     <th>Name</th>
                     <th>Default</th>
                     <th>Value</th>
                     <th>Help text</th>
                 </tr>
                 {% for item in config %}
-                    <tr>
-                        <td>{{item.name}}</td>
+                    <tr {% ifnotequal item.value item.default %} class="changed" {% endifnotequal %}>
+                        <td class="value_name">{{item.name}}</td>
                         <td>{{item.default}}</td>
                         <td>
                             {{item.form_field.errors}}
@@ -23,10 +38,10 @@
                         <td>{{item.help_text}}</td>
                     </tr>
                 {% endfor %}
-                <tr>
-                    <th colspan=4><input type='submit' value='Submit' /></th>
-                </tr>
             </table>
+           <div class="submit-row" >
+               <input type="submit" value="{% trans "Save" %}" class="default" name="_save" />
+           </div> 
         </form>
     </div>
   </div>
