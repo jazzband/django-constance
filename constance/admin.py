@@ -4,11 +4,13 @@ from decimal import Decimal
 from django.contrib import admin
 from django.utils.functional import update_wrapper
 from django.conf.urls.defaults import patterns, url
-from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from django import forms
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.forms import fields
+from django import forms
 
 from constance import config
 
@@ -31,6 +33,10 @@ class ConstanceForm(forms.Form):
         for name, (default, help_text) in settings.CONSTANCE_CONFIG.items():
             self.fields[name] = FIELDS[type(default)](label=name)
 
+    def save(self):
+        for name in self.cleaned_data:
+            setattr(config, name, self.cleaned_data[name])
+
 
 
 class ConstanceAdmin(admin.ModelAdmin):
@@ -50,7 +56,15 @@ class ConstanceAdmin(admin.ModelAdmin):
         return urlpatterns
 
     def changelist_view(self, request):
-        form = ConstanceForm(dict( (name, getattr(config, name)) for name in settings.CONSTANCE_CONFIG) )
+        form = ConstanceForm(
+            initial=dict( (name, getattr(config, name)) for name in settings.CONSTANCE_CONFIG)
+        )
+        if request.method == 'POST':
+            form = ConstanceForm(request.POST)
+            if form.is_valid():
+                form.save()
+                self.message_user(request, 'Live settings updated successfully.')
+                return HttpResponseRedirect('#')
         context = {
             'config': [],
             'root_path': self.admin_site.root_path,
@@ -59,12 +73,10 @@ class ConstanceAdmin(admin.ModelAdmin):
             'opts': Config._meta,
             'form': form,
         }
-        print form.fields
         for name, (default, help_text) in settings.CONSTANCE_CONFIG.items():
             context['config'].append({
                 'name': name,
                 'default': default,
-                'decode': type(default),
                 'help_text': help_text,
                 'value': getattr(config, name),
                 'form_field': form[name]
