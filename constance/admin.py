@@ -17,13 +17,13 @@ from constance import config
 
 
 FIELDS = {
-    bool: fields.BooleanField,
-    int: fields.IntegerField,
-    long: fields.IntegerField,
-    Decimal: fields.DecimalField,
-    str: fields.CharField,
-    datetime: fields.DateTimeField,
-    float: fields.FloatField,
+    bool: (fields.BooleanField, {'required': False}),
+    int: (fields.IntegerField, {}),
+    long: (fields.IntegerField, {}),
+    Decimal: (fields.DecimalField, {}),
+    str: (fields.CharField, {}),
+    datetime: (fields.DateTimeField, {}),
+    float: (fields.FloatField, {}),
 }
 
 
@@ -31,7 +31,8 @@ class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
         for name, (default, help_text) in settings.CONSTANCE_CONFIG.items():
-            self.fields[name] = FIELDS[type(default)](label=name)
+            field_class, kwargs = FIELDS[type(default)]
+            self.fields[name] = field_class(label=name, **kwargs)
 
     def save(self):
         for name in self.cleaned_data:

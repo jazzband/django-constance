@@ -32,3 +32,6 @@ class Config(object):
     def __setattr__(self, key, value):
         self._rd.set("%s%s" % (self._prefix, key), dumps(value))
 
+    def __dir__(self):
+        return settings.CONSTANCE_CONFIG.keys()
+
