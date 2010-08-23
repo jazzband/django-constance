@@ -1,0 +1,39 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div id="content-main">
+    <div class="module" id="changelist">
+        <table cellspacing="0" id="result_list">
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Default</th>
+                <th>Decode</th>
+            </tr>
+            {% for item in config %}
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td>{{item.value}}</td>
+                    <td>{{item.default}}</td>
+                    <td>{{item.decode}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+  </div>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="../../">
+    {% trans "Home" %}
+  </a>
+   &rsaquo; 
+   <a href="../">
+     {{ app_label|capfirst }}
+  </a>
+  &rsaquo; 
+  {{ opts.verbose_name_plural|capfirst }}
+</div>
+{% endblock %}
