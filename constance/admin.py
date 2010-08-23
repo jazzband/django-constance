@@ -1,3 +1,4 @@
+from operator import itemgetter
 from datetime import datetime
 from decimal import Decimal
 
@@ -82,6 +83,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'value': getattr(config, name),
                 'form_field': form[name]
             })
+        context['config'].sort(key=itemgetter('name'))
 
         return render_to_response(
             'admin/constance/change_list.html',
