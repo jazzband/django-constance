@@ -1,11 +1,35 @@
+from datetime import datetime
+from decimal import Decimal
+
 from django.contrib import admin
 from django.utils.functional import update_wrapper
 from django.conf.urls.defaults import patterns, url
 from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django import forms
+from django.forms import fields
 
 from constance import config
+
+
+
+FIELDS = {
+    bool: fields.BooleanField,
+    int: fields.IntegerField,
+    long: fields.IntegerField,
+    Decimal: fields.DecimalField,
+    str: fields.CharField,
+    datetime: fields.DateTimeField,
+    float: fields.FloatField,
+}
+
+
+class ConstanceForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(ConstanceForm, self).__init__(*args, **kwargs)
+        for name, (default, help_text) in settings.CONSTANCE_CONFIG.items():
+            self.fields[name] = FIELDS[type(default)](label=name)
 
 
 
@@ -22,28 +46,30 @@ class ConstanceAdmin(admin.ModelAdmin):
             url(r'^$',
                 wrap(self.changelist_view),
                 name='%s_%s_changelist' % info),
-            #url(r'^(.+)/$',
-            #    wrap(self.change_view),
-            #    name='%s_%s_change' % info),
         )
         return urlpatterns
 
     def changelist_view(self, request):
+        form = ConstanceForm(dict( (name, getattr(config, name)) for name in settings.CONSTANCE_CONFIG) )
         context = {
             'config': [],
             'root_path': self.admin_site.root_path,
             'title': 'Live settings',
             'app_label': 'constance',
             'opts': Config._meta,
+            'form': form,
         }
-        for name, (default, decode, help_text) in settings.CONSTANCE_CONFIG.items():
+        print form.fields
+        for name, (default, help_text) in settings.CONSTANCE_CONFIG.items():
             context['config'].append({
                 'name': name,
                 'default': default,
-                'decode': decode,
+                'decode': type(default),
                 'help_text': help_text,
                 'value': getattr(config, name),
+                'form_field': form[name]
             })
+
         return render_to_response(
             'admin/constance/change_list.html',
             context,
