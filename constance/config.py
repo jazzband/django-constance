@@ -5,7 +5,7 @@ from django.utils.importlib import import_module
 
 try:
     from cPickle import loads, dumps
-except ImportError
+except ImportError:
     from pickle import loads, dumps
 
 
@@ -21,12 +21,13 @@ class Config(object):
             super(Config, self).__setattr__('_rd', redis.Redis(**settings.CONSTANCE_CONNECTION))
 
     def __getattr__(self, key):
-        default, decode, help_text = settings.CONSTANCE_CONFIG[key]
-        result = loads(self._rd.get("%s%s" % (self._prefix, key)))
+        default, help_text = settings.CONSTANCE_CONFIG[key]
+        result = self._rd.get("%s%s" % (self._prefix, key))
         if result is None:
             result = default
             setattr(self, key, default)
-        return decode(result)
+            return result
+        return loads(result)
 
     def __setattr__(self, key, value):
         self._rd.set("%s%s" % (self._prefix, key), dumps(value))
