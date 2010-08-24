@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-constance',
-    version='0.0.1',
+    version='0.1',
     description='Django live settings stored in redis',
     author='Comoga Django Team',
     author_email='comoga@bitbucket.org',
