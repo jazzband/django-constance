@@ -37,6 +37,10 @@ key you want to turn dynamic into the ``CONSTANCE_CONFIG`` section, like this::
         'MY_SETTINGS_KEY': (42, 'the answer to everything'),
     }
 
+Here, ``42`` is the default value for the key MY_SETTINGS_KEY if it is not
+found in Redis. The other member of the tuple is a help text the admin
+will show.
+
 Usage
 =====
 
