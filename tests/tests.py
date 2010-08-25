@@ -7,13 +7,7 @@ from constance import config
 
 class TestStorage(TestCase):
 
-    def setUp(self):
-        self.old_config = getattr(settings, 'CONSTANCE_CONFIG', None)
-        settings.CONSTANCE_CONFIG = {
-            'INT_VALUE': (1, 'some int'),
-            'BOOL_VALUE': (True, 'true or false'),
-            'STRING_VALUE': ('Hello world', 'greetings'),
-        }
+    def tearDown(self):
         config._rd.clear()
 
     def test_store(self):
@@ -43,7 +37,3 @@ class TestStorage(TestCase):
         except Exception, e:
             pass
         self.assertEquals(type(e), AttributeError)
-
-    def tearDown(self):
-        if self.old_config:
-            settings.CONSTANCE_CONFIG = self.old_config
