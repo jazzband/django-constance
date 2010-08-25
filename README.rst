@@ -13,42 +13,41 @@ Install from here using ``pip``::
 
     pip install -e hg+http://bitbucket.org/comoga/django-constance#egg=django-constance
 
-1. Add ``constance`` to your ``INSTALLED_APPS``.
+Configuration
+=============
 
-2. Point ``CONSTANCE_CONNECTION`` in your ``settings.py`` to your Redis instance, like this::
+Modify your ``settings.py``. Add ``constance`` to your ``INSTALLED_APPS``,
+point ``CONSTANCE_CONNECTION`` to your Redis instance, and move each
+key you want to turn dynamic into the ``CONSTANCE_CONFIG`` section, like this::
 
-        CONSTANCE_CONNECTION = {
-            'host': 'localhost',
-            'port': 6379,
-            'db': 0,
-        }
 
-3. Create an empty section ``CONSTANCE_CONFIG`` in your settings which will
-   enumerate all your dynamic settings for the admin::
+    INSTALLED_APPS = (
+        ...
+        'constance',
+    )
 
-        CONSTANCE_CONFIG = {
-        }
+    CONSTANCE_CONNECTION = {
+        'host': 'localhost',
+        'port': 6379,
+        'db': 0,
+    }
+
+
+    CONSTANCE_CONFIG = {
+        'MY_SETTINGS_KEY': (42, 'the answer to everything'),
+    }
 
 Usage
 =====
-
-Add
 
 ::
 
     from constance import config
 
-to the top of your source and replace ``settings.MY_SETTINGS_KEY`` with
-``config.MY_SETTINGS_KEY`` for each key which you want to be read
-from Redis.
+    ...
 
-Next, move each such key within your ``settings.py`` to the ``CONSTANCE_CONFIG``
-section. Keep the default value and add an explanation for the admin, like
-this::
-
-    CONSTANCE_CONFIG = {
-        'MY_SETTINGS_KEY': (42, 'the answer to everything'),
-    }
+    if config.MY_SETTINGS_KEY == 42:
+        answer_the_question()
 
 
 Fire up your ``admin`` and you should see a new application ``Constance``
