@@ -23,7 +23,10 @@ class Config(object):
             super(Config, self).__setattr__('_rd', redis.Redis(**settings.CONSTANCE_CONNECTION))
 
     def __getattr__(self, key):
-        default, help_text = settings.CONSTANCE_CONFIG[key]
+        try:
+            default, help_text = settings.CONSTANCE_CONFIG[key]
+        except KeyError, e:
+            raise AttributeError(key)
         result = self._rd.get("%s%s" % (self._prefix, key))
         if result is None:
             result = default
@@ -32,6 +35,8 @@ class Config(object):
         return loads(result)
 
     def __setattr__(self, key, value):
+        if key not in settings.CONSTANCE_CONFIG:
+            raise AttributeError(key)
         self._rd.set("%s%s" % (self._prefix, key), dumps(value))
 
     def __dir__(self):
