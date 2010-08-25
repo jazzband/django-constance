@@ -3,6 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 
 from django.contrib import admin
+from django.contrib.admin.widgets import AdminSplitDateTime
 from django.utils.functional import update_wrapper
 from django.conf.urls.defaults import patterns, url
 from django.shortcuts import render_to_response
@@ -23,7 +24,7 @@ FIELDS = {
     long: (fields.IntegerField, {}),
     Decimal: (fields.DecimalField, {}),
     str: (fields.CharField, {}),
-    datetime: (fields.DateTimeField, {}),
+    datetime: (fields.DateTimeField, {'widget': AdminSplitDateTime}),
     float: (fields.FloatField, {}),
 }
 
@@ -74,6 +75,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'app_label': 'constance',
             'opts': Config._meta,
             'form': form,
+            'media': self.media + form.media,
         }
         for name, (default, help_text) in settings.CONSTANCE_CONFIG.items():
             context['config'].append({
@@ -106,6 +108,7 @@ class Config(object):
         app_label = 'constance'
         module_name = 'config'
         verbose_name_plural = 'config'
+        get_ordered_objects = lambda x: True
     _meta = Meta()
 
 
