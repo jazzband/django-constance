@@ -57,3 +57,15 @@ Usage
 Fire up your ``admin`` and you should see a new application ``Constance``
 with ``MY_SETTINGS_KEY`` in the ``Config`` pseudo model.
 
+Screenshots
+===========
+
+.. figure:: http://bitbucket.org/comoga/django-constance/wiki/screenshot2.png
+
+   The standard edit screen.
+
+.. figure:: http://bitbucket.org/comoga/django-constance/wiki/screenshot1.png
+
+   The virtual application ``Constance`` among your regular applications.
+
+
