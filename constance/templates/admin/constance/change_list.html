@@ -18,6 +18,15 @@
 #result_list td{
     vertical-align: middle;
 }
+
+#result_list th.help_text{
+    width: 40%;
+}
+
+#result_list td.value_name{
+    text-align: left !important;
+}
+
 </style>
 {% endblock %}
 
@@ -45,7 +54,7 @@
                     <th>Name</th>
                     <th>Default</th>
                     <th>Value</th>
-                    <th>Help text</th>
+                    <th class="help_text">Help text</th>
                 </tr>
                 {% for item in config %}
                     <tr {% ifnotequal item.value item.default %} class="changed" {% endifnotequal %}>

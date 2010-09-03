@@ -17,15 +17,16 @@ from django import forms
 from constance import config
 
 
+NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
 
 FIELDS = {
     bool: (fields.BooleanField, {'required': False}),
-    int: (fields.IntegerField, {}),
-    long: (fields.IntegerField, {}),
-    Decimal: (fields.DecimalField, {}),
-    str: (fields.CharField, {}),
+    int: (fields.IntegerField, {'widget': NUMERIC_WIDGET}),
+    long: (fields.IntegerField, {'widget': NUMERIC_WIDGET}),
+    Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
+    str: (fields.CharField, {'widget': forms.TextInput(attrs={'size': 25})}),
     datetime: (fields.DateTimeField, {'widget': AdminSplitDateTime}),
-    float: (fields.FloatField, {}),
+    float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
 }
 
 
