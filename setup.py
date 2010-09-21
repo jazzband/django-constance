@@ -2,9 +2,12 @@ import os
 from setuptools import setup, find_packages
 
 
-f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
-long_description = f.read().strip()
-f.close()
+try:
+    f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
+    long_description = f.read().strip()
+    f.close()
+except IOError
+    long_description = None
 
 setup(
     name='django-constance',
