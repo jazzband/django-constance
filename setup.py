@@ -6,7 +6,7 @@ try:
     f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
     long_description = f.read().strip()
     f.close()
-except IOError
+except IOError:
     long_description = None
 
 setup(
