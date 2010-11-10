@@ -1,18 +1,20 @@
 from operator import itemgetter
-from datetime import datetime
-from decimal import Decimal
+from time import time
 
+from django import forms
 from django.contrib import admin
-from django.contrib.admin.widgets import AdminSplitDateTime
-from django.utils.functional import update_wrapper
+from django.contrib.admin import widgets
+from django.contrib.admin.options import csrf_protect_m
+from django.conf import settings
 from django.conf.urls.defaults import patterns, url
+from django.core.urlresolvers import reverse
+from django.forms import fields
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.conf import settings
-from django.forms import fields
-from django import forms
+from django.utils.functional import update_wrapper
+from django.utils.formats import localize
+from django.utils.translation import ugettext_lazy as _
 
 from constance import config
 
