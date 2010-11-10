@@ -89,6 +89,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'default': localize(default),
                 'help_text': help_text,
                 'value': localize(value),
+                'modified': value != default,
                 'form_field': form[name]
             })
         context['config'].sort(key=itemgetter('name'))

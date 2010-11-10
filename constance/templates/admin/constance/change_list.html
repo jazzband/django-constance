@@ -1,5 +1,4 @@
 {% extends "admin/base_site.html" %}
-{% load i18n %}
 {% load adminmedia admin_list i18n %}
 
 
@@ -10,23 +9,14 @@
   {{ media.css }}
 <style>
 #result_list .changed {
-    background-color: #ff9;
+      background-color: #ffc;
 }
-#result_list .changed td.value_name{
-    font-weight: bold;
+  #changelist table tbody td:first-child {
+      text-align: left;
 }
-#result_list td{
-    vertical-align: middle;
+  .help {
+      font-weight: normal !important;
 }
-
-#result_list th.help_text{
-    width: 40%;
-}
-
-#result_list td.value_name{
-    text-align: left !important;
-}
-
 </style>
 {% endblock %}
 
@@ -35,42 +25,44 @@
 <script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
 {{ block.super }}
 {{ media.js }}
-<script type="text/javascript">
-(function($) {
-    $(document).ready(function($) {
-        $("tr input.action-select").actions();
-    });
-})(django.jQuery);
-</script>
 {% endblock %}
 
+{% block bodyclass %}change-list{% endblock %}
 
 {% block content %}
   <div id="content-main">
     <div class="module" id="changelist">
         <form id="changelist-form" action="" method="post">{% csrf_token %}
-            <table cellspacing="0" id="result_list" width="100%">
-                <tr class="name">
-                    <th>Name</th>
-                    <th>Default</th>
-                    <th>Value</th>
-                    <th class="help_text">Help text</th>
+            <table cellspacing="0" id="result_list">
+                <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Default" %}</th>
+                    <th>{% trans "Value" %}</th>
+                    <th>{% trans "Is modified" %}</th>
                 </tr>
+                </thead>
                 {% for item in config %}
-                    <tr {% ifnotequal item.value item.default %} class="changed" {% endifnotequal %}>
-                        <td class="value_name">{{item.name}}</td>
-                        <td>{{item.default}}</td>
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    <th>{{item.name}}
+                        <div class="help">{{item.help_text}}</div>
+                    </th>
+                    <td>
+                        {{ item.default }}
+                    </td>
                         <td>
                             {{item.form_field.errors}}
                             {{item.form_field}}
                         </td>
-                        <td>{{item.help_text}}</td>
+                    <td>
+                        <img src="{% admin_media_prefix %}img/admin/icon-{% if item.modified %}yes{% else %}no{% endif %}.gif" alt="%s" />
+                    </td>
                     </tr>
                 {% endfor %}
             </table>
-           <div class="submit-row" >
-               <input type="submit" value="{% trans "Save" %}" class="default" name="_save" />
-           </div> 
+            <p class="paginator">
+            <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
+            </p>
         </form>
     </div>
   </div>
