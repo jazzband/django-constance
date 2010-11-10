@@ -52,27 +52,21 @@ class ConstanceForm(forms.Form):
             setattr(config, name, self.cleaned_data[name])
 
 
-
 class ConstanceAdmin(admin.ModelAdmin):
 
-    @property
-    def urls(self):
-        def wrap(view):
-            def wrapper(*args, **kwargs):
-                return self.admin_site.admin_view(view)(*args, **kwargs)
-            return update_wrapper(wrapper, view)
+    def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
-        urlpatterns = patterns('',
+        return patterns('',
             url(r'^$',
-                wrap(self.changelist_view),
-                name='%s_%s_changelist' % info),
+                self.admin_site.admin_view(self.changelist_view),
+                name='%s_%s_changelist' % info
+            ),
         )
-        return urlpatterns
 
-    def changelist_view(self, request):
-        form = ConstanceForm(
-            initial=dict( (name, getattr(config, name)) for name in settings.CONSTANCE_CONFIG)
-        )
+    @csrf_protect_m
+    def changelist_view(self, request, extra_context=None):
+        form = ConstanceForm(initial=dict((name, getattr(config, name))
+                             for name in settings.CONSTANCE_CONFIG))
         if request.method == 'POST':
             form = ConstanceForm(request.POST)
             if form.is_valid():
@@ -88,7 +82,8 @@ class ConstanceAdmin(admin.ModelAdmin):
             'form': form,
             'media': self.media + form.media,
         }
-        for name, (default, help_text) in settings.CONSTANCE_CONFIG.items():
+        for name, (default, help_text) in settings.CONSTANCE_CONFIG.iteritems():
+            value = getattr(config, name)
             context['config'].append({
                 'name': name,
                 'default': default,
@@ -97,12 +92,9 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'form_field': form[name]
             })
         context['config'].sort(key=itemgetter('name'))
-
-        return render_to_response(
-            'admin/constance/change_list.html',
-            context,
-            context_instance=RequestContext(request)
-        )
+        context_instance = RequestContext(request, current_app=self.admin_site.name)
+        return render_to_response('admin/constance/change_list.html',
+            context, context_instance=context_instance)
 
     def has_add_permission(self, *args, **kwargs):
         return False
