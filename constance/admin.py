@@ -1,3 +1,5 @@
+from datetime import datetime, date
+from decimal import Decimal
 from operator import itemgetter
 from time import time
 
@@ -21,13 +23,19 @@ from constance import config
 
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
 
+INTEGER_LIKE = (fields.IntegerField, {'widget': NUMERIC_WIDGET})
+STRING_LIKE = (fields.CharField, {'widget': forms.Textarea(attrs={'rows': 3})})
+
 FIELDS = {
     bool: (fields.BooleanField, {'required': False}),
-    int: (fields.IntegerField, {'widget': NUMERIC_WIDGET}),
-    long: (fields.IntegerField, {'widget': NUMERIC_WIDGET}),
+    int: INTEGER_LIKE,
+    long: INTEGER_LIKE,
     Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
-    str: (fields.CharField, {'widget': forms.TextInput(attrs={'size': 25})}),
-    datetime: (fields.DateTimeField, {'widget': AdminSplitDateTime}),
+    str: STRING_LIKE,
+    unicode: STRING_LIKE,
+    datetime: (fields.DateTimeField, {'widget': widgets.AdminSplitDateTime}),
+    date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
+    time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),
     float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
 }
 
