@@ -71,12 +71,12 @@ class ConstanceAdmin(admin.ModelAdmin):
             form = ConstanceForm(request.POST)
             if form.is_valid():
                 form.save()
-                self.message_user(request, 'Live settings updated successfully.')
-                return HttpResponseRedirect('#')
+                self.message_user(request, _('Live settings updated successfully.'))
+                return HttpResponseRedirect('.')
         context = {
             'config': [],
             'root_path': self.admin_site.root_path,
-            'title': 'Live settings',
+            'title': _('Constance config'),
             'app_label': 'constance',
             'opts': Config._meta,
             'form': form,
@@ -86,9 +86,9 @@ class ConstanceAdmin(admin.ModelAdmin):
             value = getattr(config, name)
             context['config'].append({
                 'name': name,
-                'default': default,
+                'default': localize(default),
                 'help_text': help_text,
-                'value': getattr(config, name),
+                'value': localize(value),
                 'form_field': form[name]
             })
         context['config'].sort(key=itemgetter('name'))
