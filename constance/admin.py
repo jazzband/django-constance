@@ -112,7 +112,7 @@ class Config(object):
         app_label = 'constance'
         module_name = 'config'
         verbose_name_plural = 'config'
-        get_ordered_objects = lambda x: True
+        get_ordered_objects = lambda x: False
     _meta = Meta()
 
 
