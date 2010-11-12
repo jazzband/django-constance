@@ -5,8 +5,14 @@ from decimal import Decimal
 
 from django.test import TestCase
 from django.conf import settings
+from django.contrib import admin
+from django.contrib.auth.models import User
 
 from constance import config
+from constance.admin import Config
+
+# Use django RequestFactory later on
+from helpers import FakeRequest
 
 
 
@@ -65,4 +71,17 @@ class TestStorage(TestCase):
             pass
         self.assertEquals(type(e), AttributeError)
 
+
+class TestAdmin(TestCase):
+    urls = 'tests.tests'
+    model = Config
+
+    def setUp(self):
+        self.user = User.objects.create_superuser('admin', 'nimda', 'a@a.cz')
+        self.options = admin.site._registry[self.model]
+        self.fake_request = FakeRequest(user=self.user)
+        self.client.login(username=self.user, password='nimda')
+
+    def test_changelist(self):
+        self.assertEquals(self.options.changelist_view(self.fake_request, {}), {})
 

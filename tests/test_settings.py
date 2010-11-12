@@ -10,9 +10,17 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
-    'tests',
+    'django.contrib.sessions',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.admin',
+
     'constance',
+
+    'tests',
 )
+
+ROOT_URLCONF = 'tests.test_urls'
 
 CONSTANCE_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
 
