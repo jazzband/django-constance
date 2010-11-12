@@ -12,7 +12,7 @@ from constance import config
 from constance.admin import Config
 
 # Use django RequestFactory later on
-from helpers import FakeRequest
+from testproject.test_app.tests.helpers import FakeRequest
 
 
 

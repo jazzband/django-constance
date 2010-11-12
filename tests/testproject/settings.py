@@ -17,12 +17,12 @@ INSTALLED_APPS = (
 
     'constance',
 
-    'tests',
+    'testproject.test_app',
 )
 
-ROOT_URLCONF = 'tests.test_urls'
+ROOT_URLCONF = 'testproject.test_urls'
 
-CONSTANCE_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
+CONSTANCE_CONNECTION_CLASS = 'testproject.test_app.redis_mockup.Connection'
 
 CONSTANCE_CONFIG = {
     'INT_VALUE': (1, 'some int'),
