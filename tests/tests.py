@@ -1,4 +1,6 @@
-from datetime import datetime
+# -*- encoding: utf-8 -*-
+
+from datetime import datetime, date, time
 from decimal import Decimal
 
 from django.test import TestCase
@@ -16,27 +18,39 @@ class TestStorage(TestCase):
     def test_store(self):
         # read defaults
         self.assertEquals(config.INT_VALUE, 1)
+        self.assertEquals(config.LONG_VALUE, 123456L)
         self.assertEquals(config.BOOL_VALUE, True)
         self.assertEquals(config.STRING_VALUE, 'Hello world')
+        self.assertEquals(config.UNICODE_VALUE, u'Rivi\xe8re-Bonjour')
         self.assertEquals(config.DECIMAL_VALUE, Decimal('0.1'))
         self.assertEquals(config.DATETIME_VALUE, datetime(2010, 8, 23, 11, 29, 24))
         self.assertEquals(config.FLOAT_VALUE, 3.1415926536)
+        self.assertEquals(config.DATE_VALUE, date(2010, 12, 24))
+        self.assertEquals(config.TIME_VALUE, time(23, 59, 59))
 
         # set values
         config.INT_VALUE = 100
+        config.LONG_VALUE = 654321L
         config.BOOL_VALUE = False
         config.STRING_VALUE = 'Beware the weeping angel'
+        config.UNICODE_VALUE = 'Québec'.decode('utf-8')
         config.DECIMAL_VALUE = Decimal('1.2')
         config.DATETIME_VALUE = datetime(1977, 10, 2)
         config.FLOAT_VALUE = 2.718281845905
+        config.DATE_VALUE = date(2001, 12, 20)
+        config.TIME_VALUE = time(1, 59, 0)
 
         # read again
         self.assertEquals(config.INT_VALUE, 100)
+        self.assertEquals(config.LONG_VALUE, 654321L)
         self.assertEquals(config.BOOL_VALUE, False)
         self.assertEquals(config.STRING_VALUE, 'Beware the weeping angel')
+        self.assertEquals(config.UNICODE_VALUE, 'Québec'.decode('utf-8'))
         self.assertEquals(config.DECIMAL_VALUE, Decimal('1.2'))
         self.assertEquals(config.DATETIME_VALUE, datetime(1977, 10, 2))
         self.assertEquals(config.FLOAT_VALUE, 2.718281845905)
+        self.assertEquals(config.DATE_VALUE, date(2001, 12, 20))
+        self.assertEquals(config.TIME_VALUE, time(1, 59, 0))
 
     def test_nonexistent(self):
         try:
@@ -50,3 +64,5 @@ class TestStorage(TestCase):
         except Exception, e:
             pass
         self.assertEquals(type(e), AttributeError)
+
+
