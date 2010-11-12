@@ -1,7 +1,6 @@
-from datetime import datetime, date
+from datetime import datetime, date, time
 from decimal import Decimal
 from operator import itemgetter
-from time import time
 
 from django import forms
 from django.contrib import admin
