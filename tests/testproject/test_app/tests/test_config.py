@@ -73,7 +73,6 @@ class TestStorage(TestCase):
 
 
 class TestAdmin(TestCase):
-    urls = 'tests.tests'
     model = Config
 
     def setUp(self):
@@ -83,5 +82,6 @@ class TestAdmin(TestCase):
         self.client.login(username=self.user, password='nimda')
 
     def test_changelist(self):
-        self.assertEquals(self.options.changelist_view(self.fake_request, {}), {})
+        response = self.options.changelist_view(self.fake_request, {})
+        self.assertEquals(response.status_code, 200)
 

@@ -20,7 +20,7 @@ INSTALLED_APPS = (
     'testproject.test_app',
 )
 
-ROOT_URLCONF = 'testproject.test_urls'
+ROOT_URLCONF = 'testproject.urls'
 
 CONSTANCE_CONNECTION_CLASS = 'testproject.test_app.redis_mockup.Connection'
 
