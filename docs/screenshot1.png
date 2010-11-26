@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+<head>
+<link rel="icon" href="/static/hgicon.png" type="image/png" />
+<meta name="robots" content="index, nofollow" />
+<link rel="stylesheet" href="/static/style-paper.css" type="text/css" />
+
+<title>//import/repos/data/comoga/django-constance/.hg/wiki: log</title>
+<link rel="alternate" type="application/atom+xml"
+   href="/atom-log" title="Atom feed for //import/repos/data/comoga/django-constance/.hg/wiki" />
+<link rel="alternate" type="application/rss+xml"
+   href="/rss-log" title="RSS feed for //import/repos/data/comoga/django-constance/.hg/wiki" />
+</head>
+<body>
+
+<div class="container">
+<div class="menu">
+<div class="logo">
+<a href="http://mercurial.selenic.com/">
+<img src="/static/hglogo.png" alt="mercurial" /></a>
+</div>
+<ul>
+<li class="active">log</li>
+<li><a href="/graph/23a03b6eb091">graph</a></li>
+<li><a href="/tags">tags</a></li>
+<li><a href="/branches">branches</a></li>
+</ul>
+<ul>
+<li><a href="/rev/23a03b6eb091">changeset</a></li>
+<li><a href="/file/23a03b6eb091">browse</a></li>
+</ul>
+<ul>
+
+<li>
+<a href="/archive/tip.tar.bz2">bz2</a>
+</li>
+<li>
+<a href="/archive/tip.zip">zip</a>
+</li>
+<li>
+<a href="/archive/tip.tar.gz">gz</a>
+</li>
+</ul>
+<ul>
+ <li><a href="/help">help</a></li>
+</ul>
+</div>
+
+<div class="main">
+<h2><a href="/">//import/repos/data/comoga/django-constance/.hg/wiki</a></h2>
+<h3>log</h3>
+
+<form class="search" action="/log">
+
+<p><input name="rev" id="search1" type="text" size="30" /></p>
+<div id="hint">find changesets by author, revision,
+files, or words in the commit message</div>
+</form>
+
+<div class="navigate">
+<a href="/shortlog/4?revcount=30">less</a>
+<a href="/shortlog/4?revcount=120">more</a>
+| rev 4: <a href="/shortlog/72c266f21f5d">(0)</a> <a href="/shortlog/tip">tip</a> 
+</div>
+
+<table class="bigtable">
+ <tr>
+  <th class="age">age</th>
+  <th class="author">author</th>
+  <th class="description">description</th>
+ </tr>
+ <tr class="parity0">
+  <td class="age">2 months ago</td>
+  <td class="author">Jiri Barton</td>
+  <td class="description"><a href="/rev/23a03b6eb091">added a gap to a screenshot</a><span class="branchhead">default</span> <span class="tag">tip</span> </td>
+ </tr>
+ <tr class="parity1">
+  <td class="age">2 months ago</td>
+  <td class="author">Jiri Barton</td>
+  <td class="description"><a href="/rev/c39993b74d7d">cropped screenshots</a></td>
+ </tr>
+ <tr class="parity0">
+  <td class="age">2 months ago</td>
+  <td class="author">Jiri Barton</td>
+  <td class="description"><a href="/rev/1a2b55036ec6">modified a screenshot</a></td>
+ </tr>
+ <tr class="parity1">
+  <td class="age">2 months ago</td>
+  <td class="author">Jiri Barton</td>
+  <td class="description"><a href="/rev/6a3593a7b9b7">added screenshots</a></td>
+ </tr>
+ <tr class="parity0">
+  <td class="age">3 months ago</td>
+  <td class="author">Jesper Noehr</td>
+  <td class="description"><a href="/rev/72c266f21f5d">Creating default page</a></td>
+ </tr>
+
+</table>
+
+<div class="navigate">
+<a href="/shortlog/4?revcount=30">less</a>
+<a href="/shortlog/4?revcount=120">more</a>
+| rev 4: <a href="/shortlog/72c266f21f5d">(0)</a> <a href="/shortlog/tip">tip</a> 
+</div>
+
+</div>
+</div>
+
+bitbucket.org: django-constance wiki
+
+</body>
+</html>
+
