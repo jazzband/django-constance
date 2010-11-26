@@ -11,7 +11,7 @@ Installation
 
 Install from here using ``pip``::
 
-    pip install -e hg+http://bitbucket.org/comoga/django-constance#egg=django-constance
+    pip install -e git+git://github.com/aleszoulek/django-constance#egg=django-constance
 
 Configuration
 =============
@@ -60,11 +60,11 @@ with ``MY_SETTINGS_KEY`` in the ``Config`` pseudo model.
 Screenshots
 ===========
 
-.. figure:: docs/screenshot2.png
+.. figure:: https://github.com/aleszoulek/django-constance/raw/master/docs/screenshot2.png
 
    The standard edit screen.
 
-.. figure:: docs/screenshot1.png
+.. figure:: https://github.com/aleszoulek/django-constance/raw/master/docs/screenshot1.png
 
    The virtual application ``Constance`` among your regular applications.
 
