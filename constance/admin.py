@@ -6,18 +6,15 @@ from django import forms
 from django.contrib import admin
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
-from django.conf import settings
 from django.conf.urls.defaults import patterns, url
-from django.core.urlresolvers import reverse
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from django.utils.functional import update_wrapper
 from django.utils.formats import localize
 from django.utils.translation import ugettext_lazy as _
 
-from constance import config
+from constance import config, settings
 
 
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
@@ -42,7 +39,7 @@ FIELDS = {
 class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
-        for name, (default, help_text) in settings.CONSTANCE_CONFIG.items():
+        for name, (default, help_text) in settings.CONFIG.items():
             field_class, kwargs = FIELDS[type(default)]
             self.fields[name] = field_class(label=name, **kwargs)
 
@@ -65,7 +62,7 @@ class ConstanceAdmin(admin.ModelAdmin):
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
         form = ConstanceForm(initial=dict((name, getattr(config, name))
-                             for name in settings.CONSTANCE_CONFIG))
+                             for name in settings.CONFIG))
         if request.method == 'POST':
             form = ConstanceForm(request.POST)
             if form.is_valid():
@@ -81,7 +78,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'form': form,
             'media': self.media + form.media,
         }
-        for name, (default, help_text) in settings.CONSTANCE_CONFIG.iteritems():
+        for name, (default, help_text) in settings.CONFIG.iteritems():
             value = getattr(config, name)
             context['config'].append({
                 'name': name,

@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+import sys
 from datetime import datetime, date, time
 from decimal import Decimal
 
@@ -8,21 +9,19 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
 
-from constance import config
+from constance import settings
 from constance.admin import Config
 
 # Use django RequestFactory later on
 from testproject.test_app.tests.helpers import FakeRequest
 
 
-
-class TestStorage(TestCase):
-
-    def tearDown(self):
-        config._rd.clear()
+class TestStorage(object):
 
     def test_store(self):
         # read defaults
+        del sys.modules['constance']
+        from constance import config
         self.assertEquals(config.INT_VALUE, 1)
         self.assertEquals(config.LONG_VALUE, 123456L)
         self.assertEquals(config.BOOL_VALUE, True)
@@ -59,6 +58,7 @@ class TestStorage(TestCase):
         self.assertEquals(config.TIME_VALUE, time(1, 59, 0))
 
     def test_nonexistent(self):
+        from constance import config
         try:
             config.NON_EXISTENT
         except Exception, e:
@@ -71,6 +71,22 @@ class TestStorage(TestCase):
             pass
         self.assertEquals(type(e), AttributeError)
 
+class TestRedis(TestCase, TestStorage):
+
+    def setUp(self):
+        self.old_backend = settings.BACKEND
+        settings.BACKEND = 'constance.backends.RedisBackend'
+
+    def tearDown(self):
+        del sys.modules['constance']
+        from constance import config
+        config._backend._rd.clear()
+        settings.BACKEND = self.old_backend
+        import constance
+        constance.config = Config()
+
+class TestDatabase(TestCase, TestStorage):
+    pass
 
 class TestAdmin(TestCase):
     model = Config
