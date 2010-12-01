@@ -1,3 +1,5 @@
+from django.core.exceptions import ImproperlyConfigured
+
 from constance import settings, utils
 from constance.backends import Backend
 
@@ -16,7 +18,11 @@ class RedisBackend(Backend):
         if connection_cls is not None:
             self._rd = utils.import_module_attr(connection_cls)()
         else:
-            import redis
+            try:
+                import redis
+            except ImportError:
+                raise ImproperlyConfigured(
+                    "The Redis backend requires redis-py to be installed.")
             self._rd = redis.Redis(**settings.REDIS_CONNECTION)
 
     def get(self, key):
