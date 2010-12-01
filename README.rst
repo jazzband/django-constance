@@ -1,37 +1,36 @@
-Dynamic Django settings in Redis.
+Dynamic Django settings
+=======================
 
 Features
-========
+--------
 
 * Easy migrate your static settings to dynamic settings.
 * Admin interface to edit the dynamic settings.
 
 Installation
-============
+------------
 
-Install from here using ``pip``::
+Install from PyPI::
+
+    pip install django-constance
+
+Or install the `in-development version`_ using ``pip``::
 
     pip install -e git+git://github.com/aleszoulek/django-constance#egg=django-constance
 
+.. _`in-development version`: https://github.com/aleszoulek/django-constance/tarball/master#egg=django-constance-dev
+
 Configuration
-=============
+-------------
 
 Modify your ``settings.py``. Add ``constance`` to your ``INSTALLED_APPS``,
-point ``CONSTANCE_CONNECTION`` to your Redis instance, and move each
-key you want to turn dynamic into the ``CONSTANCE_CONFIG`` section, like this::
-
+and move each key you want to turn dynamic into the ``CONSTANCE_CONFIG``
+section, like this::
 
     INSTALLED_APPS = (
         ...
         'constance',
     )
-
-    CONSTANCE_CONNECTION = {
-        'host': 'localhost',
-        'port': 6379,
-        'db': 0,
-    }
-
 
     CONSTANCE_CONFIG = {
         'MY_SETTINGS_KEY': (42, 'the answer to everything'),
@@ -41,10 +40,61 @@ Here, ``42`` is the default value for the key MY_SETTINGS_KEY if it is not
 found in Redis. The other member of the tuple is a help text the admin
 will show.
 
-Usage
-=====
+See the `Backends`_ section how to setup the backend.
 
-::
+Backends
+~~~~~~~~
+
+Constance ships with a series of backends that are used to store the
+configuration values:
+
+* ``constance.backends.redis.RedisBackend`` (default)
+
+  The is the default backend and has a couple of options:
+
+  * ``CONSTANCE_REDIS_CONNECTION``: a dictionary of parameters to pass to
+    the to Redis client, e.g.::
+
+        CONSTANCE_REDIS_CONNECTION = {
+            'host': 'localhost',
+            'port': 6379,
+            'db': 0,
+        }
+
+  * ``CONSTANCE_REDIS_CONNECTION_CLASS`` (optional): an dotted import
+    path to a connection to use, e.g.::
+
+        CONSTANCE_REDIS_CONNECTION_CLASS = 'myproject.myapp.mockup.Connection'
+
+  * ``CONSTANCE_REDIS_PREFIX`` (optional): the prefix to be used for the
+    key when storing in the Redis database. Defaults to ``constance:``. E.g.::
+
+        CONSTANCE_REDIS_PREFIX = 'constance:myproject:'
+
+* ``constance.backends.database.DatabaseBackend``
+
+  If you want to use this backend you need to add
+  ``'constance.backends.databse'`` to you ``INSTALLED_APPS`` setting.
+
+  It also uses `django-picklefield`_ to store the values in the database, so
+  you need to install this library, too. E.g.::
+
+    pip install django-picklefield
+
+  The database backend will automatically cache the config values in memory
+  and clear them when during saving.
+
+.. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
+
+Usage
+-----
+
+Constance can be used from your Python code and from your Django templates.
+
+* Python
+
+  Accessing the config variables is as easy as importing the config
+  object and accessing the variables with attribute lookups::
 
     from constance import config
 
@@ -53,12 +103,46 @@ Usage
     if config.MY_SETTINGS_KEY == 42:
         answer_the_question()
 
+* Django templates
+
+  To access the config object from your template, you can either
+  pass the object to the template context::
+
+    from django.shortcuts import render_to_response
+    from constance import config
+
+    def myview(request):
+        return render_to_response('my_template.html', {'config': config})
+
+  Or you can use the included config context processor.::
+
+    TEMPLATE_CONTEXT_PROCESSORS = (
+        # ...
+        'constance.context_processors.config',
+    )
+
+  This will add the config instance to the context of any template
+  rendered with a ``RequestContext``.
+
+  Then, in you template you can refer to the config values just as
+  any other variable, e.g.::
+
+    <h1>Welcome on {% config.SITE_NAME %}</h1>
+    {% if config.BETA_LAUNCHED %}
+        Woohoo! Head over <a href="/sekrit/">here</a> to use the beta.
+    {% else %}
+        Sadly we haven't launched yet, click <a href="/newsletter/">here</a>
+        to signup for our newletter.
+    {% endif %}
+
+Editing
+~~~~~~~
 
 Fire up your ``admin`` and you should see a new application ``Constance``
 with ``MY_SETTINGS_KEY`` in the ``Config`` pseudo model.
 
 Screenshots
-===========
+^^^^^^^^^^^
 
 .. figure:: https://github.com/aleszoulek/django-constance/raw/master/docs/screenshot2.png
 
