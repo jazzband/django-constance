@@ -4,7 +4,7 @@ Dynamic Django settings
 Features
 --------
 
-* Easy migrate your static settings to dynamic settings.
+* Easily migrate your static settings to dynamic settings.
 * Admin interface to edit the dynamic settings.
 
 Installation
@@ -23,7 +23,7 @@ Or install the `in-development version`_ using ``pip``::
 Configuration
 -------------
 
-Modify your ``settings.py``. Add ``constance`` to your ``INSTALLED_APPS``,
+Modify your ``settings.py``. Add ``'constance'`` to your ``INSTALLED_APPS``,
 and move each key you want to turn dynamic into the ``CONSTANCE_CONFIG``
 section, like this::
 
@@ -36,9 +36,9 @@ section, like this::
         'MY_SETTINGS_KEY': (42, 'the answer to everything'),
     }
 
-Here, ``42`` is the default value for the key MY_SETTINGS_KEY if it is not
-found in Redis. The other member of the tuple is a help text the admin
-will show.
+Here, ``42`` is the default value for the key ``MY_SETTINGS_KEY`` if it is
+not found in the backend. The other member of the tuple is a help text the
+admin will show.
 
 See the `Backends`_ section how to setup the backend.
 
@@ -67,14 +67,15 @@ configuration values:
         CONSTANCE_REDIS_CONNECTION_CLASS = 'myproject.myapp.mockup.Connection'
 
   * ``CONSTANCE_REDIS_PREFIX`` (optional): the prefix to be used for the
-    key when storing in the Redis database. Defaults to ``constance:``. E.g.::
+    key when storing in the Redis database. Defaults to ``'constance:'``.
+    E.g.::
 
         CONSTANCE_REDIS_PREFIX = 'constance:myproject:'
 
 * ``constance.backends.database.DatabaseBackend``
 
   If you want to use this backend you need to add
-  ``'constance.backends.databse'`` to you ``INSTALLED_APPS`` setting.
+  ``'constance.backends.database'`` to you ``INSTALLED_APPS`` setting.
 
   It also uses `django-picklefield`_ to store the values in the database, so
   you need to install this library, too. E.g.::
@@ -82,7 +83,7 @@ configuration values:
     pip install django-picklefield
 
   The database backend will automatically cache the config values in memory
-  and clear them when during saving.
+  and clear them when when saving occurs.
 
 .. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
 
@@ -124,7 +125,7 @@ Constance can be used from your Python code and from your Django templates.
   This will add the config instance to the context of any template
   rendered with a ``RequestContext``.
 
-  Then, in you template you can refer to the config values just as
+  Then, in your template you can refer to the config values just as
   any other variable, e.g.::
 
     <h1>Welcome on {% config.SITE_NAME %}</h1>
@@ -138,7 +139,7 @@ Constance can be used from your Python code and from your Django templates.
 Editing
 ~~~~~~~
 
-Fire up your ``admin`` and you should see a new application ``Constance``
+Fire up your ``admin`` and you should see a new app called ``Constance``
 with ``MY_SETTINGS_KEY`` in the ``Config`` pseudo model.
 
 Screenshots
