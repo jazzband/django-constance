@@ -75,7 +75,7 @@ class TestRedis(TestCase, TestStorage):
 
     def setUp(self):
         self.old_backend = settings.BACKEND
-        settings.BACKEND = 'constance.backends.RedisBackend'
+        settings.BACKEND = 'constance.backends.redis.RedisBackend'
 
     def tearDown(self):
         del sys.modules['constance']
@@ -86,7 +86,16 @@ class TestRedis(TestCase, TestStorage):
         constance.config = Config()
 
 class TestDatabase(TestCase, TestStorage):
-    pass
+
+    def setUp(self):
+        self.old_backend = settings.BACKEND
+        settings.BACKEND = 'constance.backends.database.DatabaseBackend'
+
+    def tearDown(self):
+        del sys.modules['constance']
+        settings.BACKEND = self.old_backend
+        import constance
+        constance.config = Config()
 
 class TestAdmin(TestCase):
     model = Config

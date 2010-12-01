@@ -16,6 +16,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 
     'constance',
+    'constance.backends.database',
 
     'testproject.test_app',
 )

@@ -1,18 +1,17 @@
-from constance import settings
-from constance.utils import import_module_attr
+from constance import settings, utils
 
 class Config(object):
     """
     The global config wrapper that handles the backend.
     """
     def __init__(self):
-        super(Config, self).__setattr__(
-            '_backend', import_module_attr(settings.BACKEND)(settings.PREFIX))
+        super(Config, self).__setattr__('_backend',
+            utils.import_module_attr(settings.BACKEND)())
 
     def __getattr__(self, key):
         try:
             default, help_text = settings.CONFIG[key]
-        except KeyError, e:
+        except KeyError:
             raise AttributeError(key)
         result = self._backend.get(key)
         if result is None:
