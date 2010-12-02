@@ -33,6 +33,6 @@ setup(
     ],
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
-    test_suite='tests.runtests.runtests',
+    test_suite='tests.runtests.main',
 )
 
