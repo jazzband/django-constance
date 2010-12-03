@@ -18,3 +18,6 @@ class Constance(models.Model):
         verbose_name = _('constance')
         verbose_name_plural = _('constances')
         db_table = 'constance_config'
+
+    def __unicode__(self):
+        return self.key
