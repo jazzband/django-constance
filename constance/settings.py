@@ -8,7 +8,7 @@ settings = import_module_attr(
 PREFIX = getattr(settings, 'CONSTANCE_REDIS_PREFIX',
          getattr(settings, 'CONSTANCE_PREFIX', 'constance:'))
 
-BACKEND = getattr(settings, 'CONSTANCE_BACKEND', 'constance.backends.redis.RedisBackend')
+BACKEND = getattr(settings, 'CONSTANCE_BACKEND', 'constance.backends.redisd.RedisBackend')
 
 CONFIG = getattr(settings, 'CONSTANCE_CONFIG', {})
 

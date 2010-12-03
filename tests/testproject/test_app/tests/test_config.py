@@ -75,7 +75,7 @@ class TestRedis(TestCase, TestStorage):
 
     def setUp(self):
         self.old_backend = settings.BACKEND
-        settings.BACKEND = 'constance.backends.redis.RedisBackend'
+        settings.BACKEND = 'constance.backends.redisd.RedisBackend'
 
     def tearDown(self):
         del sys.modules['constance']
