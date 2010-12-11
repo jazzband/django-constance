@@ -1,10 +1,20 @@
+"""
+Defines the base constance backend
+"""
 
 class Backend(object):
 
     def get(self, key):
         """
-        Get the key from the backend store and return it.
+        Get the key from the backend store and return the value.
         Return None if not found.
+        """
+        raise NotImplementedError
+
+    def mget(self, keys):
+        """
+        Get the keys from the backend store and return a list of the values.
+        Return an empty list if not found.
         """
         raise NotImplementedError
 
@@ -13,4 +23,3 @@ class Backend(object):
         Add the value to the backend store given the key.
         """
         raise NotImplementedError
-

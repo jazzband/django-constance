@@ -1,3 +1,5 @@
+import itertools
+
 from django.core.exceptions import ImproperlyConfigured
 
 from constance import settings, utils
@@ -33,6 +35,11 @@ class RedisBackend(Backend):
         if value:
             return loads(value)
         return None
+
+    def mget(self, keys):
+        prefixed_keys = (self.add_prefix(key) for key in keys)
+        values = (loads(value) for value in self._rd.mget(prefixed_keys))
+        return itertools.izip(keys, values)
 
     def set(self, key, value):
         self._rd.set(self.add_prefix(key), dumps(value))

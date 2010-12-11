@@ -61,8 +61,13 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
-        form = ConstanceForm(initial=dict((name, getattr(config, name))
-                             for name in settings.CONFIG))
+        # First load a mapping between config name and default value
+        default_initial = ((name, default)
+            for name, (default, help_text) in settings.CONFIG.iteritems())
+        # Then update the mapping with actually values from the backend
+        initial = dict(default_initial,
+            **dict(config._backend.mget(settings.CONFIG.iterkeys())))
+        form = ConstanceForm(initial=initial)
         if request.method == 'POST':
             form = ConstanceForm(request.POST)
             if form.is_valid():
@@ -79,7 +84,11 @@ class ConstanceAdmin(admin.ModelAdmin):
             'media': self.media + form.media,
         }
         for name, (default, help_text) in settings.CONFIG.iteritems():
-            value = getattr(config, name)
+            # First try to load the value from the actual backend
+            value = initial.get(name)
+            # Then if the returned value is None, get the default
+            if value is None:
+                value = getattr(config, name)
             context['config'].append({
                 'name': name,
                 'default': localize(default),
