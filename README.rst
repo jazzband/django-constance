@@ -82,8 +82,17 @@ configuration values:
 
     pip install django-picklefield
 
-  The database backend will automatically cache the config values in memory
-  and clear them when when saving occurs.
+  The database backend has the ability to automatically cache the config
+  values and clear them when saving. You need to set the following setting
+  to enable this feature::
+
+    CONSTANCE_DATABASE_CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+
+  .. note::
+
+    This won't work with a cache backend that doesn't support
+    cross-process caching, because correct cache invalidation
+    can't be guaranteed.
 
 .. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
 

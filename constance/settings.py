@@ -17,3 +17,6 @@ CONNECTION_CLASS = getattr(settings, 'CONSTANCE_REDIS_CONNECTION_CLASS',
 
 REDIS_CONNECTION = getattr(settings, 'CONSTANCE_REDIS_CONNECTION',
                    getattr(settings, 'CONSTANCE_CONNECTION', {}))
+
+DATABASE_CACHE_BACKEND = getattr(settings, 'CONSTANCE_DATABASE_CACHE_BACKEND',
+                                 None)
