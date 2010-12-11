@@ -66,7 +66,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             for name, (default, help_text) in settings.CONFIG.iteritems())
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
-            **dict(config._backend.mget(settings.CONFIG.iterkeys())))
+            **dict(config._backend.mget(settings.CONFIG.keys())))
         form = ConstanceForm(initial=initial)
         if request.method == 'POST':
             form = ConstanceForm(request.POST)

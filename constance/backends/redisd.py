@@ -37,7 +37,9 @@ class RedisBackend(Backend):
         return None
 
     def mget(self, keys):
-        prefixed_keys = (self.add_prefix(key) for key in keys)
+        if not keys:
+            return []
+        prefixed_keys = [self.add_prefix(key) for key in keys]
         values = (loads(value) for value in self._rd.mget(prefixed_keys))
         return itertools.izip(keys, values)
 
