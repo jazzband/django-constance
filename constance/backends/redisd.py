@@ -25,11 +25,14 @@ class RedisBackend(Backend):
                     "The Redis backend requires redis-py to be installed.")
             self._rd = redis.Redis(**settings.REDIS_CONNECTION)
 
+    def add_prefix(self, key):
+        return "%s%s" % (self._prefix, key)
+
     def get(self, key):
-        value = self._rd.get("%s%s" % (self._prefix, key))
+        value = self._rd.get(self.add_prefix(key))
         if value:
             return loads(value)
         return None
 
     def set(self, key, value):
-        self._rd.set("%s%s" % (self._prefix, key), dumps(value))
+        self._rd.set(self.add_prefix(key), dumps(value))
