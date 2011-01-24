@@ -11,8 +11,8 @@ except IOError:
 
 setup(
     name='django-constance',
-    version='0.1',
-    url="http://bitbucket.org/comoga/django-constance",
+    version='0.2',
+    url="http://github.com/comoga/django-constance",
     description='Django live settings with pluggable backends, including Redis.',
     long_description=long_description,
     author='Comoga Django Team',
@@ -33,6 +33,6 @@ setup(
     ],
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
-    test_suite='tests.runtests.runtests',
+    test_suite='tests.runtests.main',
 )
 
