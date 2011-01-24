@@ -48,7 +48,7 @@ Backends
 Constance ships with a series of backends that are used to store the
 configuration values:
 
-* ``constance.backends.redis.RedisBackend`` (default)
+* ``constance.backends.redisd.RedisBackend`` (default)
 
   The is the default backend and has a couple of options:
 
@@ -108,7 +108,7 @@ Constance can be used from your Python code and from your Django templates.
 
     from constance import config
 
-    ...
+    # ...
 
     if config.MY_SETTINGS_KEY == 42:
         answer_the_question()
