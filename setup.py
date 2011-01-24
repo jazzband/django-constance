@@ -13,7 +13,7 @@ setup(
     name='django-constance',
     version='0.1',
     url="http://bitbucket.org/comoga/django-constance",
-    description='Django live settings stored in redis',
+    description='Django live settings with pluggable backends, including Redis.',
     long_description=long_description,
     author='Comoga Django Team',
     author_email='dev@comoga.cz',
