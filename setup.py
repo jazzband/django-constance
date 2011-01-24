@@ -12,7 +12,7 @@ except IOError:
 setup(
     name='django-constance',
     version='0.2',
-    url="http://bitbucket.org/comoga/django-constance",
+    url="http://github.com/comoga/django-constance",
     description='Django live settings stored in redis',
     long_description=long_description,
     author='Comoga Django Team',
