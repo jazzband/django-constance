@@ -45,54 +45,73 @@ See the `Backends`_ section how to setup the backend.
 Backends
 ~~~~~~~~
 
-Constance ships with a series of backends that are used to store the
-configuration values:
+Constance ships with a bunch of backends that are used to store the
+configuration values. By default it uses the Redis backend. To override
+the default please set the ``CONSTANCE_BACKEND`` setting to the appropriate
+dotted path.
 
-* ``constance.backends.redisd.RedisBackend`` (default)
+Redis (default)
++++++++++++++++
 
-  The is the default backend and has a couple of options:
+::
 
-  * ``CONSTANCE_REDIS_CONNECTION``: a dictionary of parameters to pass to
-    the to Redis client, e.g.::
+    CONSTANCE_BACKEND = constance.backends.redisd.RedisBackend
 
-        CONSTANCE_REDIS_CONNECTION = {
-            'host': 'localhost',
-            'port': 6379,
-            'db': 0,
-        }
+The is the default backend and has a couple of options:
 
-  * ``CONSTANCE_REDIS_CONNECTION_CLASS`` (optional): an dotted import
-    path to a connection to use, e.g.::
+* ``CONSTANCE_REDIS_CONNECTION``
 
-        CONSTANCE_REDIS_CONNECTION_CLASS = 'myproject.myapp.mockup.Connection'
+  A dictionary of parameters to pass to the to Redis client, e.g.::
 
-  * ``CONSTANCE_REDIS_PREFIX`` (optional): the prefix to be used for the
-    key when storing in the Redis database. Defaults to ``'constance:'``.
-    E.g.::
+    CONSTANCE_REDIS_CONNECTION = {
+        'host': 'localhost',
+        'port': 6379,
+        'db': 0,
+    }
 
-        CONSTANCE_REDIS_PREFIX = 'constance:myproject:'
+* ``CONSTANCE_REDIS_CONNECTION_CLASS``
 
-* ``constance.backends.database.DatabaseBackend``
+  An (optional) dotted import path to a connection to use, e.g.::
 
-  If you want to use this backend you need to add
-  ``'constance.backends.database'`` to you ``INSTALLED_APPS`` setting.
+    CONSTANCE_REDIS_CONNECTION_CLASS = 'myproject.myapp.mockup.Connection'
 
-  It also uses `django-picklefield`_ to store the values in the database, so
-  you need to install this library, too. E.g.::
+* ``CONSTANCE_REDIS_PREFIX``
+
+  The (optional) prefix to be used for the key when storing in the Redis
+  database. Defaults to ``'constance:'``. E.g.::
+
+    CONSTANCE_REDIS_PREFIX = 'constance:myproject:'
+
+Database
+++++++++
+
+::
+
+    CONSTANCE_BACKEND = constance.backends.database.DatabaseBackend
+
+If you want to use this backend you also need to add the databse backend
+to your ``INSTALLED_APPS`` setting to make sure the data model is correctly
+created::
+
+    INSTALLED_APPS = (
+        # other apps
+        'constance.backends.database',
+    )
+
+It also uses `django-picklefield`_ to store the values in the database, so
+you need to install this library, too. E.g.::
 
     pip install django-picklefield
 
-  The database backend has the ability to automatically cache the config
-  values and clear them when saving. You need to set the following setting
-  to enable this feature::
+The database backend has the ability to automatically cache the config
+values and clear them when saving. You need to set the following setting
+to enable this feature::
 
     CONSTANCE_DATABASE_CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
-  .. note::
-
-    This won't work with a cache backend that doesn't support
-    cross-process caching, because correct cache invalidation
-    can't be guaranteed.
+.. note:: This won't work with a cache backend that doesn't support
+   cross-process caching, because correct cache invalidation
+   can't be guaranteed.
 
 .. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
 
@@ -152,7 +171,7 @@ Fire up your ``admin`` and you should see a new app called ``Constance``
 with ``MY_SETTINGS_KEY`` in the ``Config`` pseudo model.
 
 Screenshots
-^^^^^^^^^^^
+-----------
 
 .. figure:: https://github.com/aleszoulek/django-constance/raw/master/docs/screenshot2.png
 
