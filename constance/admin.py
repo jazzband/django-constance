@@ -118,6 +118,7 @@ class Config(object):
         module_name = 'config'
         verbose_name_plural = 'config'
         get_ordered_objects = lambda x: False
+        abstract = False
     _meta = Meta()
 
 
