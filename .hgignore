@@ -1,8 +1,0 @@
-
-syntax: regexp
-^\.project$
-syntax: regexp
-^\.pydevproject$
-syntax: glob
-*.pyc
-*.egg-info
