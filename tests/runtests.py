@@ -5,18 +5,18 @@
 import os
 import sys
 
-currentdir = os.path.dirname(os.path.abspath(__file__))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)
-sys.path.insert(0, currentdir)
+testapp_dir = os.path.dirname(os.path.abspath(__file__))
+constance_dir = os.path.dirname(testapp_dir)
+sys.path.insert(0, constance_dir)
+sys.path.insert(0, testapp_dir)
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'testproject.settings'
 
-from django.test.simple import run_tests
-
+from django.test.simple import DjangoTestSuiteRunner
 
 def main():
-    failures = run_tests(['test_app'], verbosity=1, interactive=True)
+    runner = DjangoTestSuiteRunner()
+    failures = runner.run_tests(['test_app'], verbosity=1, interactive=True)
     sys.exit(failures)
 
 if __name__ == '__main__':
