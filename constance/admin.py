@@ -108,7 +108,7 @@ class ConstanceAdmin(admin.ModelAdmin):
     def has_delete_permission(self, *args, **kwargs):
         return False
 
-    def has_change_permission(self, *args, **kwargs):
+    def has_change_permission(self, request, obj=None, *args, **kwargs):
         if request.user.is_superuser:
             return True
         else:
