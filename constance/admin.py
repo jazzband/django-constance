@@ -109,7 +109,10 @@ class ConstanceAdmin(admin.ModelAdmin):
         return False
 
     def has_change_permission(self, *args, **kwargs):
-        return True
+        if request.user.is_superuser:
+            return True
+        else:
+            return False
 
 
 class Config(object):
