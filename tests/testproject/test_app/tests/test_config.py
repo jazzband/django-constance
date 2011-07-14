@@ -76,6 +76,9 @@ class TestRedis(TestCase, TestStorage):
     def setUp(self):
         self.old_backend = settings.BACKEND
         settings.BACKEND = 'constance.backends.redisd.RedisBackend'
+        del sys.modules['constance']
+        from constance import config
+        config._backend._rd.clear()
 
     def tearDown(self):
         del sys.modules['constance']
@@ -84,6 +87,30 @@ class TestRedis(TestCase, TestStorage):
         settings.BACKEND = self.old_backend
         import constance
         constance.config = Config()
+
+    def testMissingValues(self):
+        from constance import config
+
+        # set some values and leave out others
+        config.LONG_VALUE = 654321L
+        config.BOOL_VALUE = False
+        config.UNICODE_VALUE = 'Québec'.decode('utf-8')
+        config.DECIMAL_VALUE = Decimal('1.2')
+        config.DATETIME_VALUE = datetime(1977, 10, 2)
+        config.DATE_VALUE = date(2001, 12, 20)
+        config.TIME_VALUE = time(1, 59, 0)
+
+        self.assertEquals(config.INT_VALUE, 1)  # this should be the default value
+        self.assertEquals(config.LONG_VALUE, 654321L)
+        self.assertEquals(config.BOOL_VALUE, False)
+        self.assertEquals(config.STRING_VALUE, 'Hello world')  # this should be the default value
+        self.assertEquals(config.UNICODE_VALUE, 'Québec'.decode('utf-8'))
+        self.assertEquals(config.DECIMAL_VALUE, Decimal('1.2'))
+        self.assertEquals(config.DATETIME_VALUE, datetime(1977, 10, 2))
+        self.assertEquals(config.FLOAT_VALUE, 3.1415926536)  # this should be the default value
+        self.assertEquals(config.DATE_VALUE, date(2001, 12, 20))
+        self.assertEquals(config.TIME_VALUE, time(1, 59, 0))
+
 
 class TestDatabase(TestCase, TestStorage):
 
