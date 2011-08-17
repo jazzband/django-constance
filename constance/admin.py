@@ -12,8 +12,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils.formats import localize
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext as _
 
 from constance import config, settings
 
@@ -73,7 +72,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             form = ConstanceForm(request.POST)
             if form.is_valid():
                 form.save()
-                self.message_user(request, ugettext('Live settings updated successfully.'))
+                self.message_user(request, _('Live settings updated successfully.'))
                 return HttpResponseRedirect('.')
         context = {
             'config': [],
