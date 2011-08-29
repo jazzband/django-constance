@@ -26,4 +26,4 @@ class Config(object):
         self._backend.set(key, value)
 
     def __dir__(self):
-        return settings.CONFIG.iterkeys()
+        return settings.CONFIG.keys()
