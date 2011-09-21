@@ -57,6 +57,10 @@ class ConstanceAdmin(admin.ModelAdmin):
                 self.admin_site.admin_view(self.changelist_view),
                 name='%s_%s_changelist' % info
             ),
+            url(r'^$',
+                self.admin_site.admin_view(self.changelist_view),
+                name='%s_%s_add' % info
+            ),
         )
 
     @csrf_protect_m
