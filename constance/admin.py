@@ -80,7 +80,6 @@ class ConstanceAdmin(admin.ModelAdmin):
                 return HttpResponseRedirect('.')
         context = {
             'config': [],
-            'root_path': self.admin_site.root_path,
             'title': _('Constance config'),
             'app_label': 'constance',
             'opts': Config._meta,
