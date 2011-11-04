@@ -57,6 +57,10 @@ class ConstanceAdmin(admin.ModelAdmin):
                 self.admin_site.admin_view(self.changelist_view),
                 name='%s_%s_changelist' % info
             ),
+            url(r'^$',
+                self.admin_site.admin_view(self.changelist_view),
+                name='%s_%s_add' % info
+            ),
         )
 
     @csrf_protect_m
@@ -76,7 +80,6 @@ class ConstanceAdmin(admin.ModelAdmin):
                 return HttpResponseRedirect('.')
         context = {
             'config': [],
-            'root_path': self.admin_site.root_path,
             'title': _('Constance config'),
             'app_label': 'constance',
             'opts': Config._meta,
@@ -108,8 +111,11 @@ class ConstanceAdmin(admin.ModelAdmin):
     def has_delete_permission(self, *args, **kwargs):
         return False
 
-    def has_change_permission(self, *args, **kwargs):
-        return True
+    def has_change_permission(self, request, obj=None, *args, **kwargs):
+        if request.user.is_superuser:
+            return True
+        else:
+            return False
 
 
 class Config(object):
