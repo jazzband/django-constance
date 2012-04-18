@@ -8,9 +8,11 @@ from django.test import TestCase
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 from constance import settings
 from constance.admin import Config
+from constance.backends.database.models import Constance
 
 # Use django RequestFactory later on
 from testproject.test_app.tests.helpers import FakeRequest
@@ -123,6 +125,17 @@ class TestDatabase(TestCase, TestStorage):
         settings.BACKEND = self.old_backend
         import constance
         constance.config = Config()
+
+    def testUniqueKey(self):
+        con = Constance(key='key1', value='value1')
+        con.save()
+        con2 = Constance(key='key1', value='value2')
+        try:
+            con2.save()
+            self.fail("key field should enforce unique constraint")
+        except IntegrityError:
+            pass
+
 
 class TestAdmin(TestCase):
     model = Config

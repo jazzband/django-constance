@@ -11,7 +11,7 @@ except ImportError:
                                "the constance database backend.")
 
 class Constance(models.Model):
-    key = models.TextField()
+    key = models.TextField(unique=True)
     value = PickledObjectField()
 
     class Meta:
