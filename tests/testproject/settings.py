@@ -3,6 +3,8 @@
 from datetime import datetime, date, time
 from decimal import Decimal
 
+SECRET_KEY = 'cheese'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
