@@ -11,7 +11,7 @@ except IOError:
 
 setup(
     name='django-constance',
-    version='0.3',
+    version='0.4',
     url="http://github.com/comoga/django-constance",
     description='Django live settings with pluggable backends, including Redis.',
     long_description=long_description,
