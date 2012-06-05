@@ -95,7 +95,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             context['config'].append({
                 'name': name,
                 'default': localize(default),
-                'help_text': help_text,
+                'help_text': _(help_text),
                 'value': localize(value),
                 'modified': value != default,
                 'form_field': form[name]
