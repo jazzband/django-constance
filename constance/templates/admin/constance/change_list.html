@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block extrahead %}
-{% url admin:jsi18n as jsi18nurl %}
+{% url 'admin:jsi18n' as jsi18nurl %}
 <script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
 {{ block.super }}
 {{ media.js }}
@@ -55,7 +55,7 @@
                             {{item.form_field}}
                         </td>
                     <td>
-                        <img src="{% admin_media_prefix %}img/admin/icon-{% if item.modified %}yes{% else %}no{% endif %}.gif" alt="%s" />
+                        <img src="{% admin_media_prefix %}img/icon-{% if item.modified %}yes{% else %}no{% endif %}.gif" alt="{{ item.modified }}" />
                     </td>
                     </tr>
                 {% endfor %}
