@@ -6,7 +6,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
