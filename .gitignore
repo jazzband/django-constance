@@ -2,3 +2,4 @@
 .pydevproject
 *.pyc
 *.egg-info
+build/
