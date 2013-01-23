@@ -10,13 +10,13 @@ except IOError:
     long_description = None
 
 setup(
-    name='django-constance',
-    version='0.4',
-    url="http://github.com/comoga/django-constance",
+    name='django-constance-trbs',
+    version='0.5',
+    url="http://github.com/trbs/django-constance-trbs",
     description='Django live settings with pluggable backends, including Redis.',
     long_description=long_description,
-    author='Comoga Django Team',
-    author_email='dev@comoga.cz',
+    author='Forked from Comoga Django Team',
+    author_email='trbs@trbs.net',
     license='BSD',
     keywords='django libraries settings redis'.split(),
     platforms='any',
