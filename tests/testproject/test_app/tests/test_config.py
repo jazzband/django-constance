@@ -25,7 +25,7 @@ class TestStorage(object):
         self.assertEquals(config.INT_VALUE, 1)
         self.assertEquals(config.LONG_VALUE, 123456L)
         self.assertEquals(config.BOOL_VALUE, True)
-        self.assertEquals(config.STRING_VALUE, 'Hello world')
+        self.assertEquals(config.STRING_VALUE_REQUIRED, 'Hello world')
         self.assertEquals(config.UNICODE_VALUE, u'Rivi\xe8re-Bonjour')
         self.assertEquals(config.DECIMAL_VALUE, Decimal('0.1'))
         self.assertEquals(config.DATETIME_VALUE, datetime(2010, 8, 23, 11, 29, 24))
@@ -37,7 +37,7 @@ class TestStorage(object):
         config.INT_VALUE = 100
         config.LONG_VALUE = 654321L
         config.BOOL_VALUE = False
-        config.STRING_VALUE = 'Beware the weeping angel'
+        config.STRING_VALUE_REQUIRED = 'Beware the weeping angel'
         config.UNICODE_VALUE = 'Québec'.decode('utf-8')
         config.DECIMAL_VALUE = Decimal('1.2')
         config.DATETIME_VALUE = datetime(1977, 10, 2)
@@ -49,7 +49,7 @@ class TestStorage(object):
         self.assertEquals(config.INT_VALUE, 100)
         self.assertEquals(config.LONG_VALUE, 654321L)
         self.assertEquals(config.BOOL_VALUE, False)
-        self.assertEquals(config.STRING_VALUE, 'Beware the weeping angel')
+        self.assertEquals(config.STRING_VALUE_REQUIRED, 'Beware the weeping angel')
         self.assertEquals(config.UNICODE_VALUE, 'Québec'.decode('utf-8'))
         self.assertEquals(config.DECIMAL_VALUE, Decimal('1.2'))
         self.assertEquals(config.DATETIME_VALUE, datetime(1977, 10, 2))
@@ -103,7 +103,7 @@ class TestRedis(TestCase, TestStorage):
         self.assertEquals(config.INT_VALUE, 1)  # this should be the default value
         self.assertEquals(config.LONG_VALUE, 654321L)
         self.assertEquals(config.BOOL_VALUE, False)
-        self.assertEquals(config.STRING_VALUE, 'Hello world')  # this should be the default value
+        self.assertEquals(config.STRING_VALUE_REQUIRED, 'Hello world')  # this should be the default value
         self.assertEquals(config.UNICODE_VALUE, 'Québec'.decode('utf-8'))
         self.assertEquals(config.DECIMAL_VALUE, Decimal('1.2'))
         self.assertEquals(config.DATETIME_VALUE, datetime(1977, 10, 2))

@@ -45,12 +45,14 @@ section, like this::
     )
 
     CONSTANCE_CONFIG = {
-        'MY_SETTINGS_KEY': (42, 'the answer to everything'),
+        'MY_SETTINGS_KEY': {
+            'default': 42,
+            'help_text': 'the answer to everything'
+        },
     }
 
 Here, ``42`` is the default value for the key ``MY_SETTINGS_KEY`` if it is
-not found in the backend. The other member of the tuple is a help text the
-admin will show.
+not found in the backend. The help text will be shown in the admin.
 
 See the `Backends`_ section how to setup the backend.
 
