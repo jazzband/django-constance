@@ -3,7 +3,7 @@ from decimal import Decimal
 from operator import itemgetter
 
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
 from django.conf.urls import patterns, url
@@ -79,7 +79,12 @@ class ConstanceAdmin(admin.ModelAdmin):
             form = ConstanceForm(request.POST)
             if form.is_valid():
                 form.save()
-                self.message_user(request, _('Live settings updated successfully.'))
+                # In django 1.5 this can be replaced with self.message_user
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    _('Live settings updated successfully.'),
+                )
                 return HttpResponseRedirect('.')
         context = {
             'config': [],
