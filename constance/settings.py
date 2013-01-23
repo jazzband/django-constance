@@ -22,3 +22,6 @@ DATABASE_CACHE_BACKEND = getattr(settings, 'CONSTANCE_DATABASE_CACHE_BACKEND',
                                  None)
 
 SUPERUSER_ONLY = getattr(settings, 'CONSTANCE_ACCESS_SUPERUSER_ONLY', True)
+
+HAS_GRAPPELLI = 'grappelli' in getattr(settings, 'INSTALLED_APPS', [])
+
