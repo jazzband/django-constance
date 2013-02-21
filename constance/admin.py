@@ -3,10 +3,10 @@ from decimal import Decimal
 from operator import itemgetter
 
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -39,8 +39,11 @@ FIELDS = {
 class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
-        for name, (default, help_text) in settings.CONFIG.items():
-            field_class, kwargs = FIELDS[type(default)]
+        for name, opts in settings.CONFIG.iteritems():
+            _type = type(opts['default'])
+            field_class, kwargs = FIELDS[_type]
+            if _type in (str, unicode) and opts.get('required', True) is False:
+                kwargs['required'] = False
             self.fields[name] = field_class(label=name, **kwargs)
 
     def save(self):
@@ -66,8 +69,8 @@ class ConstanceAdmin(admin.ModelAdmin):
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
         # First load a mapping between config name and default value
-        default_initial = ((name, default)
-            for name, (default, help_text) in settings.CONFIG.iteritems())
+        default_initial = ((name, opts['default'])
+                           for name, opts in settings.CONFIG.iteritems())
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
             **dict(config._backend.mget(settings.CONFIG.keys())))
@@ -76,7 +79,12 @@ class ConstanceAdmin(admin.ModelAdmin):
             form = ConstanceForm(request.POST)
             if form.is_valid():
                 form.save()
-                self.message_user(request, _('Live settings updated successfully.'))
+                # In django 1.5 this can be replaced with self.message_user
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    _('Live settings updated successfully.'),
+                )
                 return HttpResponseRedirect('.')
         context = {
             'config': [],
@@ -86,7 +94,9 @@ class ConstanceAdmin(admin.ModelAdmin):
             'form': form,
             'media': self.media + form.media,
         }
-        for name, (default, help_text) in settings.CONFIG.iteritems():
+        for name, opts in settings.CONFIG.iteritems():
+            default = opts['default']
+            help_text = opts['help_text']
             # First try to load the value from the actual backend
             value = initial.get(name)
             # Then if the returned value is None, get the default
@@ -102,8 +112,13 @@ class ConstanceAdmin(admin.ModelAdmin):
             })
         context['config'].sort(key=itemgetter('name'))
         context_instance = RequestContext(request, current_app=self.admin_site.name)
-        return render_to_response('admin/constance/change_list.html',
-            context, context_instance=context_instance)
+
+        if settings.HAS_GRAPPELLI:
+            template_name = 'admin/constance/change_list_grappelli.html'
+        else:
+            template_name = 'admin/constance/change_list.html'
+        return render_to_response(template_name, context,
+                                  context_instance=context_instance)
 
     def has_add_permission(self, *args, **kwargs):
         return False
@@ -111,11 +126,11 @@ class ConstanceAdmin(admin.ModelAdmin):
     def has_delete_permission(self, *args, **kwargs):
         return False
 
-    def has_change_permission(self, request, obj=None, *args, **kwargs):
-        if request.user.is_superuser:
-            return True
+    def has_change_permission(self, request, obj=None):
+        if settings.SUPERUSER_ONLY:
+            return request.user.is_superuser
         else:
-            return False
+            return super(ConstanceAdmin, self).has_change_permission(request, obj)
 
 
 class Config(object):

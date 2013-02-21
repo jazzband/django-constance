@@ -1,11 +1,11 @@
 {% extends "admin/base_site.html" %}
-{% load adminmedia admin_list i18n %}
+{% load admin_static admin_list i18n %}
 
 
 {% block extrastyle %}
   {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelists.css" />
-  <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}" />
   {{ media.css }}
 <style>
 #result_list .changed {
@@ -55,7 +55,11 @@
                             {{item.form_field}}
                         </td>
                     <td>
-                        <img src="{% admin_media_prefix %}img/icon-{% if item.modified %}yes{% else %}no{% endif %}.gif" alt="{{ item.modified }}" />
+                        {% if item.modified %}
+                            <img src="{% static 'admin/img/icon-yes.gif' %}" alt="{{ item.modified }}" />
+                        {% else %}
+                            <img src="{% static 'admin/img/icon-no.gif' %}" alt="{{ item.modified }}" />
+                        {% endif %}
                     </td>
                     </tr>
                 {% endfor %}

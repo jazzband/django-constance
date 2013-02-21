@@ -1,6 +1,19 @@
 Dynamic Django settings
 =======================
 
+Fork
+----
+
+This is a fork of the original django-constance project which can be found at:
+
+    https://github.com/comoga/django-constance
+
+Main reason for the fork is to have django-constance pip installable with
+Django 1.4+ compatibility fixes.
+
+Hopefully we can have this fork merged back into the official repository as
+soon as possible.
+
 Features
 --------
 
@@ -12,13 +25,12 @@ Installation
 
 Install from PyPI::
 
-    pip install django-constance
+    pip install django-constance-trbs
 
-Or install the `in-development version`_ using ``pip``::
+Or install the git development version using ``pip``::
 
-    pip install -e git+git://github.com/comoga/django-constance#egg=django-constance
+    pip install -e git+git://github.com/trbs/django-constance-trbs#egg=django-constance-trbs
 
-.. _`in-development version`: https://github.com/comoga/django-constance/tarball/master#egg=django-constance-dev
 
 Configuration
 -------------
@@ -33,12 +45,14 @@ section, like this::
     )
 
     CONSTANCE_CONFIG = {
-        'MY_SETTINGS_KEY': (42, 'the answer to everything'),
+        'MY_SETTINGS_KEY': {
+            'default': 42,
+            'help_text': 'the answer to everything'
+        },
     }
 
 Here, ``42`` is the default value for the key ``MY_SETTINGS_KEY`` if it is
-not found in the backend. The other member of the tuple is a help text the
-admin will show.
+not found in the backend. The help text will be shown in the admin.
 
 See the `Backends`_ section how to setup the backend.
 
