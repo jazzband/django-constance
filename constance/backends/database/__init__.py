@@ -1,3 +1,5 @@
+import itertools
+
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.signals import post_save
 from django.core.cache import get_cache
@@ -16,6 +18,7 @@ if settings.DATABASE_CACHE_BACKEND:
             "it to a backend that supports cross-process caching."
             % settings.DATABASE_CACHE_BACKEND)
 
+
 class DatabaseBackend(Backend):
     def __init__(self):
         from constance.backends.database.models import Constance
@@ -27,11 +30,19 @@ class DatabaseBackend(Backend):
         # Clear simple cache.
         post_save.connect(self.clear, sender=self._model)
 
+    def add_prefix(self, key):
+        return "%s%s" % (self._prefix, key)
+
     def mget(self, keys):
-        for const in self._model._default_manager.filter(key__in=keys):
-            yield const.key, const.value
+        if not keys:
+            return
+        prefixed_keys = [self.add_prefix(key) for key in keys]
+        stored = self._model._default_manager.filter(key__in=prefixed_keys)
+        for key, const in itertools.izip(keys, stored):
+            yield key, const.value
 
     def get(self, key):
+        key = self.add_prefix(key)
         value = None
         if db_cache:
             value = db_cache.get(key)
@@ -47,7 +58,7 @@ class DatabaseBackend(Backend):
 
     def set(self, key, value):
         constance, created = self._model._default_manager.get_or_create(
-            key=key, defaults={'value': value}
+            key=self.add_prefix(key), defaults={'value': value}
         )
         if not created:
             constance.value = value

@@ -15,7 +15,7 @@ class RedisBackend(Backend):
 
     def __init__(self):
         super(RedisBackend, self).__init__()
-        self._prefix = settings.PREFIX
+        self._prefix = settings.REDIS_PREFIX
         connection_cls = settings.CONNECTION_CLASS
         if connection_cls is not None:
             self._rd = utils.import_module_attr(connection_cls)()

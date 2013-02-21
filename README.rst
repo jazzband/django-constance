@@ -128,6 +128,12 @@ the ``CACHES`` setting. E.g.::
     }
     CONSTANCE_DATABASE_CACHE_BACKEND = 'default'
 
+Just like the Redis backend you can set an optional prefix that is used during
+database interactions. To keep backward compatibility it defaults to ``''``
+(an empty string). To use something else do this::
+
+    CONSTANCE_DATABASE_PREFIX = 'constance:myproject:'
+
 .. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
 
 Usage
