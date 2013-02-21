@@ -125,6 +125,7 @@ class Config(object):
         verbose_name_plural = 'config'
         get_ordered_objects = lambda x: False
         abstract = False
+        swapped = False
     _meta = Meta()
 
 
