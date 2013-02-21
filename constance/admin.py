@@ -6,7 +6,7 @@ from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -116,11 +116,11 @@ class ConstanceAdmin(admin.ModelAdmin):
     def has_delete_permission(self, *args, **kwargs):
         return False
 
-    def has_change_permission(self, request, obj=None, *args, **kwargs):
-        if request.user.is_superuser:
-            return True
+    def has_change_permission(self, request, obj=None):
+        if settings.SUPERUSER_ONLY:
+            return request.user.is_superuser
         else:
-            return False
+            return super(ConstanceAdmin, self).has_change_permission(request, obj)
 
 
 class Config(object):
