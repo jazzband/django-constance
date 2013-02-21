@@ -5,8 +5,8 @@ settings = import_module_attr(
     os.getenv('CONSTANCE_SETTINGS_MODULE', 'django.conf.settings')
 )
 
-PREFIX = getattr(settings, 'CONSTANCE_REDIS_PREFIX',
-         getattr(settings, 'CONSTANCE_PREFIX', 'constance:'))
+REDIS_PREFIX = getattr(settings, 'CONSTANCE_REDIS_PREFIX',
+               getattr(settings, 'CONSTANCE_PREFIX', 'constance:'))
 
 BACKEND = getattr(settings, 'CONSTANCE_BACKEND', 'constance.backends.redisd.RedisBackend')
 

@@ -23,6 +23,7 @@ class DatabaseBackend(Backend):
     def __init__(self):
         from constance.backends.database.models import Constance
         self._model = Constance
+        self._prefix = settings.DATABASE_PREFIX
         if not self._model._meta.installed:
             raise ImproperlyConfigured(
                 "The constance.backends.database app isn't installed "
