@@ -113,6 +113,8 @@ to enable this feature::
    cross-process caching, because correct cache invalidation
    can't be guaranteed.
 
+.. note:: This can also be a backend name from `CACHES` setting (when using Django >= 1.3)
+
 .. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
 
 Usage
