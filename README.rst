@@ -113,6 +113,17 @@ to enable this feature::
    cross-process caching, because correct cache invalidation
    can't be guaranteed.
 
+Starting in Django 1.3 you can alternatively be the name of an entry of
+the ``CACHES`` setting. E.g.::
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }
+    CONSTANCE_DATABASE_CACHE_BACKEND = 'default'
+
 .. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
 
 Usage
