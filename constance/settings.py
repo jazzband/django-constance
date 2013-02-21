@@ -21,4 +21,4 @@ REDIS_CONNECTION = getattr(settings, 'CONSTANCE_REDIS_CONNECTION',
 DATABASE_CACHE_BACKEND = getattr(settings, 'CONSTANCE_DATABASE_CACHE_BACKEND',
                                  None)
 
-SUPERUSER_ONLY = getattr(settings, 'CONSTANCE_ACCESS_SUPERUSER_ONLY', True)
+SUPERUSER_ONLY = getattr(settings, 'CONSTANCE_SUPERUSER_ONLY', True)

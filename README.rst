@@ -181,6 +181,12 @@ Editing
 Fire up your ``admin`` and you should see a new app called ``Constance``
 with ``MY_SETTINGS_KEY`` in the ``Config`` pseudo model.
 
+By default changing the settings via the admin is only allowed for super users.
+But in case you want to use the admin's ability to implement custom
+authorization checks, feel free to set the ``CONSTANCE_SUPERUSER_ONLY`` setting
+to ``False`` and give the users or user groups access to the
+``constance.change_config`` permission.
+
 Screenshots
 -----------
 
