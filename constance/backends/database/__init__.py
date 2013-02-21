@@ -1,6 +1,5 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.signals import post_save
-from django.utils.functional import memoize
 from django.core.cache import get_cache
 from django.core.cache.backends.locmem import CacheClass as LocMemCacheClass
 
