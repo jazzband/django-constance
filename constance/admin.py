@@ -20,7 +20,7 @@ from constance import config, settings
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
 
 INTEGER_LIKE = (fields.IntegerField, {'widget': NUMERIC_WIDGET})
-STRING_LIKE = (fields.CharField, {'widget': forms.Textarea(attrs={'rows': 3})})
+STRING_LIKE = (fields.CharField, {'widget': forms.Textarea(attrs={'rows': 3}), 'required': False})
 
 FIELDS = {
     bool: (fields.BooleanField, {'required': False}),
