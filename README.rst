@@ -69,6 +69,10 @@ The is the default backend and has a couple of options:
         'db': 0,
     }
 
+  Alternatively you can use a URL to do the same::
+
+    CONSTANCE_REDIS_CONNECTION = 'redis://username:password@localhost:6379/0'
+
 * ``CONSTANCE_REDIS_CONNECTION_CLASS``
 
   An (optional) dotted import path to a connection to use, e.g.::
