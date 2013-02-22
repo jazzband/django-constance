@@ -34,5 +34,5 @@ setup(
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     test_suite='tests.runtests.main',
+    test_requires=['django-discover-runner'],
 )
-

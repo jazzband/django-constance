@@ -1,23 +1,15 @@
 #!/usr/bin/env python
-
-"""Borrowed from Carl Meyer's django-adminfiles."""
-
 import os
 import sys
+from django.core.management import call_command
 
-testapp_dir = os.path.dirname(os.path.abspath(__file__))
-constance_dir = os.path.dirname(testapp_dir)
-sys.path.insert(0, constance_dir)
-sys.path.insert(0, testapp_dir)
+os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.settings'
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'testproject.settings'
-
-from django.test.simple import DjangoTestSuiteRunner
 
 def main():
-    runner = DjangoTestSuiteRunner()
-    failures = runner.run_tests(['test_app'], verbosity=1, interactive=True)
-    sys.exit(failures)
+    result = call_command('test', 'tests', verbosity=2)
+    sys.exit(result)
+
 
 if __name__ == '__main__':
     main()

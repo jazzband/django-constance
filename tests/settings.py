@@ -1,13 +1,21 @@
 # -*- encoding: utf-8 -*-
-
+import os
 from datetime import datetime, date, time
 from decimal import Decimal
 
+# using the parent directory as the base for the test discovery
+TEST_DISCOVER_TOP_LEVEL = os.path.join(os.path.dirname(__file__), '..')
+
+TEST_RUNNER = 'discover_runner.DiscoverRunner'
+
 SECRET_KEY = 'cheese'
+
+DATABASE_ENGINE = 'sqlite3'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
     }
 }
 
@@ -16,16 +24,15 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.admin',
+    'south',
 
     'constance',
     'constance.backends.database',
-
-    'testproject.test_app',
 )
 
-ROOT_URLCONF = 'testproject.urls'
+ROOT_URLCONF = 'tests.urls'
 
-CONSTANCE_CONNECTION_CLASS = 'testproject.test_app.redis_mockup.Connection'
+CONSTANCE_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
 
 CONSTANCE_CONFIG = {
     'INT_VALUE': (1, 'some int'),

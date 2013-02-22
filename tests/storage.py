@@ -1,19 +1,7 @@
 # -*- encoding: utf-8 -*-
-
 import sys
 from datetime import datetime, date, time
 from decimal import Decimal
-
-from django.test import TestCase
-from django.conf import settings
-from django.contrib import admin
-from django.contrib.auth.models import User
-
-from constance import settings
-from constance.admin import Config
-
-# Use django RequestFactory later on
-from testproject.test_app.tests.helpers import FakeRequest
 
 
 class TestStorage(object):
@@ -71,24 +59,7 @@ class TestStorage(object):
             pass
         self.assertEquals(type(e), AttributeError)
 
-class TestRedis(TestCase, TestStorage):
-
-    def setUp(self):
-        self.old_backend = settings.BACKEND
-        settings.BACKEND = 'constance.backends.redisd.RedisBackend'
-        del sys.modules['constance']
-        from constance import config
-        config._backend._rd.clear()
-
-    def tearDown(self):
-        del sys.modules['constance']
-        from constance import config
-        config._backend._rd.clear()
-        settings.BACKEND = self.old_backend
-        import constance
-        constance.config = Config()
-
-    def testMissingValues(self):
+    def test_missing_values(self):
         from constance import config
 
         # set some values and leave out others
@@ -110,30 +81,3 @@ class TestRedis(TestCase, TestStorage):
         self.assertEquals(config.FLOAT_VALUE, 3.1415926536)  # this should be the default value
         self.assertEquals(config.DATE_VALUE, date(2001, 12, 20))
         self.assertEquals(config.TIME_VALUE, time(1, 59, 0))
-
-
-class TestDatabase(TestCase, TestStorage):
-
-    def setUp(self):
-        self.old_backend = settings.BACKEND
-        settings.BACKEND = 'constance.backends.database.DatabaseBackend'
-
-    def tearDown(self):
-        del sys.modules['constance']
-        settings.BACKEND = self.old_backend
-        import constance
-        constance.config = Config()
-
-class TestAdmin(TestCase):
-    model = Config
-
-    def setUp(self):
-        self.user = User.objects.create_superuser('admin', 'nimda', 'a@a.cz')
-        self.options = admin.site._registry[self.model]
-        self.fake_request = FakeRequest(user=self.user)
-        self.client.login(username=self.user, password='nimda')
-
-    def test_changelist(self):
-        response = self.options.changelist_view(self.fake_request, {})
-        self.assertEquals(response.status_code, 200)
-
