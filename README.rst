@@ -1,5 +1,9 @@
-Dynamic Django settings
-=======================
+Constance - Dynamic Django settings
+===================================
+
+.. image:: https://secure.travis-ci.org/comoga/django-constance.png
+    :alt: Build Status
+    :target: http://travis-ci.org/comoga/django-constance
 
 Features
 --------
