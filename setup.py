@@ -22,6 +22,8 @@ setup(
     long_description=long_description,
     author='Comoga Django Team',
     author_email='dev@comoga.cz',
+    maintainer='Jannis Leidel',
+    maintainer_email='jannis@leidel.info',
     license='BSD',
     keywords='django libraries settings redis'.split(),
     platforms='any',
