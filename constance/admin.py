@@ -6,7 +6,10 @@ from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.conf.urls import patterns, url
+from django.core.exceptions import PermissionDenied
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -66,6 +69,8 @@ class ConstanceAdmin(admin.ModelAdmin):
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
         # First load a mapping between config name and default value
+        if not self.has_change_permission(request, None):
+            raise PermissionDenied
         default_initial = ((name, default)
             for name, (default, help_text) in settings.CONFIG.iteritems())
         # Then update the mapping with actually values from the backend
@@ -126,12 +131,35 @@ class ConstanceAdmin(admin.ModelAdmin):
 class Config(object):
     class Meta(object):
         app_label = 'constance'
-        module_name = 'config'
+        model_name = module_name = 'config'
         verbose_name_plural = 'config'
         get_ordered_objects = lambda x: False
         abstract = False
         swapped = False
+
+        def get_change_permission(self):
+            return 'change_%s' % self.model_name
+
     _meta = Meta()
 
 
 admin.site.register([Config], ConstanceAdmin)
+
+
+def install_perm():
+    """
+    Creates a fake content type and permission
+    to be able to check for permissions
+    """
+    if ContentType._meta.installed and Permission._meta.installed:
+        content_type, created = ContentType.objects.get_or_create(
+            name='config',
+            app_label='constance',
+            model='config')
+
+        permission, created = Permission.objects.get_or_create(
+            name='Can change config',
+            content_type=content_type,
+            codename='change_config')
+
+install_perm()

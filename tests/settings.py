@@ -20,9 +20,9 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.admin',
     'south',
 
@@ -46,3 +46,5 @@ CONSTANCE_CONFIG = {
     'DATE_VALUE': (date(2010, 12, 24),  'Merry Chrismas'),
     'TIME_VALUE': (time(23, 59, 59),  'And happy New Year'),
 }
+
+DEBUG = True
