@@ -229,11 +229,11 @@ v0.5 (2013/03/02)
 
     django-admin.py migrate database --fake 0001
 
-  After that you can run the rest of the migrations:
+  After that you can run the rest of the migrations::
 
     django-admin.py migrate database
 
-* Fixed compatibility with Django 1.4's way of refering to static files in
+* Fixed compatibility with Django>1.4's way of refering to static files in
   the admin.
 
 * Added ability to add custom authorization checks via the new
