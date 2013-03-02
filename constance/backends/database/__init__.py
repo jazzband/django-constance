@@ -28,6 +28,7 @@ class DatabaseBackend(Backend):
             raise ImproperlyConfigured(
                 "The constance.backends.database app isn't installed "
                 "correctly. Make sure it's in your INSTALLED_APPS setting.")
+        self._prefix=settings.DATABASE_PREFIX
         # Clear simple cache.
         post_save.connect(self.clear, sender=self._model)
 
