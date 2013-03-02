@@ -2,8 +2,8 @@ import sys
 
 from django.test import TestCase
 
-from constance.config import Config
 from constance import settings
+from constance.config import Config
 
 from .storage import TestStorage
 
