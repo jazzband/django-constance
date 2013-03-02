@@ -5,10 +5,10 @@ from django.test import TestCase
 from constance import settings
 from constance.config import Config
 
-from .storage import TestStorage
+from .storage import StorageTestsMixin
 
 
-class TestRedis(TestCase, TestStorage):
+class TestRedis(TestCase, StorageTestsMixin):
 
     def setUp(self):
         self.old_backend = settings.BACKEND

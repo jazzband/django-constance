@@ -6,8 +6,6 @@ from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
 from django.conf.urls import patterns, url
 from django.core.exceptions import PermissionDenied
 from django.forms import fields
@@ -144,22 +142,3 @@ class Config(object):
 
 
 admin.site.register([Config], ConstanceAdmin)
-
-
-def install_perm():
-    """
-    Creates a fake content type and permission
-    to be able to check for permissions
-    """
-    if ContentType._meta.installed and Permission._meta.installed:
-        content_type, created = ContentType.objects.get_or_create(
-            name='config',
-            app_label='constance',
-            model='config')
-
-        permission, created = Permission.objects.get_or_create(
-            name='Can change config',
-            content_type=content_type,
-            codename='change_config')
-
-install_perm()

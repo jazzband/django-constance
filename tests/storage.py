@@ -4,7 +4,7 @@ from datetime import datetime, date, time
 from decimal import Decimal
 
 
-class TestStorage(object):
+class StorageTestsMixin(object):
 
     def test_store(self):
         # read defaults

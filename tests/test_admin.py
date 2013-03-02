@@ -3,14 +3,13 @@ from django.contrib.auth.models import User, Permission
 from django.core.exceptions import PermissionDenied
 from django.test import TestCase, RequestFactory
 
-from constance.admin import settings, Config, install_perm
+from constance.admin import settings, Config
 
 
 class TestAdmin(TestCase):
     model = Config
 
     def setUp(self):
-        install_perm()
         self.rf = RequestFactory()
         self.superuser = User.objects.create_superuser('admin', 'nimda', 'a@a.cz')
         self.normaluser = User.objects.create_user('normal', 'nimda', 'b@b.cz')

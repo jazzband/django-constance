@@ -1,6 +1,11 @@
 import os
 from setuptools import setup, find_packages
 
+# work around to prevent http://bugs.python.org/issue15881 from showing up
+try:
+    import multiprocessing
+except ImportError:
+    pass
 
 try:
     f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
@@ -34,5 +39,5 @@ setup(
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     test_suite='tests.runtests.main',
-    test_requires=['django-discover-runner'],
+    test_requires=['django-nose'],
 )

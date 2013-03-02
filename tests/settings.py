@@ -3,10 +3,7 @@ import os
 from datetime import datetime, date, time
 from decimal import Decimal
 
-# using the parent directory as the base for the test discovery
-TEST_DISCOVER_TOP_LEVEL = os.path.join(os.path.dirname(__file__), '..')
-
-TEST_RUNNER = 'discover_runner.DiscoverRunner'
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 SECRET_KEY = 'cheese'
 
@@ -20,14 +17,16 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.auth',
-    'django.contrib.admin',
-    'south',
+    'django.contrib.messages',
 
     'constance',
     'constance.backends.database',
+    'south',
+    'django_nose',
 )
 
 ROOT_URLCONF = 'tests.urls'
