@@ -40,4 +40,8 @@ setup(
     include_package_data=True,
     test_suite='tests.runtests.main',
     test_requires=['django-nose'],
+    extras_require = {
+        'database':  ['django-picklefield'],
+        'redis': ['redis'],
+    }
 )

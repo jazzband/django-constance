@@ -14,7 +14,18 @@ Features
 Installation
 ------------
 
-Install from PyPI::
+Install from PyPI the backend specific variant of django-constance:
+
+For the (default) Redis backend::
+
+    pip install django-constance[redis]
+
+For the database backend::
+
+    pip install django-constance[database]
+
+Alternatively -- if you're sure that the dependencies are already
+installed -- you can also run::
 
     pip install django-constance
 
