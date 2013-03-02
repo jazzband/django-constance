@@ -213,3 +213,36 @@ Screenshots
    The virtual application ``Constance`` among your regular applications.
 
 
+Changelog
+---------
+
+v0.5 (2013/03/02)
+~~~~~~~~~~~~~~~~~
+
+* Fixed compatibility with Django 1.5's swappable model backends.
+
+* Converted the ``key`` field of the database backend to use a ``CharField``
+  with uniqueness instead of just ``TextField``.
+
+  For South users we provide a migration for that change. First you
+  have to "fake" the initial migration we've also added to this release::
+
+    django-admin.py migrate database --fake 0001
+
+  After that you can run the rest of the migrations:
+
+    django-admin.py migrate database
+
+* Fixed compatibility with Django 1.4's way of refering to static files in
+  the admin.
+
+* Added ability to add custom authorization checks via the new
+  ``CONSTANCE_SUPERUSER_ONLY`` setting.
+
+* Added Polish translation. Thanks, Janusz Harkot.
+
+* Allow ``CONSTANCE_REDIS_CONNECTION`` being an URL instead of a dict.
+
+* Added ``CONSTANCE_DATABASE_PREFIX`` setting allow setting a key prefix.
+
+* Switched test runner to use django-nose.
