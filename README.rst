@@ -122,6 +122,8 @@ you need to install this library, too. E.g.::
 
     pip install django-picklefield
 
+Alternatively follow the backend specific installation instructions above.
+
 The database backend has the ability to automatically cache the config
 values and clear them when saving. You need to set the following setting
 to enable this feature::
@@ -132,7 +134,7 @@ to enable this feature::
    cross-process caching, because correct cache invalidation
    can't be guaranteed.
 
-Starting in Django 1.3 you can alternatively be the name of an entry of
+Starting in Django 1.3 you can alternatively use the name of an entry of
 the ``CACHES`` setting. E.g.::
 
     CACHES = {
@@ -173,11 +175,11 @@ Constance can be used from your Python code and from your Django templates.
   To access the config object from your template, you can either
   pass the object to the template context::
 
-    from django.shortcuts import render_to_response
+    from django.shortcuts import render
     from constance import config
 
     def myview(request):
-        return render_to_response('my_template.html', {'config': config})
+        return render(request, 'my_template.html', {'config': config})
 
   Or you can use the included config context processor.::
 
