@@ -194,7 +194,7 @@ Constance can be used from your Python code and from your Django templates.
   Then, in your template you can refer to the config values just as
   any other variable, e.g.::
 
-    <h1>Welcome on {% config.SITE_NAME %}</h1>
+    <h1>Welcome on {{ config.SITE_NAME }}</h1>
     {% if config.BETA_LAUNCHED %}
         Woohoo! Head over <a href="/sekrit/">here</a> to use the beta.
     {% else %}
