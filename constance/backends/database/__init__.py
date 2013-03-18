@@ -38,7 +38,8 @@ class DatabaseBackend(Backend):
         if not keys:
             return
         prefixed_keys = [self.add_prefix(key) for key in keys]
-        stored = self._model._default_manager.filter(key__in=prefixed_keys)
+        stored = self._model._default_manager.filter(key__in=prefixed_keys).order_by('key')
+        keys.sort()
         for key, const in itertools.izip(keys, stored):
             yield key, const.value
 
