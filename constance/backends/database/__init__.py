@@ -37,10 +37,10 @@ class DatabaseBackend(Backend):
     def mget(self, keys):
         if not keys:
             return
-        prefixed_keys = [self.add_prefix(key) for key in keys]
-        stored = self._model._default_manager.filter(key__in=prefixed_keys)
-        for key, const in itertools.izip(keys, stored):
-            yield key, const.value
+        keys = dict((self.add_prefix(key), key) for key in keys)
+        stored = self._model._default_manager.filter(key__in=keys.keys())
+        for const in stored:
+            yield keys[const.key], const.value
 
     def get(self, key):
         key = self.add_prefix(key)
