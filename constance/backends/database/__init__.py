@@ -1,5 +1,3 @@
-import itertools
-
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.signals import post_save
 from django.core.cache import get_cache

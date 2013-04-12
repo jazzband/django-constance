@@ -8,7 +8,8 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding model 'Constance'
         db.create_table('constance_config', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('id', self.gf('django.db.models.fields.AutoField')(
+                primary_key=True)),
             ('key', self.gf('django.db.models.fields.TextField')()),
             ('value', self.gf('picklefield.fields.PickledObjectField')()),
         ))
@@ -20,8 +21,10 @@ class Migration(SchemaMigration):
 
     models = {
         'database.constance': {
-            'Meta': {'object_name': 'Constance', 'db_table': "'constance_config'"},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'Meta': {'object_name': 'Constance',
+                     'db_table': "'constance_config'"},
+            'id': ('django.db.models.fields.AutoField', [],
+                   {'primary_key': 'True'}),
             'key': ('django.db.models.fields.TextField', [], {}),
             'value': ('picklefield.fields.PickledObjectField', [], {})
         }

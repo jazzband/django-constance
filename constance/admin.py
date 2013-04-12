@@ -22,7 +22,10 @@ from constance import config, settings
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
 
 INTEGER_LIKE = (fields.IntegerField, {'widget': NUMERIC_WIDGET})
-STRING_LIKE = (fields.CharField, {'widget': forms.Textarea(attrs={'rows': 3}), 'required': False})
+STRING_LIKE = (fields.CharField, {
+    'widget': forms.Textarea(attrs={'rows': 3}),
+    'required': False,
+})
 
 FIELDS = {
     bool: (fields.BooleanField, {'required': False}),
@@ -109,10 +112,11 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'help_text': _(help_text),
                 'value': localize(value),
                 'modified': value != default,
-                'form_field': form[name]
+                'form_field': form[name],
             })
         context['config'].sort(key=itemgetter('name'))
-        context_instance = RequestContext(request, current_app=self.admin_site.name)
+        context_instance = RequestContext(request,
+                                          current_app=self.admin_site.name)
         return render_to_response('admin/constance/change_list.html',
             context, context_instance=context_instance)
 
@@ -125,8 +129,7 @@ class ConstanceAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         if settings.SUPERUSER_ONLY:
             return request.user.is_superuser
-        else:
-            return super(ConstanceAdmin, self).has_change_permission(request, obj)
+        return super(ConstanceAdmin, self).has_change_permission(request, obj)
 
 
 class Config(object):

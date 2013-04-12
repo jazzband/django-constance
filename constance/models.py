@@ -1,4 +1,4 @@
-from django.db.models import get_models, signals
+from django.db.models import signals
 
 
 def create_perm(app, created_models, verbosity, db, **kwargs):
