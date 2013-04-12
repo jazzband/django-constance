@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 import os
+import six
 from datetime import datetime, date, time
 from decimal import Decimal
 
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+TEST_RUNNER = 'discover_runner.DiscoverRunner'
 
 SECRET_KEY = 'cheese'
 
@@ -25,20 +26,23 @@ INSTALLED_APPS = (
 
     'constance',
     'constance.backends.database',
-    'south',
-    'django_nose',
 )
 
 ROOT_URLCONF = 'tests.urls'
 
 CONSTANCE_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
 
+long_value = 123456
+
+if not six.PY3:
+    long_value = long(long_value)
+
 CONSTANCE_CONFIG = {
     'INT_VALUE': (1, 'some int'),
-    'LONG_VALUE': (123456L, 'some looong int'),
+    'LONG_VALUE': (long_value, 'some looong int'),
     'BOOL_VALUE': (True, 'true or false'),
     'STRING_VALUE': ('Hello world', 'greetings'),
-    'UNICODE_VALUE': ('Rivière-Bonjour'.decode('utf-8'), 'greetings'),
+    'UNICODE_VALUE': (six.u('Rivière-Bonjour'), 'greetings'),
     'DECIMAL_VALUE': (Decimal('0.1'), 'the first release version'),
     'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
     'FLOAT_VALUE': (3.1415926536, 'PI'),

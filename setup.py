@@ -38,13 +38,16 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
         'Topic :: Utilities',
     ],
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     test_suite='tests.runtests.main',
-    test_requires=['django-nose'],
-    extras_require = {
+    test_requires=['django-discover-runner'],
+    install_requires=['six'],
+    extras_require={
         'database':  ['django-picklefield'],
         'redis': ['redis'],
     }

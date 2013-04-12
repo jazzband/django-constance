@@ -1,6 +1,7 @@
 from datetime import datetime, date, time
 from decimal import Decimal
 from operator import itemgetter
+import six
 
 from django import forms
 from django.contrib import admin, messages
@@ -26,15 +27,19 @@ STRING_LIKE = (fields.CharField, {'widget': forms.Textarea(attrs={'rows': 3}), '
 FIELDS = {
     bool: (fields.BooleanField, {'required': False}),
     int: INTEGER_LIKE,
-    long: INTEGER_LIKE,
     Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
     str: STRING_LIKE,
-    unicode: STRING_LIKE,
     datetime: (fields.DateTimeField, {'widget': widgets.AdminSplitDateTime}),
     date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
     time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),
     float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
 }
+
+if not six.PY3:
+    FIELDS.update({
+        long: INTEGER_LIKE,
+        unicode: STRING_LIKE,
+    })
 
 
 class ConstanceForm(forms.Form):
@@ -56,12 +61,10 @@ class ConstanceAdmin(admin.ModelAdmin):
         return patterns('',
             url(r'^$',
                 self.admin_site.admin_view(self.changelist_view),
-                name='%s_%s_changelist' % info
-            ),
+                name='%s_%s_changelist' % info),
             url(r'^$',
                 self.admin_site.admin_view(self.changelist_view),
-                name='%s_%s_add' % info
-            ),
+                name='%s_%s_add' % info),
         )
 
     @csrf_protect_m
@@ -70,7 +73,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         if not self.has_change_permission(request, None):
             raise PermissionDenied
         default_initial = ((name, default)
-            for name, (default, help_text) in settings.CONFIG.iteritems())
+            for name, (default, help_text) in settings.CONFIG.items())
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
             **dict(config._backend.mget(settings.CONFIG.keys())))
@@ -94,7 +97,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'form': form,
             'media': self.media + form.media,
         }
-        for name, (default, help_text) in settings.CONFIG.iteritems():
+        for name, (default, help_text) in settings.CONFIG.items():
             # First try to load the value from the actual backend
             value = initial.get(name)
             # Then if the returned value is None, get the default

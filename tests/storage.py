@@ -49,13 +49,13 @@ class StorageTestsMixin(object):
         from constance import config
         try:
             config.NON_EXISTENT
-        except Exception, e:
+        except Exception as e:
             pass
         self.assertEquals(type(e), AttributeError)
 
         try:
             config.NON_EXISTENT = 1
-        except Exception, e:
+        except Exception as e:
             pass
         self.assertEquals(type(e), AttributeError)
 
