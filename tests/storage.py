@@ -19,7 +19,7 @@ class StorageTestsMixin(object):
         self.assertEqual(config.LONG_VALUE, long(123456))
         self.assertEqual(config.BOOL_VALUE, True)
         self.assertEqual(config.STRING_VALUE, 'Hello world')
-        self.assertEqual(config.UNICODE_VALUE, u'Rivi\xe8re-Bonjour')
+        self.assertEqual(config.UNICODE_VALUE, six.u('Rivière-Bonjour'))
         self.assertEqual(config.DECIMAL_VALUE, Decimal('0.1'))
         self.assertEqual(config.DATETIME_VALUE, datetime(2010, 8, 23, 11, 29, 24))
         self.assertEqual(config.FLOAT_VALUE, 3.1415926536)

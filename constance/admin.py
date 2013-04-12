@@ -7,7 +7,6 @@ from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
-from django.conf.urls import patterns, url
 from django.core.exceptions import PermissionDenied
 from django.forms import fields
 from django.http import HttpResponseRedirect
@@ -15,6 +14,12 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils.formats import localize
 from django.utils.translation import ugettext as _
+
+try:
+    from django.conf.urls import patterns, url
+except ImportError:  # Django < 1.4
+    from django.conf.urls.defaults import patterns, url
+
 
 from constance import config, settings
 
