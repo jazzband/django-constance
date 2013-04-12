@@ -22,7 +22,7 @@ class TestAdmin(TestCase):
         request = self.rf.get('/admin/constance/config/')
         request.user = self.superuser
         response = self.options.changelist_view(request, {})
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_custom_auth(self):
         settings.SUPERUSER_ONLY = False
@@ -42,4 +42,4 @@ class TestAdmin(TestCase):
         self.assertTrue(request.user.has_perm('constance.change_config'))
 
         response = self.options.changelist_view(request, {})
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)

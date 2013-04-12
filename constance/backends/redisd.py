@@ -1,4 +1,4 @@
-import itertools
+from six.moves import zip
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -43,7 +43,7 @@ class RedisBackend(Backend):
         if not keys:
             return
         prefixed_keys = [self.add_prefix(key) for key in keys]
-        for key, value in itertools.izip(keys, self._rd.mget(prefixed_keys)):
+        for key, value in zip(keys, self._rd.mget(prefixed_keys)):
             if value:
                 yield key, loads(value)
 

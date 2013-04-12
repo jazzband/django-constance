@@ -5,7 +5,7 @@ from django.test import TestCase
 from constance import settings
 from constance.config import Config
 
-from .storage import StorageTestsMixin
+from tests.storage import StorageTestsMixin
 
 
 class TestDatabase(TestCase, StorageTestsMixin):
