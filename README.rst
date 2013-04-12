@@ -229,6 +229,12 @@ Screenshots
 Changelog
 ---------
 
+v0.5.1 (2013/04/12)
+~~~~~~~~~~~~~~~~~~~
+
+* Fixed a serious issue with ordering in the admin when using the database
+  backend. Thanks, Bouke Haarsma.
+
 v0.5 (2013/03/02)
 ~~~~~~~~~~~~~~~~~
 
