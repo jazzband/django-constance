@@ -51,3 +51,7 @@ CONSTANCE_CONFIG = {
 }
 
 DEBUG = True
+
+STATIC_ROOT = ''
+
+STATIC_URL = '/static/'
