@@ -45,7 +45,7 @@ setup(
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     test_suite='tests.runtests.main',
-    test_requires=['django-discover-runner'],
+    tests_require=['django-discover-runner'],
     install_requires=['six'],
     extras_require={
         'database':  ['django-picklefield'],
