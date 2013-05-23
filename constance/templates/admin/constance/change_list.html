@@ -33,6 +33,14 @@
   <div id="content-main">
     <div class="module" id="changelist">
         <form id="changelist-form" action="" method="post">{% csrf_token %}
+            <ul class="errorlist">
+            {% for field in form.hidden_fields %}
+                {% for error in field.errors %}
+                  <li>(Hidden field {{ field.name }}) {{ error }}</li>
+                {% endfor %}
+                {{ field }}
+            {% endfor %}
+            </ul>
             <table cellspacing="0" id="result_list">
                 <thead>
                 <tr>

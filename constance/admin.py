@@ -1,5 +1,6 @@
 from datetime import datetime, date, time
 from decimal import Decimal
+import hashlib
 from operator import itemgetter
 import six
 
@@ -51,15 +52,31 @@ if not six.PY3:
 
 
 class ConstanceForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super(ConstanceForm, self).__init__(*args, **kwargs)
+    version = forms.CharField(widget=forms.HiddenInput)
+
+    def __init__(self, initial, *args, **kwargs):
+        super(ConstanceForm, self).__init__(*args, initial=initial, **kwargs)
         for name, (default, help_text) in settings.CONFIG.items():
             field_class, kwargs = FIELDS[type(default)]
             self.fields[name] = field_class(label=name, **kwargs)
 
+        version = hashlib.md5()
+        for name, (default, help_text) in settings.CONFIG.items():
+            value = initial.get(name, '')
+            version.update(unicode(value).encode('utf-8'))
+        self.initial['version'] = version.hexdigest()
+
     def save(self):
-        for name in self.cleaned_data:
+        for name, (default, help_text) in settings.CONFIG.items():
             setattr(config, name, self.cleaned_data[name])
+
+    def clean_version(self):
+        value = self.cleaned_data['version']
+        if value != self.initial['version']:
+            raise forms.ValidationError('Live settings have been modified '
+                                        'by someone else. Please reload the '
+                                        'form and resubmit your changes.')
+        return value
 
 
 class ConstanceAdmin(admin.ModelAdmin):
@@ -87,7 +104,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             **dict(config._backend.mget(settings.CONFIG.keys())))
         form = ConstanceForm(initial=initial)
         if request.method == 'POST':
-            form = ConstanceForm(request.POST)
+            form = ConstanceForm(data=request.POST, initial=initial)
             if form.is_valid():
                 form.save()
                 # In django 1.5 this can be replaced with self.message_user
