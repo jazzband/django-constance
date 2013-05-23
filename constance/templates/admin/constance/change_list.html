@@ -36,6 +36,14 @@
   <div id="content-main">
     <div class="module" id="changelist">
         <form id="changelist-form" action="" method="post">{% csrf_token %}
+            <ul class="errorlist">
+            {% for field in form.hidden_fields %}
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+                {{ field }}
+            {% endfor %}
+            </ul>
             <table cellspacing="0" id="result_list">
                 <thead>
                 <tr>
@@ -47,15 +55,15 @@
                 </thead>
                 {% for item in config %}
                 <tr class="{% cycle 'row1' 'row2' %}">
-                    <th>{{item.name}}
-                        <div class="help">{{item.help_text}}</div>
+                    <th>{{ item.name }}
+                        <div class="help">{{ item.help_text }}</div>
                     </th>
                     <td>
                         {{ item.default }}
                     </td>
                         <td>
-                            {{item.form_field.errors}}
-                            {{item.form_field}}
+                            {{ item.form_field.errors }}
+                            {{ item.form_field }}
                         </td>
                     <td>
                         {% if item.modified %}

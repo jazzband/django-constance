@@ -1,5 +1,6 @@
 from datetime import datetime, date, time
 from decimal import Decimal
+import hashlib
 from operator import itemgetter
 import six
 
@@ -13,7 +14,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils.formats import localize
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
+
+try:
+    from django.utils.encoding import smart_bytes
+except ImportError:
+    from django.utils.encoding import smart_str as smart_bytes
 
 try:
     from django.conf.urls import patterns, url
@@ -54,21 +60,36 @@ if not six.PY3:
 
 
 class ConstanceForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super(ConstanceForm, self).__init__(*args, **kwargs)
+    version = forms.CharField(widget=forms.HiddenInput)
+
+    def __init__(self, initial, *args, **kwargs):
+        super(ConstanceForm, self).__init__(*args, initial=initial, **kwargs)
+        version_hash = hashlib.md5()
+
         for name, (default, help_text) in settings.CONFIG.items():
             config_type = type(default)
             if config_type not in FIELDS:
-                raise ImproperlyConfigured("Constance doesn't support "
-                                           "config values of the type %s. "
-                                           "Please fix the value of '%s'."
+                raise ImproperlyConfigured(_("Constance doesn't support "
+                                             "config values of the type %s. "
+                                             "Please fix the value of '%s'.")
                                            % (config_type, name))
             field_class, kwargs = FIELDS[config_type]
             self.fields[name] = field_class(label=name, **kwargs)
 
+            version_hash.update(smart_bytes(initial.get(name, '')))
+        self.initial['version'] = version_hash.hexdigest()
+
     def save(self):
-        for name in self.cleaned_data:
+        for name in settings.CONFIG:
             setattr(config, name, self.cleaned_data[name])
+
+    def clean_version(self):
+        value = self.cleaned_data['version']
+        if value != self.initial['version']:
+            raise forms.ValidationError(_('The settings have been modified '
+                                          'by someone else. Please reload the '
+                                          'form and resubmit your changes.'))
+        return value
 
 
 class ConstanceAdmin(admin.ModelAdmin):
@@ -96,7 +117,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             **dict(config._backend.mget(settings.CONFIG.keys())))
         form = ConstanceForm(initial=initial)
         if request.method == 'POST':
-            form = ConstanceForm(request.POST)
+            form = ConstanceForm(data=request.POST, initial=initial)
             if form.is_valid():
                 form.save()
                 # In django 1.5 this can be replaced with self.message_user
