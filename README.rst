@@ -106,7 +106,7 @@ Database
 
 ::
 
-    CONSTANCE_BACKEND = constance.backends.database.DatabaseBackend
+    CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
 If you want to use this backend you also need to add the databse backend
 to your ``INSTALLED_APPS`` setting to make sure the data model is correctly
