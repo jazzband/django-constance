@@ -47,6 +47,7 @@ setup(
     test_suite='tests.runtests.main',
     tests_require=['django-discover-runner', 'django-picklefield', 'redis'],
     install_requires=['six'],
+    zip_safe=False,
     extras_require={
         'database':  ['django-picklefield'],
         'redis': ['redis'],
