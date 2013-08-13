@@ -51,9 +51,9 @@ if not six.PY3:
 
 
 class ConstanceForm(forms.Form):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, config, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
-        for name, (default, help_text) in settings.CONFIG.items():
+        for name, (default, help_text) in config.items():
             field_class, kwargs = FIELDS[type(default)]
             self.fields[name] = field_class(label=name, **kwargs)
 
@@ -63,6 +63,9 @@ class ConstanceForm(forms.Form):
 
 
 class ConstanceAdmin(admin.ModelAdmin):
+
+    form = ConstanceForm
+    CONFIG = settings.CONFIG
 
     def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
@@ -81,13 +84,13 @@ class ConstanceAdmin(admin.ModelAdmin):
         if not self.has_change_permission(request, None):
             raise PermissionDenied
         default_initial = ((name, default)
-            for name, (default, help_text) in settings.CONFIG.items())
+            for name, (default, help_text) in self.CONFIG.items())
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
-            **dict(config._backend.mget(settings.CONFIG.keys())))
-        form = ConstanceForm(initial=initial)
+            **dict(config._backend.mget(self.CONFIG.keys())))
+        form = self.form(initial=initial, config=self.CONFIG)
         if request.method == 'POST':
-            form = ConstanceForm(request.POST)
+            form = self.form(data=request.POST, config=self.CONFIG)
             if form.is_valid():
                 form.save()
                 # In django 1.5 this can be replaced with self.message_user
@@ -105,7 +108,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'form': form,
             'media': self.media + form.media,
         }
-        for name, (default, help_text) in settings.CONFIG.items():
+        for name, (default, help_text) in self.CONFIG.items():
             # First try to load the value from the actual backend
             value = initial.get(name)
             # Then if the returned value is None, get the default
