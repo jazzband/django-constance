@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
         # Changing field 'Constance.key'
         db.alter_column('constance_config', 'key',
                         self.gf('django.db.models.fields.CharField')(
-                            unique=True, max_length=255))
+                            max_length=255))
         # Adding unique constraint on 'Constance', fields ['key']
         db.create_unique('constance_config', ['key'])
 
