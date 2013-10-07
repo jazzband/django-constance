@@ -10,10 +10,11 @@ class Config(object):
             utils.import_module_attr(settings.BACKEND)())
         if settings.RETRIEVE_ALL_KEYS:
             super(Config, self).__setattr__('_keys',{})
-            for key,value in self._backend.mget(settings.CONFIG.keys()):
-                self._keys[key] = value
 
     def __getattr__(self, key):
+        if settings.RETRIEVE_ALL_KEYS and self._keys:
+            for key,value in self._backend.mget(settings.CONFIG.keys()):
+                self._keys[key] = value
         try:
             default, help_text = settings.CONFIG[key]
         except KeyError:
@@ -37,3 +38,4 @@ class Config(object):
 
     def __dir__(self):
         return settings.CONFIG.keys()
+
