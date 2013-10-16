@@ -158,6 +158,12 @@ database interactions. To keep backward compatibility it defaults to ``''``
 
 .. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
 
+If you want to set virtual app name or object name in admin, you can use 
+following parameters::
+
+   CONSTANCE_APP_NAME = "my_app_name"
+   CONSTANCE_OBJECT_NAME = "my_object_name"
+
 Usage
 -----
 

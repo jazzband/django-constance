@@ -148,10 +148,10 @@ class ConstanceAdmin(admin.ModelAdmin):
 
 class Config(object):
     class Meta(object):
-        app_label = 'constance'
-        object_name = 'Config'
-        model_name = module_name = 'config'
-        verbose_name_plural = 'config'
+        app_label = settings.APP_NAME
+        object_name = settings.OBJECT_NAME
+        model_name = module_name = settings.OBJECT_NAME
+        verbose_name_plural = settings.OBJECT_NAME
         get_ordered_objects = lambda x: False
         abstract = False
         swapped = False
