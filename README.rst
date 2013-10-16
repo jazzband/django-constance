@@ -49,11 +49,16 @@ section, like this::
 
     CONSTANCE_CONFIG = {
         'MY_SETTINGS_KEY': (42, 'the answer to everything'),
+        'MY_SELECT_KEY': (('yes', 'select yes or no', {'choices': ('yes': 'Yes', 'no': 'No')),
     }
 
 Here, ``42`` is the default value for the key ``MY_SETTINGS_KEY`` if it is
 not found in the backend. The other member of the tuple is a help text the
 admin will show.
+
+The type of widget in ``admin`` section depends on type of default value.
+If you want use select widget to limit possible choices, set ``choices``
+attribute as shown by ``MY_SELECT_KEY``.
 
 See the `Backends`_ section how to setup the backend.
 

@@ -1,6 +1,7 @@
 from datetime import datetime, date, time
 from decimal import Decimal
 from operator import itemgetter
+import copy
 import six
 
 from django import forms
@@ -53,8 +54,15 @@ if not six.PY3:
 class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
-        for name, (default, help_text) in settings.CONFIG.items():
+        for name, options in settings.CONFIG.items():
+            default, help_text = options[0], options[1]
+            attrs = None
+            if len(options) > 2:
+                attrs = options[2]
             field_class, kwargs = FIELDS[type(default)]
+            if attrs and attrs['choices']:
+                kwargs = copy.copy(kwargs)
+                kwargs['widget'] = forms.Select(choices = attrs['choices'])
             self.fields[name] = field_class(label=name, **kwargs)
 
     def save(self):
@@ -80,8 +88,8 @@ class ConstanceAdmin(admin.ModelAdmin):
         # First load a mapping between config name and default value
         if not self.has_change_permission(request, None):
             raise PermissionDenied
-        default_initial = ((name, default)
-            for name, (default, help_text) in settings.CONFIG.items())
+        default_initial = ((name, options[0])
+            for name, options in settings.CONFIG.items())
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
             **dict(config._backend.mget(settings.CONFIG.keys())))
@@ -105,7 +113,8 @@ class ConstanceAdmin(admin.ModelAdmin):
             'form': form,
             'media': self.media + form.media,
         }
-        for name, (default, help_text) in settings.CONFIG.items():
+        for name, options in settings.CONFIG.items():
+            default, help_text = options[0], options[1]
             # First try to load the value from the actual backend
             value = initial.get(name)
             # Then if the returned value is None, get the default
