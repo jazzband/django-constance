@@ -125,15 +125,9 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'form_field': form[name],
             })
         context['config'].sort(key=itemgetter('name'))
-
         context_instance = RequestContext(request,
                                           current_app=self.admin_site.name)
-
-        if settings.HAS_GRAPPELLI:
-            template_name = 'admin/constance/change_list_grappelli.html'
-        else:
-            template_name = 'admin/constance/change_list.html'
-
+        template_name = 'admin/constance/change_list.html'
         return render_to_response(template_name, context,
                                   context_instance=context_instance)
 

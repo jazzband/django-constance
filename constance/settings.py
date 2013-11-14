@@ -28,5 +28,3 @@ DATABASE_PREFIX = getattr(settings, 'CONSTANCE_DATABASE_PREFIX', '')
 
 SUPERUSER_ONLY = getattr(settings, 'CONSTANCE_SUPERUSER_ONLY',
                  getattr(settings, 'CONSTANCE_ACCESS_SUPERUSER_ONLY', True))
-
-HAS_GRAPPELLI = 'grappelli' in getattr(settings, 'INSTALLED_APPS', [])
