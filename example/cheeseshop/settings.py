@@ -112,4 +112,16 @@ CONSTANCE_CONFIG = {
     'OWNER': ('Mr. Henry Wensleydale', 'owner of the shop'),
     'MUSICIANS': (4, 'number of musicians inside the shop'),
     'DATE_ESTABLISHED': (datetime(1972, 11, 30), "the shop's first opening"),
+    'ENABLED': {
+        'default': True,
+        'help_text': 'Shop is enabled',
+    },
+    'GUITARS': {
+        'default': 2,
+        'help_text': 'Number of guitars in the shop',
+    },
+    'WELCOME_TEXT': {
+        'default': 'Welcome to the shop',
+        'help_text': 'Shops welcome text',
+    }
 }
