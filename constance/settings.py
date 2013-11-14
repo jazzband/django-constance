@@ -28,3 +28,8 @@ DATABASE_PREFIX = getattr(settings, 'CONSTANCE_DATABASE_PREFIX', '')
 
 SUPERUSER_ONLY = getattr(settings, 'CONSTANCE_SUPERUSER_ONLY',
                  getattr(settings, 'CONSTANCE_ACCESS_SUPERUSER_ONLY', True))
+
+CACHE_TIMEOUT = getattr(settings, 'CONSTANCE_CACHE_TIMEOUT', 1)
+
+CONFIG_CLASS = getattr(settings, 'CONSTANCE_CONFIG_CLASS',
+                       'constance.config.Config')

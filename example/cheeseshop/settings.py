@@ -107,6 +107,8 @@ CONSTANCE_CONNECTION = {
     'db': 0,
 }
 
+CONSTANCE_CONFIG_CLASS = "constance.config.CachedAllConfig"
+
 CONSTANCE_CONFIG = {
     'BANNER': ('The National Cheese Emporium', 'name of the shop'),
     'OWNER': ('Mr. Henry Wensleydale', 'owner of the shop'),
