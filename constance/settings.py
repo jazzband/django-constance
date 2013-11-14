@@ -5,6 +5,8 @@ settings = import_module_attr(
     os.getenv('CONSTANCE_SETTINGS_MODULE', 'django.conf.settings')
 )
 
+READONLY = getattr(settings, 'CONSTANCE_READONLY', False)
+
 REDIS_PREFIX = getattr(settings, 'CONSTANCE_REDIS_PREFIX',
                getattr(settings, 'CONSTANCE_PREFIX', 'constance:'))
 
