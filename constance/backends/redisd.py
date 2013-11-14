@@ -1,4 +1,4 @@
-import itertools
+from six.moves import zip
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -15,7 +15,7 @@ class RedisBackend(Backend):
 
     def __init__(self):
         super(RedisBackend, self).__init__()
-        self._prefix = settings.PREFIX
+        self._prefix = settings.REDIS_PREFIX
         connection_cls = settings.CONNECTION_CLASS
         if connection_cls is not None:
             self._rd = utils.import_module_attr(connection_cls)()
@@ -25,7 +25,10 @@ class RedisBackend(Backend):
             except ImportError:
                 raise ImproperlyConfigured(
                     "The Redis backend requires redis-py to be installed.")
-            self._rd = redis.Redis(**settings.REDIS_CONNECTION)
+            if isinstance(settings.REDIS_CONNECTION, basestring):
+                self._rd = redis.from_url(settings.REDIS_CONNECTION)
+            else:
+                self._rd = redis.Redis(**settings.REDIS_CONNECTION)
 
     def add_prefix(self, key):
         return "%s%s" % (self._prefix, key)
@@ -40,7 +43,7 @@ class RedisBackend(Backend):
         if not keys:
             return
         prefixed_keys = [self.add_prefix(key) for key in keys]
-        for key, value in itertools.izip(keys, self._rd.mget(prefixed_keys)):
+        for key, value in zip(keys, self._rd.mget(prefixed_keys)):
             if value:
                 yield key, loads(value)
 

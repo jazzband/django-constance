@@ -1,2 +1,2 @@
 recursive-include constance/templates *.html
-
+recursive-include constance/locale *.po *.mo

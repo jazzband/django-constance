@@ -1,5 +1,6 @@
 import constance
 
+
 def config(request):
     """
     Simple context processor that puts the config into every

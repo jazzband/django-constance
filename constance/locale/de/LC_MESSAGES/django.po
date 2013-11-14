@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-17 16:33+0100\n"
+"POT-Creation-Date: 2013-03-02 09:54-0600\n"
 "PO-Revision-Date: 2012-02-17 16:34+0100\n"
 "Last-Translator: Florian Apolloner <apollo13@apolloner.eu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,21 +17,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: admin.py:79
+#: admin.py:86
 msgid "Live settings updated successfully."
 msgstr "Die Livekonfiguration wurde erfolgreich aktualisiert."
 
-#: admin.py:83
+#: admin.py:91
 msgid "Constance config"
 msgstr "Constance Konfiguration"
 
-#: backends/database/models.py:18
-msgid "constance"
-msgstr ""
-
 #: backends/database/models.py:19
+msgid "constance"
+msgstr "Konstanze"
+
+#: backends/database/models.py:20
 msgid "constances"
-msgstr ""
+msgstr "Konstanzes"
 
 #: templates/admin/constance/change_list.html:39
 msgid "Name"
@@ -49,11 +49,10 @@ msgstr "Wert"
 msgid "Is modified"
 msgstr "Ist modifiziert"
 
-#: templates/admin/constance/change_list.html:64
+#: templates/admin/constance/change_list.html:68
 msgid "Save"
-msgstr "Speichern"
+msgstr "Sichern"
 
-#: templates/admin/constance/change_list.html:74
+#: templates/admin/constance/change_list.html:78
 msgid "Home"
 msgstr "Start"
-

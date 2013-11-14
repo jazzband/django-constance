@@ -16,10 +16,12 @@ if settings.DATABASE_CACHE_BACKEND:
             "it to a backend that supports cross-process caching."
             % settings.DATABASE_CACHE_BACKEND)
 
+
 class DatabaseBackend(Backend):
     def __init__(self):
         from constance.backends.database.models import Constance
         self._model = Constance
+        self._prefix = settings.DATABASE_PREFIX
         if not self._model._meta.installed:
             raise ImproperlyConfigured(
                 "The constance.backends.database app isn't installed "
@@ -27,11 +29,19 @@ class DatabaseBackend(Backend):
         # Clear simple cache.
         post_save.connect(self.clear, sender=self._model)
 
+    def add_prefix(self, key):
+        return "%s%s" % (self._prefix, key)
+
     def mget(self, keys):
-        for const in self._model._default_manager.filter(key__in=keys):
-            yield const.key, const.value
+        if not keys:
+            return
+        keys = dict((self.add_prefix(key), key) for key in keys)
+        stored = self._model._default_manager.filter(key__in=keys.keys())
+        for const in stored:
+            yield keys[const.key], const.value
 
     def get(self, key):
+        key = self.add_prefix(key)
         value = None
         if db_cache:
             value = db_cache.get(key)
@@ -47,7 +57,7 @@ class DatabaseBackend(Backend):
 
     def set(self, key, value):
         constance, created = self._model._default_manager.get_or_create(
-            key=key, defaults={'value': value}
+            key=self.add_prefix(key), defaults={'value': value}
         )
         if not created:
             constance.value = value

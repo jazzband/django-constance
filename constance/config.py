@@ -1,5 +1,6 @@
 from constance import settings, utils
 
+
 class Config(object):
     """
     The global config wrapper that handles the backend.

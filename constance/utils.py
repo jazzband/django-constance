@@ -5,9 +5,11 @@ CONFIGURATION_ERROR = ("Constance configuration key '%s' must have either a "
                        "2-tuple with default value and help text or a dictionary "
                        "with at least the 'default' and 'help_text' set.")
 
+
 def import_module_attr(path):
     package, module = path.rsplit('.', 1)
     return getattr(import_module(package), module)
+
 
 def parse_config(config):
     """ Parse Constance configuration dictionary
