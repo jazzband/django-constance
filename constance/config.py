@@ -85,7 +85,7 @@ class CachedAllConfig(Config):
 
     def refresh_cache(self):
         self._cache.update(dict((k, v['default']) for k, v in settings.CONFIG.iteritems()))
-        self._cache.update(dict(self._backend.mget(settings.CONFIG.iterkeys())))
+        self._cache.update(dict(self._backend.mget(settings.CONFIG.keys())))
         super(Config, self).__setattr__('_expired', time.time() + settings.CACHE_TIMEOUT)
 
     def __getattr__(self, key):
@@ -96,7 +96,6 @@ class CachedAllConfig(Config):
             return self._cache[key]
         except KeyError:
             pass
-
 
         # if key does not exist in _cache, retreive it from the backend
         value = super(CachedAllConfig, self).__getattr__(key)
