@@ -60,7 +60,7 @@ class ConstanceForm(forms.Form):
                 kwargs['required'] = False
             self.fields[name] = field_class(label=name, **kwargs)
             if settings.READONLY:
-                self.fields[name].widget.attrs['readonly'] = True
+                self.fields[name].widget.attrs['disabled'] = 'disabled'
 
     def save(self):
         for name in self.cleaned_data:
