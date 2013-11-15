@@ -93,9 +93,10 @@ class CachedAllConfig(Config):
             self.refresh_cache()
 
         try:
-            value = self._cache[key]
+            return self._cache[key]
         except KeyError:
             pass
+
 
         # if key does not exist in _cache, retreive it from the backend
         value = super(CachedAllConfig, self).__getattr__(key)
