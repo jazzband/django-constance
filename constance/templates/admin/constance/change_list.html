@@ -65,7 +65,7 @@
                 {% endfor %}
             </table>
             <p class="paginator">
-            <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
+            <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"{% if readonly %} disabled="disabled"{% endif %}/>
             </p>
         </form>
     </div>

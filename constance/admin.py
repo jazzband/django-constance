@@ -59,6 +59,8 @@ class ConstanceForm(forms.Form):
             if _type in (str, unicode) and opts.get('required', True) is False:
                 kwargs['required'] = False
             self.fields[name] = field_class(label=name, **kwargs)
+            if settings.READONLY:
+                self.fields[name].widget.attrs['readonly'] = True
 
     def save(self):
         for name in self.cleaned_data:
@@ -107,6 +109,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'opts': Config._meta,
             'form': form,
             'media': self.media + form.media,
+            'readonly': settings.READONLY,
         }
         for name, opts in settings.CONFIG.iteritems():
             default = opts['default']
