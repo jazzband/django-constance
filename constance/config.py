@@ -1,4 +1,4 @@
-import time
+from time import time as _time
 from constance import settings, utils
 
 
@@ -49,20 +49,20 @@ class CachedConfig(Config):
     def __getattr__(self, key):
         try:
             expire, value = self._cache[key]
-            if expire > time.time():
+            if expire > _time():
                 return value
         except KeyError:
             pass
 
         # if key does not exist in _cache or is expired, retreive it from the backend
         value = super(CachedConfig, self).__getattr__(key)
-        expire = time.time() + settings.CACHE_TIMEOUT
+        expire = _time() + settings.CACHE_TIMEOUT
         self._cache[key] = (expire, value)
         return value
 
     def __setattr__(self, key, value):
         super(CachedConfig, self).__setattr__(key, value)
-        expire = time.time() + settings.CACHE_TIMEOUT
+        expire = _time() + settings.CACHE_TIMEOUT
         self._cache[key] = (expire, value)
 
 
@@ -86,10 +86,10 @@ class CachedAllConfig(Config):
     def refresh_cache(self):
         self._cache.update(dict((k, v['default']) for k, v in settings.CONFIG.iteritems()))
         self._cache.update(dict(self._backend.mget(settings.CONFIG.keys())))
-        super(Config, self).__setattr__('_expired', time.time() + settings.CACHE_TIMEOUT)
+        super(Config, self).__setattr__('_expired', _time() + settings.CACHE_TIMEOUT)
 
     def __getattr__(self, key):
-        if self._expired < time.time():
+        if self._expired < _time():
             self.refresh_cache()
 
         try:
