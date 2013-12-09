@@ -13,8 +13,8 @@ class StorageTestsMixin(object):
 
     def test_store(self):
         # read defaults
-        del sys.modules['constance']
-        from constance import config
+        import constance
+        config = constance.load_config_class()()
         self.assertEqual(config.INT_VALUE, 1)
         self.assertEqual(config.LONG_VALUE, long(123456))
         self.assertEqual(config.BOOL_VALUE, True)

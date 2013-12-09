@@ -48,7 +48,7 @@ CONSTANCE_CONFIG = {
         'default': True,
         'help_text': 'true or false',
     },
-    'STRING_VALUE_REQUIRED': {
+    'STRING_VALUE': {
         'default': 'Hello world',
         'help_text': 'greetings',
     },
@@ -58,7 +58,7 @@ CONSTANCE_CONFIG = {
         'required': False,
     },
     'UNICODE_VALUE': {
-        'default': 'Rivière-Bonjour'.decode('utf-8'),
+        'default': u'Rivi\xc3\xa8re-Bonjour',
         'help_text': 'greetings',
     },
     'DECIMAL_VALUE': {
