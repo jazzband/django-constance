@@ -1,7 +1,8 @@
 .project
 .pydevproject
-*.pyc
+*.py[co]
 *.egg-info
+*.egg
 build/
 dist/
 test.db
