@@ -3,8 +3,6 @@ import six
 from datetime import datetime, date, time
 from decimal import Decimal
 
-TEST_RUNNER = 'discover_runner.DiscoverRunner'
-
 SECRET_KEY = 'cheese'
 
 DATABASE_ENGINE = 'sqlite3'
