@@ -11,6 +11,12 @@ REDIS_PREFIX = getattr(settings, 'CONSTANCE_REDIS_PREFIX',
 BACKEND = getattr(settings, 'CONSTANCE_BACKEND',
                   'constance.backends.redisd.RedisBackend')
 
+APP_NAME = getattr(settings, 'CONSTANCE_APP_NAME',
+                  'constance')
+
+OBJECT_NAME = getattr(settings, 'CONSTANCE_OBJECT_NAME',
+                  'config')
+
 CONFIG = getattr(settings, 'CONSTANCE_CONFIG', {})
 
 CONNECTION_CLASS = getattr(settings, 'CONSTANCE_REDIS_CONNECTION_CLASS',
