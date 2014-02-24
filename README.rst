@@ -18,6 +18,11 @@ Django 1.4+ compatibility fixes.
 Hopefully we can have this fork merged back into the official repository as
 soon as possible.
 
+It also adds the option to use a cached version of the config object.
+If constance is used in a situation where there are very frequent lookups
+(many per second) it is more preferable to use a cached version of the values
+that is refreshed ever so often.
+
 Features
 --------
 
