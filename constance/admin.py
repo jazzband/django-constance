@@ -127,7 +127,6 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'modified': value != default,
                 'form_field': form[name],
             })
-        context['config'].sort(key=itemgetter('name'))
         context_instance = RequestContext(request,
                                           current_app=self.admin_site.name)
         template_name = 'admin/constance/change_list.html'

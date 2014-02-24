@@ -69,6 +69,10 @@ section, like this::
 Here, ``42`` is the default value for the key ``MY_SETTINGS_KEY`` if it is
 not found in the backend. The help text will be shown in the admin.
 
+You can use ``django.utils.datastructures.SortedDict`` or
+``collections.OrderedDict`` for ``CONSTANCE_CONFIG`` if you don't want to
+have your settings sorted alphabetically in the admin.
+
 See the `Backends`_ section how to setup the backend.
 
 Backends
