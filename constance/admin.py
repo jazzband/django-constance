@@ -150,7 +150,7 @@ class Config(object):
         app_label = 'constance'
         object_name = 'Config'
         model_name = module_name = 'config'
-        verbose_name_plural = 'config'
+        verbose_name_plural = _('config')
         get_ordered_objects = lambda x: False
         abstract = False
         swapped = False
