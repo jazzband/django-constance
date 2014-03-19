@@ -85,6 +85,8 @@ class ConstanceAdmin(admin.ModelAdmin):
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
             **dict(config._backend.mget(settings.CONFIG.keys())))
+        # defualt change_list template
+        template = 'admin/constance/change_list.html'
         form = ConstanceForm(initial=initial)
         if request.method == 'POST':
             form = ConstanceForm(request.POST)
@@ -122,8 +124,10 @@ class ConstanceAdmin(admin.ModelAdmin):
         context['config'].sort(key=itemgetter('name'))
         context_instance = RequestContext(request,
                                           current_app=self.admin_site.name)
-        return render_to_response('admin/constance/change_list.html',
-            context, context_instance=context_instance)
+        # use custom change_list when suit is installed
+        if u'suit' in getattr(settings.settings, 'INSTALLED_APPS'):
+            template = 'admin/constance/suit_change_list.html'
+        return render_to_response(template, context, context_instance=context_instance)
 
     def has_add_permission(self, *args, **kwargs):
         return False
