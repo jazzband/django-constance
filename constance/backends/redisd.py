@@ -1,3 +1,4 @@
+import six
 from six.moves import zip
 
 from django.core.exceptions import ImproperlyConfigured
@@ -25,7 +26,7 @@ class RedisBackend(Backend):
             except ImportError:
                 raise ImproperlyConfigured(
                     "The Redis backend requires redis-py to be installed.")
-            if isinstance(settings.REDIS_CONNECTION, basestring):
+            if isinstance(settings.REDIS_CONNECTION, six.string_types):
                 self._rd = redis.from_url(settings.REDIS_CONNECTION)
             else:
                 self._rd = redis.Redis(**settings.REDIS_CONNECTION)
