@@ -72,7 +72,7 @@ Redis (default)
 
     CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
 
-The is the default backend and has a couple of options:
+This is the default backend and has a couple of options:
 
 * ``CONSTANCE_REDIS_CONNECTION``
 
