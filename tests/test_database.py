@@ -2,6 +2,7 @@ import sys
 
 from django.test import TestCase
 
+import constance
 from constance import settings
 from constance.config import Config
 
@@ -15,7 +16,5 @@ class TestDatabase(TestCase, StorageTestsMixin):
         settings.BACKEND = 'constance.backends.database.DatabaseBackend'
 
     def tearDown(self):
-        del sys.modules['constance']
         settings.BACKEND = self.old_backend
-        import constance
-        constance.config = Config()
+        constance.config = constance.load_config_class()()

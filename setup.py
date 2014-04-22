@@ -15,13 +15,13 @@ except IOError:
     long_description = None
 
 setup(
-    name='django-constance',
-    version='0.6',
-    url="http://github.com/comoga/django-constance",
+    name='django-constance-trbs',
+    version='0.6.8',
+    url="http://github.com/trbs/django-constance-trbs",
     description='Django live settings with pluggable backends, including Redis.',
     long_description=long_description,
-    author='Comoga Django Team',
-    author_email='dev@comoga.cz',
+    author='Forked from Comoga Django Team',
+    author_email='trbs@trbs.net',
     maintainer='Jannis Leidel',
     maintainer_email='jannis@leidel.info',
     license='BSD',
@@ -45,7 +45,7 @@ setup(
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     test_suite='tests.runtests.main',
-    tests_require=['django-discover-runner', 'django-picklefield', 'redis'],
+    tests_require=['django>=1.6', 'django-picklefield', 'redis'],
     install_requires=['six'],
     zip_safe=False,
     extras_require={

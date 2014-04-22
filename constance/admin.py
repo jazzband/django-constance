@@ -29,7 +29,7 @@ NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
 INTEGER_LIKE = (fields.IntegerField, {'widget': NUMERIC_WIDGET})
 STRING_LIKE = (fields.CharField, {
     'widget': forms.Textarea(attrs={'rows': 3}),
-    'required': False,
+#    'required': False,
 })
 
 FIELDS = {
@@ -54,9 +54,14 @@ if not six.PY3:
 class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
-        for name, (default, help_text) in settings.CONFIG.items():
-            field_class, kwargs = FIELDS[type(default)]
+        for name, opts in settings.CONFIG.iteritems():
+            _type = type(opts['default'])
+            field_class, kwargs = FIELDS[_type]
+            if _type in (str, unicode) and opts.get('required', True) is False:
+                kwargs['required'] = False
             self.fields[name] = field_class(label=name, **kwargs)
+            if settings.READONLY:
+                self.fields[name].widget.attrs['disabled'] = 'disabled'
 
     def save(self):
         for name in self.cleaned_data:
@@ -81,8 +86,8 @@ class ConstanceAdmin(admin.ModelAdmin):
         # First load a mapping between config name and default value
         if not self.has_change_permission(request, None):
             raise PermissionDenied
-        default_initial = ((name, default)
-            for name, (default, help_text) in settings.CONFIG.items())
+        default_initial = ((name, opts['default'])
+                           for name, opts in settings.CONFIG.iteritems())
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
             **dict(config._backend.mget(settings.CONFIG.keys())))
@@ -105,8 +110,11 @@ class ConstanceAdmin(admin.ModelAdmin):
             'opts': Config._meta,
             'form': form,
             'media': self.media + form.media,
+            'readonly': settings.READONLY,
         }
-        for name, (default, help_text) in settings.CONFIG.items():
+        for name, opts in settings.CONFIG.iteritems():
+            default = opts['default']
+            help_text = opts['help_text']
             # First try to load the value from the actual backend
             value = initial.get(name)
             # Then if the returned value is None, get the default
@@ -120,11 +128,11 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'modified': value != default,
                 'form_field': form[name],
             })
-        context['config'].sort(key=itemgetter('name'))
         context_instance = RequestContext(request,
                                           current_app=self.admin_site.name)
-        return render_to_response('admin/constance/change_list.html',
-            context, context_instance=context_instance)
+        template_name = 'admin/constance/change_list.html'
+        return render_to_response(template_name, context,
+                                  context_instance=context_instance)
 
     def has_add_permission(self, *args, **kwargs):
         return False
