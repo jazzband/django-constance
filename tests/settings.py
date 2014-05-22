@@ -53,7 +53,7 @@ CONSTANCE_CONFIG = {
 
 from django import forms
 
-FIELD_OVERRIDE = {
+FIELDS_OVERRIDE = {
     'MY_SETTINGS_KEY': (forms.fields.ChoiceField,
                         {
                             'widget': forms.Select,

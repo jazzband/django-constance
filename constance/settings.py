@@ -26,4 +26,4 @@ DATABASE_PREFIX = getattr(settings, 'CONSTANCE_DATABASE_PREFIX', '')
 
 SUPERUSER_ONLY = getattr(settings, 'CONSTANCE_SUPERUSER_ONLY', True)
 
-FIELD_OVERRIDE = getattr(settings, 'FIELD_OVERRIDE', {})
+FIELDS_OVERRIDE = getattr(settings, 'FIELDS_OVERRIDE', {})
