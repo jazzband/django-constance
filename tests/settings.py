@@ -48,6 +48,18 @@ CONSTANCE_CONFIG = {
     'FLOAT_VALUE': (3.1415926536, 'PI'),
     'DATE_VALUE': (date(2010, 12, 24),  'Merry Chrismas'),
     'TIME_VALUE': (time(23, 59, 59),  'And happy New Year'),
+    'MY_SETTINGS_KEY': (42, 'the answer to everything'),
+}
+
+from django import forms
+
+FIELD_OVERRIDE = {
+    'MY_SETTINGS_KEY': (forms.fields.ChoiceField,
+                        {
+                            'widget': forms.Select,
+                            'choices': ((42, 'it is'),
+                                        (37, 'not so good'))
+                        })
 }
 
 DEBUG = True
