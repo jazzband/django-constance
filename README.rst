@@ -57,10 +57,10 @@ admin will show.
 
 See the `Backends`_ section how to setup the backend.
 
-Admin widget override
+Admin fields override
 ~~~~~~~~~~~~~~~~~~~~~
 
-You can change default form widget for any of your keys in ``FIELDS_OVERRIDE``
+You can change form field for any of your keys in ``FIELDS_OVERRIDE``
 like this::
 
     FIELD_OVERRIDE = {
