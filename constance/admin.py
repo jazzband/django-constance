@@ -21,7 +21,10 @@ except ImportError:  # Django < 1.4
     from django.conf.urls.defaults import patterns, url
 
 
-from constance import config, settings
+from constance import settings
+from constance.config import Config as ConfigClass
+
+config = ConfigClass()
 
 
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
