@@ -3,6 +3,7 @@ from decimal import Decimal
 from operator import itemgetter
 import six
 
+
 from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
@@ -41,8 +42,9 @@ FIELDS = {
     datetime: (fields.DateTimeField, {'widget': widgets.AdminSplitDateTime}),
     date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
     time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),
-    float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
+    float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),    
 }
+
 
 if not six.PY3:
     FIELDS.update({
@@ -55,8 +57,29 @@ class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
         for name, (default, help_text) in settings.CONFIG.items():
-            field_class, kwargs = FIELDS[type(default)]
-            self.fields[name] = field_class(label=name, **kwargs)
+            adv_opts = None
+            if isinstance(help_text, dict):
+                if adv_opts.has_key("field_type"):
+                    field_class = getattr(fields, adv_opts.get("field_type"))
+                    field_kwards = {}
+                    del adv_opts["field_type"]
+                else:
+                    field_class, field_kwards = FIELDS[type(default)]
+                
+                field_kwards.update({ "label": name })
+                
+                if adv_opts.has_key("field_widget"):
+                    field_kwards.update({
+                        "widget": getattr(fields, adv_opts.get("field_widget"))
+                    })
+                    del adv_opts["field_widget"]
+                    
+                    field_kwards.update(adv_opts)
+            else:
+                field_class, field_kwards = FIELDS[type(default)]
+                self.fields[name] = field_class(label=name, **field_kwards)
+            
+
 
     def save(self):
         for name in self.cleaned_data:
@@ -107,6 +130,10 @@ class ConstanceAdmin(admin.ModelAdmin):
             'media': self.media + form.media,
         }
         for name, (default, help_text) in settings.CONFIG.items():
+            # Help text could be a dict with advanced options
+            if isinstance(help_text, dict):
+                help_text = help_text.get("help_text","")
+
             # First try to load the value from the actual backend
             value = initial.get(name)
             # Then if the returned value is None, get the default
