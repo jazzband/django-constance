@@ -56,9 +56,11 @@ if not six.PY3:
 class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
+
         for name, (default, help_text) in settings.CONFIG.items():
             adv_opts = None
             if isinstance(help_text, dict):
+                adv_opts = help_text.copy()
                 if adv_opts.has_key("field_type"):
                     field_class = getattr(fields, adv_opts.get("field_type"))
                     field_kwards = {}
@@ -73,13 +75,12 @@ class ConstanceForm(forms.Form):
                         "widget": getattr(fields, adv_opts.get("field_widget"))
                     })
                     del adv_opts["field_widget"]
-                    
-                    field_kwards.update(adv_opts)
+
+                field_kwards.update(adv_opts)
+                self.fields[name] = field_class(**field_kwards)
             else:
                 field_class, field_kwards = FIELDS[type(default)]
                 self.fields[name] = field_class(label=name, **field_kwards)
-            
-
 
     def save(self):
         for name in self.cleaned_data:
