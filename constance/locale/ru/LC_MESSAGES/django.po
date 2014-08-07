@@ -23,7 +23,7 @@ msgstr "Настройки успешно сохранены"
 
 #: admin.py:91
 msgid "Constance config"
-msgstr "Настройки : администрирование"
+msgstr "Настройки"
 
 #: backends/database/models.py:19
 msgid "constance"
