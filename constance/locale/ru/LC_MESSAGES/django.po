@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-02 09:54-0600\n"
+"POT-Creation-Date: 2014-08-07 13:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,13 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:86
+#: admin.py:98
 msgid "Live settings updated successfully."
 msgstr "Настройки успешно сохранены"
 
-#: admin.py:91
+#: admin.py:103
 msgid "Constance config"
 msgstr "Настройки"
+
+#: admin.py:146
+msgid "config"
+msgstr "настройки"
+
+#: apps.py:7
+#, fuzzy
+msgid "Constance"
+msgstr "настройки"
 
 #: backends/database/models.py:19
 msgid "constance"
