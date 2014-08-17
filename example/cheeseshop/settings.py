@@ -99,6 +99,7 @@ INSTALLED_APPS = (
     'cheeseshop.apps.catalog',
     'cheeseshop.apps.storage',
     'constance',
+    'constance.backends.database',
 )
 
 CONSTANCE_CONNECTION = {
@@ -108,8 +109,10 @@ CONSTANCE_CONNECTION = {
 }
 
 CONSTANCE_CONFIG = {
-	'BANNER': ('The National Cheese Emporium', 'name of the shop'),
+    'BANNER': ('The National Cheese Emporium', 'name of the shop'),
     'OWNER': ('Mr. Henry Wensleydale', 'owner of the shop'),
     'MUSICIANS': (4, 'number of musicians inside the shop'),
     'DATE_ESTABLISHED': (datetime(1972, 11, 30), "the shop's first opening"),
 }
+
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
