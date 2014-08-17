@@ -57,6 +57,21 @@ admin will show.
 
 See the `Backends`_ section how to setup the backend.
 
+Admin fields override
+~~~~~~~~~~~~~~~~~~~~~
+
+You can change form field for any of your keys in ``FIELDS_OVERRIDE``
+like this::
+
+    FIELD_OVERRIDE = {
+        'MY_SETTINGS_KEY': (fields.ChoiceField,
+                            {
+                                'widget': forms.Select,
+                                'choices': ((42, 'it is'),
+                                            (37, 'not so good'))
+                            })
+    }
+
 Backends
 ~~~~~~~~
 

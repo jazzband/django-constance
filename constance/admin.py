@@ -58,7 +58,8 @@ class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
         for name, (default, help_text) in settings.CONFIG.items():
-            field_class, kwargs = FIELDS[type(default)]
+            field_class, kwargs = settings.FIELDS_OVERRIDE.get(
+                name, FIELDS[type(default)])
             self.fields[name] = field_class(label=name, **kwargs)
 
     def save(self):
