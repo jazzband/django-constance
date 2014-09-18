@@ -1,8 +1,8 @@
-from constance.config import Config
+import django
 
-try:
+if django.VERSION >= (1,7):
     from django.apps import AppConfig
-except ImportError:
-    config = Config()
-else:
     default_app_config = 'constance.apps.ConstanceConfig'
+else:
+    from constance.config import Config
+    config = Config()
