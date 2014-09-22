@@ -163,7 +163,7 @@ Constance can be used from your Python code and from your Django templates.
   Accessing the config variables is as easy as importing the config
   object and accessing the variables with attribute lookups::
 
-    from constance import config
+    from constance.admin import config
 
     # ...
 
@@ -176,7 +176,7 @@ Constance can be used from your Python code and from your Django templates.
   pass the object to the template context::
 
     from django.shortcuts import render
-    from constance import config
+    from constance.admin import config
 
     def myview(request):
         return render(request, 'my_template.html', {'config': config})
