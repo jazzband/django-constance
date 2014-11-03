@@ -42,6 +42,10 @@ FIELDS = {
     float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
 }
 
+if six.PY3:
+    unicode = str
+    long = int
+
 if not six.PY3:
     FIELDS.update({
         long: INTEGER_LIKE,
@@ -52,7 +56,7 @@ if not six.PY3:
 class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
-        for name, opts in settings.CONFIG.iteritems():
+        for name, opts in six.iteritems(settings.CONFIG):
             _type = type(opts['default'])
             field_class, kwargs = FIELDS[_type]
             if _type in (str, unicode) and opts.get('required', True) is False:
@@ -87,7 +91,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         if not self.has_change_permission(request, None):
             raise PermissionDenied
         default_initial = ((name, opts['default'])
-                           for name, opts in settings.CONFIG.iteritems())
+                           for name, opts in six.iteritems(settings.CONFIG))
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial, **dict(config._backend.mget(settings.CONFIG.keys())))
         form = ConstanceForm(initial=initial)
@@ -111,7 +115,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'media': self.media + form.media,
             'readonly': settings.READONLY,
         }
-        for name, opts in settings.CONFIG.iteritems():
+        for name, opts in six.iteritems(settings.CONFIG):
             default = opts['default']
             help_text = opts['help_text']
             # First try to load the value from the actual backend

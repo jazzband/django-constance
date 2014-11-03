@@ -4,8 +4,7 @@ from datetime import datetime, date, time
 from decimal import Decimal
 
 if six.PY3:
-    def long(value):
-        return value
+    long = int
 
 
 class StorageTestsMixin(object):
@@ -15,10 +14,10 @@ class StorageTestsMixin(object):
         import constance
         config = constance.load_config_class()()
         self.assertEqual(config.INT_VALUE, 1)
-        self.assertEqual(config.LONG_VALUE, long(123456))
+        self.assertEqual(config.LONG_VALUE, long(2 ** 64))
         self.assertEqual(config.BOOL_VALUE, True)
         self.assertEqual(config.STRING_VALUE, 'Hello world')
-        self.assertEqual(config.UNICODE_VALUE, six.u('Rivière-Bonjour'))
+        self.assertEqual(config.UNICODE_VALUE, six.u('Rivi\xe8re-Bonjour'))
         self.assertEqual(config.DECIMAL_VALUE, Decimal('0.1'))
         self.assertEqual(config.DATETIME_VALUE, datetime(2010, 8, 23, 11, 29, 24))
         self.assertEqual(config.FLOAT_VALUE, 3.1415926536)
@@ -27,7 +26,7 @@ class StorageTestsMixin(object):
 
         # set values
         config.INT_VALUE = 100
-        config.LONG_VALUE = long(654321)
+        config.LONG_VALUE = long(2 ** 65)
         config.BOOL_VALUE = False
         config.STRING_VALUE = 'Beware the weeping angel'
         config.UNICODE_VALUE = six.u('Québec')
@@ -39,7 +38,7 @@ class StorageTestsMixin(object):
 
         # read again
         self.assertEqual(config.INT_VALUE, 100)
-        self.assertEqual(config.LONG_VALUE, long(654321))
+        self.assertEqual(config.LONG_VALUE, long(2 ** 65))
         self.assertEqual(config.BOOL_VALUE, False)
         self.assertEqual(config.STRING_VALUE, 'Beware the weeping angel')
         self.assertEqual(config.UNICODE_VALUE, six.u('Québec'))
@@ -65,7 +64,7 @@ class StorageTestsMixin(object):
         from constance import config
 
         # set some values and leave out others
-        config.LONG_VALUE = long(654321)
+        config.LONG_VALUE = long(2 ** 64)
         config.BOOL_VALUE = False
         config.UNICODE_VALUE = six.u('Québec')
         config.DECIMAL_VALUE = Decimal('1.2')
@@ -74,7 +73,7 @@ class StorageTestsMixin(object):
         config.TIME_VALUE = time(1, 59, 0)
 
         self.assertEqual(config.INT_VALUE, 1)  # this should be the default value
-        self.assertEqual(config.LONG_VALUE, long(654321))
+        self.assertEqual(config.LONG_VALUE, long(2 ** 64))
         self.assertEqual(config.BOOL_VALUE, False)
         self.assertEqual(config.STRING_VALUE, 'Hello world')  # this should be the default value
         self.assertEqual(config.UNICODE_VALUE, six.u('Québec'))

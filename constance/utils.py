@@ -1,3 +1,4 @@
+import six
 from django.utils.datastructures import SortedDict
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.importlib import import_module
@@ -22,7 +23,7 @@ def parse_config(config):
         return config
 
     cfg = SortedDict()
-    for key, value in config.iteritems():
+    for key, value in six.iteritems(config):
         if isinstance(value, (tuple, list)):
             if len(value) == 2:
                 default, help_text = value

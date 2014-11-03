@@ -30,10 +30,12 @@ ROOT_URLCONF = 'tests.urls'
 
 CONSTANCE_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
 
-long_value = 123456
+long_value = 2 ** 64
 
-if not six.PY3:
-    long_value = long(long_value)
+if six.PY3:
+    long = int
+
+long_value = long(long_value)
 
 CONSTANCE_CONFIG = {
     'INT_VALUE': {
@@ -41,7 +43,7 @@ CONSTANCE_CONFIG = {
         'help_text': 'some int',
     },
     'LONG_VALUE': {
-        'default': 123456L,
+        'default': long_value,
         'help_text': 'some looong int',
     },
     'BOOL_VALUE': {
@@ -58,7 +60,7 @@ CONSTANCE_CONFIG = {
         'required': False,
     },
     'UNICODE_VALUE': {
-        'default': u'Rivi\xc3\xa8re-Bonjour',
+        'default': six.u('Rivi\xe8re-Bonjour'),
         'help_text': 'greetings',
     },
     'DECIMAL_VALUE': {
@@ -82,10 +84,10 @@ CONSTANCE_CONFIG = {
         'help_text': 'And happy New Year',
     },
     'COMPAT_INT_VALUE': (1, 'some int'),
-    'COMPAT_LONG_VALUE': (123456L, 'some looong int'),
+    'COMPAT_LONG_VALUE': (long_value, 'some looong int'),
     'COMPAT_BOOL_VALUE': (True, 'true or false'),
     'COMPAT_STRING_VALUE': ('Hello world', 'greetings'),
-    'COMPAT_UNICODE_VALUE': ('Rivière-Bonjour'.decode('utf-8'), 'greetings'),
+    'COMPAT_UNICODE_VALUE': (six.u('Rivi\xe8re-Bonjour'), 'greetings'),
     'COMPAT_DECIMAL_VALUE': (Decimal('0.1'), 'the first release version'),
     'COMPAT_DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
     'COMPAT_FLOAT_VALUE': (3.1415926536, 'PI'),
