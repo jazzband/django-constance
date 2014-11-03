@@ -84,8 +84,9 @@ class CachedAllConfig(Config):
         super(Config, self).__setattr__('_expired', 0)
 
     def refresh_cache(self):
-        self._cache.update(dict((k, v['default']) for k, v in settings.CONFIG.iteritems()))
-        self._cache.update(dict(self._backend.mget(settings.CONFIG.keys())))
+        new_cache = dict((k, v['default']) for k, v in settings.CONFIG.iteritems())
+        new_cache.update(dict(self._backend.mget(settings.CONFIG.keys())))
+        super(Config, self).__setattr__('_cache', new_cache)
         super(Config, self).__setattr__('_expired', _time() + settings.CACHE_TIMEOUT)
 
     def __getattr__(self, key):
