@@ -1,9 +1,17 @@
 Constance - Dynamic Django settings
 ===================================
 
-.. image:: https://secure.travis-ci.org/comoga/django-constance.png
+.. image:: https://secure.travis-ci.org/comoga/django-constance-trbs.png
     :alt: Build Status
-    :target: http://travis-ci.org/comoga/django-constance
+    :target: http://travis-ci.org/comoga/django-constance-trbs
+
+.. image:: https://pypip.in/v/django-constance-trbs/badge.png
+    :target: https://pypi.python.org/pypi/django-constance-trbs/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/django-constance-trbs/badge.png
+    :target: https://pypi.python.org/pypi/django-constance-trbs/
+    :alt: Number of PyPI downloads
 
 Fork
 ----
