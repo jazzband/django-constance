@@ -18,6 +18,11 @@ Django 1.4+ compatibility fixes.
 Hopefully we can have this fork merged back into the official repository as
 soon as possible.
 
+It also adds the option to use a cached version of the config object.
+If constance is used in a situation where there are very frequent lookups
+(many per second) it is more preferable to use a cached version of the values
+that is refreshed ever so often.
+
 Features
 --------
 
@@ -68,6 +73,10 @@ section, like this::
 
 Here, ``42`` is the default value for the key ``MY_SETTINGS_KEY`` if it is
 not found in the backend. The help text will be shown in the admin.
+
+You can use ``django.utils.datastructures.SortedDict`` or
+``collections.OrderedDict`` for ``CONSTANCE_CONFIG`` if you don't want to
+have your settings sorted alphabetically in the admin.
 
 See the `Backends`_ section how to setup the backend.
 

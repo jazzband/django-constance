@@ -1,3 +1,4 @@
+from django.utils.datastructures import SortedDict
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.importlib import import_module
 
@@ -20,7 +21,7 @@ def parse_config(config):
     if not config:
         return config
 
-    cfg = {}
+    cfg = SortedDict()
     for key, value in config.iteritems():
         if isinstance(value, (tuple, list)):
             if len(value) == 2:
