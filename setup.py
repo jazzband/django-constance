@@ -16,7 +16,7 @@ except IOError:
 
 setup(
     name='django-constance-trbs',
-    version='0.7.1',
+    version='0.7.2',
     url="http://github.com/trbs/django-constance-trbs",
     description='Django live settings with pluggable backends, including Redis.',
     long_description=long_description,
