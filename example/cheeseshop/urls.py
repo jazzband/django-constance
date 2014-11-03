@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 
@@ -6,7 +6,9 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
+
     # Example:
     # (r'^cheeseshop/', include('cheeseshop.foo.urls')),
 

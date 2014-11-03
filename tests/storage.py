@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-import sys
 import six
 from datetime import datetime, date, time
 from decimal import Decimal

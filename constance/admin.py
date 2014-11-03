@@ -1,7 +1,6 @@
+import six
 from datetime import datetime, date, time
 from decimal import Decimal
-from operator import itemgetter
-import six
 
 from django import forms
 from django.contrib import admin, messages
@@ -29,7 +28,7 @@ NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
 INTEGER_LIKE = (fields.IntegerField, {'widget': NUMERIC_WIDGET})
 STRING_LIKE = (fields.CharField, {
     'widget': forms.Textarea(attrs={'rows': 3}),
-#    'required': False,
+    #'required': False,
 })
 
 FIELDS = {
@@ -71,7 +70,9 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
-        return patterns('',
+        return patterns(
+            '',
+
             url(r'^$',
                 self.admin_site.admin_view(self.changelist_view),
                 name='%s_%s_changelist' % info),
@@ -88,8 +89,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         default_initial = ((name, opts['default'])
                            for name, opts in settings.CONFIG.iteritems())
         # Then update the mapping with actually values from the backend
-        initial = dict(default_initial,
-            **dict(config._backend.mget(settings.CONFIG.keys())))
+        initial = dict(default_initial, **dict(config._backend.mget(settings.CONFIG.keys())))
         form = ConstanceForm(initial=initial)
         if request.method == 'POST':
             form = ConstanceForm(request.POST)

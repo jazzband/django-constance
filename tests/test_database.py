@@ -1,10 +1,7 @@
-import sys
-
 from django.test import TestCase
 
 import constance
 from constance import settings
-from constance.config import Config
 
 from tests.storage import StorageTestsMixin
 

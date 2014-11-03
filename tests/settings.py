@@ -89,8 +89,8 @@ CONSTANCE_CONFIG = {
     'COMPAT_DECIMAL_VALUE': (Decimal('0.1'), 'the first release version'),
     'COMPAT_DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
     'COMPAT_FLOAT_VALUE': (3.1415926536, 'PI'),
-    'COMPAT_DATE_VALUE': (date(2010, 12, 24),  'Merry Chrismas'),
-    'COMPAT_TIME_VALUE': (time(23, 59, 59),  'And happy New Year'),
+    'COMPAT_DATE_VALUE': (date(2010, 12, 24), 'Merry Chrismas'),
+    'COMPAT_TIME_VALUE': (time(23, 59, 59), 'And happy New Year'),
 }
 
 DEBUG = True

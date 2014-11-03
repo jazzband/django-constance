@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 # work around to prevent http://bugs.python.org/issue15881 from showing up
 try:
-    import multiprocessing
+    import multiprocessing  # NOQA
 except ImportError:
     pass
 
@@ -49,7 +49,7 @@ setup(
     install_requires=['six'],
     zip_safe=False,
     extras_require={
-        'database':  ['django-picklefield'],
+        'database': ['django-picklefield'],
         'redis': ['redis'],
     }
 )
