@@ -125,17 +125,9 @@ you need to install this library, too. E.g.::
 Alternatively follow the backend specific installation instructions above.
 
 The database backend has the ability to automatically cache the config
-values and clear them when saving. You need to set the following setting
-to enable this feature::
-
-    CONSTANCE_DATABASE_CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
-
-.. note:: This won't work with a cache backend that doesn't support
-   cross-process caching, because correct cache invalidation
-   can't be guaranteed.
-
-Starting in Django 1.3 you can alternatively use the name of an entry of
-the ``CACHES`` setting. E.g.::
+values and clear them when saving. Assuming you have a ``CACHES`` setting set
+you need to set the the ``CONSTANCE_DATABASE_CACHE_BACKEND`` setting to enable
+this feature::
 
     CACHES = {
         'default': {
@@ -144,6 +136,14 @@ the ``CACHES`` setting. E.g.::
         }
     }
     CONSTANCE_DATABASE_CACHE_BACKEND = 'default'
+
+.. note:: This won't work with a cache backend that doesn't support
+   cross-process caching, because correct cache invalidation
+   can't be guaranteed.
+
+.. note:: By default Constance will autofill the cache on startup and after
+   saving any of the config values. If you want to disable the cache simply
+   set the ``CONSTANCE_DATABASE_CACHE_AUTOFILL_TIMEOUT`` setting to ``None``.
 
 Just like the Redis backend you can set an optional prefix that is used during
 database interactions. To keep backward compatibility it defaults to ``''``
@@ -228,6 +228,13 @@ Screenshots
 
 Changelog
 ---------
+
+v1.0 (unreleased)
+~~~~~~~~~~~~~~~~~
+
+* Added new autofill feature for the database backend cache which is enabled
+  by default.
+
 
 v0.6 (2013/04/12)
 ~~~~~~~~~~~~~~~~~

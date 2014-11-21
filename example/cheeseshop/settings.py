@@ -116,3 +116,12 @@ CONSTANCE_CONFIG = {
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+CONSTANCE_DATABASE_CACHE_BACKEND = 'default'

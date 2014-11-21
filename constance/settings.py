@@ -22,6 +22,10 @@ REDIS_CONNECTION = getattr(settings, 'CONSTANCE_REDIS_CONNECTION',
 DATABASE_CACHE_BACKEND = getattr(settings, 'CONSTANCE_DATABASE_CACHE_BACKEND',
                                  None)
 
+DATABASE_CACHE_AUTOFILL_TIMEOUT = getattr(settings,
+                                          'CONSTANCE_DATABASE_CACHE_AUTOFILL_TIMEOUT',
+                                          60 * 60 * 24)
+
 DATABASE_PREFIX = getattr(settings, 'CONSTANCE_DATABASE_PREFIX', '')
 
 SUPERUSER_ONLY = getattr(settings, 'CONSTANCE_SUPERUSER_ONLY', True)
