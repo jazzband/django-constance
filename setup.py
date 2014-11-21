@@ -42,7 +42,7 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Topic :: Utilities',
     ],
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
     install_requires=['six'],
     zip_safe=False,
