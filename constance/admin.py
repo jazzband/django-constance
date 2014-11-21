@@ -40,7 +40,6 @@ FIELDS = {
     int: INTEGER_LIKE,
     Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
     str: STRING_LIKE,
-    list: STRING_LIKE,
     datetime: (fields.DateTimeField, {'widget': widgets.AdminSplitDateTime}),
     date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
     time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),
