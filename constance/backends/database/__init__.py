@@ -1,7 +1,11 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.signals import post_save
 from django.core.cache import get_cache
-from django.core.cache.backends.locmem import CacheClass as LocMemCacheClass
+
+try:
+    from django.core.cache.backends.locmem import LocMemCache
+except ImportError:
+    from django.core.cache.backends.locmem import CacheClass as LocMemCache
 
 from constance.backends import Backend
 from constance import settings
@@ -9,7 +13,7 @@ from constance import settings
 db_cache = None
 if settings.DATABASE_CACHE_BACKEND:
     db_cache = get_cache(settings.DATABASE_CACHE_BACKEND)
-    if isinstance(db_cache, LocMemCacheClass):
+    if isinstance(db_cache, LocMemCache):
         raise ImproperlyConfigured(
             "The CONSTANCE_DATABASE_CACHE_BACKEND setting refers to a "
             "subclass of Django's local-memory backend (%r). Please set "
