@@ -235,6 +235,8 @@ v1.0 (unreleased)
 * Added new autofill feature for the database backend cache which is enabled
   by default.
 
+* Added Django >= 1.7 migrations and moved South migrations to own folder.
+  Please upgrade to South >= 1.0 to use the new South migration location.
 
 v0.6 (2013/04/12)
 ~~~~~~~~~~~~~~~~~

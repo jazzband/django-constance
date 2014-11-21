@@ -1,33 +1,27 @@
 # -*- coding: utf-8 -*-
-from south.db import db
-from south.v2 import SchemaMigration
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import picklefield.fields
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
+    dependencies = []
 
-    def forwards(self, orm):
-        # Adding model 'Constance'
-        db.create_table('constance_config', (
-            ('id', self.gf('django.db.models.fields.AutoField')(
-                primary_key=True)),
-            ('key', self.gf('django.db.models.fields.TextField')()),
-            ('value', self.gf('picklefield.fields.PickledObjectField')()),
-        ))
-        db.send_create_signal('database', ['Constance'])
-
-    def backwards(self, orm):
-        # Deleting model 'Constance'
-        db.delete_table('constance_config')
-
-    models = {
-        'database.constance': {
-            'Meta': {'object_name': 'Constance',
-                     'db_table': "'constance_config'"},
-            'id': ('django.db.models.fields.AutoField', [],
-                   {'primary_key': 'True'}),
-            'key': ('django.db.models.fields.TextField', [], {}),
-            'value': ('picklefield.fields.PickledObjectField', [], {})
-        }
-    }
-
-    complete_apps = ['database']
+    operations = [
+        migrations.CreateModel(
+            name='Constance',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', primary_key=True,
+                                        auto_created=True, serialize=False)),
+                ('key', models.CharField(unique=True, max_length=255)),
+                ('value', picklefield.fields.PickledObjectField(editable=False)),
+            ],
+            options={
+                'verbose_name': 'constance',
+                'verbose_name_plural': 'constances',
+                'db_table': 'constance_config',
+            },
+            bases=(models.Model,),
+        ),
+    ]
