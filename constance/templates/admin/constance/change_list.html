@@ -11,6 +11,9 @@
 #result_list .changed {
       background-color: #ffc;
 }
+#changelist table thead th .text {
+  padding: 2px 5px;
+}
   #changelist table tbody td:first-child {
       text-align: left;
 }
@@ -36,10 +39,10 @@
             <table cellspacing="0" id="result_list">
                 <thead>
                 <tr>
-                    <th>{% trans "Name" %}</th>
-                    <th>{% trans "Default" %}</th>
-                    <th>{% trans "Value" %}</th>
-                    <th>{% trans "Is modified" %}</th>
+                    <th><div class="text">{% trans "Name" %}</div></th>
+                    <th><div class="text">{% trans "Default" %}</div></th>
+                    <th><div class="text">{% trans "Value" %}</div></th>
+                    <th><div class="text">{% trans "Is modified" %}</div></th>
                 </tr>
                 </thead>
                 {% for item in config %}
@@ -77,11 +80,11 @@
   <a href="../../">
     {% trans "Home" %}
   </a>
-   &rsaquo; 
+   &rsaquo;
    <a href="../">
      {{ app_label|capfirst }}
   </a>
-  &rsaquo; 
+  &rsaquo;
   {{ opts.verbose_name_plural|capfirst }}
 </div>
 {% endblock %}
