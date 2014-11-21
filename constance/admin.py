@@ -7,7 +7,7 @@ from django import forms
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ImproperlyConfigured
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -57,7 +57,13 @@ class ConstanceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, **kwargs)
         for name, (default, help_text) in settings.CONFIG.items():
-            field_class, kwargs = FIELDS[type(default)]
+            config_type = type(default)
+            if config_type not in FIELDS:
+                raise ImproperlyConfigured("Constance doesn't support "
+                                           "config values of the type %s. "
+                                           "Please fix the value of '%s'."
+                                           % (config_type, name))
+            field_class, kwargs = FIELDS[config_type]
             self.fields[name] = field_class(label=name, **kwargs)
 
     def save(self):
