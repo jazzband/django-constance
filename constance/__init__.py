@@ -1,4 +1,4 @@
-from constance.config import Config
+from .base import Config
 
 try:
     from django.apps import AppConfig  # noqa

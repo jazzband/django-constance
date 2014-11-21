@@ -21,8 +21,8 @@ except ImportError:  # Django < 1.4
     from django.conf.urls.defaults import patterns, url
 
 
-from constance import settings
-from constance.config import Config as ConfigClass
+from . import settings
+from .base import Config as ConfigClass
 
 config = ConfigClass()
 

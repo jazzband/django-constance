@@ -1,5 +1,5 @@
 import os
-from constance.utils import import_module_attr
+from .utils import import_module_attr
 
 settings = import_module_attr(
     os.getenv('CONSTANCE_SETTINGS_MODULE', 'django.conf.settings')

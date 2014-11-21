@@ -1,6 +1,7 @@
 from django.apps import AppConfig
-from constance.config import Config
 from django.utils.translation import ugettext_lazy as _
+
+from .base import Config
 
 
 class ConstanceConfig(AppConfig):

@@ -7,13 +7,13 @@ try:
 except ImportError:
     from django.core.cache.backends.locmem import CacheClass as LocMemCache
 
-from constance.backends import Backend
-from constance import settings
+from .. import Backend
+from ... import settings
 
 
 class DatabaseBackend(Backend):
     def __init__(self):
-        from constance.backends.database.models import Constance
+        from .models import Constance
         self._model = Constance
         self._prefix = settings.DATABASE_PREFIX
         self._autofill_timeout = settings.DATABASE_CACHE_AUTOFILL_TIMEOUT

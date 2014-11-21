@@ -3,8 +3,8 @@ from six.moves import zip
 
 from django.core.exceptions import ImproperlyConfigured
 
-from constance import settings, utils
-from constance.backends import Backend
+from .. import Backend
+from ... import settings, utils
 
 try:
     from cPickle import loads, dumps

@@ -1,4 +1,4 @@
-from constance import settings, utils
+from . import settings, utils
 
 
 class Config(object):
