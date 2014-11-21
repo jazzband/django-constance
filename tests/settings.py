@@ -1,9 +1,13 @@
 # -*- encoding: utf-8 -*-
+import django
 import six
 from datetime import datetime, date, time
 from decimal import Decimal
 
-TEST_RUNNER = 'discover_runner.DiscoverRunner'
+
+if django.VERSION[:2] < (1, 6):
+    TEST_RUNNER = 'discover_runner.DiscoverRunner'
+
 
 SECRET_KEY = 'cheese'
 
