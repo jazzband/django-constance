@@ -47,7 +47,7 @@ setup(
     install_requires=['six'],
     zip_safe=False,
     extras_require={
-        'database':  ['django-picklefield'],
+        'database': ['django-picklefield'],
         'redis': ['redis'],
     }
 )
