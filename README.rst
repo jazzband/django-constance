@@ -94,6 +94,12 @@ This is the default backend and has a couple of options:
 
     CONSTANCE_REDIS_CONNECTION_CLASS = 'myproject.myapp.mockup.Connection'
 
+  If you are using `django-redis <http://niwibe.github.io/django-redis/>`_,
+  feel free to use the ``CONSTANCE_REDIS_CONNECTION_CLASS`` setting to define
+  a callable that returns a redis connection, e.g.::
+
+    CONSTANCE_REDIS_CONNECTION_CLASS = 'redis_cache.get_redis_connection'
+
 * ``CONSTANCE_REDIS_PREFIX``
 
   The (optional) prefix to be used for the key when storing in the Redis
