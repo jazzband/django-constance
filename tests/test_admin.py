@@ -10,6 +10,7 @@ class TestAdmin(TestCase):
     model = Config
 
     def setUp(self):
+        super(TestAdmin, self).setUp()
         self.rf = RequestFactory()
         self.superuser = User.objects.create_superuser('admin', 'nimda', 'a@a.cz')
         self.normaluser = User.objects.create_user('normal', 'nimda', 'b@b.cz')

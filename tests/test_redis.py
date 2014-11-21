@@ -1,26 +1,18 @@
-import sys
-
 from django.test import TestCase
 
 from constance import settings
-from constance.config import Config
 
 from tests.storage import StorageTestsMixin
 
 
-class TestRedis(TestCase, StorageTestsMixin):
+class TestRedis(StorageTestsMixin, TestCase):
 
     def setUp(self):
+        super(TestRedis, self).setUp()
         self.old_backend = settings.BACKEND
         settings.BACKEND = 'constance.backends.redisd.RedisBackend'
-        del sys.modules['constance']
-        from constance import config
-        config._backend._rd.clear()
+        self.config._backend._rd.clear()
 
     def tearDown(self):
-        del sys.modules['constance']
-        from constance import config
-        config._backend._rd.clear()
+        self.config._backend._rd.clear()
         settings.BACKEND = self.old_backend
-        import constance
-        constance.config = Config()
