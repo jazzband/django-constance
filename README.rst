@@ -72,7 +72,7 @@ Redis (default)
 
     CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
 
-The is the default backend and has a couple of options:
+This is the default backend and has a couple of options:
 
 * ``CONSTANCE_REDIS_CONNECTION``
 
@@ -108,7 +108,7 @@ Database
 
     CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
-If you want to use this backend you also need to add the databse backend
+If you want to use this backend you also need to add the database backend
 to your ``INSTALLED_APPS`` setting to make sure the data model is correctly
 created::
 

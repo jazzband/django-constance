@@ -21,7 +21,10 @@ except ImportError:  # Django < 1.4
     from django.conf.urls.defaults import patterns, url
 
 
-from constance import config, settings
+from constance import settings
+from constance.config import Config as ConfigClass
+
+config = ConfigClass()
 
 
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
@@ -37,6 +40,7 @@ FIELDS = {
     int: INTEGER_LIKE,
     Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
     str: STRING_LIKE,
+    list: STRING_LIKE,
     datetime: (fields.DateTimeField, {'widget': widgets.AdminSplitDateTime}),
     date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
     time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),
@@ -142,7 +146,7 @@ class Config(object):
         app_label = 'constance'
         object_name = 'Config'
         model_name = module_name = 'config'
-        verbose_name_plural = 'config'
+        verbose_name_plural = _('config')
         get_ordered_objects = lambda x: False
         abstract = False
         swapped = False

@@ -65,4 +65,4 @@ class DatabaseBackend(Backend):
 
     def clear(self, sender, instance, created, **kwargs):
         if db_cache and not created:
-            db_cache.delete_many(settings.CONFIG.keys())
+            db_cache.delete_many(self.add_prefix(k) for k in settings.CONFIG.keys())
