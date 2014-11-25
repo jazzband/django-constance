@@ -1,23 +1,32 @@
 import os
+import re
+import codecs
 from setuptools import setup, find_packages
 
-try:
-    f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
-    long_description = f.read().strip()
-    f.close()
-except IOError:
-    long_description = None
+
+def read(*parts):
+    filename = os.path.join(os.path.dirname(__file__), *parts)
+    with codecs.open(filename, encoding='utf-8') as fp:
+        return fp.read()
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
 
 setup(
     name='django-constance',
-    version='0.6',
-    url="http://github.com/comoga/django-constance",
+    version=find_version("constance", "__init__.py"),
+    url="http://github.com/jezdez/django-constance",
     description='Django live settings with pluggable backends, including Redis.',
-    long_description=long_description,
-    author='Comoga Django Team',
-    author_email='dev@comoga.cz',
-    maintainer='Jannis Leidel',
-    maintainer_email='jannis@leidel.info',
+    long_description=read('README.rst'),
+    author='Jannis Leidel',
+    author_email='jannis@leidel.info',
     license='BSD',
     keywords='django libraries settings redis'.split(),
     platforms='any',
@@ -30,10 +39,13 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Utilities',
     ],
     packages=find_packages(exclude=['tests', 'tests.*']),
