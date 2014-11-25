@@ -7,6 +7,8 @@ Features
 * Easily migrate your static settings to dynamic settings.
 * Admin interface to edit the dynamic settings.
 
+.. image:: screenshot2.png
+
 Installation
 ------------
 
@@ -118,13 +120,6 @@ But in case you want to use the admin's ability to implement custom
 authorization checks, feel free to set the :setting:`CONSTANCE_SUPERUSER_ONLY`
 setting to ``False`` and give the users or user groups access to the
 ``constance.change_config`` permission.
-
-Screenshots
------------
-
-.. figure:: screenshot2.png
-
-   The standard edit screen.
 
 .. figure:: screenshot1.png
 
