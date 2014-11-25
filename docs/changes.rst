@@ -22,6 +22,10 @@ v1.0 (unreleased)
   ``CONSTANCE_PREFIX``           ``CONSTANCE_REDIS_PREFIX``
   ============================== ===================================
 
+* The undocumented feature to use an environment variable called
+  ``CONSTANCE_SETTINGS_MODULE`` to define which module to load
+  settings from has been removed.
+
 v0.6 (2013/04/12)
 ~~~~~~~~~~~~~~~~~
 

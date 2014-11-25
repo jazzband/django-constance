@@ -43,7 +43,7 @@ INSTALLED_APPS = (
 
 ROOT_URLCONF = 'tests.urls'
 
-CONSTANCE_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
+CONSTANCE_REDIS_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
 
 long_value = 123456
 

@@ -102,7 +102,7 @@ INSTALLED_APPS = (
     'constance.backends.database',
 )
 
-CONSTANCE_CONNECTION = {
+CONSTANCE_REDIS_CONNECTION = {
     'host': 'localhost',
     'port': 6379,
     'db': 0,
