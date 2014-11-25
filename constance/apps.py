@@ -9,4 +9,5 @@ class ConstanceConfig(AppConfig):
     verbose_name = _('Constance')
 
     def ready(self):
+        super(ConstanceConfig, self).ready()
         self.module.config = Config()
