@@ -1,16 +1,42 @@
 Changelog
 ---------
 
-v1.0 (unreleased)
+v1.0 (2014/11/27)
 ~~~~~~~~~~~~~~~~~
 
-* Added docs: http://django-constance.readthedocs.org/
+* Added docs and set up Read The Docs project:
 
-* Added new autofill feature for the database backend cache which is enabled
+  http://django-constance.readthedocs.org/
+
+* Set up Transifex project for easier translations:
+
+  https://www.transifex.com/projects/p/django-constance
+
+* Added autofill feature for the database backend cache which is enabled
   by default.
 
-* Added Django >= 1.7 migrations and moved South migrations to own folder.
-  Please upgrade to South >= 1.0 to use the new South migration location.
+* Added Django>=1.7 migrations and moved South migrations to own folder.
+  Please upgrade to South>=1.0 to use the new South migration location.
+
+  For Django 1.7 users that means running the following to fake the migration::
+
+    django-admin.py migrate database --fake
+
+* Added consistency check when saving config values in the admin to prevent
+  accidentally overwriting other users' changes.
+
+* Fixed issue with South migration that would break on MySQL.
+
+* Fix compatibility with Django 1.6 and 1.7 and current master (to be 1.8).
+
+* Fixed clearing database cache en masse by applying prefix correctly.
+
+* Fixed a few translation related issues.
+
+* Switched to tox as test script.
+
+* Fixed a few minor cosmetic frontend issues
+  (e.g. padding in admin table header).
 
 * Deprecated a few old settings:
 
