@@ -70,9 +70,11 @@ class ConstanceForm(forms.Form):
             config_type = type(default)
             if config_type not in FIELDS:
                 raise ImproperlyConfigured(_("Constance doesn't support "
-                                             "config values of the type %s. "
-                                             "Please fix the value of '%s'.")
-                                           % (config_type, name))
+                                             "config values of the type "
+                                             "%(config_type)s. Please fix "
+                                             "the value of '%(name)s'.")
+                                           % {'config_type': config_type,
+                                              'name': name})
             field_class, kwargs = FIELDS[config_type]
             self.fields[name] = field_class(label=name, **kwargs)
 
