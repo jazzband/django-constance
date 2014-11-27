@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-02 09:54-0600\n"
+"POT-Creation-Date: 2014-11-27 19:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:86
-msgid "Live settings updated successfully."
+#: admin.py:72
+#, python-format
+msgid ""
+"Constance doesn't support config values of the type %(config_type)s. Please "
+"fix the value of '%(name)s'."
 msgstr ""
 
 #: admin.py:91
+msgid ""
+"The settings have been modified by someone else. Please reload the form and "
+"resubmit your changes."
+msgstr ""
+
+#: admin.py:129
+msgid "Live settings updated successfully."
+msgstr ""
+
+#: admin.py:134
 msgid "Constance config"
+msgstr ""
+
+#: admin.py:177
+msgid "config"
+msgstr ""
+
+#: apps.py:9
+msgid "Constance"
 msgstr ""
 
 #: backends/database/models.py:19
@@ -33,26 +54,26 @@ msgstr ""
 msgid "constances"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:39
+#: templates/admin/constance/change_list.html:50
 msgid "Name"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:40
+#: templates/admin/constance/change_list.html:51
 msgid "Default"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:41
+#: templates/admin/constance/change_list.html:52
 msgid "Value"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:42
+#: templates/admin/constance/change_list.html:53
 msgid "Is modified"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:68
+#: templates/admin/constance/change_list.html:79
 msgid "Save"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:78
+#: templates/admin/constance/change_list.html:89
 msgid "Home"
 msgstr ""
