@@ -1,34 +1,50 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: django-constance\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-01 19:00+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2014-11-27 19:05+0100\n"
+"PO-Revision-Date: 2014-11-27 18:13+0000\n"
+"Last-Translator: Jannis Leidel <jannis@leidel.info>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/django-constance/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: admin.py:97
+#: admin.py:72
+#, python-format
+msgid ""
+"Constance doesn't support config values of the type %(config_type)s. Please "
+"fix the value of '%(name)s'."
+msgstr ""
+
+#: admin.py:91
+msgid ""
+"The settings have been modified by someone else. Please reload the form and "
+"resubmit your changes."
+msgstr ""
+
+#: admin.py:129
 msgid "Live settings updated successfully."
 msgstr "成功更新实时配置"
 
-#: admin.py:102
+#: admin.py:134
 msgid "Constance config"
 msgstr "常量配置"
 
-#: admin.py:145
+#: admin.py:177
 msgid "config"
 msgstr "配置"
+
+#: apps.py:9
+msgid "Constance"
+msgstr ""
 
 #: backends/database/models.py:19
 msgid "constance"
@@ -38,26 +54,26 @@ msgstr "常量"
 msgid "constances"
 msgstr "常量"
 
-#: templates/admin/constance/change_list.html:39
+#: templates/admin/constance/change_list.html:50
 msgid "Name"
 msgstr "名称"
 
-#: templates/admin/constance/change_list.html:40
+#: templates/admin/constance/change_list.html:51
 msgid "Default"
 msgstr "默认值"
 
-#: templates/admin/constance/change_list.html:41
+#: templates/admin/constance/change_list.html:52
 msgid "Value"
 msgstr "值"
 
-#: templates/admin/constance/change_list.html:42
+#: templates/admin/constance/change_list.html:53
 msgid "Is modified"
 msgstr "是否修改"
 
-#: templates/admin/constance/change_list.html:68
+#: templates/admin/constance/change_list.html:79
 msgid "Save"
 msgstr "保存"
 
-#: templates/admin/constance/change_list.html:78
+#: templates/admin/constance/change_list.html:89
 msgid "Home"
 msgstr "首页"
