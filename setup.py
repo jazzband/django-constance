@@ -50,7 +50,6 @@ setup(
     ],
     packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
-    install_requires=['six'],
     zip_safe=False,
     extras_require={
         'database': ['django-picklefield'],

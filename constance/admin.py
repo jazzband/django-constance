@@ -2,7 +2,6 @@ from datetime import datetime, date, time
 from decimal import Decimal
 import hashlib
 from operator import itemgetter
-import six
 
 from django import forms
 from django.contrib import admin, messages
@@ -13,6 +12,7 @@ from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django.utils import six
 from django.utils.formats import localize
 from django.utils.translation import ugettext_lazy as _
 

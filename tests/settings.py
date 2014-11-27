@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 import django
-import six
+from django.utils import six
+
 from datetime import datetime, date, time
 from decimal import Decimal
 
