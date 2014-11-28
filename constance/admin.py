@@ -8,6 +8,7 @@ from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
 from django.core.exceptions import PermissionDenied, ImproperlyConfigured
+from django.db import OperationalError
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -30,7 +31,10 @@ except ImportError:  # Django < 1.4
 from . import settings
 from .base import Config as ConfigClass
 
-config = ConfigClass()
+try:
+    config = ConfigClass()
+except OperationalError:
+    pass
 
 
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})

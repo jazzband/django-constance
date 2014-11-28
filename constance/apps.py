@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.db import OperationalError
 from django.utils.translation import ugettext_lazy as _
 
 from .base import Config
@@ -10,4 +11,7 @@ class ConstanceConfig(AppConfig):
 
     def ready(self):
         super(ConstanceConfig, self).ready()
-        self.module.config = Config()
+        try:
+            self.module.config = Config()
+        except OperationalError:
+            pass
