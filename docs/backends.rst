@@ -87,6 +87,18 @@ make sure the data model is correctly created::
         'constance.backends.database',
     )
 
+Please make sure to apply the database migrations::
+
+    python manage.py migrate database
+
+.. info:: If you're upgrading Constance to 1.0 and use Django 1.7 or higher
+          please make sure to let the migration system know that you've
+          already created the tables for the database backend.
+
+          You can do that using the ``--fake`` option of the migrate command::
+
+              python manage.py migrate database --fake
+
 Just like the Redis backend you can set an optional prefix that is used during
 database interactions (it defaults to an empty string, ``''``). To use
 something else do this::

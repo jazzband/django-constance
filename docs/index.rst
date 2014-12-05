@@ -50,7 +50,8 @@ Here, ``42`` is the default value for the key ``THE_ANSWER`` if it is
 not found in the backend. The other member of the tuple is a help text the
 admin will show.
 
-See the :ref:`Backends <backends>` section how to setup the backend.
+See the :ref:`Backends <backends>` section how to setup the backend and
+finish the configuration.
 
 Usage
 -----
