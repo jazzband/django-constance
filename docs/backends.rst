@@ -91,7 +91,7 @@ Please make sure to apply the database migrations::
 
     python manage.py migrate database
 
-.. info:: If you're upgrading Constance to 1.0 and use Django 1.7 or higher
+.. note:: If you're upgrading Constance to 1.0 and use Django 1.7 or higher
           please make sure to let the migration system know that you've
           already created the tables for the database backend.
 
