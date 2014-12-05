@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-v1.0 (2014/11/27)
+v1.0 (2014/12/04)
 ~~~~~~~~~~~~~~~~~
 
 * Added docs and set up Read The Docs project:
