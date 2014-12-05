@@ -1,7 +1,7 @@
 from .base import Config
 from django.utils.functional import SimpleLazyObject
 
-__version__ = '1.0a1'
+__version__ = '1.0'
 
 
 try:
