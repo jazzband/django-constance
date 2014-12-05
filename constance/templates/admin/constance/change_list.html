@@ -16,7 +16,10 @@
     }
     #changelist table tbody td:first-child {
         text-align: left;
-  }
+    }
+    #changelist-form ul.errorlist {
+      margin: 0 !important;
+    }
     .help {
         font-weight: normal !important;
   }
@@ -36,14 +39,18 @@
   <div id="content-main">
     <div class="module" id="changelist">
         <form id="changelist-form" action="" method="post">{% csrf_token %}
+            {% if form.errors %}
             <ul class="errorlist">
+            {% endif %}
             {% for field in form.hidden_fields %}
                 {% for error in field.errors %}
                   <li>{{ error }}</li>
                 {% endfor %}
                 {{ field }}
             {% endfor %}
+            {% if form.errors %}
             </ul>
+            {% endif %}
             <table cellspacing="0" id="result_list">
                 <thead>
                 <tr>
