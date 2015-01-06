@@ -14,7 +14,6 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils import six
 from django.utils.formats import localize
-from django.utils.functional import SimpleLazyObject
 from django.utils.translation import ugettext_lazy as _
 
 try:
@@ -28,10 +27,9 @@ except ImportError:  # Django < 1.4
     from django.conf.urls.defaults import patterns, url
 
 
-from . import settings
-from .base import Config as ConfigClass
+from . import LazyConfig, settings
 
-config = SimpleLazyObject(ConfigClass)
+config = LazyConfig()
 
 
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})

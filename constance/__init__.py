@@ -1,12 +1,13 @@
-from .base import Config
-from django.utils.functional import SimpleLazyObject
+from django.utils.functional import LazyObject
 
 __version__ = '1.0'
 
+default_app_config = 'constance.apps.ConstanceConfig'
 
-try:
-    from django.apps import AppConfig  # noqa
-except ImportError:
-    config = SimpleLazyObject(Config)
-else:
-    default_app_config = 'constance.apps.ConstanceConfig'
+
+class LazyConfig(LazyObject):
+    def _setup(self):
+        from .base import Config
+        self._wrapped = Config()
+
+config = LazyConfig()
