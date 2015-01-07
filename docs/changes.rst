@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+v1.0.1 (2015/01/07)
+~~~~~~~~~~~~~~~~~~~
+
+* Fixed issue with import time side effect on Django >= 1.7.
+
 v1.0 (2014/12/04)
 ~~~~~~~~~~~~~~~~~
 
