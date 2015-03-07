@@ -8,12 +8,18 @@ def create_perm(app, created_models, verbosity, db, **kwargs):
     """
     from django.contrib.auth.models import Permission
     from django.contrib.contenttypes.models import ContentType
+    from django import VERSION
 
     if ContentType._meta.installed and Permission._meta.installed:
-        content_type, created = ContentType.objects.get_or_create(
-            name='config',
-            app_label='constance',
-            model='config')
+        if VERSION >= (1, 8 ,0, '', 0):
+            content_type, created = ContentType.objects.get_or_create(
+                app_label='constance',
+                model='config')
+        else:
+            content_type, created = ContentType.objects.get_or_create(
+                name='config',
+                app_label='constance',
+                model='config')
 
         permission, created = Permission.objects.get_or_create(
             name='Can change config',
