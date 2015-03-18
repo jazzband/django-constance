@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from constance import settings
+
 from tests.storage import StorageTestsMixin
 
 

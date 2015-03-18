@@ -1,6 +1,14 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.signals import post_save
-from django.core.cache import get_cache
+
+try:
+    # available in Django 1.7+
+    from django.core.cache import caches
+
+    def get_cache(alias):
+        return caches[alias]
+except ImportError:
+    from django.core.cache import get_cache
 
 try:
     from django.core.cache.backends.locmem import LocMemCache
