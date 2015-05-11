@@ -11,7 +11,7 @@ def create_perm(app, created_models, verbosity, db, **kwargs):
     from django import VERSION
 
     if ContentType._meta.installed and Permission._meta.installed:
-        if VERSION >= (1, 8 ,0, '', 0):
+        if VERSION >= (1, 8):
             content_type, created = ContentType.objects.get_or_create(
                 app_label='constance',
                 model='config')
