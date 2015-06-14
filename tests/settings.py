@@ -51,6 +51,14 @@ long_value = 123456
 if not six.PY3:
     long_value = long(long_value)
 
+CONSTANCE_ADDITIONAL_FIELDS = {
+     'yes_no_null_select': ['django.forms.fields.ChoiceField',
+         {
+         'widget': 'django.forms.Select',
+         'choices': (("-----", None), ("yes", "Yes"), ("no", "No"))
+         }],
+     }
+
 CONSTANCE_CONFIG = {
     'INT_VALUE': (1, 'some int'),
     'LONG_VALUE': (long_value, 'some looong int'),
@@ -63,6 +71,7 @@ CONSTANCE_CONFIG = {
     'FLOAT_VALUE': (3.1415926536, 'PI'),
     'DATE_VALUE': (date(2010, 12, 24), 'Merry Chrismas'),
     'TIME_VALUE': (time(23, 59, 59), 'And happy New Year'),
+    'CHOICE_VALUE': ('yes', 'select yes or no', 'yes_no_null_select'),
 }
 
 DEBUG = True
