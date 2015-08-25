@@ -44,3 +44,10 @@ class TestAdmin(TestCase):
 
         response = self.options.changelist_view(request, {})
         self.assertEqual(response.status_code, 200)
+
+    def test_str(self):
+        from django.utils import six
+        from django.contrib.contenttypes.models import ContentType
+        ct = ContentType.objects.get(app_label='constance', model='config')
+
+        self.assertEqual(six.text_type(ct), 'config')

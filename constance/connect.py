@@ -1,7 +1,12 @@
-from django.db.models import signals
+import django
+from django.db.models.signals import post_migrate
 
+if django.VERSION >= (1, 8):
+    CONTENT_TYPE_EXTRA = {}
+else:
+    CONTENT_TYPE_EXTRA = {'name': 'config'}
 
-def create_perm(app, created_models, verbosity, db, **kwargs):
+def create_perm(*args, **kwargs):
     """
     Creates a fake content type and permission
     to be able to check for permissions
@@ -11,9 +16,9 @@ def create_perm(app, created_models, verbosity, db, **kwargs):
 
     if ContentType._meta.installed and Permission._meta.installed:
         content_type, created = ContentType.objects.get_or_create(
-            name='config',
             app_label='constance',
-            model='config')
+            model='config',
+            **CONTENT_TYPE_EXTRA)
 
         permission, created = Permission.objects.get_or_create(
             name='Can change config',
@@ -21,4 +26,4 @@ def create_perm(app, created_models, verbosity, db, **kwargs):
             codename='change_config')
 
 
-signals.post_syncdb.connect(create_perm, dispatch_uid="constance.create_perm")
+post_migrate.connect(create_perm, dispatch_uid="constance.create_perm")
