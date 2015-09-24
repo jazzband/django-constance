@@ -7,8 +7,8 @@ Testing how your app behaves with different config values is achieved with the
 
 .. py:class:: override_config(**kwargs)
 
-    Replace key-value pairs in config.
-
+    Replaces key-value pairs in the config.
+    Use as decorator or context manager.
 
 Usage
 ~~~~~
@@ -38,4 +38,3 @@ method level and also as a
         def test_what_is_your_favourite_color(self):
             with override_config(YOUR_FAVOURITE_COLOR="Blue?"):
                 self.assertEqual(config.YOUR_FAVOURITE_COLOR, "Blue?")
-
