@@ -50,3 +50,11 @@ class TestAdmin(TestCase):
     def test_str(self):
         ct = ContentType.objects.get(app_label='constance', model='config')
         self.assertEqual(six.text_type(ct), 'config')
+
+    def test_linebreaks(self):
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.get('/admin/constance/config/')
+        request.user = self.superuser
+        response = self.options.changelist_view(request, {})
+        self.assertContains(response, 'LINEBREAK_VALUE')
+        self.assertContains(response, 'eggs<br />eggs')

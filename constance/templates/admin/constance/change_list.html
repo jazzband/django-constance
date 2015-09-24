@@ -63,7 +63,7 @@
                 {% for item in config %}
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <th>{{ item.name }}
-                        <div class="help">{{ item.help_text }}</div>
+                        <div class="help">{{ item.help_text|linebreaksbr }}</div>
                     </th>
                     <td>
                         {{ item.default }}
