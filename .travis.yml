@@ -15,7 +15,6 @@ env:
   - TOXENV=pypy-django-17
   - TOXENV=pypy-django-18
   - TOXENV=py27-django-master
-  - TOXENV=py33-django-master
   - TOXENV=py34-django-master
   - TOXENV=pypy-django-master
 script:
