@@ -46,7 +46,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-constance'
-copyright = u'2014, Comoga and individual contributors'
+copyright = u'2015, Comoga and individual contributors'
 
 # The short X.Y version.
 try:
