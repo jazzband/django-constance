@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.test import TestCase, RequestFactory
+from django.utils import six
 
 from constance.admin import settings, Config
 
@@ -46,8 +48,5 @@ class TestAdmin(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_str(self):
-        from django.utils import six
-        from django.contrib.contenttypes.models import ContentType
         ct = ContentType.objects.get(app_label='constance', model='config')
-
         self.assertEqual(six.text_type(ct), 'config')

@@ -3,7 +3,7 @@ from decimal import Decimal
 import hashlib
 from operator import itemgetter
 
-from django import forms
+from django import forms, VERSION
 from django.conf.urls import url
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
@@ -11,8 +11,7 @@ from django.contrib.admin.options import csrf_protect_m
 from django.core.exceptions import PermissionDenied, ImproperlyConfigured
 from django.forms import fields
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template.context import RequestContext
+from django.template.response import TemplateResponse
 from django.utils import six
 from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
@@ -86,6 +85,7 @@ class ConstanceForm(forms.Form):
 
 
 class ConstanceAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/constance/change_list.html'
 
     def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
@@ -143,10 +143,11 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'form_field': form[name],
             })
         context['config'].sort(key=itemgetter('name'))
-        context_instance = RequestContext(request,
-                                          current_app=self.admin_site.name)
-        return render_to_response('admin/constance/change_list.html',
-            context, context_instance=context_instance)
+        request.current_app = self.admin_site.name
+        # compatibility to be removed when 1.7 is deprecated
+        extra = {'current_app': self.admin_site.name} if VERSION < (1, 8) else {}
+        return TemplateResponse(request, self.change_list_template, context,
+                                **extra)
 
     def has_add_permission(self, *args, **kwargs):
         return False
@@ -166,9 +167,11 @@ class Config(object):
         object_name = 'Config'
         model_name = module_name = 'config'
         verbose_name_plural = _('config')
-        get_ordered_objects = lambda x: False
         abstract = False
         swapped = False
+
+        def get_ordered_objects(self):
+            return False
 
         def get_change_permission(self):
             return 'change_%s' % self.model_name
