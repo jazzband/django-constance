@@ -4,6 +4,7 @@ import hashlib
 from operator import itemgetter
 
 from django import forms
+from django.conf.urls import url
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
 from django.contrib.admin.options import csrf_protect_m
@@ -13,18 +14,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils import six
+from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.translation import ugettext_lazy as _
-
-try:
-    from django.utils.encoding import smart_bytes
-except ImportError:
-    from django.utils.encoding import smart_str as smart_bytes
-
-try:
-    from django.conf.urls import patterns, url
-except ImportError:  # Django < 1.4
-    from django.conf.urls.defaults import patterns, url
 
 
 from . import LazyConfig, settings
@@ -97,14 +89,14 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
-        return patterns('',
+        return [
             url(r'^$',
                 self.admin_site.admin_view(self.changelist_view),
                 name='%s_%s_changelist' % info),
             url(r'^$',
                 self.admin_site.admin_view(self.changelist_view),
                 name='%s_%s_add' % info),
-        )
+        ]
 
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
