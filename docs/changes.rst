@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+v1.1.1 (2015/10/01)
+~~~~~~~~~~~~~~~~~~~
+
+* Fixed a regression in the 1.1 release that prevented the rendering of the
+  admin view with constance values when using the context processor at the
+  same time.
+
 v1.1 (2015/09/24)
 ~~~~~~~~~~~~~~~~~
 
