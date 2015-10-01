@@ -60,7 +60,7 @@
                     <th><div class="text">{% trans "Is modified" %}</div></th>
                 </tr>
                 </thead>
-                {% for item in config %}
+                {% for item in config_values %}
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <th>{{ item.name }}
                         <div class="help">{{ item.help_text|linebreaksbr }}</div>

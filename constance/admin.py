@@ -121,7 +121,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 )
                 return HttpResponseRedirect('.')
         context = {
-            'config': [],
+            'config_values': [],
             'title': _('Constance config'),
             'app_label': 'constance',
             'opts': Config._meta,
@@ -134,7 +134,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             # Then if the returned value is None, get the default
             if value is None:
                 value = getattr(config, name)
-            context['config'].append({
+            context['config_values'].append({
                 'name': name,
                 'default': localize(default),
                 'help_text': _(help_text),
@@ -142,7 +142,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'modified': value != default,
                 'form_field': form[name],
             })
-        context['config'].sort(key=itemgetter('name'))
+        context['config_values'].sort(key=itemgetter('name'))
         request.current_app = self.admin_site.name
         # compatibility to be removed when 1.7 is deprecated
         extra = {'current_app': self.admin_site.name} if VERSION < (1, 8) else {}
