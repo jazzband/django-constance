@@ -15,6 +15,7 @@ from django.template.response import TemplateResponse
 from django.utils import six
 from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
+from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 import django
 
@@ -43,13 +44,21 @@ FIELDS = {
     float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
 }
 
+
 def parse_additional_fields(fields):
-   for key in fields:
-      field = fields[key]
-      field[0] = eval(field[0])
-      if 'widget' in field[1]:
-         field[1]['widget'] = eval(field[1]['widget'])
-   return fields
+    for key in fields:
+        field = fields[key]
+
+        field[0] = import_string(field[0])
+
+        if 'widget' in field[1]:
+            klass = import_string(field[1]['widget'])
+            field[1]['widget'] = klass(**(field[1].get('widget_kwargs', {}) or {}))
+
+            if 'widget_kwargs' in field[1]:
+                del field[1]['widget_kwargs']
+
+    return fields
 
 
 FIELDS.update(parse_additional_fields(settings.ADDITIONAL_FIELDS))
