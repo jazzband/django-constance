@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.test import TestCase, RequestFactory
+from django.utils import six
 
 from constance.admin import settings, Config
 
@@ -44,3 +46,15 @@ class TestAdmin(TestCase):
 
         response = self.options.changelist_view(request, {})
         self.assertEqual(response.status_code, 200)
+
+    def test_str(self):
+        ct = ContentType.objects.get(app_label='constance', model='config')
+        self.assertEqual(six.text_type(ct), 'config')
+
+    def test_linebreaks(self):
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.get('/admin/constance/config/')
+        request.user = self.superuser
+        response = self.options.changelist_view(request, {})
+        self.assertContains(response, 'LINEBREAK_VALUE')
+        self.assertContains(response, 'eggs<br />eggs')

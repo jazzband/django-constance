@@ -1,6 +1,5 @@
 {% extends "admin/base_site.html" %}
 {% load admin_static admin_list i18n %}
-{% load url from future %}
 
 
 {% block extrastyle %}
@@ -61,10 +60,10 @@
                     <th><div class="text">{% trans "Is modified" %}</div></th>
                 </tr>
                 </thead>
-                {% for item in config %}
+                {% for item in config_values %}
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <th>{{ item.name }}
-                        <div class="help">{{ item.help_text }}</div>
+                        <div class="help">{{ item.help_text|linebreaksbr }}</div>
                     </th>
                     <td>
                         {{ item.default }}

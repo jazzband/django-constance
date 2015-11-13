@@ -160,6 +160,7 @@ More documentation
    :maxdepth: 2
 
    backends
+   testing
    changes
 
 Indices and tables

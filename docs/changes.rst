@@ -1,6 +1,33 @@
 Changelog
 ---------
 
+v1.1.1 (2015/10/01)
+~~~~~~~~~~~~~~~~~~~
+
+* Fixed a regression in the 1.1 release that prevented the rendering of the
+  admin view with constance values when using the context processor at the
+  same time.
+
+v1.1 (2015/09/24)
+~~~~~~~~~~~~~~~~~
+
+* **BACKWARD INCOMPATIBLE** Dropped support for Python 2.6
+  The supported versions are 2.7, 3.3 (on Django < 1.9) and 3.4.
+
+* **BACKWARD INCOMPATIBLE** Dropped support for Django 1.4, 1.5 and 1.6
+  The supported versions are 1.7, 1.8 and the upcoming 1.9 release
+
+* Added compatibility to Django 1.8 and 1.9.
+
+* Added Spanish and Chinese (``zh_CN``) translations.
+
+* Added :class:`override_config` decorator/context manager for easy
+  :doc:`testing <testing>`.
+
+* Added the ability to use linebreaks in config value help texts.
+
+* Various testing fixes.
+
 v1.0.1 (2015/01/07)
 ~~~~~~~~~~~~~~~~~~~
 
