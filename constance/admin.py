@@ -56,8 +56,8 @@ class ConstanceForm(forms.Form):
         super(ConstanceForm, self).__init__(*args, initial=initial, **kwargs)
         version_hash = hashlib.md5()
 
-        for name, (default, help_text) in settings.CONFIG.items():
-            config_type = type(default)
+        for name, values in settings.CONFIG.items():
+            config_type = type(values[0])
             if config_type not in FIELDS:
                 raise ImproperlyConfigured(_("Constance doesn't support "
                                              "config values of the type "
@@ -103,8 +103,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         # First load a mapping between config name and default value
         if not self.has_change_permission(request, None):
             raise PermissionDenied
-        default_initial = ((name, default)
-            for name, (default, help_text) in settings.CONFIG.items())
+        default_initial = ((name, values[0]) for name, values in settings.CONFIG.items())
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
             **dict(config._backend.mget(settings.CONFIG.keys())))
@@ -121,20 +120,28 @@ class ConstanceAdmin(admin.ModelAdmin):
                 )
                 return HttpResponseRedirect('.')
         context = {
-            'config_values': [],
+            'config_values': {},
             'title': _('Constance config'),
             'app_label': 'constance',
             'opts': Config._meta,
             'form': form,
             'media': self.media + form.media,
         }
-        for name, (default, help_text) in settings.CONFIG.items():
+        for name, values in settings.CONFIG.items():
+            default = values[0]
+            help_text = values[1]
+            if len(values)==3:
+                type_item = values[2]
+            else:
+                type_item = _('Default')
             # First try to load the value from the actual backend
             value = initial.get(name)
             # Then if the returned value is None, get the default
             if value is None:
                 value = getattr(config, name)
-            context['config_values'].append({
+            if type_item not in context['config_values']:
+                context['config_values'][type_item] = []   
+            context['config_values'][type_item].append({
                 'name': name,
                 'default': localize(default),
                 'help_text': _(help_text),
@@ -142,7 +149,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'modified': value != default,
                 'form_field': form[name],
             })
-        context['config_values'].sort(key=itemgetter('name'))
+        # context['config_values'].sort(key=itemgetter('name'))
         request.current_app = self.admin_site.name
         # compatibility to be removed when 1.7 is deprecated
         extra = {'current_app': self.admin_site.name} if VERSION < (1, 8) else {}

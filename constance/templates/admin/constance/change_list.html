@@ -37,56 +37,59 @@
 
 {% block content %}
   <div id="content-main">
-    <div class="module" id="changelist">
-        <form id="changelist-form" action="" method="post">{% csrf_token %}
-            {% if form.errors %}
-            <ul class="errorlist">
-            {% endif %}
-            {% for field in form.hidden_fields %}
-                {% for error in field.errors %}
-                  <li>{{ error }}</li>
+    <form id="changelist-form" action="" method="post">{% csrf_token %}
+    {%for name,values in config_values.items%}
+        <h2>{{name}}</h2>
+        <div class="module" id="changelist">
+            <!--<form id="changelist-form" action="" method="post">{% csrf_token %}-->
+                {% if form.errors %}
+                <ul class="errorlist">
+                {% endif %}
+                {% for field in form.hidden_fields %}
+                    {% for error in field.errors %}
+                      <li>{{ error }}</li>
+                    {% endfor %}
+                    {{ field }}
                 {% endfor %}
-                {{ field }}
-            {% endfor %}
-            {% if form.errors %}
-            </ul>
-            {% endif %}
-            <table cellspacing="0" id="result_list">
-                <thead>
-                <tr>
-                    <th><div class="text">{% trans "Name" %}</div></th>
-                    <th><div class="text">{% trans "Default" %}</div></th>
-                    <th><div class="text">{% trans "Value" %}</div></th>
-                    <th><div class="text">{% trans "Is modified" %}</div></th>
-                </tr>
-                </thead>
-                {% for item in config_values %}
-                <tr class="{% cycle 'row1' 'row2' %}">
-                    <th>{{ item.name }}
-                        <div class="help">{{ item.help_text|linebreaksbr }}</div>
-                    </th>
-                    <td>
-                        {{ item.default }}
-                    </td>
-                        <td>
-                            {{ item.form_field.errors }}
-                            {{ item.form_field }}
-                        </td>
-                    <td>
-                        {% if item.modified %}
-                            <img src="{% static 'admin/img/icon-yes.gif' %}" alt="{{ item.modified }}" />
-                        {% else %}
-                            <img src="{% static 'admin/img/icon-no.gif' %}" alt="{{ item.modified }}" />
-                        {% endif %}
-                    </td>
+                {% if form.errors %}
+                </ul>
+                {% endif %}
+                <table cellspacing="0" id="result_list">
+                    <thead>
+                    <tr>
+                        <th style='width:30%;'><div class="text">{% trans "Name" %}</div></th>
+                        <th style='width:30%;'><div class="text">{% trans "Default" %}</div></th>
+                        <th style='width:35%;'><div class="text">{% trans "Value" %}</div></th>
+                        <th style='width:5%;'><div class="text">{% trans "Is modified" %}</div></th>
                     </tr>
-                {% endfor %}
-            </table>
-            <p class="paginator">
-            <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
-            </p>
-        </form>
-    </div>
+                    </thead>
+                    {% for item in values %}
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <th>{{ item.name }}
+                            <div class="help">{{ item.help_text|linebreaksbr }}</div>
+                        </th>
+                        <td>
+                            {{ item.default }}
+                        </td>
+                            <td>
+                                {{ item.form_field.errors }}
+                                {{ item.form_field }}
+                            </td>
+                        <td>
+                            {% if item.modified %}
+                                <img src="{% static 'admin/img/icon-yes.gif' %}" alt="{{ item.modified }}" />
+                            {% else %}
+                                <img src="{% static 'admin/img/icon-no.gif' %}" alt="{{ item.modified }}" />
+                            {% endif %}
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+        </div>
+    {%endfor%}
+    <br><hr>
+    <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
+    </form>
   </div>
 {% endblock %}
 
