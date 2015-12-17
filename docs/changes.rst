@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+v1.2 (unreleased)
+~~~~~~~~~~~~~~~~~
+
+* Moved to Jazzband organization (https://github.com/jazzband/django-constance)
+
 v1.1.1 (2015/10/01)
 ~~~~~~~~~~~~~~~~~~~
 

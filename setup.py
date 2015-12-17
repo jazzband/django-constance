@@ -22,7 +22,7 @@ def find_version(*file_paths):
 setup(
     name='django-constance',
     version=find_version("constance", "__init__.py"),
-    url="http://github.com/jezdez/django-constance",
+    url="http://github.com/jazzband/django-constance",
     description='Django live settings with pluggable backends, including Redis.',
     long_description=read('README.rst'),
     author='Jannis Leidel',

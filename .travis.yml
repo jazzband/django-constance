@@ -1,21 +1,31 @@
 sudo: false
 language: python
 cache:
-    directories:
-        - $HOME/.cache/pip
+  directories:
+  - "$HOME/.cache/pip"
 install:
-  - pip install tox
+- pip install tox
 env:
-  - TOXENV=py27-django-17
-  - TOXENV=py27-django-18
-  - TOXENV=py33-django-17
-  - TOXENV=py33-django-18
-  - TOXENV=py34-django-17
-  - TOXENV=py34-django-18
-  - TOXENV=pypy-django-17
-  - TOXENV=pypy-django-18
-  - TOXENV=py27-django-master
-  - TOXENV=py34-django-master
-  - TOXENV=pypy-django-master
+- TOXENV=py27-django-17
+- TOXENV=py27-django-18
+- TOXENV=py33-django-17
+- TOXENV=py33-django-18
+- TOXENV=py34-django-17
+- TOXENV=py34-django-18
+- TOXENV=pypy-django-17
+- TOXENV=pypy-django-18
+- TOXENV=py27-django-master
+- TOXENV=py34-django-master
+- TOXENV=pypy-django-master
 script:
-  - tox
+- tox
+deploy:
+  provider: pypi
+  user: jazzband
+  distributions: "sdist bdist_wheel"
+  password:
+    secure: VD+63Tnv0VYNfFQv9f1KZ0k79HSX8veNk4dTy42Hriteci50z5uSQdZMnqqD83xQJa4VF6N7DHkxHnBVOWLCqGQZeYqR/5BuDFNUewcr6O14dk31HvxMsWDaN1KW0Qwtus8ZrztwGhZtZ/92ODA6luHI4mCTzqX0gcG0/aKd75s=
+  on:
+    tags: true
+    repo: jazzband/django-constance
+    condition: "$TOXENV = py27-django-18"
