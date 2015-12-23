@@ -127,6 +127,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'opts': Config._meta,
             'form': form,
             'media': self.media + form.media,
+            'icon_type': 'gif' if VERSION < (1, 9) else 'svg',
         }
         for name, (default, help_text) in settings.CONFIG.items():
             # First try to load the value from the actual backend
