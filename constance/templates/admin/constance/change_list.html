@@ -36,7 +36,7 @@
 {% block bodyclass %}change-list{% endblock %}
 
 {% block content %}
-  <div id="content-main">
+  <div id="content-main" class="constance">
     <div class="module" id="changelist">
         <form id="changelist-form" action="" method="post">{% csrf_token %}
             {% if form.errors %}
