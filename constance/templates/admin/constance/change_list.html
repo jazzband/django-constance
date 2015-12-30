@@ -38,10 +38,9 @@
 {% block content %}
   <div id="content-main">
     <form id="changelist-form" action="" method="post">{% csrf_token %}
-    {%for name,values in config_values.items%}
+    {% for name,values in config_values.items %}
         <h2>{{name}}</h2>
         <div class="module" id="changelist">
-            <!--<form id="changelist-form" action="" method="post">{% csrf_token %}-->
                 {% if form.errors %}
                 <ul class="errorlist">
                 {% endif %}
@@ -86,7 +85,7 @@
                     {% endfor %}
                 </table>
         </div>
-    {%endfor%}
+    {% endfor %}
     <br><hr>
     <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
     </form>

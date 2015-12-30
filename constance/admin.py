@@ -130,7 +130,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         for name, values in settings.CONFIG.items():
             default = values[0]
             help_text = values[1]
-            if len(values)==3:
+            if len(values) == 3:
                 type_item = values[2]
             else:
                 type_item = _('Default')
@@ -140,7 +140,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             if value is None:
                 value = getattr(config, name)
             if type_item not in context['config_values']:
-                context['config_values'][type_item] = []   
+                context['config_values'][type_item] = []
             context['config_values'][type_item].append({
                 'name': name,
                 'default': localize(default),
@@ -149,7 +149,6 @@ class ConstanceAdmin(admin.ModelAdmin):
                 'modified': value != default,
                 'form_field': form[name],
             })
-        # context['config_values'].sort(key=itemgetter('name'))
         request.current_app = self.admin_site.name
         # compatibility to be removed when 1.7 is deprecated
         extra = {'current_app': self.admin_site.name} if VERSION < (1, 8) else {}
