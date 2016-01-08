@@ -1,10 +1,5 @@
 sudo: false
 language: python
-python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
 cache:
   directories:
   - "$HOME/.cache/pip"
@@ -26,6 +21,12 @@ env:
 - TOXENV=pypy-django-master
 script:
 - tox
+matrix:
+  include:
+    - python: 3.5
+      env:
+      - TOXENV=py35-django-19
+      - TOXENV=py35-django-master
 deploy:
   provider: pypi
   user: jazzband
