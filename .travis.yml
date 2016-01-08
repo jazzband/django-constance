@@ -26,7 +26,6 @@ matrix:
     - python: 3.5
       env:
       - TOXENV=py35-django-19
-      - TOXENV=py35-django-master
 deploy:
   provider: pypi
   user: jazzband
