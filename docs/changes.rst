@@ -1,10 +1,16 @@
 Changelog
 ---------
 
-v1.2 (unreleased)
-~~~~~~~~~~~~~~~~~
+v1.1.2 (2016/02/08)
+~~~~~~~~~~~~~~~~~~~
 
 * Moved to Jazzband organization (https://github.com/jazzband/django-constance)
+
+* Added Custom Fields
+
+* Added Django 1.9 support to tests
+
+* Fixes icons for Django 1.9 admin
 
 v1.1.1 (2015/10/01)
 ~~~~~~~~~~~~~~~~~~~
