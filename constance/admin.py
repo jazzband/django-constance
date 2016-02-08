@@ -153,6 +153,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'opts': Config._meta,
             'form': form,
             'media': self.media + form.media,
+            'icon_type': 'gif' if VERSION < (1, 9) else 'svg',
         }
         for name, options in settings.CONFIG.items():
             default, help_text = options[0], options[1]
