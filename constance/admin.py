@@ -112,6 +112,7 @@ class ConstanceForm(forms.Form):
 
 class ConstanceAdmin(admin.ModelAdmin):
     change_list_template = 'admin/constance/change_list.html'
+    change_list_form = ConstanceForm
 
     def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
@@ -134,9 +135,9 @@ class ConstanceAdmin(admin.ModelAdmin):
         # Then update the mapping with actually values from the backend
         initial = dict(default_initial,
             **dict(config._backend.mget(settings.CONFIG.keys())))
-        form = ConstanceForm(initial=initial)
+        form = self.change_list_form(initial=initial)
         if request.method == 'POST':
-            form = ConstanceForm(data=request.POST, initial=initial)
+            form = self.change_list_form(data=request.POST, initial=initial)
             if form.is_valid():
                 form.save()
                 # In django 1.5 this can be replaced with self.message_user
