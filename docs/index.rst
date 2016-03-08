@@ -53,6 +53,15 @@ admin will show.
 See the :ref:`Backends <backends>` section how to setup the backend and
 finish the configuration.
 
+``django-constance``'s hashes generated in different instances of the same
+application may differ, preventing data from being saved. 
+
+Use this option in order to skip hash verification.
+
+.. code-block:: python
+
+    CONSTANCE_IGNORE_ADMIN_VERSION_CHECK = True
+
 Custom fields
 -------------
 

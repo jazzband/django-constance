@@ -103,6 +103,10 @@ class ConstanceForm(forms.Form):
 
     def clean_version(self):
         value = self.cleaned_data['version']
+
+        if settings.IGNORE_ADMIN_VERSION_CHECK:
+            return value
+
         if value != self.initial['version']:
             raise forms.ValidationError(_('The settings have been modified '
                                           'by someone else. Please reload the '
