@@ -47,7 +47,10 @@ FIELDS = {
 
 def parse_additional_fields(fields):
     for key in fields:
-        field = fields[key]
+        field = list(fields[key])
+
+        if len(field) == 1:
+            field.append({})
 
         field[0] = import_string(field[0])
 
@@ -57,6 +60,8 @@ def parse_additional_fields(fields):
 
             if 'widget_kwargs' in field[1]:
                 del field[1]['widget_kwargs']
+
+        fields[key] = field
 
     return fields
 

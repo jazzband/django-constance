@@ -28,6 +28,8 @@ class StorageTestsMixin(object):
         self.assertEqual(self.config.DATE_VALUE, date(2010, 12, 24))
         self.assertEqual(self.config.TIME_VALUE, time(23, 59, 59))
         self.assertEqual(self.config.CHOICE_VALUE, 'yes')
+        self.assertEqual(self.config.EMAIL_VALUE, 'test@example.com')
+
 
         # set values
         self.config.INT_VALUE = 100
@@ -41,6 +43,7 @@ class StorageTestsMixin(object):
         self.config.DATE_VALUE = date(2001, 12, 20)
         self.config.TIME_VALUE = time(1, 59, 0)
         self.config.CHOICE_VALUE = 'no'
+        self.config.EMAIL_VALUE = 'foo@bar.com'
 
         # read again
         self.assertEqual(self.config.INT_VALUE, 100)
@@ -54,6 +57,8 @@ class StorageTestsMixin(object):
         self.assertEqual(self.config.DATE_VALUE, date(2001, 12, 20))
         self.assertEqual(self.config.TIME_VALUE, time(1, 59, 0))
         self.assertEqual(self.config.CHOICE_VALUE, 'no')
+        self.assertEqual(self.config.EMAIL_VALUE, 'foo@bar.com')
+
 
     def test_nonexistent(self):
         try:

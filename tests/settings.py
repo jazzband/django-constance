@@ -57,7 +57,9 @@ CONSTANCE_ADDITIONAL_FIELDS = {
          'widget': 'django.forms.Select',
          'choices': (("-----", None), ("yes", "Yes"), ("no", "No"))
          }],
-     }
+     # note this intentionally uses a tuple so that we can test immutable
+     'email': ('django.forms.fields.EmailField',),
+}
 
 CONSTANCE_CONFIG = {
     'INT_VALUE': (1, 'some int'),
@@ -73,6 +75,7 @@ CONSTANCE_CONFIG = {
     'TIME_VALUE': (time(23, 59, 59), 'And happy New Year'),
     'CHOICE_VALUE': ('yes', 'select yes or no', 'yes_no_null_select'),
     'LINEBREAK_VALUE': ('Spam spam', 'eggs\neggs'),
+    'EMAIL_VALUE': ('test@example.com', 'An email', 'email'),
 }
 
 DEBUG = True
