@@ -92,7 +92,7 @@ For example, to force a value to be handled as a string:
 Custom field types are supported using the dictionary :setting:`CONSTANCE_ADDITIONAL_FIELDS`.
 
 This is a mapping between a field label and a sequence (list or tuple).  The first item in the sequence is the string
-class path of a field class, and the (optional) second item is a dictionary used to configure the field.
+path of a field class, and the (optional) second item is a dictionary used to configure the field.
 
 The `widget` and `widget_kwargs` keys in the field config dictionary can be used to configure the widget used in admin,
  the other values will be passed as kwargs to the field's `__init__()`
