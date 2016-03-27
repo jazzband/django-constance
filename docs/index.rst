@@ -95,7 +95,7 @@ This is a mapping between a field label and a sequence (list or tuple).  The fir
 path of a field class, and the (optional) second item is a dictionary used to configure the field.
 
 The `widget` and `widget_kwargs` keys in the field config dictionary can be used to configure the widget used in admin,
- the other values will be passed as kwargs to the field's `__init__()`
+the other values will be passed as kwargs to the field's `__init__()`
 
 Note: Use later evaluated strings instead of direct classes for the field and widget classes:
 
