@@ -65,17 +65,39 @@ Use this option in order to skip hash verification.
 Custom fields
 -------------
 
-You can set the field type by the third value in the `CONSTANCE_CONFIG`
-tuple. The value can be string or one of the supported types:
+You can set the field type with the third value in the `CONSTANCE_CONFIG` tuple.
+
+The value can one of the supported types or a string matching a key in your :setting:`CONSTANCE_ADDITIONAL_FIELDS`
+
+The supported types are:
+
+* `bool`
+* `int`
+* `float`
+* `Decimal`
+* `long` (on python 2)
+* `str`
+* `unicode` (on python 2)
+* `datetime`
+* `date`
+* `time`
+
+For example, to force a value to be handled as a string:
 
 .. code-block:: python
 
         'THE_ANSWER': (42, 'Answer to the Ultimate Question of Life, '
                                    'The Universe, and Everything', str),
 
-If you can add your custom field types, you can use the
-`CONSTANCE_ADDITIONAL_FIELDS` variable. Note that you must
-use later evaluated strings instead of direct classes:
+Custom field types are supported using the dictionary :setting:`CONSTANCE_ADDITIONAL_FIELDS`.
+
+This is a mapping between a field label and a sequence (list or tuple).  The first item in the sequence is the string
+path of a field class, and the (optional) second item is a dictionary used to configure the field.
+
+The `widget` and `widget_kwargs` keys in the field config dictionary can be used to configure the widget used in admin,
+the other values will be passed as kwargs to the field's `__init__()`
+
+Note: Use later evaluated strings instead of direct classes for the field and widget classes:
 
 .. code-block:: python
 
