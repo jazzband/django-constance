@@ -66,7 +66,7 @@ Use this option in order to skip hash verification.
 
 .. code-block:: python
 
-    CONSTANCE_IGNORE_ADMIN_VERSION_CHECK = True
+    IGNORE_ADMIN_VERSION_CHECK = True
 
 Custom fields
 -------------
