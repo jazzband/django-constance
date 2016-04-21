@@ -38,7 +38,7 @@ FIELDS = {
     int: INTEGER_LIKE,
     Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
     str: STRING_LIKE,
-    datetime: (fields.DateTimeField, {'widget': widgets.AdminSplitDateTime}),
+    datetime: (fields.SplitDateTimeField, {'widget': widgets.AdminSplitDateTime}),
     date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
     time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),
     float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
@@ -109,7 +109,7 @@ class ConstanceForm(forms.Form):
     def clean_version(self):
         value = self.cleaned_data['version']
 
-        if settings.CONSTANCE_IGNORE_ADMIN_VERSION_CHECK:
+        if settings.IGNORE_ADMIN_VERSION_CHECK:
             return value
 
         if value != self.initial['version']:
