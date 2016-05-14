@@ -73,7 +73,7 @@ Custom fields
 
 You can set the field type with the third value in the `CONSTANCE_CONFIG` tuple.
 
-The value can one of the supported types or a string matching a key in your :setting:`CONSTANCE_ADDITIONAL_FIELDS`
+The value can be one of the supported types or a string matching a key in your :setting:`CONSTANCE_ADDITIONAL_FIELDS`
 
 The supported types are:
 
