@@ -1,6 +1,17 @@
 Changelog
 ---------
 
+v1.2 (2016/05/14)
+~~~~~~~~~~~~~~~~~
+
+* Custom Fields were added as a new feature
+
+* Added documentation on how to use Custom settings form
+
+* Introduced ``CONSTANCE_IGNORE_ADMIN_VERSION_CHECK``
+
+* Improved documentation for ``CONSTANCE_ADDITIONAL_FIELDS``
+
 v1.1.2 (2016/02/08)
 ~~~~~~~~~~~~~~~~~~~
 

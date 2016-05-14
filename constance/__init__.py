@@ -1,6 +1,6 @@
 from django.utils.functional import LazyObject
 
-__version__ = '1.1.2'
+__version__ = '1.2'
 
 default_app_config = 'constance.apps.ConstanceConfig'
 
