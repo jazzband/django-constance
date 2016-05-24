@@ -38,7 +38,7 @@
 {% block content %}
   <div id="content-main" class="constance">
     <div class="module" id="changelist">
-        <form id="changelist-form" action="" method="post">{% csrf_token %}
+        <form id="changelist-form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
             {% if form.errors %}
             <ul class="errorlist">
             {% endif %}
