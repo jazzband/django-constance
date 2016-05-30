@@ -60,7 +60,7 @@ See the :ref:`Backends <backends>` section how to setup the backend and
 finish the configuration.
 
 ``django-constance``'s hashes generated in different instances of the same
-application may differ, preventing data from being saved. 
+application may differ, preventing data from being saved.
 
 Use this option in order to skip hash verification.
 
@@ -210,7 +210,7 @@ settings the way you like.
             #... do stuff to make your settings form nice ...
 
     class ConfigAdmin(ConstanceAdmin):
-        form = CustomConfigForm
+        change_list_form = CustomConfigForm
         change_list_template = 'admin/config/settings.html'
 
     admin.site.unregister([Config])
