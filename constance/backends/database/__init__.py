@@ -80,6 +80,8 @@ class DatabaseBackend(Backend):
         if not created:
             constance.value = value
             constance.save()
+        if self._cache:
+            self._cache.set(key, value)
 
     def clear(self, sender, instance, created, **kwargs):
         if self._cache and not created:
