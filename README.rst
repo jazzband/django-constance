@@ -14,7 +14,7 @@ Django model backend built in) with an integration with the Django admin app.
 
 For more information see the documentation at:
 
-http://django-constance.readthedocs.org/
+https://django-constance.readthedocs.io/
 
 If you have questions or have trouble using the app please file a bug report
 at:

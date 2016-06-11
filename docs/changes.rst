@@ -60,7 +60,7 @@ v1.0 (2014/12/04)
 
 * Added docs and set up Read The Docs project:
 
-  http://django-constance.readthedocs.org/
+  https://django-constance.readthedocs.io/
 
 * Set up Transifex project for easier translations:
 
