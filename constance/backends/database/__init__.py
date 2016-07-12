@@ -61,6 +61,9 @@ class DatabaseBackend(Backend):
         key = self.add_prefix(key)
         if self._cache:
             value = self._cache.get(key)
+            if value is None:
+                self.autofill()
+                value = self._cache.get(key)
         else:
             value = None
         if value is None:
