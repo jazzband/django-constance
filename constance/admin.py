@@ -160,7 +160,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'config_values': [],
             'title': _('Constance config'),
             'app_label': 'constance',
-            'opts': Config._meta,
+            'opts': self.model._meta,
             'form': form,
             'media': self.media + form.media,
             'icon_type': 'gif' if VERSION < (1, 9) else 'svg',
