@@ -85,9 +85,9 @@ class ConstanceForm(forms.Form):
         for name, options in settings.CONFIG.items():
             default, help_text = options[0], options[1]
             if len(options) == 3:
-               config_type = options[2]
+                config_type = options[2]
             else:
-               config_type = type(default)
+                config_type = type(default)
 
             if config_type not in FIELDS:
                 raise ImproperlyConfigured(_("Constance doesn't support "
@@ -134,6 +134,24 @@ class ConstanceAdmin(admin.ModelAdmin):
                 name='%s_%s_add' % info),
         ]
 
+    def get_config_value(self, name, options, form, initial):
+        default, help_text = options[0], options[1]
+        # First try to load the value from the actual backend
+        value = initial.get(name)
+        # Then if the returned value is None, get the default
+        if value is None:
+            value = getattr(config, name)
+        config_value = {
+            'name': name,
+            'default': localize(default),
+            'help_text': _(help_text),
+            'value': localize(value),
+            'modified': value != default,
+            'form_field': form[name],
+        }
+
+        return config_value
+
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
         # First load a mapping between config name and default value
@@ -166,20 +184,24 @@ class ConstanceAdmin(admin.ModelAdmin):
             'icon_type': 'gif' if VERSION < (1, 9) else 'svg',
         }
         for name, options in settings.CONFIG.items():
-            default, help_text = options[0], options[1]
-            # First try to load the value from the actual backend
-            value = initial.get(name)
-            # Then if the returned value is None, get the default
-            if value is None:
-                value = getattr(config, name)
-            context['config_values'].append({
-                'name': name,
-                'default': localize(default),
-                'help_text': _(help_text),
-                'value': localize(value),
-                'modified': value != default,
-                'form_field': form[name],
-            })
+            context['config_values'].append(self.get_config_value(name, options, form, initial))
+
+        if settings.CONFIG_FIELDSETS:
+            context['fieldsets'] = []
+            for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
+                fields_exist = all(field in settings.CONFIG.keys() for field in fields_list)
+                assert fields_exist, "CONSTANCE_CONFIG_FIELDSETS contains fields that does not exist"
+                config_values = []
+
+                for name, options in settings.CONFIG.items():
+                    if name in fields_list:
+                        config_values.append(self.get_config_value(name, options, form, initial))
+
+                context['fieldsets'].append({
+                    'title': fieldset_title,
+                    'config_values': config_values
+                })
+
         context['config_values'].sort(key=itemgetter('name'))
         request.current_app = self.admin_site.name
         # compatibility to be removed when 1.7 is deprecated

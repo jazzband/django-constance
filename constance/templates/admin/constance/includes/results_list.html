@@ -1,0 +1,32 @@
+{% load admin_static admin_list i18n %}
+<table cellspacing="0" id="result_list">
+    <thead>
+    <tr>
+        <th><div class="text">{% trans "Name" %}</div></th>
+        <th><div class="text">{% trans "Default" %}</div></th>
+        <th><div class="text">{% trans "Value" %}</div></th>
+        <th><div class="text">{% trans "Is modified" %}</div></th>
+    </tr>
+    </thead>
+    {% for item in config_values %}
+    <tr class="{% cycle 'row1' 'row2' %}">
+        <th>{{ item.name }}
+            <div class="help">{{ item.help_text|linebreaksbr }}</div>
+        </th>
+        <td>
+            {{ item.default }}
+        </td>
+            <td>
+                {{ item.form_field.errors }}
+                {{ item.form_field }}
+            </td>
+        <td>
+            {% if item.modified %}
+                <img src="{% static 'admin/img/icon-yes.'|add:icon_type %}" alt="{{ item.modified }}" />
+            {% else %}
+                <img src="{% static 'admin/img/icon-no.'|add:icon_type %}" alt="{{ item.modified }}" />
+            {% endif %}
+        </td>
+        </tr>
+    {% endfor %}
+</table>
