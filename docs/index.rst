@@ -118,6 +118,25 @@ Note: Use later evaluated strings instead of direct classes for the field and wi
             'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
         }
 
+Fieldsets
+-------------
+
+To group settings together you can define fieldsets. Here's an example:
+
+.. code-block:: python
+
+        CONSTANCE_CONFIG = {
+            'SITE_NAME': ('My Title', 'Website title'),
+            'SITE_DESCRIPTION': ('', 'Website description'),
+            'THEME': ('light-blue', 'Website theme'),
+        }
+
+        CONSTANCE_CONFIG_FIELDSETS = {
+            'General Options': ('SITE_NAME', 'SITE_DESCRIPTION'),
+            'Theme Options': ('THEME',),
+        }
+.. image:: screenshot3.png
+
 Usage
 -----
 
