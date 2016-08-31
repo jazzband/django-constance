@@ -1,7 +1,7 @@
 Constance - Dynamic Django settings
 ===================================
 
-.. image:: https://secure.travis-ci.org/jazzband/django-constance.png
+.. image:: https://secure.travis-ci.org/jazzband/django-constance.svg
     :alt: Build Status
     :target: http://travis-ci.org/jazzband/django-constance
 
