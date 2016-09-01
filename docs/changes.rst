@@ -1,6 +1,19 @@
 Changelog
 ---------
 
+v1.2.1 (2016/09/1)
+~~~~~~~~~~~~~~~~~
+
+* Added some fixes to small bugs
+
+* Fix cache when key changes
+
+* Upgrade django_redis connection string
+
+* Autofill cache key if key is missing
+
+* Added support for fieldsets
+
 v1.2 (2016/05/14)
 ~~~~~~~~~~~~~~~~~
 
