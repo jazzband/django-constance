@@ -118,7 +118,7 @@ Note: Use later evaluated strings instead of direct classes for the field and wi
             'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
         }
 
-Ordered Fields in admin
+Ordered Fields in Django Admin
 -----------------------
 
 In order to Order the fields , you can use OrderedDict collection. Here is an example:
