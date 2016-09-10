@@ -2,6 +2,7 @@ from datetime import datetime, date, time
 from decimal import Decimal
 import hashlib
 from operator import itemgetter
+from collections import OrderedDict
 
 from django import forms, VERSION
 from django.conf.urls import url
@@ -202,7 +203,8 @@ class ConstanceAdmin(admin.ModelAdmin):
                     'config_values': config_values
                 })
 
-        context['config_values'].sort(key=itemgetter('name'))
+        if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict):
+            context['config_values'].sort(key=itemgetter('name'))
         request.current_app = self.admin_site.name
         # compatibility to be removed when 1.7 is deprecated
         extra = {'current_app': self.admin_site.name} if VERSION < (1, 8) else {}
