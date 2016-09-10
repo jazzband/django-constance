@@ -118,8 +118,24 @@ Note: Use later evaluated strings instead of direct classes for the field and wi
             'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
         }
 
+Ordered Fields in Django Admin
+-----------------------
+
+In order to Order the fields , you can use OrderedDict collection. Here is an example:
+
+.. code-block:: python
+
+        from collections import OrderedDict
+
+        CONSTANCE_CONFIG = OrderedDict([
+            ('SITE_NAME', ('My Title', 'Website title')),
+            ('SITE_DESCRIPTION', ('', 'Website description')),
+            ('THEME', ('light-blue', 'Website theme')),
+        ]
+    
+
 Fieldsets
--------------
+---------
 
 To group settings together you can define fieldsets. Here's an example:
 
