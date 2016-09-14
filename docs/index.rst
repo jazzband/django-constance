@@ -77,6 +77,7 @@ Each time a value is changed it will trigger a `updated_signal` signal.
 You can use it as:
 
 .. code-block:: python
+
     from constance import updated_signal
 
     @receiver(updated_signal)
