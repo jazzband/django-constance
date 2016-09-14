@@ -6,13 +6,9 @@ cache:
 install:
 - pip install tox
 env:
-- TOXENV=py27-django-17
 - TOXENV=py27-django-18
-- TOXENV=py33-django-17
 - TOXENV=py33-django-18
-- TOXENV=py34-django-17
 - TOXENV=py34-django-18
-- TOXENV=pypy-django-17
 - TOXENV=pypy-django-18
 - TOXENV=pypy-django-19
 - TOXENV=py27-django-master
@@ -23,6 +19,8 @@ matrix:
   include:
     - python: 3.5
       env: TOXENV=py35-django-19
+    - python: 3.5
+      env: TOXENV=py35-django-110
     - python: 3.5
       env: TOXENV=py35-django-master
 deploy:
