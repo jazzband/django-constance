@@ -5,10 +5,6 @@ cache:
   - "$HOME/.cache/pip"
 install:
 - pip install tox
-env:
-- TOXENV=pypy-django-18
-- TOXENV=pypy-django-19
-- TOXENV=pypy-django-master
 script:
 - tox
 matrix:
@@ -29,6 +25,14 @@ matrix:
       env: TOXENV=py35-django-110
     - python: 3.5
       env: TOXENV=py35-django-master
+    - python: pypy
+      env: TOXENV=pypy-django-18
+    - python: pypy
+      env: TOXENV=pypy-django-19
+    - python: pypy
+      env: TOXENV=pypy-django-110
+    - python: pypy
+      env: TOXENV=pypy-django-master
 deploy:
   provider: pypi
   user: jazzband
@@ -38,4 +42,4 @@ deploy:
   on:
     tags: true
     repo: jazzband/django-constance
-    condition: "$TOXENV = py27-django-18"
+    condition: "$TOXENV=py27-django-18"
