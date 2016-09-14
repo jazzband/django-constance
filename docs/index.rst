@@ -72,15 +72,15 @@ Use this option in order to skip hash verification.
 Signals
 -------
 
-Each time a value is changed it will trigger a `updated_signal` signal.
+Each time a value is changed it will trigger a `config_updated` signal.
 
 You can use it as:
 
 .. code-block:: python
 
-    from constance.signals import updated_signal
+    from constance.signals import config_updated
 
-    @receiver(updated_signal)
+    @receiver(config_updated)
     def constance_updated(sender, key, value, **kwargs):
         print(sender, key, value)
 

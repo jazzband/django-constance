@@ -86,7 +86,7 @@ class DatabaseBackend(Backend):
         if self._cache:
             self._cache.set(key, value)
 
-        signals.updated_signal.send(sender='constance', key=key, value=value)
+        signals.config_updated.send(sender='constance', key=key, value=value)
 
     def clear(self, sender, instance, created, **kwargs):
         if self._cache and not created:

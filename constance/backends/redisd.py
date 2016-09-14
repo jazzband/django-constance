@@ -49,4 +49,4 @@ class RedisBackend(Backend):
 
     def set(self, key, value):
         self._rd.set(self.add_prefix(key), dumps(value))
-        signals.updated_signal.send(sender='constance', key=key, value=value)
+        signals.config_updated.send(sender='constance', key=key, value=value)
