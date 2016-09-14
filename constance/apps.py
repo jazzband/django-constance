@@ -1,5 +1,4 @@
 from django.db.models import signals
-from django import VERSION
 from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
@@ -22,11 +21,10 @@ class ConstanceConfig(AppConfig):
         from django.contrib.contenttypes.models import ContentType
 
         if ContentType._meta.installed and Permission._meta.installed:
-            extra = {} if VERSION >= (1, 8) else {'name': 'config'}
             content_type, created = ContentType.objects.get_or_create(
                 app_label='constance',
                 model='config',
-                **extra)
+            )
 
             permission, created = Permission.objects.get_or_create(
                 name='Can change config',

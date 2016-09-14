@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 
 from .. import Backend
 from ... import settings
+from ... import updated_signal
 
 
 class DatabaseBackend(Backend):
@@ -25,8 +26,8 @@ class DatabaseBackend(Backend):
             if isinstance(self._cache, LocMemCache):
                 raise ImproperlyConfigured(
                     "The CONSTANCE_DATABASE_CACHE_BACKEND setting refers to a "
-                    "subclass of Django's local-memory backend (%r). Please set "
-                    "it to a backend that supports cross-process caching."
+                    "subclass of Django's local-memory backend (%r). Please "
+                    "set it to a backend that supports cross-process caching."
                     % settings.DATABASE_CACHE_BACKEND)
         else:
             self._cache = None
@@ -85,6 +86,8 @@ class DatabaseBackend(Backend):
             constance.save()
         if self._cache:
             self._cache.set(key, value)
+
+        updated_signal.send(sender='constance', key=key, value=value)
 
     def clear(self, sender, instance, created, **kwargs):
         if self._cache and not created:

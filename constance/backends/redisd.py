@@ -4,6 +4,7 @@ from django.utils.six.moves import zip
 
 from . import Backend
 from .. import settings, utils
+from .. import updated_signal
 
 try:
     from cPickle import loads, dumps
@@ -49,3 +50,4 @@ class RedisBackend(Backend):
 
     def set(self, key, value):
         self._rd.set(self.add_prefix(key), dumps(value))
+        updated_signal.send(sender='constance', key=key, value=value)
