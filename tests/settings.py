@@ -1,13 +1,9 @@
 # -*- encoding: utf-8 -*-
-import django
 from django.utils import six
 
 from datetime import datetime, date, time
 from decimal import Decimal
 
-
-if django.VERSION[:2] < (1, 6):
-    TEST_RUNNER = 'discover_runner.DiscoverRunner'
 
 SECRET_KEY = 'cheese'
 
@@ -52,13 +48,15 @@ if not six.PY3:
     long_value = long(long_value)
 
 CONSTANCE_ADDITIONAL_FIELDS = {
-     'yes_no_null_select': ['django.forms.fields.ChoiceField',
-         {
-         'widget': 'django.forms.Select',
-         'choices': (("-----", None), ("yes", "Yes"), ("no", "No"))
-         }],
-     # note this intentionally uses a tuple so that we can test immutable
-     'email': ('django.forms.fields.EmailField',),
+    'yes_no_null_select': [
+        'django.forms.fields.ChoiceField',
+        {
+            'widget': 'django.forms.Select',
+            'choices': (("-----", None), ("yes", "Yes"), ("no", "No"))
+        }
+    ],
+    # note this intentionally uses a tuple so that we can test immutable
+    'email': ('django.forms.fields.EmailField',),
 }
 
 CONSTANCE_CONFIG = {
