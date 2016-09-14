@@ -18,7 +18,6 @@ from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
-import django
 
 
 from . import LazyConfig, settings
@@ -39,7 +38,9 @@ FIELDS = {
     int: INTEGER_LIKE,
     Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
     str: STRING_LIKE,
-    datetime: (fields.SplitDateTimeField, {'widget': widgets.AdminSplitDateTime}),
+    datetime: (
+        fields.SplitDateTimeField, {'widget': widgets.AdminSplitDateTime}
+    ),
     date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
     time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),
     float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
@@ -57,7 +58,9 @@ def parse_additional_fields(fields):
 
         if 'widget' in field[1]:
             klass = import_string(field[1]['widget'])
-            field[1]['widget'] = klass(**(field[1].get('widget_kwargs', {}) or {}))
+            field[1]['widget'] = klass(
+                **(field[1].get('widget_kwargs', {}) or {})
+            )
 
             if 'widget_kwargs' in field[1]:
                 del field[1]['widget_kwargs']
@@ -158,17 +161,19 @@ class ConstanceAdmin(admin.ModelAdmin):
         # First load a mapping between config name and default value
         if not self.has_change_permission(request, None):
             raise PermissionDenied
-        default_initial = ((name, options[0])
-            for name, options in settings.CONFIG.items())
+        default_initial = (
+            (name, options[0]) for name, options in settings.CONFIG.items()
+        )
         # Then update the mapping with actually values from the backend
-        initial = dict(default_initial,
-            **dict(config._backend.mget(settings.CONFIG.keys())))
+        initial = dict(
+            default_initial,
+            **dict(config._backend.mget(settings.CONFIG.keys()))
+        )
         form = self.change_list_form(initial=initial)
         if request.method == 'POST':
             form = self.change_list_form(data=request.POST, initial=initial)
             if form.is_valid():
                 form.save()
-                # In django 1.5 this can be replaced with self.message_user
                 messages.add_message(
                     request,
                     messages.SUCCESS,
@@ -185,18 +190,24 @@ class ConstanceAdmin(admin.ModelAdmin):
             'icon_type': 'gif' if VERSION < (1, 9) else 'svg',
         }
         for name, options in settings.CONFIG.items():
-            context['config_values'].append(self.get_config_value(name, options, form, initial))
+            context['config_values'].append(
+                self.get_config_value(name, options, form, initial)
+            )
 
         if settings.CONFIG_FIELDSETS:
             context['fieldsets'] = []
             for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
-                fields_exist = all(field in settings.CONFIG.keys() for field in fields_list)
+                fields_exist = all(
+                    field in settings.CONFIG.keys() for field in fields_list
+                )
                 assert fields_exist, "CONSTANCE_CONFIG_FIELDSETS contains fields that does not exist"
                 config_values = []
 
                 for name, options in settings.CONFIG.items():
                     if name in fields_list:
-                        config_values.append(self.get_config_value(name, options, form, initial))
+                        config_values.append(
+                            self.get_config_value(name, options, form, initial)
+                        )
 
                 context['fieldsets'].append({
                     'title': fieldset_title,
@@ -206,10 +217,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict):
             context['config_values'].sort(key=itemgetter('name'))
         request.current_app = self.admin_site.name
-        # compatibility to be removed when 1.7 is deprecated
-        extra = {'current_app': self.admin_site.name} if VERSION < (1, 8) else {}
-        return TemplateResponse(request, self.change_list_template, context,
-                                **extra)
+        return TemplateResponse(request, self.change_list_template, context)
 
     def has_add_permission(self, *args, **kwargs):
         return False
