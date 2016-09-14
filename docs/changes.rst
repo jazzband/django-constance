@@ -1,8 +1,17 @@
 Changelog
 ---------
 
-v1.2.1 (2016/09/1)
+v1.3 (2016/09/14)
 ~~~~~~~~~~~~~~~~~
+
+* **BACKWARD INCOMPATIBLE** Dropped support for Django < 1.8).
+
+* Added ordering constance fields using OrderedDict
+
+* Added a signal when updating constance fields
+
+v1.2.1 (2016/09/1)
+~~~~~~~~~~~~~~~~~~
 
 * Added some fixes to small bugs
 

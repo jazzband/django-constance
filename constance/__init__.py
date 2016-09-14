@@ -1,7 +1,7 @@
 import django.dispatch
 from django.utils.functional import LazyObject
 
-__version__ = '1.2.1'
+__version__ = '1.3'
 
 default_app_config = 'constance.apps.ConstanceConfig'
 
