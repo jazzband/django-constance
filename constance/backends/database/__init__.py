@@ -4,8 +4,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db.models.signals import post_save
 
 from .. import Backend
-from ... import settings
-from ... import updated_signal
+from ... import settings, signals
 
 
 class DatabaseBackend(Backend):
@@ -87,7 +86,7 @@ class DatabaseBackend(Backend):
         if self._cache:
             self._cache.set(key, value)
 
-        updated_signal.send(sender='constance', key=key, value=value)
+        signals.updated_signal.send(sender='constance', key=key, value=value)
 
     def clear(self, sender, instance, created, **kwargs):
         if self._cache and not created:

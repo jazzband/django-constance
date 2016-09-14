@@ -78,7 +78,7 @@ You can use it as:
 
 .. code-block:: python
 
-    from constance import updated_signal
+    from constance.signals import updated_signal
 
     @receiver(updated_signal)
     def constance_updated(sender, key, value, **kwargs):
