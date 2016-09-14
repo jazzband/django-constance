@@ -68,6 +68,25 @@ Use this option in order to skip hash verification.
 
     CONSTANCE_IGNORE_ADMIN_VERSION_CHECK = True
 
+
+Signals
+-------
+
+Each time a value is changed it will trigger a `updated_signal` signal.
+
+You can use it as:
+
+.. code-block:: python
+    from constance import updated_signal
+
+    @receiver(updated_signal)
+    def constance_updated(sender, key, value, **kwargs):
+        print(sender, key, value)
+
+In case you need it the sender is `constance`, and the key and value are
+the ones just changed.
+
+
 Custom fields
 -------------
 
@@ -132,7 +151,7 @@ In order to Order the fields , you can use OrderedDict collection. Here is an ex
             ('SITE_DESCRIPTION', ('', 'Website description')),
             ('THEME', ('light-blue', 'Website theme')),
         ]
-    
+
 
 Fieldsets
 ---------
