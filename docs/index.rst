@@ -81,11 +81,15 @@ You can use it as:
     from constance.signals import config_updated
 
     @receiver(config_updated)
-    def constance_updated(sender, key, value, **kwargs):
-        print(sender, key, value)
+    def constance_updated(sender, updated_key, new_value, **kwargs):
+        print(sender, updated_key, new_value)
 
-In case you need it the sender is `constance`, and the key and value are
-the ones just changed.
+The sender is the `config` object, and the `updated_key` and `new_value`
+are the ones just changed.
+
+This callback will get the `config` object as the first parameter so you
+can have an isolated function where you can access the `config` object
+without dealing with additional imports.
 
 
 Custom fields
