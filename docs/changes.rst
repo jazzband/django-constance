@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+v1.3.1 (2016/09/15)
+~~~~~~~~~~~~~~~~~~~
+
+* Improved the signal path to avoid import errors
+
+* Improved the admin layout when using fieldsets
+
 v1.3 (2016/09/14)
 ~~~~~~~~~~~~~~~~~
 
