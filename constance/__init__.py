@@ -1,4 +1,3 @@
-import django.dispatch
 from django.utils.functional import LazyObject
 
 __version__ = '1.3'
@@ -13,5 +12,3 @@ class LazyConfig(LazyObject):
 
 
 config = LazyConfig()
-
-updated_signal = django.dispatch.Signal(providing_args=['key', 'value'])
