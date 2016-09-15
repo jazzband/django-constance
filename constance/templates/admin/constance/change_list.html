@@ -1,7 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load admin_static admin_list i18n %}
 
-
 {% block extrastyle %}
   {{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />
@@ -9,20 +8,20 @@
   {{ media.css }}
   <style>
     #result_list .changed {
-          background-color: #ffc;
+        background-color: #ffc;
     }
     #changelist table thead th .text {
-      padding: 2px 5px;
+        padding: 2px 5px;
     }
     #changelist table tbody td:first-child {
         text-align: left;
     }
     #changelist-form ul.errorlist {
-      margin: 0 !important;
+        margin: 0 !important;
     }
     .help {
         font-weight: normal !important;
-  }
+    }
   </style>
 {% endblock %}
 
@@ -54,17 +53,19 @@
 
             {% if fieldsets %}
               {% for fieldset in fieldsets %}
-              <h3>{{ fieldset.title }}</h3>
-              {% with config_values=fieldset.config_values %}
-                  {% include "admin/constance/includes/results_list.html" %}
-              {% endwith %}
+              <fieldset class="module">
+                  <h2>{{ fieldset.title }}</h2>
+                  {% with config_values=fieldset.config_values %}
+                    {% include "admin/constance/includes/results_list.html" %}
+                  {% endwith %}
+              </fieldset>
               {% endfor %}
             {% else %}
               {% include "admin/constance/includes/results_list.html" %}
             {% endif %}
 
             <p class="paginator">
-            <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
+              <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
             </p>
         </form>
     </div>
@@ -73,8 +74,8 @@
 
 {% block breadcrumbs %}
 <div class="breadcrumbs">
-<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
-&rsaquo; {{ opts.verbose_name_plural|capfirst }}
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+  &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
+  &rsaquo; {{ opts.verbose_name_plural|capfirst }}
 </div>
 {% endblock %}
