@@ -108,8 +108,7 @@ class ConstanceForm(forms.Form):
 
     def save(self):
         for name in settings.CONFIG:
-            if str(getattr(config, name)) != str(self.cleaned_data[name]):
-                setattr(config, name, self.cleaned_data[name])
+            setattr(config, name, self.cleaned_data[name])
 
     def clean_version(self):
         value = self.cleaned_data['version']
@@ -151,7 +150,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'default': localize(default),
             'help_text': _(help_text),
             'value': localize(value),
-            'modified': str(value) != str(default),
+            'modified': value != default,
             'form_field': form[name],
         }
 
