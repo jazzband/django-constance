@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+v1.3.2 (2016/09/17)
+~~~~~~~~~~~~~~~~~~~
+
+* Fixes a bug where the signal was sent for fields without changes
+
 v1.3.1 (2016/09/15)
 ~~~~~~~~~~~~~~~~~~~
 
