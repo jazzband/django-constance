@@ -5,8 +5,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_bytes
 from django.utils.translation import ugettext_lazy as _
 
-from constance import config, settings
-from constance.fields import FIELDS
+from . import config, settings
+from .fields import FIELDS
 
 
 class ConstanceForm(forms.Form):

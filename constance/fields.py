@@ -1,10 +1,10 @@
 from datetime import datetime, date, time
 from decimal import Decimal
 
-from django.utils import six
 from django import forms
 from django.contrib.admin import widgets
 from django.forms import fields
+from django.utils import six
 from django.utils.module_loading import import_string
 
 from . import settings

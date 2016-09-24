@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from importlib import import_module
 
-from constance import settings, config
+from constance import config, settings
 from constance.forms import ConstanceForm
 
 
