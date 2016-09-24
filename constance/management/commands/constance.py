@@ -8,7 +8,11 @@ from django.core.exceptions import ValidationError
 from django.core.management import BaseCommand, CommandError
 from django.utils.translation import ugettext as _
 
-from ...utils import get_constance_values, get_constance_value, set_constance_value
+from ...access import get_constance_values, set_constance_value
+from ... import LazyConfig
+
+
+config = LazyConfig()
 
 
 class Command(BaseCommand):
@@ -33,7 +37,7 @@ class Command(BaseCommand):
             if len(options.get('setting')) == 1:
                 # get
                 try:
-                    print(get_constance_value(raw_name))
+                    print(getattr(config, raw_name))
                 except AttributeError as e:
                     raise CommandError(raw_name + _(" is not defined in settings.CONSTANCE_CONFIG"))
             else:
