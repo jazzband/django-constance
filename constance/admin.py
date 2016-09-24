@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from . import LazyConfig, settings
 from .forms import ConstanceForm
-from constance.access import get_constance_values
+from constance.utils import get_constance_values
 
 config = LazyConfig()
 
