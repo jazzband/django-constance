@@ -44,7 +44,7 @@ class UtilsTestCase(TransactionTestCase):
             'LINEBREAK_VALUE': 'Spam spam',
             'DECIMAL_VALUE': Decimal('0.1'),
             'STRING_VALUE': 'Hello world',
-            'UNICODE_VALUE': u'Rivi\xc3\xa8re-Bonjour',
+            'UNICODE_VALUE': u'Rivière-Bonjour',
             'DATETIME_VALUE': datetime.datetime(2010, 8, 23, 11, 29, 24),
-            'LONG_VALUE': 123456L
+            'LONG_VALUE': 123456
         })
