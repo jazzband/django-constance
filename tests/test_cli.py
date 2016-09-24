@@ -29,6 +29,6 @@ class CliTestCase(TransactionTestCase):
         out = StringIO()
         try:
             with redirect_stdout(out):
-                call_command('constance_cli', '--help')
+                call_command('constance', '--help')
         except SystemExit:
             pass
