@@ -9,6 +9,7 @@ from django.test import TransactionTestCase
 from django.utils import six
 from django.utils.six import StringIO
 
+from constance import config
 
 @contextmanager
 def redirect_stdout(new_target):
@@ -36,7 +37,6 @@ class CliTestCase(TransactionTestCase):
             pass
 
     def test_list(self):
-        self.maxDiff = None
         out = StringIO()
 
         with redirect_stdout(out):
@@ -57,3 +57,18 @@ class CliTestCase(TransactionTestCase):
         DATETIME_VALUE	2010-08-23 11:29:24
         FLOAT_VALUE	3.1415926536
 """)).splitlines()))
+
+    def test_get(self):
+        out = StringIO()
+
+        with redirect_stdout(out):
+            call_command('constance', get=('EMAIL_VALUE', ))
+
+        self.assertEqual(out.getvalue().strip(), "test@example.com")
+
+    def test_set(self):
+        out = StringIO()
+
+        call_command('constance', set=('EMAIL_VALUE', 'blah@example.com'))
+
+        self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
