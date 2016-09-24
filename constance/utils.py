@@ -26,10 +26,6 @@ def get_constance_values():
     return initial
 
 
-def get_constance_value(raw_name):
-    return getattr(config, raw_name)
-
-
 def get_constance_field(name):
     form = ConstanceForm(initial=get_constance_values())
 
