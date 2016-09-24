@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from constance.utils import set_constance_value
+from constance.forms import set_constance_value
 from django.core.exceptions import ValidationError
 from django.test import TransactionTestCase
 

@@ -8,7 +8,8 @@ from django.core.exceptions import ValidationError
 from django.core.management import BaseCommand, CommandError
 from django.utils.translation import ugettext as _
 
-from ...utils import get_constance_values, set_constance_value
+from ...utils import get_constance_values
+from ...forms import set_constance_value
 from ... import LazyConfig
 
 

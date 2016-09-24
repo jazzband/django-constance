@@ -5,6 +5,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils.encoding import smart_bytes
 from django.utils.translation import ugettext_lazy as _
 
+from .utils import get_constance_values
+
 from . import config, settings
 from .fields import FIELDS
 
@@ -51,3 +53,22 @@ class ConstanceForm(forms.Form):
                                           'by someone else. Please reload the '
                                           'form and resubmit your changes.'))
         return value
+
+
+def get_constance_field(name):
+    form = ConstanceForm(initial=get_constance_values())
+
+    return form.fields[name]
+
+
+def set_constance_value(raw_name, raw_value):
+    """
+    Parses and sets a Constance value
+    :param raw_name:
+    :param raw_value:
+    :return:
+    """
+    field = get_constance_field(raw_name)
+
+    value = field.clean(field.to_python(raw_value))
+    setattr(config, raw_name, value)
