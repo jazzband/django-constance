@@ -143,7 +143,7 @@ Note: Use later evaluated strings instead of direct classes for the field and wi
         }
 
 Ordered Fields in Django Admin
------------------------
+------------------------------
 
 In order to Order the fields , you can use OrderedDict collection. Here is an example:
 
@@ -233,6 +233,31 @@ any other variable, e.g.:
         Sadly we haven't launched yet, click <a href="/newsletter/">here</a>
         to signup for our newletter.
     {% endif %}
+
+Command Line
+^^^^^^^^^^^^
+
+Constance settings can be get/set on the command line with the manage command `constance`
+
+Available options are:
+
+
+`--list` - output all values in a tab-separated format::
+
+    $ ./manage.py constance --list
+    THE_ANSWER 42
+    SITE_NAME  My Title
+
+`--get SETTING` - output a single values::
+
+    $ ./manage.py --get THE_ANSWER
+    42
+
+`--set SETTING VALUE` - set a single value::
+
+    $ ./manage.py --set SITE_NAME "Another Title"
+
+Note that validation is done as per the admin form, an error will be raised if validation fails.
 
 Editing
 -------

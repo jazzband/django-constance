@@ -48,7 +48,7 @@ class Command(BaseCommand):
                 try:
                     set_constance_value(raw_name, raw_value)
                 except KeyError as e:
-                    raise CommandError(raw_name + _(" is not defined in settings.CONSTANCE_CONFIG)"))
+                    raise CommandError(raw_name + _(" is not defined in settings.CONSTANCE_CONFIG"))
                 except ValidationError as e:
                     raise CommandError(",".join(e))
 

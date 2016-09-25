@@ -4,7 +4,7 @@ import sys
 from contextlib import contextmanager
 from textwrap import dedent
 
-from django.core.management import call_command
+from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
 from django.utils.six import StringIO
 
@@ -71,3 +71,27 @@ u"""        BOOL_VALUE	True
         call_command('constance', set=('EMAIL_VALUE', 'blah@example.com'))
 
         self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
+
+    def test_get_invalid_name(self):
+        try:
+            call_command('constance', get=('NOT_A_REAL_CONFIG',))
+        except CommandError as e:
+            self.assertEqual(e.message, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
+        else:
+            self.fail("Expected an error")
+
+    def test_set_invalid_name(self):
+        try:
+            call_command('constance', set=('NOT_A_REAL_CONFIG', 'foo'))
+        except CommandError as e:
+            self.assertEqual(e.message, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
+        else:
+            self.fail("Expected an error")
+
+    def test_set_invalid_value(self):
+        try:
+            call_command('constance', set=('EMAIL_VALUE', 'not a valid email'))
+        except CommandError as e:
+            self.assertEqual(e.message, "Enter a valid email address.")
+        else:
+            self.fail("Expected an error")
