@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 except KeyError as e:
                     raise CommandError(raw_name + _(" is not defined in settings.CONSTANCE_CONFIG)"))
                 except ValidationError as e:
-                    raise CommandError(e)
+                    raise CommandError(",".join(e))
 
         elif options.get('list'):
             for k, v in get_constance_values().items():
