@@ -48,19 +48,6 @@ INSTALLED_APPS = (
     'constance.backends.database',
 )
 
-old_INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.admin',
-    'cheeseshop.apps.catalog',
-    'cheeseshop.apps.storage',
-    'constance',
-    'constance.backends.database',
-)
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -96,7 +83,7 @@ WSGI_APPLICATION = 'cheeseshop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': '/tmp/cheeseshop.db',
     }
 }
