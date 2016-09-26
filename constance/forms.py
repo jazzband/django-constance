@@ -12,7 +12,7 @@ from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
 from . import config, settings
-from .utils import get_constance_values
+from .utils import get_values
 
 
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
@@ -115,7 +115,7 @@ class ConstanceForm(forms.Form):
 
 
 def get_constance_field(name):
-    form = ConstanceForm(initial=get_constance_values())
+    form = ConstanceForm(initial=get_values())
 
     return form.fields[name]
 

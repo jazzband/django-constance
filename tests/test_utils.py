@@ -3,7 +3,7 @@
 import datetime
 from decimal import Decimal
 
-from constance.utils import get_constance_values
+from constance.utils import get_values
 from constance.forms import set_constance_value
 from django.core.exceptions import ValidationError
 from django.test import TransactionTestCase
@@ -33,7 +33,7 @@ class UtilsTestCase(TransactionTestCase):
 
     def test_get_get_constance_values(self):
 
-        self.assertEqual(get_constance_values(), {
+        self.assertEqual(get_values(), {
             'FLOAT_VALUE': 3.1415926536,
             'BOOL_VALUE': True,
             'EMAIL_VALUE': 'test@example.com',

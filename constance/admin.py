@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from . import LazyConfig, settings
 from .forms import ConstanceForm
-from constance.utils import get_constance_values
+from constance.utils import get_values
 
 config = LazyConfig()
 
@@ -56,7 +56,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         # First load a mapping between config name and default value
         if not self.has_change_permission(request, None):
             raise PermissionDenied
-        initial = get_constance_values()
+        initial = get_values()
         form = self.change_list_form(initial=initial)
         if request.method == 'POST':
             form = self.change_list_form(data=request.POST, initial=initial)

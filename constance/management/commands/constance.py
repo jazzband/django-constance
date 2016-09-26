@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.management import BaseCommand, CommandError
 from django.utils.translation import ugettext as _
 
-from ...utils import get_constance_values
+from ...utils import get_values
 from ...forms import set_constance_value
 from ... import LazyConfig
 
@@ -48,5 +48,5 @@ class Command(BaseCommand):
                     raise CommandError(", ".join(e))
 
         elif options.get('list'):
-            for k, v in get_constance_values().items():
+            for k, v in get_values().items():
                 self.stdout.write("{}\t{}".format(k, v))

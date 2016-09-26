@@ -13,7 +13,7 @@ def import_module_attr(path):
     return getattr(import_module(package), module)
 
 
-def get_constance_values():
+def get_values():
     """
     Get dictionary of values from the backend
     :return:
