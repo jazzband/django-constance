@@ -49,4 +49,4 @@ class Command(BaseCommand):
 
         elif options.get('list'):
             for k, v in get_constance_values().items():
-                self.stdout.write("{} {}".format(k, v))
+                self.stdout.write("{}\t{}".format(k, v))
