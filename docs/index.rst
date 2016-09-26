@@ -250,14 +250,15 @@ Available options are:
 
 `--get SETTING` - output a single values::
 
-    $ ./manage.py --get THE_ANSWER
+    $ ./manage.py constance --get THE_ANSWER
     42
 
 `--set SETTING VALUE` - set a single value::
 
-    $ ./manage.py --set SITE_NAME "Another Title"
+    $ ./manage.py constance --set SITE_NAME "Another Title"
 
-Note that validation is done as per the admin form, an error will be raised if validation fails.
+
+.. note:: Set values are validated as per in admin, an error will be raised if validation fails.
 
 Editing
 -------
