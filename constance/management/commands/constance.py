@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
 from __future__ import unicode_literals
 
 from django import VERSION
@@ -28,10 +27,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        if VERSION < (1, 8):
-            # since we assume use of argparse
-            raise CommandError(_("Constance CLI requires Django 1.8 or later"))
-
         if options.get('setting'):
             raw_name = options.get('setting')[0]
 
@@ -40,7 +35,7 @@ class Command(BaseCommand):
                 try:
                     print(getattr(config, raw_name))
                 except AttributeError as e:
-                    raise CommandError(raw_name + _(" is not defined in settings.CONSTANCE_CONFIG"))
+                    raise CommandError(raw_name + " is not defined in settings.CONSTANCE_CONFIG")
             else:
                 # set
                 raw_value = options.get('setting')[1]
@@ -48,10 +43,10 @@ class Command(BaseCommand):
                 try:
                     set_constance_value(raw_name, raw_value)
                 except KeyError as e:
-                    raise CommandError(raw_name + _(" is not defined in settings.CONSTANCE_CONFIG"))
+                    raise CommandError(raw_name + " is not defined in settings.CONSTANCE_CONFIG")
                 except ValidationError as e:
-                    raise CommandError(",".join(e))
+                    raise CommandError(", ".join(e))
 
         elif options.get('list'):
             for k, v in get_constance_values().items():
-                print(k, v, sep="\t")
+                self.stdout.write("{} {}".format(k, v))
