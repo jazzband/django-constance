@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
         if command == 'get':
             try:
-                print(getattr(config, name))
+                self.stdout.write("{}".format(getattr(config, name)).encode('utf-8'), ending=b"\n")
             except AttributeError as e:
                 raise CommandError(name + " is not defined in settings.CONSTANCE_CONFIG")
 

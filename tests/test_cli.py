@@ -10,38 +10,22 @@ from django.utils.six import StringIO, text_type
 
 from constance import config
 
-@contextmanager
-def redirect_stdout(new_target):
-    """
-    backport of contextlib.redirect_stdout from http://stackoverflow.com/a/22434262/8331
-    :param new_target:
-    :return:
-    """
-
-    old_target, sys.stdout = sys.stdout, new_target # replace sys.stdout
-    try:
-        yield new_target # run some code with the replaced stdout
-    finally:
-        sys.stdout = old_target # restore to the previous value
-
 
 class CliTestCase(TransactionTestCase):
 
+    def setUp(self):
+        self.out = StringIO()
+
     def test_help(self):
-        out = StringIO()
         try:
-            with redirect_stdout(out):
-                call_command('constance', '--help')
+            call_command('constance', '--help')
         except SystemExit:
             pass
 
     def test_list(self):
-        out = StringIO()
+        call_command('constance', 'list', stdout=self.out)
 
-        with redirect_stdout(out):
-            call_command('constance', 'list')
-
-        self.assertEqual(set(out.getvalue().splitlines()), set(dedent(
+        self.assertEqual(set(self.out.getvalue().splitlines()), set(dedent(
 u"""        BOOL_VALUE	True
         EMAIL_VALUE	test@example.com
         INT_VALUE	1
@@ -55,20 +39,15 @@ u"""        BOOL_VALUE	True
         DECIMAL_VALUE	0.1
         DATETIME_VALUE	2010-08-23 11:29:24
         FLOAT_VALUE	3.1415926536
-""").splitlines()))
+""".encode('utf-8')).splitlines()))
 
     def test_get(self):
-        out = StringIO()
+        call_command('constance', *('get EMAIL_VALUE'.split()), stdout=self.out)
 
-        with redirect_stdout(out):
-            call_command('constance', *('get EMAIL_VALUE'.split()))
-
-        self.assertEqual(out.getvalue().strip(), "test@example.com")
+        self.assertEqual(self.out.getvalue().strip(), "test@example.com")
 
     def test_set(self):
-        out = StringIO()
-
-        call_command('constance', *('set EMAIL_VALUE blah@example.com'.split()))
+        call_command('constance', *('set EMAIL_VALUE blah@example.com'.split()), stdout=self.out)
 
         self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
 
