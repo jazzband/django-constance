@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import sys
-from contextlib import contextmanager
 from textwrap import dedent
 
 from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
-from django.utils.six import StringIO, text_type
+from django.utils.six import StringIO
 
 from constance import config
 
