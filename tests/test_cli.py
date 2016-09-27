@@ -52,25 +52,13 @@ u"""        BOOL_VALUE	True
         self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
 
     def test_get_invalid_name(self):
-        try:
-            call_command('constance', *('get NOT_A_REAL_CONFIG'.split()))
-        except CommandError as e:
-            self.assertEqual(text_type(e), "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
-        else:
-            self.fail("Expected an error")
+        self.assertRaisesMessage(CommandError, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG",
+                                 call_command, 'constance', 'get', 'NOT_A_REAL_CONFIG')
 
     def test_set_invalid_name(self):
-        try:
-            call_command('constance', *('set NOT_A_REAL_CONFIG foo'.split()))
-        except CommandError as e:
-            self.assertEqual(text_type(e), "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
-        else:
-            self.fail("Expected an error")
+        self.assertRaisesMessage(CommandError, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG",
+                                 call_command, 'constance', 'set', 'NOT_A_REAL_CONFIG', 'foo')
 
     def test_set_invalid_value(self):
-        try:
-            call_command('constance', 'set', 'EMAIL_VALUE', 'not a valid email')
-        except CommandError as e:
-            self.assertEqual(text_type(e), "Enter a valid email address.")
-        else:
-            self.fail("Expected an error")
+        self.assertRaisesMessage(CommandError, "Enter a valid email address.",
+                                 call_command, 'constance', 'set', 'EMAIL_VALUE', 'not a valid email')
