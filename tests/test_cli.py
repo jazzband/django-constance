@@ -6,7 +6,7 @@ from textwrap import dedent
 
 from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
-from django.utils.six import StringIO
+from django.utils.six import StringIO, text_type
 
 from constance import config
 
@@ -76,7 +76,7 @@ u"""        BOOL_VALUE	True
         try:
             call_command('constance', *('get NOT_A_REAL_CONFIG'.split()))
         except CommandError as e:
-            self.assertEqual(e.message, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
+            self.assertEqual(text_type(e), "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
         else:
             self.fail("Expected an error")
 
@@ -84,7 +84,7 @@ u"""        BOOL_VALUE	True
         try:
             call_command('constance', *('set NOT_A_REAL_CONFIG foo'.split()))
         except CommandError as e:
-            self.assertEqual(e.message, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
+            self.assertEqual(text_type(e), "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
         else:
             self.fail("Expected an error")
 
@@ -92,6 +92,6 @@ u"""        BOOL_VALUE	True
         try:
             call_command('constance', 'set', 'EMAIL_VALUE', 'not a valid email')
         except CommandError as e:
-            self.assertEqual(e.message, "Enter a valid email address.")
+            self.assertEqual(text_type(e), "Enter a valid email address.")
         else:
             self.fail("Expected an error")

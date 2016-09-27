@@ -60,4 +60,4 @@ class Command(BaseCommand):
 
         elif command == 'list':
             for k, v in get_values().items():
-                self.stdout.write("{}\t{}".format(k, v).encode('utf-8'))
+                self.stdout.write("{}\t{}".format(k, v).encode('utf-8'), ending=b"\n")
