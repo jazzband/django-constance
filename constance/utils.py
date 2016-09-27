@@ -1,5 +1,8 @@
 from importlib import import_module
 
+# TODO - import config so we don't need LazyConfig again?
+# but this is causing tests.test_utils.UtilsTestCase to fail on py27-django-18
+#from . import config, settings
 from constance import LazyConfig, settings
 
 config = LazyConfig()
