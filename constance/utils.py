@@ -18,6 +18,8 @@ def get_values():
     Get dictionary of values from the backend
     :return:
     """
+
+    # First load a mapping between config name and default value
     default_initial = ((name, options[0])
                        for name, options in settings.CONFIG.items())
     # Then update the mapping with actually values from the backend
