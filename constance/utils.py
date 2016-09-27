@@ -1,6 +1,3 @@
-from __future__ import print_function
-from __future__ import unicode_literals
-
 from importlib import import_module
 
 from constance import LazyConfig, settings
