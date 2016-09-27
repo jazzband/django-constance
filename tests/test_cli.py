@@ -39,7 +39,7 @@ class CliTestCase(TransactionTestCase):
         out = StringIO()
 
         with redirect_stdout(out):
-            call_command('constance', '--list')
+            call_command('constance', 'list')
 
         self.assertEqual(set(out.getvalue().splitlines()), set(dedent(
 u"""        BOOL_VALUE	True
@@ -61,20 +61,20 @@ u"""        BOOL_VALUE	True
         out = StringIO()
 
         with redirect_stdout(out):
-            call_command('constance', get=('EMAIL_VALUE', ))
+            call_command('constance', *('get EMAIL_VALUE'.split()))
 
         self.assertEqual(out.getvalue().strip(), "test@example.com")
 
     def test_set(self):
         out = StringIO()
 
-        call_command('constance', set=('EMAIL_VALUE', 'blah@example.com'))
+        call_command('constance', *('set EMAIL_VALUE blah@example.com'.split()))
 
         self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
 
     def test_get_invalid_name(self):
         try:
-            call_command('constance', get=('NOT_A_REAL_CONFIG',))
+            call_command('constance', *('get NOT_A_REAL_CONFIG'.split()))
         except CommandError as e:
             self.assertEqual(e.message, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
         else:
@@ -82,7 +82,7 @@ u"""        BOOL_VALUE	True
 
     def test_set_invalid_name(self):
         try:
-            call_command('constance', set=('NOT_A_REAL_CONFIG', 'foo'))
+            call_command('constance', *('set NOT_A_REAL_CONFIG foo'.split()))
         except CommandError as e:
             self.assertEqual(e.message, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG")
         else:
@@ -90,7 +90,7 @@ u"""        BOOL_VALUE	True
 
     def test_set_invalid_value(self):
         try:
-            call_command('constance', set=('EMAIL_VALUE', 'not a valid email'))
+            call_command('constance', 'set', 'EMAIL_VALUE', 'not a valid email')
         except CommandError as e:
             self.assertEqual(e.message, "Enter a valid email address.")
         else:
