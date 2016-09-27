@@ -4,6 +4,7 @@ from textwrap import dedent
 
 from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
+from django.utils.encoding import smart_str
 from django.utils.six import StringIO
 
 from constance import config
@@ -23,7 +24,7 @@ class CliTestCase(TransactionTestCase):
     def test_list(self):
         call_command('constance', 'list', stdout=self.out)
 
-        self.assertEqual(set(self.out.getvalue().splitlines()), set(dedent(
+        self.assertEqual(set(self.out.getvalue().splitlines()), set(dedent(smart_str(
 u"""        BOOL_VALUE	True
         EMAIL_VALUE	test@example.com
         INT_VALUE	1
@@ -37,7 +38,7 @@ u"""        BOOL_VALUE	True
         DECIMAL_VALUE	0.1
         DATETIME_VALUE	2010-08-23 11:29:24
         FLOAT_VALUE	3.1415926536
-""".encode('utf-8')).splitlines()))
+""")).splitlines()))
 
     def test_get(self):
         call_command('constance', *('get EMAIL_VALUE'.split()), stdout=self.out)
