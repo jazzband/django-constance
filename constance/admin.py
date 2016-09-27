@@ -162,7 +162,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         if not self.has_change_permission(request, None):
             raise PermissionDenied
         initial = get_values()
-        form = self.change_list_form(initial=get_values())
+        form = self.change_list_form(initial=initial)
         if request.method == 'POST':
             form = self.change_list_form(data=request.POST, initial=initial)
             if form.is_valid():
