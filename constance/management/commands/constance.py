@@ -11,20 +11,20 @@ from ...admin import ConstanceForm
 from ...utils import get_values
 
 
-def _set_constance_value(name, value):
+def _set_constance_value(key, value):
     """
     Parses and sets a Constance value from a string
-    :param name:
+    :param key:
     :param value:
     :return:
     """
 
     form = ConstanceForm(initial=get_values())
 
-    field = form.fields[name]
+    field = form.fields[key]
 
     clean_value = field.clean(field.to_python(value))
-    setattr(config, name, clean_value)
+    setattr(config, key, clean_value)
 
 
 class Command(BaseCommand):
@@ -33,28 +33,28 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         subparsers = parser.add_subparsers(dest='command')
 
-        parser_list = subparsers.add_parser('list', cmd=self)
+        parser_list = subparsers.add_parser('list', cmd=self, help='list all Constance keys and their values')
 
-        parser_get = subparsers.add_parser('get', cmd=self)
-        parser_get.add_argument('name')
+        parser_get = subparsers.add_parser('get', cmd=self, help='get the value of a Constance key')
+        parser_get.add_argument('key', help='name of the key to get', metavar='KEY')
 
-        parser_set = subparsers.add_parser('set', cmd=self)
-        parser_set.add_argument('name')
-        parser_set.add_argument('value')
+        parser_set = subparsers.add_parser('set', cmd=self, help='set the value of a Constance key')
+        parser_set.add_argument('key', help='name of the key to get', metavar='KEY')
+        parser_set.add_argument('value', help='value to set', metavar='VALUE')
 
-    def handle(self, command, name=None, value=None, *args, **options):
+    def handle(self, command, key=None, value=None, *args, **options):
 
         if command == 'get':
             try:
-                self.stdout.write("{}".format(getattr(config, name)).encode('utf-8'), ending=b"\n")
+                self.stdout.write("{}".format(getattr(config, key)).encode('utf-8'), ending=b"\n")
             except AttributeError as e:
-                raise CommandError(name + " is not defined in settings.CONSTANCE_CONFIG")
+                raise CommandError(key + " is not defined in settings.CONSTANCE_CONFIG")
 
         elif command == 'set':
             try:
-                _set_constance_value(name, value)
+                _set_constance_value(key, value)
             except KeyError as e:
-                raise CommandError(name + " is not defined in settings.CONSTANCE_CONFIG")
+                raise CommandError(key + " is not defined in settings.CONSTANCE_CONFIG")
             except ValidationError as e:
                 raise CommandError(", ".join(e))
 
