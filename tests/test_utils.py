@@ -3,35 +3,19 @@
 import datetime
 from decimal import Decimal
 
-from constance.utils import get_values
+from constance.admin import get_values
 from constance.management.commands.constance import _set_constance_value
 from django.core.exceptions import ValidationError
-from django.test import TransactionTestCase
+from django.test import TestCase
 
-from constance import config
 
-class UtilsTestCase(TransactionTestCase):
+class UtilsTestCase(TestCase):
 
-    def test_set_constance_value(self):
-        self.assertEqual(config.INT_VALUE, 1)
+    def test_set_value_validation(self):
+        self.assertRaisesMessage(ValidationError, 'Enter a whole number.', _set_constance_value, 'INT_VALUE', 'foo')
+        self.assertRaisesMessage(ValidationError, 'Enter a valid email address.', _set_constance_value, 'EMAIL_VALUE', 'not a valid email')
 
-        _set_constance_value('INT_VALUE', 2)
-
-        self.assertEqual(config.INT_VALUE, 2)
-
-        _set_constance_value('INT_VALUE', '3')
-
-        self.assertEqual(config.INT_VALUE, 3)
-
-    def test_set_constance_value_validation(self):
-        self.assertRaises(ValidationError, _set_constance_value, 'INT_VALUE', 'foo')
-
-        _set_constance_value('EMAIL_VALUE', 'a_valid_email@example.com')
-        self.assertEqual(config.EMAIL_VALUE, 'a_valid_email@example.com')
-
-        self.assertRaises(ValidationError, _set_constance_value, 'EMAIL_VALUE', 'not a valid email')
-
-    def test_get_get_constance_values(self):
+    def test_get_values(self):
 
         self.assertEqual(get_values(), {
             'FLOAT_VALUE': 3.1415926536,

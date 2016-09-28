@@ -21,7 +21,6 @@ from django.utils.translation import ugettext_lazy as _
 
 
 from . import LazyConfig, settings
-from .utils import get_values
 
 config = LazyConfig()
 
@@ -78,6 +77,22 @@ if not six.PY3:
         long: INTEGER_LIKE,
         unicode: STRING_LIKE,
     })
+
+
+def get_values():
+    """
+    Get dictionary of values from the backend
+    :return:
+    """
+
+    # First load a mapping between config name and default value
+    default_initial = ((name, options[0])
+                       for name, options in settings.CONFIG.items())
+    # Then update the mapping with actually values from the backend
+    initial = dict(default_initial,
+                   **dict(config._backend.mget(settings.CONFIG.keys())))
+
+    return initial
 
 
 class ConstanceForm(forms.Form):

@@ -7,8 +7,7 @@ from django.core.management import BaseCommand, CommandError
 from django.utils.translation import ugettext as _
 
 from ... import config
-from ...admin import ConstanceForm
-from ...utils import get_values
+from ...admin import ConstanceForm, get_values
 
 
 def _set_constance_value(key, value):
