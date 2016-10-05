@@ -213,8 +213,10 @@ class ConstanceAdmin(admin.ModelAdmin):
                     'title': fieldset_title,
                     'config_values': config_values
                 })
+            if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict):
+                context['fieldsets'].sort(key=itemgetter('title'))
 
-        if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict):
+        if not isinstance(settings.CONFIG, OrderedDict):
             context['config_values'].sort(key=itemgetter('name'))
         request.current_app = self.admin_site.name
         return TemplateResponse(request, self.change_list_template, context)
