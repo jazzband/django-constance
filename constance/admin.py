@@ -150,7 +150,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'default': localize(default),
             'help_text': _(help_text),
             'value': localize(value),
-            'modified': value != default,
+            'modified': localize(value) != localize(default),
             'form_field': form[name],
         }
 
