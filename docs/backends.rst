@@ -89,7 +89,7 @@ make sure the data model is correctly created::
 
 Please make sure to apply the database migrations::
 
-    python manage.py migrate database
+    python manage.py migrate constance_db
 
 .. note:: If you're upgrading Constance to 1.0 and use Django 1.7 or higher
           please make sure to let the migration system know that you've
@@ -97,7 +97,7 @@ Please make sure to apply the database migrations::
 
           You can do that using the ``--fake`` option of the migrate command::
 
-              python manage.py migrate database --fake
+              python manage.py migrate constance_db --fake
 
 Just like the Redis backend you can set an optional prefix that is used during
 database interactions (it defaults to an empty string, ``''``). To use
