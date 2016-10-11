@@ -7,7 +7,7 @@ from .. import Backend
 from ... import settings, signals, config
 
 
-default_app_config = 'constance.backends.database.apps.ConstanceConfig'
+default_app_config = 'constance.backends.database.apps.ConstanceDatabaseConfig'
 
 
 class DatabaseBackend(Backend):

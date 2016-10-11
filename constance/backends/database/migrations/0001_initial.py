@@ -6,6 +6,8 @@ import picklefield.fields
 
 
 class Migration(migrations.Migration):
+    replaces = [('database', '0001_initial')]
+
     dependencies = []
 
     operations = [
