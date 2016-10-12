@@ -90,6 +90,13 @@ class ConstanceForm(forms.Form):
             default, help_text = options[0], options[1]
             if len(options) == 3:
                 config_type = options[2]
+                if not isinstance(config_type, type(options[0])):
+                    raise ImproperlyConfigured(_("Default value type must be "
+                                                 "equal to declared config "
+                                                 "parameter type. Please fix "
+                                                 "the default value of "
+                                                 "'%(name)s'.")
+                                               % {'name': name})
             else:
                 config_type = type(default)
 
@@ -108,7 +115,8 @@ class ConstanceForm(forms.Form):
 
     def save(self):
         for name in settings.CONFIG:
-            setattr(config, name, self.cleaned_data[name])
+            if getattr(config, name) != self.cleaned_data[name]:
+                setattr(config, name, self.cleaned_data[name])
 
     def clean_version(self):
         value = self.cleaned_data['version']
