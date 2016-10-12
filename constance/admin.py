@@ -88,7 +88,7 @@ class ConstanceForm(forms.Form):
 
         for name, options in settings.CONFIG.items():
             default, help_text = options[0], options[1]
-            if len(options) == 3:
+            if len(options) == 3 and options[2] not in settings.ADDITIONAL_FIELDS:
                 config_type = options[2]
                 if not isinstance(options[0], config_type):
                     raise ImproperlyConfigured(_("Default value type must be "
