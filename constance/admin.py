@@ -90,7 +90,7 @@ class ConstanceForm(forms.Form):
             default, help_text = options[0], options[1]
             if len(options) == 3:
                 config_type = options[2]
-                if not isinstance(config_type, type(options[0])):
+                if not isinstance(options[0], config_type):
                     raise ImproperlyConfigured(_("Default value type must be "
                                                  "equal to declared config "
                                                  "parameter type. Please fix "
