@@ -20,7 +20,7 @@ from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
 
-from . import LazyConfig, settings
+from . import LazyConfig, settings, apps
 
 config = LazyConfig()
 
@@ -255,8 +255,12 @@ class Config(object):
 
         def get_change_permission(self):
             return 'change_%s' % self.model_name
+        
+        @property
+        def app_config(self):
+            return apps.ConstanceConfig
 
     _meta = Meta()
-
+    
 
 admin.site.register([Config], ConstanceAdmin)
