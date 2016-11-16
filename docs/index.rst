@@ -155,7 +155,7 @@ In order to Order the fields , you can use OrderedDict collection. Here is an ex
             ('SITE_NAME', ('My Title', 'Website title')),
             ('SITE_DESCRIPTION', ('', 'Website description')),
             ('THEME', ('light-blue', 'Website theme')),
-        ]
+        ])
 
 
 Fieldsets
