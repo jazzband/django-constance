@@ -191,9 +191,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 return HttpResponseRedirect('.')
         context = {
             'config_values': [],
-            'title': _('{0} {1}'.format(
-                self.model._meta.app_config.verbose_name.title(),
-                self.model._meta.verbose_name_plural)),
+            'title': self.model._meta.app_config.verbose_name,
             'app_label': 'constance',
             'opts': self.model._meta,
             'form': form,
