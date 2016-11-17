@@ -52,7 +52,7 @@ An (optional) dotted import path to a connection to use, e.g.::
 
     CONSTANCE_REDIS_CONNECTION_CLASS = 'myproject.myapp.mockup.Connection'
 
-If you are using `django-redis <http://niwibe.github.io/django-redis/>`_,
+If you are using `django-redis <http://niwinz.github.io/django-redis/latest/>`_,
 feel free to use the ``CONSTANCE_REDIS_CONNECTION_CLASS`` setting to define
 a callable that returns a redis connection, e.g.::
 
