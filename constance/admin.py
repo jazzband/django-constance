@@ -5,6 +5,7 @@ from operator import itemgetter
 from collections import OrderedDict
 
 from django import forms, VERSION
+from django.apps import apps
 from django.conf.urls import url
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
@@ -20,7 +21,7 @@ from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
 
-from . import LazyConfig, settings, apps
+from . import LazyConfig, settings
 
 config = LazyConfig()
 
@@ -190,7 +191,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 return HttpResponseRedirect('.')
         context = {
             'config_values': [],
-            'title': _('Constance config'),
+            'title': self.model._meta.app_config.verbose_name,
             'app_label': 'constance',
             'opts': self.model._meta,
             'form': form,
@@ -255,12 +256,12 @@ class Config(object):
 
         def get_change_permission(self):
             return 'change_%s' % self.model_name
-        
+
         @property
         def app_config(self):
-            return apps.ConstanceConfig
+            return apps.get_app_config(self.app_label)
 
     _meta = Meta()
-    
+
 
 admin.site.register([Config], ConstanceAdmin)
