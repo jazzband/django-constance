@@ -14,7 +14,7 @@
             {{ item.name }} <div class="help">{{ item.help_text|linebreaksbr }}</div>
         </th>
         <td>
-            {{ item.default }}
+            {{ item.default|linebreaks }}
         </td>
         <td>
             {{ item.form_field.errors }}
