@@ -143,7 +143,7 @@ Note: Use later evaluated strings instead of direct classes for the field and wi
         }
 
 Ordered Fields in Django Admin
------------------------
+------------------------------
 
 In order to Order the fields , you can use OrderedDict collection. Here is an example:
 
@@ -233,6 +233,45 @@ any other variable, e.g.:
         Sadly we haven't launched yet, click <a href="/newsletter/">here</a>
         to signup for our newletter.
     {% endif %}
+
+Command Line
+^^^^^^^^^^^^
+
+Constance settings can be get/set on the command line with the manage command `constance`
+
+Available options are:
+
+list - output all values in a tab-separated format::
+
+    $ ./manage.py constance --list
+    THE_ANSWER 42
+    SITE_NAME  My Title
+
+get KEY - output a single values::
+
+    $ ./manage.py constance get THE_ANSWER
+    42
+
+set KEY VALUE - set a single value::
+
+    $ ./manage.py constance set SITE_NAME "Another Title"
+
+If the value contains spaces it should be wrapped in quotes.
+
+.. note::  Set values are validated as per in admin, an error will be raised if validation fails:
+
+Eg, given this config as per the example app::
+
+   CONSTANCE_CONFIG = {
+       ...
+       'DATE_ESTABLISHED': (date(1972, 11, 30), "the shop's first opening"),
+   }
+
+Then setting an invalid date will fail as follow::
+
+   $ ./manage.py constance set DATE_ESTABLISHED '1999-12-00'
+   CommandError: Enter a valid date.
+
 
 Editing
 -------
