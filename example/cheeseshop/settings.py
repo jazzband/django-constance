@@ -99,7 +99,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         'django.forms.fields.ChoiceField',
         {
             'widget': 'django.forms.Select',
-            'choices': (("-----", None), ("yes", "Yes"), ("no", "No"))
+            'choices': ((None, "-----"), ("yes", "Yes"), ("no", "No"))
         }
     ],
     'email': ('django.forms.fields.EmailField',),
