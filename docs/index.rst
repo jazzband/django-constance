@@ -134,7 +134,7 @@ Note: Use later evaluated strings instead of direct classes for the field and wi
         CONSTANCE_ADDITIONAL_FIELDS = {
             'yes_no_null_select': ['django.forms.fields.ChoiceField', {
                 'widget': 'django.forms.Select',
-                'choices': (("-----", None), ("yes", "Yes"), ("no", "No"))
+                'choices': ((None, "-----"), ("yes", "Yes"), ("no", "No"))
             }],
         }
 

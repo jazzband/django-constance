@@ -94,11 +94,24 @@ CONSTANCE_REDIS_CONNECTION = {
     'db': 0,
 }
 
+CONSTANCE_ADDITIONAL_FIELDS = {
+    'yes_no_null_select': [
+        'django.forms.fields.ChoiceField',
+        {
+            'widget': 'django.forms.Select',
+            'choices': ((None, "-----"), ("yes", "Yes"), ("no", "No"))
+        }
+    ],
+    'email': ('django.forms.fields.EmailField',),
+}
+
 CONSTANCE_CONFIG = {
     'BANNER': ('The National Cheese Emporium', 'name of the shop'),
     'OWNER': ('Mr. Henry Wensleydale', 'owner of the shop'),
+    'OWNER_EMAIL': ('henry@example.com', 'contact email for owner', 'email'),
     'MUSICIANS': (4, 'number of musicians inside the shop'),
     'DATE_ESTABLISHED': (date(1972, 11, 30), "the shop's first opening"),
+    'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
