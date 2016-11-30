@@ -80,6 +80,22 @@ if not six.PY3:
     })
 
 
+def get_values():
+    """
+    Get dictionary of values from the backend
+    :return:
+    """
+
+    # First load a mapping between config name and default value
+    default_initial = ((name, options[0])
+                       for name, options in settings.CONFIG.items())
+    # Then update the mapping with actually values from the backend
+    initial = dict(default_initial,
+                   **dict(config._backend.mget(settings.CONFIG.keys())))
+
+    return initial
+
+
 class ConstanceForm(forms.Form):
     version = forms.CharField(widget=forms.HiddenInput)
 
@@ -167,17 +183,9 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
-        # First load a mapping between config name and default value
         if not self.has_change_permission(request, None):
             raise PermissionDenied
-        default_initial = (
-            (name, options[0]) for name, options in settings.CONFIG.items()
-        )
-        # Then update the mapping with actually values from the backend
-        initial = dict(
-            default_initial,
-            **dict(config._backend.mget(settings.CONFIG.keys()))
-        )
+        initial = get_values()
         form = self.change_list_form(initial=initial)
         if request.method == 'POST':
             form = self.change_list_form(data=request.POST, initial=initial)
