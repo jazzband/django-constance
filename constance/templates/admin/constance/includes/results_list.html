@@ -6,7 +6,6 @@
             <th><div class="text">{% trans "Default" %}</div></th>
             <th><div class="text">{% trans "Value" %}</div></th>
             <th><div class="text">{% trans "Is modified" %}</div></th>
-            <th><div class="text">{% trans "Reset to default" %}</div></th>
         </tr>
     </thead>
     {% for item in config_values %}
@@ -20,6 +19,8 @@
         <td>
             {{ item.form_field.errors }}
             {{ item.form_field }}
+            <br>
+            <a href="#" onClick="document.getElementById('{{ item.form_field.auto_id }}').value = '{{ item.default|escapejs }}'; return false;">Reset to default</a>
         </td>
         <td>
             {% if item.modified %}
@@ -27,9 +28,6 @@
             {% else %}
                 <img src="{% static 'admin/img/icon-no.'|add:icon_type %}" alt="{{ item.modified }}" />
             {% endif %}
-        </td>
-        <td>
-             <a href="#" onClick="document.getElementById('{{ item.form_field.auto_id }}').value = '{{ item.default|escapejs }}'; return false;">Reset to default</a>
         </td>
     </tr>
     {% endfor %}
