@@ -19,6 +19,8 @@
         <td>
             {{ item.form_field.errors }}
             {{ item.form_field }}
+            <br>
+            <a href="#" onClick="document.getElementById('{{ item.form_field.auto_id }}').value = '{{ item.default|escapejs }}'; return false;">Reset to default</a>
         </td>
         <td>
             {% if item.modified %}
