@@ -1,6 +1,21 @@
 Changelog
 ---------
 
+v1.3.4 (2016/12/23)
+~~~~~~~~~~~~~~~~~~~
+
+* Fix config ordering issue
+
+* Added localize to check modified flag
+
+* Allow to rename Constance in Admin
+
+* Preserve line breaks in default value
+
+* Added functionality from django-constance-cli
+
+* Added "Reset to default" feature
+
 v1.3.3 (2016/09/17)
 ~~~~~~~~~~~~~~~~~~~
 
