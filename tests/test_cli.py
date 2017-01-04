@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from textwrap import dedent
 
 from django.core.management import call_command, CommandError
@@ -50,9 +51,9 @@ u"""        BOOL_VALUE	True
 
         self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
 
-        call_command('constance', *('set', 'DATETIME_VALUE', '2011-09-24 12:30:25'), stdout=self.out)
+        call_command('constance', *('set', 'DATETIME_VALUE', '2011-09-24', '12:30:25'), stdout=self.out)
 
-        self.assertEqual(config.DATETIME_VALUE, "2011-09-24 12:30:25")
+        self.assertEqual(config.DATETIME_VALUE, datetime(2011, 9, 24, 12, 30, 25))
 
     def test_get_invalid_name(self):
         self.assertRaisesMessage(CommandError, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG",
@@ -65,3 +66,7 @@ u"""        BOOL_VALUE	True
     def test_set_invalid_value(self):
         self.assertRaisesMessage(CommandError, "Enter a valid email address.",
                                  call_command, 'constance', 'set', 'EMAIL_VALUE', 'not a valid email')
+
+    def test_set_invalid_multi_value(self):
+        self.assertRaisesMessage(CommandError, "Enter a list of values.",
+                                 call_command, 'constance', 'set', 'DATETIME_VALUE', '2011-09-24 12:30:25')

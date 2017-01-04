@@ -273,6 +273,24 @@ Then setting an invalid date will fail as follow::
    CommandError: Enter a valid date.
 
 
+.. note::  If the admin fields is a `MultiValueField`, (e.g. datetime, which uses `SplitDateTimeField` by default)
+then the separate field values need to be provided as separate arguments.
+
+Eg, given this config::
+
+   CONSTANCE_CONFIG = {
+       'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
+   }
+
+Then this works (and the quotes are optional)::
+
+   ./manage.py constance set DATETIME_VALUE '2011-09-24' '12:30:25'
+
+This doesn't work::
+
+   ./manage.py constance set DATETIME_VALUE '2011-09-24 12:30:25'
+   CommandError: Enter a list of values.
+
 Editing
 -------
 
