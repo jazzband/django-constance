@@ -12,7 +12,6 @@ from constance import config
 
 
 class CliTestCase(TransactionTestCase):
-
     def setUp(self):
         self.out = StringIO()
 
