@@ -50,6 +50,10 @@ u"""        BOOL_VALUE	True
 
         self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
 
+        call_command('constance', *('set', 'DATETIME_VALUE', '2011-09-24 12:30:25'), stdout=self.out)
+
+        self.assertEqual(config.DATETIME_VALUE, "2011-09-24 12:30:25")
+
     def test_get_invalid_name(self):
         self.assertRaisesMessage(CommandError, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG",
                                  call_command, 'constance', 'get', 'NOT_A_REAL_CONFIG')
