@@ -177,6 +177,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'value': localize(value),
             'modified': localize(value) != localize(default),
             'form_field': form[name],
+            'form_field_name': form[name].field.widget.__class__.__name__,
         }
 
         return config_value
