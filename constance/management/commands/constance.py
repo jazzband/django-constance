@@ -39,7 +39,8 @@ class Command(BaseCommand):
 
         parser_set = subparsers.add_parser('set', cmd=self, help='set the value of a Constance key')
         parser_set.add_argument('key', help='name of the key to get', metavar='KEY')
-        parser_set.add_argument('value', help='value to set', metavar='VALUE')
+        # use nargs='+' so that we pass a list to MultiValueField (eg SplitDateTimeField)
+        parser_set.add_argument('value', help='value to set', metavar='VALUE', nargs='+')
 
     def handle(self, command, key=None, value=None, *args, **options):
 
@@ -51,6 +52,10 @@ class Command(BaseCommand):
 
         elif command == 'set':
             try:
+                if len(value) == 1:
+                    # assume that if a single argument was passed, the field doesn't expect a list
+                    value = value[0]
+
                 _set_constance_value(key, value)
             except KeyError as e:
                 raise CommandError(key + " is not defined in settings.CONSTANCE_CONFIG")
