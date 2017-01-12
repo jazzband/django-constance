@@ -173,11 +173,13 @@ class ConstanceAdmin(admin.ModelAdmin):
         config_value = {
             'name': name,
             'default': localize(default),
+            'raw_default': default,
             'help_text': _(help_text),
             'value': localize(value),
             'modified': localize(value) != localize(default),
             'form_field': form[name],
-            'form_field_name': form[name].field.widget.__class__.__name__,
+            'is_checkbox': isinstance(
+                form[name].field.widget, forms.CheckboxInput),
         }
 
         return config_value

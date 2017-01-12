@@ -21,8 +21,8 @@
             {{ item.form_field }}
             <br>
             <a href="#" onClick="
-              document.getElementById('{{ item.form_field.auto_id }}').{% if item.form_field_name == 'CheckboxInput' %}checked =
-                  {% if item.default == 'True' %} true {% else %} false {% endif %}
+              document.getElementById('{{ item.form_field.auto_id }}').{% if item.is_checkbox %}checked =
+                  {% if item.raw_default %} true {% else %} false {% endif %}
                 {% else %}value = '{{ item.default|escapejs }}'{% endif %}; return false;">Reset to default</a>
         </td>
         <td>
