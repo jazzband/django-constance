@@ -180,6 +180,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'form_field': form[name],
             'is_checkbox': isinstance(
                 form[name].field.widget, forms.CheckboxInput),
+            'is_datetime': isinstance(default, datetime),
         }
 
         return config_value

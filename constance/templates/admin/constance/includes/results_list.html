@@ -21,9 +21,23 @@
             {{ item.form_field }}
             <br>
             <a href="#" onClick="
-              document.getElementById('{{ item.form_field.auto_id }}').{% if item.is_checkbox %}checked =
-                  {% if item.raw_default %} true {% else %} false {% endif %}
-                {% else %}value = '{{ item.default|escapejs }}'{% endif %}; return false;">Reset to default</a>
+              {% if item.is_datetime %}
+                d = new Date(
+                  {{ item.raw_default|date:"Y" }},
+                  {{ item.raw_default|date:"n" }} - 1,
+                  {{ item.raw_default|date:"j" }},
+                  {{ item.raw_default|time:"H" }},
+                  {{ item.raw_default|time:"i" }},
+                  {{ item.raw_default|time:"s" }});
+                document.getElementById('{{ item.form_field.auto_id }}_0').value =
+                  d.strftime(get_format('DATE_INPUT_FORMATS')[0]);
+                document.getElementById('{{ item.form_field.auto_id }}_1').value =
+                  d.strftime(get_format('TIME_INPUT_FORMATS')[0]);
+              {% else %}
+                document.getElementById('{{ item.form_field.auto_id }}').{% if item.is_checkbox %}checked =
+                    {% if item.raw_default %} true {% else %} false {% endif %}
+                  {% else %}value = '{{ item.default|escapejs }}'{% endif %}
+              {% endif %}; return false;">Reset to default</a>
         </td>
         <td>
             {% if item.modified %}
