@@ -77,6 +77,7 @@ class DatabaseBackend(Backend):
         return value
 
     def set(self, key, value):
+        old_value = self.get(key)
         constance, created = self._model._default_manager.get_or_create(
             key=self.add_prefix(key), defaults={'value': value}
         )
@@ -87,7 +88,7 @@ class DatabaseBackend(Backend):
             self._cache.set(key, value)
 
         signals.config_updated.send(
-            sender=config, updated_key=key, new_value=value
+            sender=config, key=key, old_value=old_value, new_value=value
         )
 
     def clear(self, sender, instance, created, **kwargs):
