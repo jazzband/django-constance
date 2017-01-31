@@ -33,7 +33,7 @@ u"""        BOOL_VALUE	True
         TIME_VALUE	23:59:59
         LONG_VALUE	123456
         STRING_VALUE	Hello world
-        UNICODE_VALUE	Rivière-Bonjour
+        UNICODE_VALUE	Rivière-Bonjour რუსთაველი
         CHOICE_VALUE	yes
         DECIMAL_VALUE	0.1
         DATETIME_VALUE	2010-08-23 11:29:24
