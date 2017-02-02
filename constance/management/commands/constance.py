@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
         if command == 'get':
             try:
-                self.stdout.write("{}".format(getattr(config, key)).encode('utf-8'), ending=b"\n")
+                self.stdout.write("{}".format(getattr(config, key)), ending="\n")
             except AttributeError as e:
                 raise CommandError(key + " is not defined in settings.CONSTANCE_CONFIG")
 
@@ -64,4 +64,4 @@ class Command(BaseCommand):
 
         elif command == 'list':
             for k, v in get_values().items():
-                self.stdout.write("{}\t{}".format(k, v).encode('utf-8'), ending=b"\n")
+                self.stdout.write("{}\t{}".format(k, v), ending="\n")
