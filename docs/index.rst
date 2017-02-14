@@ -333,7 +333,7 @@ settings the way you like.
     admin.site.register([Config], ConfigAdmin)
 
 You can also override the ``get_changelist_form`` method which is called in
-``get_changelist_view`` to get the actual form used to change the settings. This
+``changelist_view`` to get the actual form used to change the settings. This
 allows you to pick a different form according to the user that makes the
 request. For example:
 
