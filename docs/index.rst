@@ -332,6 +332,24 @@ settings the way you like.
     admin.site.unregister([Config])
     admin.site.register([Config], ConfigAdmin)
 
+You can also override the ``get_changelist_form`` method which is called in
+``changelist_view`` to get the actual form used to change the settings. This
+allows you to pick a different form according to the user that makes the
+request. For example:
+
+.. code-block:: python
+
+    class SuperuserForm(ConstanceForm):
+        # Do some stuff here
+
+    class MyConstanceAdmin(ConstanceAdmin):
+        def get_changelist_form(self, request):
+            if request.user.is_superuser:
+              return SuperuserForm:
+            else:
+              return super(MyConstanceAdmin, self).get_changelist_form(request)
+
+Note that the default method returns ``self.change_list_form``.
 
 More documentation
 ------------------
