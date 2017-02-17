@@ -1,6 +1,23 @@
 Changelog
 ---------
 
+v2.0 (2017/02/17)
+~~~~~~~~~~~~~~~~~
+
+* **BACKWARD INCOMPATIBLE** Added the old value to the config_updated signal.
+
+* Added a `get_changelist_form` hook in the ModelAdmin.
+
+* Fix create_perm in apps.py to use database alias given by the post_migrate
+  signal.
+
+* Added tests for django 1.11.
+
+* Fix Reset to default to work with boolean/checkboxes.
+
+* Fix handling of MultiValueField's (eg SplitDateTimeField) on the command
+  line.
+
 v1.3.4 (2016/12/23)
 ~~~~~~~~~~~~~~~~~~~
 
