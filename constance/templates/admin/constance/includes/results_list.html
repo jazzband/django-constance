@@ -22,17 +22,23 @@
             <br>
             <a href="#" onClick="
               {% if item.is_datetime %}
-                d = new Date(
+                var defaultDate = new Date(
                   {{ item.raw_default|date:"Y" }},
                   {{ item.raw_default|date:"n" }} - 1,
                   {{ item.raw_default|date:"j" }},
                   {{ item.raw_default|time:"H" }},
                   {{ item.raw_default|time:"i" }},
                   {{ item.raw_default|time:"s" }});
+                var body = document.getElementsByTagName('body')[0];
+                var serverOffset = body.getAttribute('data-admin-utc-offset');
+                if (serverOffset) {
+                  var defaultOffset = defaultDate.getTimezoneOffset() * -60;
+                  defaultDate.setTime(defaultDate.getTime() + 1000 * (serverOffset - defaultOffset));
+                }                              
                 document.getElementById('{{ item.form_field.auto_id }}_0').value =
-                  d.strftime(get_format('DATE_INPUT_FORMATS')[0]);
+                  defaultDate.strftime(get_format('DATE_INPUT_FORMATS')[0]);
                 document.getElementById('{{ item.form_field.auto_id }}_1').value =
-                  d.strftime(get_format('TIME_INPUT_FORMATS')[0]);
+                  defaultDate.strftime(get_format('TIME_INPUT_FORMATS')[0]);
               {% else %}
                 document.getElementById('{{ item.form_field.auto_id }}').{% if item.is_checkbox %}checked =
                     {% if item.raw_default %} true {% else %} false {% endif %}
