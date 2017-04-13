@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-10 10:26+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: constance/admin.py:111
+#, python-format
+msgid ""
+"Default value type must be equal to declared config parameter type. Please "
+"fix the default value of '%(name)s'."
+msgstr ""
+"Vaikimisi väärtus peab olema vastav seade parameetri tüübile. Palun sisestage"
+"korrekne vaikimisi väärtus väljale '%(name)s'"
+
+#: constance/admin.py:121
+#, python-format
+msgid ""
+"Constance doesn't support config values of the type %(config_type)s. Please "
+"fix the value of '%(name)s'."
+msgstr ""
+"Constance ei toeta seadete seda tüüpi %(constance_type) seadete väärtusi. Palun"
+"sisestage korrektne väärtus väljale '%(name)s'."
+
+#: constance/admin.py:145
+msgid ""
+"The settings have been modified by someone else. Please reload the form and "
+"resubmit your changes."
+msgstr ""
+"Seadeid on vahepeal muudetud, palun esitage oma muudatused peale seda kui "
+"olete lehe uuesti laadinud"
+
+#: constance/admin.py:209
+msgid "Live settings updated successfully."
+msgstr "Seaded edukalt muudetud."
+
+#: constance/admin.py:271
+msgid "config"
+msgstr "konfiguratsioon"
+
+#: constance/apps.py:8
+msgid "Constance"
+msgstr "Seaded"
+
+#: constance/backends/database/models.py:19
+msgid "constance"
+msgstr "seaded"
+
+#: constance/backends/database/models.py:20
+msgid "constances"
+msgstr "seaded"
+
+#: constance/management/commands/constance.py:30
+msgid "Get/Set In-database config settings handled by Constance"
+msgstr "Loe/salvesta andmebaasi põhiseid seadeid"
+
+#: constance/templates/admin/constance/change_list.html:68
+msgid "Save"
+msgstr "Salvesta"
+
+#: constance/templates/admin/constance/change_list.html:77
+msgid "Home"
+msgstr ""
+
+#: constance/templates/admin/constance/includes/results_list.html:5
+msgid "Name"
+msgstr "Nimi"
+
+#: constance/templates/admin/constance/includes/results_list.html:6
+msgid "Default"
+msgstr "Vaikimisi"
+
+#: constance/templates/admin/constance/includes/results_list.html:7
+msgid "Value"
+msgstr "Väärtus"
+
+#: constance/templates/admin/constance/includes/results_list.html:8
+msgid "Is modified"
+msgstr "Muudetud"
