@@ -21,6 +21,9 @@ env:
   - TOXENV=pypy-django-110
   - TOXENV=pypy-django-111
 matrix:
+  include:
+    - python: 3.6
+      env: TOXENV=py36-django-111
   allow_failures:
     - env: TOXENV=py35-django-master
 script:
