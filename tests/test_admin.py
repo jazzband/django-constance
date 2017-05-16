@@ -82,7 +82,7 @@ class TestAdmin(TestCase):
         request.user = self.superuser
         response = self.options.changelist_view(request, {})
         response.render()
-        content_str = response.content
+        content_str = response.content.decode('utf-8')
         self.assertGreater(
             content_str.find('INT_VALUE'),
             content_str.find('LONG_VALUE')
@@ -98,7 +98,7 @@ class TestAdmin(TestCase):
         request.user = self.superuser
         response = self.options.changelist_view(request, {})
         response.render()
-        content_str = response.content
+        content_str = response.content.decode('utf-8')
         self.assertGreater(
             content_str.find('LONG_VALUE'),
             content_str.find('INT_VALUE')
