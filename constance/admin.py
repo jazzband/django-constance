@@ -1,4 +1,4 @@
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 import hashlib
 from operator import itemgetter
@@ -41,6 +41,9 @@ FIELDS = {
     str: STRING_LIKE,
     datetime: (
         fields.SplitDateTimeField, {'widget': widgets.AdminSplitDateTime}
+    ),
+    timedelta: (
+        fields.DurationField, {'widget': widgets.AdminTextInputWidget}
     ),
     date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
     time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),

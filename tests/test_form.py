@@ -16,6 +16,7 @@ class TestForm(TestCase):
         self.assertIsInstance(f.fields['UNICODE_VALUE'], fields.CharField)
         self.assertIsInstance(f.fields['DECIMAL_VALUE'], fields.DecimalField)
         self.assertIsInstance(f.fields['DATETIME_VALUE'], fields.SplitDateTimeField)
+        self.assertIsInstance(f.fields['TIMEDELTA_VALUE'], fields.DurationField)
         self.assertIsInstance(f.fields['FLOAT_VALUE'], fields.FloatField)
         self.assertIsInstance(f.fields['DATE_VALUE'], fields.DateField)
         self.assertIsInstance(f.fields['TIME_VALUE'], fields.TimeField)
