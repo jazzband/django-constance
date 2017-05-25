@@ -107,10 +107,10 @@ class ConstanceForm(forms.Form):
         version_hash = hashlib.md5()
 
         for name, options in settings.CONFIG.items():
-            default, help_text = options[0], options[1]
+            default = options[0]
             if len(options) == 3:
                 config_type = options[2]
-                if config_type not in settings.ADDITIONAL_FIELDS and not isinstance(options[0], config_type):
+                if config_type not in settings.ADDITIONAL_FIELDS and not isinstance(default, config_type):
                     raise ImproperlyConfigured(_("Default value type must be "
                                                  "equal to declared config "
                                                  "parameter type. Please fix "
