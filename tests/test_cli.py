@@ -31,6 +31,7 @@ u"""        BOOL_VALUE	True
         LINEBREAK_VALUE	Spam spam
         DATE_VALUE	2010-12-24
         TIME_VALUE	23:59:59
+        TIMEDELTA_VALUE	1 day, 2:03:00
         LONG_VALUE	123456
         STRING_VALUE	Hello world
         UNICODE_VALUE	Rivière-Bonjour რუსთაველი

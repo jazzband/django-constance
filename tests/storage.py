@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 
 from django.utils import six
@@ -28,6 +28,7 @@ class StorageTestsMixin(object):
         self.assertEqual(self.config.FLOAT_VALUE, 3.1415926536)
         self.assertEqual(self.config.DATE_VALUE, date(2010, 12, 24))
         self.assertEqual(self.config.TIME_VALUE, time(23, 59, 59))
+        self.assertEqual(self.config.TIMEDELTA_VALUE, timedelta(days=1, hours=2, minutes=3))
         self.assertEqual(self.config.CHOICE_VALUE, 'yes')
         self.assertEqual(self.config.EMAIL_VALUE, 'test@example.com')
 
@@ -42,6 +43,7 @@ class StorageTestsMixin(object):
         self.config.FLOAT_VALUE = 2.718281845905
         self.config.DATE_VALUE = date(2001, 12, 20)
         self.config.TIME_VALUE = time(1, 59, 0)
+        self.config.TIMEDELTA_VALUE = timedelta(days=2, hours=3, minutes=4)
         self.config.CHOICE_VALUE = 'no'
         self.config.EMAIL_VALUE = 'foo@bar.com'
 
@@ -56,6 +58,7 @@ class StorageTestsMixin(object):
         self.assertEqual(self.config.FLOAT_VALUE, 2.718281845905)
         self.assertEqual(self.config.DATE_VALUE, date(2001, 12, 20))
         self.assertEqual(self.config.TIME_VALUE, time(1, 59, 0))
+        self.assertEqual(self.config.TIMEDELTA_VALUE, timedelta(days=2, hours=3, minutes=4))
         self.assertEqual(self.config.CHOICE_VALUE, 'no')
         self.assertEqual(self.config.EMAIL_VALUE, 'foo@bar.com')
 
@@ -90,3 +93,4 @@ class StorageTestsMixin(object):
         self.assertEqual(self.config.FLOAT_VALUE, 3.1415926536)  # this should be the default value
         self.assertEqual(self.config.DATE_VALUE, date(2001, 12, 20))
         self.assertEqual(self.config.TIME_VALUE, time(1, 59, 0))
+        self.assertEqual(self.config.TIMEDELTA_VALUE, timedelta(days=1, hours=2, minutes=3))

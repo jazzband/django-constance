@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.utils import six
 
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 
 
@@ -75,6 +75,7 @@ CONSTANCE_CONFIG = {
     'FLOAT_VALUE': (3.1415926536, 'PI'),
     'DATE_VALUE': (date(2010, 12, 24), 'Merry Chrismas'),
     'TIME_VALUE': (time(23, 59, 59), 'And happy New Year'),
+    'TIMEDELTA_VALUE': (timedelta(days=1, hours=2, minutes=3), 'Interval'),
     'CHOICE_VALUE': ('yes', 'select yes or no', 'yes_no_null_select'),
     'LINEBREAK_VALUE': ('Spam spam', 'eggs\neggs'),
     'EMAIL_VALUE': ('test@example.com', 'An email', 'email'),
