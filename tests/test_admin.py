@@ -1,3 +1,4 @@
+import mock
 from django.contrib import admin
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
@@ -58,3 +59,47 @@ class TestAdmin(TestCase):
         response = self.options.changelist_view(request, {})
         self.assertContains(response, 'LINEBREAK_VALUE')
         self.assertContains(response, 'eggs<br />eggs')
+
+    @mock.patch('constance.admin.settings.CONFIG_FIELDSETS', {
+        'Numbers': ('LONG_VALUE', 'INT_VALUE',),
+        'Text': ('STRING_VALUE', 'UNICODE_VALUE'),
+    })
+    def test_fieldset_headers(self):
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.get('/admin/constance/config/')
+        request.user = self.superuser
+        response = self.options.changelist_view(request, {})
+        self.assertContains(response, '<h2>Numbers</h2>')
+        self.assertContains(response, '<h2>Text</h2>')
+
+    @mock.patch('constance.admin.settings.CONFIG_FIELDSETS', {
+        'Numbers': ('LONG_VALUE', 'INT_VALUE',),
+    })
+    def test_fieldset_ordering_1(self):
+        """Ordering of inner list should be preserved"""
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.get('/admin/constance/config/')
+        request.user = self.superuser
+        response = self.options.changelist_view(request, {})
+        response.render()
+        content_str = response.content.decode('utf-8')
+        self.assertGreater(
+            content_str.find('INT_VALUE'),
+            content_str.find('LONG_VALUE')
+        )
+
+    @mock.patch('constance.admin.settings.CONFIG_FIELDSETS', {
+        'Numbers': ('INT_VALUE', 'LONG_VALUE', ),
+    })
+    def test_fieldset_ordering_2(self):
+        """Ordering of inner list should be preserved"""
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.get('/admin/constance/config/')
+        request.user = self.superuser
+        response = self.options.changelist_view(request, {})
+        response.render()
+        content_str = response.content.decode('utf-8')
+        self.assertGreater(
+            content_str.find('LONG_VALUE'),
+            content_str.find('INT_VALUE')
+        )

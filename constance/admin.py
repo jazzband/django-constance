@@ -233,8 +233,9 @@ class ConstanceAdmin(admin.ModelAdmin):
                 assert fields_exist, "CONSTANCE_CONFIG_FIELDSETS contains fields that does not exist"
                 config_values = []
 
-                for name, options in settings.CONFIG.items():
-                    if name in fields_list:
+                for name in fields_list:
+                    options = settings.CONFIG.get(name)
+                    if options:
                         config_values.append(
                             self.get_config_value(name, options, form, initial)
                         )
