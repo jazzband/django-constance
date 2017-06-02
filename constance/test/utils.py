@@ -64,7 +64,7 @@ class override_config(override_settings):
         Store original config values and set overridden values.
         """
         # Store the original values to an instance variable
-        for config_key in self.options.keys():
+        for config_key in self.options:
             self.original_values[config_key] = getattr(config, config_key)
 
         # Update config with the overriden values
