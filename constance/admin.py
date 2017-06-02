@@ -212,7 +212,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 )
                 return HttpResponseRedirect('.')
         context = dict(
-            admin.site.each_context(request),
+            self.admin_site.each_context(request),
             config_values=[],
             title=self.model._meta.app_config.verbose_name,
             app_label='constance',
