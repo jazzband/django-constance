@@ -6,7 +6,8 @@ from django.core.exceptions import PermissionDenied
 from django.test import TestCase, RequestFactory
 from django.utils import six
 
-from constance.admin import settings, Config
+from constance import settings
+from constance.admin import Config
 
 
 class TestAdmin(TestCase):
@@ -60,7 +61,7 @@ class TestAdmin(TestCase):
         self.assertContains(response, 'LINEBREAK_VALUE')
         self.assertContains(response, 'eggs<br />eggs')
 
-    @mock.patch('constance.admin.settings.CONFIG_FIELDSETS', {
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {
         'Numbers': ('LONG_VALUE', 'INT_VALUE',),
         'Text': ('STRING_VALUE', 'UNICODE_VALUE'),
     })
@@ -72,7 +73,7 @@ class TestAdmin(TestCase):
         self.assertContains(response, '<h2>Numbers</h2>')
         self.assertContains(response, '<h2>Text</h2>')
 
-    @mock.patch('constance.admin.settings.CONFIG_FIELDSETS', {
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {
         'Numbers': ('LONG_VALUE', 'INT_VALUE',),
     })
     def test_fieldset_ordering_1(self):
@@ -88,7 +89,7 @@ class TestAdmin(TestCase):
             content_str.find('LONG_VALUE')
         )
 
-    @mock.patch('constance.admin.settings.CONFIG_FIELDSETS', {
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {
         'Numbers': ('INT_VALUE', 'LONG_VALUE', ),
     })
     def test_fieldset_ordering_2(self):
