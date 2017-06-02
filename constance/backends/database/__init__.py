@@ -52,7 +52,7 @@ class DatabaseBackend(Backend):
     def mget(self, keys):
         if not keys:
             return
-        keys = dict((self.add_prefix(key), key) for key in keys)
+        keys = {self.add_prefix(key): key for key in keys}
         stored = self._model._default_manager.filter(key__in=keys.keys())
         for const in stored:
             yield keys[const.key], const.value
