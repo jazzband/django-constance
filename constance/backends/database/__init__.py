@@ -45,7 +45,7 @@ class DatabaseBackend(Backend):
             return
         autofill_values = {}
         autofill_values[full_cachekey] = 1
-        for key, value in self.mget(settings.CONFIG.keys()):
+        for key, value in self.mget(settings.CONFIG):
             autofill_values[self.add_prefix(key)] = value
         self._cache.set_many(autofill_values, timeout=self._autofill_timeout)
 
@@ -53,7 +53,7 @@ class DatabaseBackend(Backend):
         if not keys:
             return
         keys = dict((self.add_prefix(key), key) for key in keys)
-        stored = self._model._default_manager.filter(key__in=keys.keys())
+        stored = self._model._default_manager.filter(key__in=keys)
         for const in stored:
             yield keys[const.key], const.value
 
@@ -93,7 +93,7 @@ class DatabaseBackend(Backend):
 
     def clear(self, sender, instance, created, **kwargs):
         if self._cache and not created:
-            keys = [self.add_prefix(k) for k in settings.CONFIG.keys()]
+            keys = [self.add_prefix(k) for k in settings.CONFIG]
             keys.append(self.add_prefix(self._autofill_cachekey))
             self._cache.delete_many(keys)
             self.autofill()
