@@ -1,33 +1,15 @@
 sudo: false
 language: python
-python: 3.5
-cache:
-  directories:
-  - "$HOME/.cache/pip"
-install:
-- pip install tox
-env:
-  - TOXENV=py27-django-18
-  - TOXENV=py27-django-19
-  - TOXENV=py27-django-110
-  - TOXENV=py27-django-111
-  - TOXENV=py35-django-18
-  - TOXENV=py35-django-19
-  - TOXENV=py35-django-110
-  - TOXENV=py35-django-111
-  - TOXENV=py35-django-master
-  - TOXENV=pypy-django-18
-  - TOXENV=pypy-django-19
-  - TOXENV=pypy-django-110
-  - TOXENV=pypy-django-111
-matrix:
-  include:
-    - python: 3.6
-      env: TOXENV=py36-django-111
-  allow_failures:
-    - env: TOXENV=py35-django-master
-script:
-- tox
+cache: pip
+python:
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5
+  - 3.6
+  - pypy
+install: pip install tox-travis
+script: tox
 deploy:
   provider: pypi
   user: jazzband
@@ -37,4 +19,4 @@ deploy:
   on:
     tags: true
     repo: jazzband/django-constance
-    condition: "$TOXENV = py27-django-18"
+    python: 3.6
