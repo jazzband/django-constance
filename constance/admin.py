@@ -157,7 +157,8 @@ class ConstanceForm(forms.Form):
             for field_name in fields_list:
                 field_name_list.append(field_name)
         if set(set(settings.CONFIG.keys()) - set(field_name_list)):
-            raise forms.ValidationError(_('CONSTANCE_CONFIG_FIELDSETS does not contain fields that exist in CONSTANCE_CONFIG'))
+            raise forms.ValidationError(_('CONSTANCE_CONFIG_FIELDSETS does not contain '
+                                          'fields that exist in CONSTANCE_CONFIG.'))
 
         return cleaned_data
 
