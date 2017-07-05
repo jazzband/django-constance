@@ -10,10 +10,15 @@ class Config(object):
             utils.import_module_attr(settings.BACKEND)())
 
     def __getattr__(self, key):
+        if key in settings.CONFIG_ONLY:
+            current_config = settings.CONFIG_ONLY
+        else:
+            current_config = settings.CONFIG
+
         try:
-            if not len(settings.CONFIG[key]) in (2, 3):
+            if not len(current_config[key]) in (2, 3):
                 raise AttributeError(key)
-            default = settings.CONFIG[key][0]
+            default = current_config[key][0]
         except KeyError:
             raise AttributeError(key)
         result = self._backend.get(key)
@@ -24,9 +29,12 @@ class Config(object):
         return result
 
     def __setattr__(self, key, value):
-        if key not in settings.CONFIG:
-            raise AttributeError(key)
-        self._backend.set(key, value)
+        if key in settings.CONFIG_ONLY:
+            self._backend.set(key, value)
+        else:
+            if key not in settings.CONFIG:
+                raise AttributeError(key)
+            self._backend.set(key, value)
 
     def __dir__(self):
         return settings.CONFIG.keys()
