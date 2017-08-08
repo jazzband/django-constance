@@ -1,7 +1,7 @@
 from django.core.cache import caches
 from django.core.cache.backends.locmem import LocMemCache
 from django.core.exceptions import ImproperlyConfigured
-from django.db import OperationalError
+from django.db import OperationalError, ProgrammingError
 from django.db.models.signals import post_save
 
 from .. import Backend
@@ -58,7 +58,7 @@ class DatabaseBackend(Backend):
             stored = self._model._default_manager.filter(key__in=keys)
             for const in stored:
                 yield keys[const.key], const.value
-        except OperationalError:
+        except (OperationalError, ProgrammingError):
             pass
 
     def get(self, key):
@@ -73,7 +73,7 @@ class DatabaseBackend(Backend):
         if value is None:
             try:
                 value = self._model._default_manager.get(key=key).value
-            except (OperationalError, self._model.DoesNotExist):
+            except (OperationalError, ProgrammingError, self._model.DoesNotExist):
                 pass
             else:
                 if self._cache:
