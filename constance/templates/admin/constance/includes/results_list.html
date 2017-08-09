@@ -20,10 +20,10 @@
             {{ item.form_field.errors }}
             {{ item.form_field }}
             <br>
-            <a href="#" onClick="
-              document.getElementById('{{ item.form_field.auto_id }}').{% if item.is_checkbox %}checked =
-                  {% if item.raw_default %} true {% else %} false {% endif %}
-                {% else %}value = '{{ item.default|escapejs }}'{% endif %}; return false;">Reset to default</a>
+            <a href="#" class="reset-link" data-field-id="{{ item.form_field.auto_id }}" data-default="{% spaceless %}
+                {% if item.is_checkbox %}{% if item.raw_default %} true {% else %} false {% endif %}
+                {% else %}{{ item.default }}{% endif %}
+                {% endspaceless %}">Reset to default</a>
         </td>
         <td>
             {% if item.modified %}

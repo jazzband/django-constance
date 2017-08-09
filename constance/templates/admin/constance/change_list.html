@@ -6,23 +6,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />
   <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}" />
   {{ media.css }}
-  <style>
-    #result_list .changed {
-        background-color: #ffc;
-    }
-    #changelist table thead th .text {
-        padding: 2px 5px;
-    }
-    #changelist table tbody td:first-child {
-        text-align: left;
-    }
-    #changelist-form ul.errorlist {
-        margin: 0 !important;
-    }
-    .help {
-        font-weight: normal !important;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/constance.css' %}" />
 {% endblock %}
 
 {% block extrahead %}
@@ -30,6 +14,7 @@
 <script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
 {{ block.super }}
 {{ media.js }}
+<script type="text/javascript" src="{% static 'admin/js/constance.js' %}"></script>
 {% endblock %}
 
 {% block bodyclass %}change-list{% endblock %}
