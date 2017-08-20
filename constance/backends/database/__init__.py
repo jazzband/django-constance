@@ -82,9 +82,15 @@ class DatabaseBackend(Backend):
 
     def set(self, key, value):
         old_value = self.get(key)
-        constance, created = self._model._default_manager.get_or_create(
-            key=self.add_prefix(key), defaults={'value': value}
-        )
+
+        try:
+            constance, created = self._model._default_manager.get_or_create(
+                key=self.add_prefix(key), defaults={'value': value}
+            )
+        except (OperationalError, ProgrammingError):
+            # database is not created, noop
+            return
+
         if not created:
             constance.value = value
             constance.save()
