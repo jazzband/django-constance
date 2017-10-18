@@ -209,7 +209,7 @@ pass the object to the template context:
     def myview(request):
         return render(request, 'my_template.html', {'config': config})
 
-Or you can use the included config context processor.:
+Or you can use the included config context processor. For Django pre-1.8, this looks like this:
 
 .. code-block:: python
 
@@ -217,6 +217,8 @@ Or you can use the included config context processor.:
         # ...
         'constance.context_processors.config',
     )
+
+For Django 1.8 and above, insert ``'constance.context_processors.config'`` at the top of your ``TEMPLATES['OPTIONS']['context_processors']`` list.  See (See the `Django documentation<https://docs.djangoproject.com/en/1.11/ref/templates/upgrading/#the-templates-settings>`_ for details.
 
 This will add the config instance to the context of any template
 rendered with a ``RequestContext``.
