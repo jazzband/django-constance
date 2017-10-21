@@ -218,7 +218,11 @@ Or you can use the included config context processor. For Django pre-1.8, this l
         'constance.context_processors.config',
     )
 
-For Django 1.8 and above, insert ``'constance.context_processors.config'`` at the top of your ``TEMPLATES['OPTIONS']['context_processors']`` list.  See (See the `Django documentation<https://docs.djangoproject.com/en/1.11/ref/templates/upgrading/#the-templates-settings>`_ for details.
+For Django 1.8 and above, insert ``'constance.context_processors.config'`` at
+the top of your ``TEMPLATES['OPTIONS']['context_processors']`` list.  See the
+`Django documentation`_ for details.
+
+.. _`Django documentation`: https://docs.djangoproject.com/en/1.11/ref/templates/upgrading/#the-templates-settings
 
 This will add the config instance to the context of any template
 rendered with a ``RequestContext``.
@@ -262,7 +266,7 @@ If the value contains spaces it should be wrapped in quotes.
 
 .. note::  Set values are validated as per in admin, an error will be raised if validation fails:
 
-Eg, given this config as per the example app::
+E.g., given this config as per the example app::
 
    CONSTANCE_CONFIG = {
        ...
@@ -278,7 +282,7 @@ Then setting an invalid date will fail as follow::
 .. note::  If the admin fields is a `MultiValueField`, (e.g. datetime, which uses `SplitDateTimeField` by default)
 then the separate field values need to be provided as separate arguments.
 
-Eg, given this config::
+E.g., given this config::
 
    CONSTANCE_CONFIG = {
        'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
