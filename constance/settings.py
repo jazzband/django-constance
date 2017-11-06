@@ -8,6 +8,8 @@ BACKEND = getattr(
 
 CONFIG = getattr(settings, 'CONSTANCE_CONFIG', {})
 
+CONFIG_ONLY = getattr(settings, 'CONSTANCE_CONFIG_ONLY_DB', {})
+
 CONFIG_FIELDSETS = getattr(settings, 'CONSTANCE_CONFIG_FIELDSETS', {})
 
 ADDITIONAL_FIELDS = getattr(settings, 'CONSTANCE_ADDITIONAL_FIELDS', {})
