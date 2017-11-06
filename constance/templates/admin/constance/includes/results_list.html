@@ -1,4 +1,4 @@
-{% load admin_static admin_list i18n %}
+{% load admin_static admin_list static i18n %}
 <table>
     <thead>
         <tr>
@@ -18,12 +18,13 @@
         </td>
         <td>
             {{ item.form_field.errors }}
+            {% if item.is_file %}{% trans "Current file" %}: <a href="{% get_media_prefix as MEDIA_URL %}{{ MEDIA_URL }}{{ item.value }}" target="_blank">{{ item.value }}</a>{% endif %}
             {{ item.form_field }}
             <br>
             <a href="#" class="reset-link" data-field-id="{{ item.form_field.auto_id }}" data-default="{% spaceless %}
                 {% if item.is_checkbox %}{% if item.raw_default %} true {% else %} false {% endif %}
                 {% else %}{{ item.default }}{% endif %}
-                {% endspaceless %}">Reset to default</a>
+                {% endspaceless %}">{% trans "Reset to default" %}</a>
         </td>
         <td>
             {% if item.modified %}
