@@ -142,6 +142,30 @@ Note: Use later evaluated strings instead of direct classes for the field and wi
             'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
         }
 
+If you want to work with files you can use this configuration:
+
+.. code-block:: python
+
+        CONSTANCE_ADDITIONAL_FIELDS = {
+            'image_field': ['django.forms.ImageField', {}]
+        }
+
+        CONSTANCE_CONFIG = {
+            'LOGO_IMAGE': ('default.png', 'Company logo', 'image_field'),
+        }
+
+When used in a template you probably need to use:
+
+.. code-block:: html
+
+        {% load static %}
+
+        {% get_media_prefix as MEDIA_URL %}
+        <img src="{{ MEDIA_URL }}{{ constance.LOGO_IMAGE }}">
+
+Images are uploaded to MEDIA_ROOT.
+
+
 Ordered Fields in Django Admin
 ------------------------------
 
