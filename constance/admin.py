@@ -149,6 +149,19 @@ class ConstanceForm(forms.Form):
                                           'form and resubmit your changes.'))
         return value
 
+    def clean(self):
+        cleaned_data = super(ConstanceForm, self).clean()
+
+        field_name_list = []
+        for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
+            for field_name in fields_list:
+                field_name_list.append(field_name)
+        if set(set(settings.CONFIG.keys()) - set(field_name_list)):
+            raise forms.ValidationError(_('CONSTANCE_CONFIG_FIELDSETS does not contain '
+                                          'fields that exist in CONSTANCE_CONFIG.'))
+
+        return cleaned_data
+
 
 class ConstanceAdmin(admin.ModelAdmin):
     change_list_template = 'admin/constance/change_list.html'

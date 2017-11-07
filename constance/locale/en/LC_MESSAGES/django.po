@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-27 19:05+0100\n"
+"POT-Creation-Date: 2017-06-13 19:40+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,32 +17,41 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin.py:72
+#: admin.py:113
+#, python-format
+msgid ""
+"Default value type must be equal to declared config parameter type. Please "
+"fix the default value of '%(name)s'."
+msgstr ""
+
+#: admin.py:123
 #, python-format
 msgid ""
 "Constance doesn't support config values of the type %(config_type)s. Please "
 "fix the value of '%(name)s'."
 msgstr ""
 
-#: admin.py:91
+#: admin.py:147
 msgid ""
 "The settings have been modified by someone else. Please reload the form and "
 "resubmit your changes."
 msgstr ""
 
-#: admin.py:129
+#: admin.py:160
+msgid ""
+"CONSTANCE_CONFIG_FIELDSETS does not contain fields that exist in "
+"CONSTANCE_CONFIG."
+msgstr ""
+
+#: admin.py:224
 msgid "Live settings updated successfully."
 msgstr ""
 
-#: admin.py:134
-msgid "Constance config"
-msgstr ""
-
-#: admin.py:177
+#: admin.py:285
 msgid "config"
 msgstr ""
 
-#: apps.py:9
+#: apps.py:8
 msgid "Constance"
 msgstr ""
 
@@ -54,26 +63,30 @@ msgstr ""
 msgid "constances"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:50
-msgid "Name"
+#: management/commands/constance.py:30
+msgid "Get/Set In-database config settings handled by Constance"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:51
-msgid "Default"
-msgstr ""
-
-#: templates/admin/constance/change_list.html:52
-msgid "Value"
-msgstr ""
-
-#: templates/admin/constance/change_list.html:53
-msgid "Is modified"
-msgstr ""
-
-#: templates/admin/constance/change_list.html:79
+#: templates/admin/constance/change_list.html:75
 msgid "Save"
 msgstr ""
 
-#: templates/admin/constance/change_list.html:89
+#: templates/admin/constance/change_list.html:84
 msgid "Home"
+msgstr ""
+
+#: templates/admin/constance/includes/results_list.html:5
+msgid "Name"
+msgstr ""
+
+#: templates/admin/constance/includes/results_list.html:6
+msgid "Default"
+msgstr ""
+
+#: templates/admin/constance/includes/results_list.html:7
+msgid "Value"
+msgstr ""
+
+#: templates/admin/constance/includes/results_list.html:8
+msgid "Is modified"
 msgstr ""
