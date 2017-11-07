@@ -20,9 +20,18 @@
             {{ item.form_field.errors }}
             {{ item.form_field }}
             <br>
-            <a href="#" class="reset-link" data-field-id="{{ item.form_field.auto_id }}" data-default="{% spaceless %}
+            <a href="#" class="reset-link"
+                data-field-id="{{ item.form_field.auto_id }}"
+                data-field-type="{% spaceless %}
+                {% if item.is_checkbox %}checkbox
+                {% elif item.is_datetime %}datetime
+                {% endif %}
+                {% endspaceless %}"
+                data-default="{% spaceless %}
                 {% if item.is_checkbox %}{% if item.raw_default %} true {% else %} false {% endif %}
-                {% else %}{{ item.default }}{% endif %}
+                {% elif item.is_datetime %}{{ item.raw_default|date:"U" }}
+                {% else %}{{ item.default }}
+                {% endif %}
                 {% endspaceless %}">Reset to default</a>
         </td>
         <td>
