@@ -1,11 +1,13 @@
+from collections import OrderedDict
 from datetime import datetime, date, time, timedelta
 from decimal import Decimal
-import hashlib
 from operator import itemgetter
-from collections import OrderedDict
+import hashlib
+import os
 
 from django import forms, VERSION
 from django.apps import apps
+from django.conf import settings as django_settings
 from django.conf.urls import url
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
@@ -20,8 +22,8 @@ from django.utils.formats import localize
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
-
 from . import LazyConfig, settings
+
 
 config = LazyConfig()
 
@@ -133,6 +135,14 @@ class ConstanceForm(forms.Form):
         self.initial['version'] = version_hash.hexdigest()
 
     def save(self):
+        for file_field in self.files:
+            file = self.cleaned_data[file_field]
+            file_path = os.path.join(django_settings.MEDIA_ROOT, file.name)
+            with open(file_path, 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+                self.cleaned_data[file_field] = file.name
+
         for name in settings.CONFIG:
             if getattr(config, name) != self.cleaned_data[name]:
                 setattr(config, name, self.cleaned_data[name])
@@ -193,9 +203,9 @@ class ConstanceAdmin(admin.ModelAdmin):
             'value': localize(value),
             'modified': localize(value) != localize(default),
             'form_field': form[name],
-            'is_checkbox': isinstance(
-                form[name].field.widget, forms.CheckboxInput),
             'is_datetime': isinstance(default, datetime),
+            'is_checkbox': isinstance(form[name].field.widget, forms.CheckboxInput),
+            'is_file': isinstance(form[name].field.widget, forms.FileInput),
         }
 
         return config_value
@@ -216,7 +226,9 @@ class ConstanceAdmin(admin.ModelAdmin):
         form_cls = self.get_changelist_form(request)
         form = form_cls(initial=initial)
         if request.method == 'POST':
-            form = form_cls(data=request.POST, initial=initial)
+            form = form_cls(
+                data=request.POST, files=request.FILES, initial=initial
+            )
             if form.is_valid():
                 form.save()
                 messages.add_message(
