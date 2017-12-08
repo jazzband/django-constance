@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
+from mock import patch
 from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 
 from django.utils import six
 
 from constance.base import Config
+from constance import settings as constance_settings
+
 
 if six.PY3:
     def long(value):
@@ -61,6 +64,15 @@ class StorageTestsMixin(object):
         self.assertEqual(self.config.TIMEDELTA_VALUE, timedelta(days=2, hours=3, minutes=4))
         self.assertEqual(self.config.CHOICE_VALUE, 'no')
         self.assertEqual(self.config.EMAIL_VALUE, 'foo@bar.com')
+
+    def test_dynamic_default(self):
+        # When DYNAMIC_DEFAULTS in enabled the default value
+        # should not be persisted.
+        with patch.object(constance_settings, 'DYNAMIC_DEFAULTS', new=True):
+            self.assertEqual(self.config.DYNAMIC_VALUE, 'original')
+
+            with patch.dict(constance_settings.CONFIG, {'DYNAMIC_VALUE': ('new value', 'dynamic default')}):
+                self.assertEqual(self.config.DYNAMIC_VALUE, 'new value')
 
     def test_nonexistent(self):
         try:
