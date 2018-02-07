@@ -1,7 +1,34 @@
 Changelog
 ---------
 
-v2.0 (2017/02/17)
+v2.1.0 (2018/02/7)
+~~~~~~~~~~~~~~~~~
+
+* Move inline JavaScript to constance.js.
+
+* Remove translation from the app name.
+
+* Added file uploads.
+
+* Update information on template context processors.
+
+* Allow running set while database is not created.
+
+* Moved inline css/javascripts out to their own files.
+
+* Add French translations.
+
+* Add testing for all supported Python and Django versions.
+
+* Preserve sorting from fieldset config.
+
+* Added datetime.timedelta support.
+
+* Added Estonian translations.
+
+* Account for server timezone for Date object.
+
+v2.0.0 (2017/02/17)
 ~~~~~~~~~~~~~~~~~
 
 * **BACKWARD INCOMPATIBLE** Added the old value to the config_updated signal.
