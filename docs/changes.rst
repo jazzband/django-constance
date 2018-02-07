@@ -1,8 +1,8 @@
 Changelog
 ---------
 
-v2.1.0 (2018/02/7)
-~~~~~~~~~~~~~~~~~
+v2.1.0 (2018/02/07)
+~~~~~~~~~~~~~~~~~~~
 
 * Move inline JavaScript to constance.js.
 
@@ -29,7 +29,7 @@ v2.1.0 (2018/02/7)
 * Account for server timezone for Date object.
 
 v2.0.0 (2017/02/17)
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 * **BACKWARD INCOMPATIBLE** Added the old value to the config_updated signal.
 
