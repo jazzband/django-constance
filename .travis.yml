@@ -2,20 +2,21 @@ sudo: false
 language: python
 cache: pip
 python:
-  - 2.7
-  - 3.3
-  - 3.4
-  - 3.5
-  - 3.6
-  - pypy
+- 2.7
+- 3.3
+- 3.4
+- 3.5
+- 3.6
+- pypy
 install: pip install tox-travis
 script: tox
 deploy:
   provider: pypi
   user: jazzband
-  distributions: "sdist bdist_wheel"
+  server: https://jazzband.co/projects/django-axes/upload
+  distributions: sdist bdist_wheel
   password:
-    secure: VD+63Tnv0VYNfFQv9f1KZ0k79HSX8veNk4dTy42Hriteci50z5uSQdZMnqqD83xQJa4VF6N7DHkxHnBVOWLCqGQZeYqR/5BuDFNUewcr6O14dk31HvxMsWDaN1KW0Qwtus8ZrztwGhZtZ/92ODA6luHI4mCTzqX0gcG0/aKd75s=
+    secure: fvFbH0oZGYDad2rik7v0L+G4ItH0g/2v8hoBSajeyt/nEyoEShTh2xBwo5413NGkDaIYtYpP/MVqBy02uMc8oSNgh/rS1tIjiIKE77/YJNuZHyQXnZ+90JA+yGaJc5dOyd4G3szEp2Zzi18ov2KkCt37/arObu8bEbChWaEoJqI=
   on:
     tags: true
     repo: jazzband/django-constance
