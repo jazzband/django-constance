@@ -33,7 +33,7 @@ msgid ""
 "Constance doesn't support config values of the type %(config_type)s. Please "
 "fix the value of '%(name)s'."
 msgstr ""
-"Constance ei toeta seadete seda tüüpi %(constance_type) seadete väärtusi. "
+"Constance ei toeta seadete seda tüüpi %(config_type) seadete väärtusi. "
 "Palunsisestage korrektne väärtus väljale '%(name)s'."
 
 #: admin.py:147
