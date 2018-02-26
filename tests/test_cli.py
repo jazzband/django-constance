@@ -39,6 +39,7 @@ u"""        BOOL_VALUE	True
         DECIMAL_VALUE	0.1
         DATETIME_VALUE	2010-08-23 11:29:24
         FLOAT_VALUE	3.1415926536
+        DYNAMIC_VALUE	original
 """)).splitlines()))
 
     def test_get(self):

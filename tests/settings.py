@@ -79,6 +79,7 @@ CONSTANCE_CONFIG = {
     'CHOICE_VALUE': ('yes', 'select yes or no', 'yes_no_null_select'),
     'LINEBREAK_VALUE': ('Spam spam', 'eggs\neggs'),
     'EMAIL_VALUE': ('test@example.com', 'An email', 'email'),
+    'DYNAMIC_VALUE': ('original', 'dynamic default'),
 }
 
 DEBUG = True

@@ -19,8 +19,10 @@ class Config(object):
         result = self._backend.get(key)
         if result is None:
             result = default
-            setattr(self, key, default)
-            return result
+
+            if not settings.DYNAMIC_DEFAULTS:
+                setattr(self, key, default)
+
         return result
 
     def __setattr__(self, key, value):
