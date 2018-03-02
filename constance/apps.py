@@ -16,9 +16,13 @@ class ConstanceConfig(AppConfig):
         Creates a fake content type and permission
         to be able to check for permissions
         """
+        from django.conf import settings
         from django.contrib.auth.models import Permission
         from django.contrib.contenttypes.models import ContentType
 
+        constance_dbs = getattr(settings, 'CONSTANCE_DBS', None)
+        if constance_dbs is not None and using not in constance_dbs:
+            return
         if ContentType._meta.installed and Permission._meta.installed:
             content_type, created = ContentType.objects.using(using).get_or_create(
                 app_label='constance',
