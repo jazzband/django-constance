@@ -309,6 +309,14 @@ class Config(object):
         def app_config(self):
             return apps.get_app_config(self.app_label)
 
+        @property
+        def label(self):
+            return '%s.%s' % (self.app_label, self.object_name)
+
+        @property
+        def label_lower(self):
+            return '%s.%s' % (self.app_label, self.model_name)
+
     _meta = Meta()
 
 

@@ -104,3 +104,7 @@ class TestAdmin(TestCase):
             content_str.find('LONG_VALUE'),
             content_str.find('INT_VALUE')
         )
+
+    def test_labels(self):
+        self.assertEqual(type(self.model._meta.label), str)
+        self.assertEqual(type(self.model._meta.label_lower), str)
