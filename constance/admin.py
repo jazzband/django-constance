@@ -292,6 +292,7 @@ class ConstanceAdmin(admin.ModelAdmin):
 
 class Config(object):
     class Meta(object):
+        label = 'constance.Config'
         app_label = 'constance'
         object_name = 'Config'
         model_name = module_name = 'config'
