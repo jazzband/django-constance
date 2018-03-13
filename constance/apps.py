@@ -1,10 +1,11 @@
-from django.db.models import signals
 from django.apps import AppConfig
+from django.db.models import signals
+from django.utils.translation import gettext_lazy as _
 
 
 class ConstanceConfig(AppConfig):
     name = 'constance'
-    verbose_name = 'Constance'
+    verbose_name = _('Constance')
 
     def ready(self):
         super(ConstanceConfig, self).ready()
