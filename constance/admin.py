@@ -162,13 +162,16 @@ class ConstanceForm(forms.Form):
     def clean(self):
         cleaned_data = super(ConstanceForm, self).clean()
 
+        if not settings.CONFIG_FIELDSETS:
+            return cleaned_data
+
         field_name_list = []
         for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
             for field_name in fields_list:
                 field_name_list.append(field_name)
         if field_name_list and set(set(settings.CONFIG.keys()) - set(field_name_list)):
-            raise forms.ValidationError(_('CONSTANCE_CONFIG_FIELDSETS does not contain '
-                                          'fields that exist in CONSTANCE_CONFIG.'))
+            raise forms.ValidationError(_('CONSTANCE_CONFIG_FIELDSETS is missing '
+                                          'field(s) that exists in CONSTANCE_CONFIG.'))
 
         return cleaned_data
 
@@ -256,7 +259,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             context['fieldsets'] = []
             for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
                 fields_exist = all(field in settings.CONFIG for field in fields_list)
-                assert fields_exist, "CONSTANCE_CONFIG_FIELDSETS contains fields that does not exist"
+                assert fields_exist, "CONSTANCE_CONFIG_FIELDSETS contains field(s) that does not exist"
                 config_values = []
 
                 for name in fields_list:
