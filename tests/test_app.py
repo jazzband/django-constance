@@ -2,7 +2,7 @@ from django.apps import apps
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import signals
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 
 class TestApp(TestCase):
@@ -19,6 +19,14 @@ class TestApp(TestCase):
         self.call_post_migrate(None)
 
         self.assert_content_type_and_permission_created('default')
+
+    @override_settings(CONSTANCE_DBS=['default'])
+    def test_only_use_databases_in_constance_dbs(self):
+        Permission.objects.using('default').delete()
+        Permission.objects.using('secondary').delete()
+        self.assert_uses_correct_database('default')
+        with self.assertRaises(AssertionError):
+            self.assert_uses_correct_database('secondary')
 
     def assert_uses_correct_database(self, database_name):
         self.call_post_migrate(database_name)
