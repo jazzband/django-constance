@@ -1,6 +1,20 @@
 Changelog
 ---------
 
+v2.2.0 (2018/03/23)
+~~~~~~~~~~~~~~~~~~~
+
+* Fix ConstanceForm validation.
+
+* `CONSTANCE_DBS` setting for directing constance permissions/content_type
+    settings to certian DBs only.
+
+* Added config labels.
+
+* Updated italian translations.
+
+* Fix `CONSTANCE_CONFIG_FIELDSETS` mismatch issue.
+
 v2.1.0 (2018/02/07)
 ~~~~~~~~~~~~~~~~~~~
 
