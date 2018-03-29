@@ -199,6 +199,9 @@ To group settings together you can define fieldsets. Here's an example:
             'General Options': ('SITE_NAME', 'SITE_DESCRIPTION'),
             'Theme Options': ('THEME',),
         }
+        
+.. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONTANCE_CONFIG
+
 .. image:: screenshot3.png
 
 Usage
