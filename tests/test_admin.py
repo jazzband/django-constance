@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
+from django.template.defaultfilters import linebreaksbr
 from django.test import TestCase, RequestFactory
 from django.utils import six
 
@@ -59,7 +60,7 @@ class TestAdmin(TestCase):
         request.user = self.superuser
         response = self.options.changelist_view(request, {})
         self.assertContains(response, 'LINEBREAK_VALUE')
-        self.assertContains(response, 'eggs<br />eggs')
+        self.assertContains(response, linebreaksbr('eggs\neggs'))
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {
         'Numbers': ('LONG_VALUE', 'INT_VALUE',),
