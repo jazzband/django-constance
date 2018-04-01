@@ -52,6 +52,8 @@ the :setting:`CONSTANCE_CONFIG` section, like this:
                            'The Universe, and Everything'),
     }
 
+.. note::  If you use admin extensions like `Grapelli <http://grappelliproject.com/>`_, ``'constance'`` should be added in :setting:`INSTALLED_APPS` *before* that extension
+
 Here, ``42`` is the default value for the key ``THE_ANSWER`` if it is
 not found in the backend. The other member of the tuple is a help text the
 admin will show.
