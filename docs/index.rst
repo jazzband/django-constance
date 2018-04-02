@@ -200,7 +200,7 @@ To group settings together you can define fieldsets. Here's an example:
             'Theme Options': ('THEME',),
         }
         
-.. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONTANCE_CONFIG
+.. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONSTANCE_CONFIG
 
 .. image:: screenshot3.png
 
