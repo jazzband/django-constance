@@ -206,6 +206,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             'value': localize(value),
             'modified': localize(value) != localize(default),
             'form_field': form[name],
+            'is_date': isinstance(default, date),
             'is_datetime': isinstance(default, datetime),
             'is_checkbox': isinstance(form[name].field.widget, forms.CheckboxInput),
             'is_file': isinstance(form[name].field.widget, forms.FileInput),
