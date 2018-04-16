@@ -31,6 +31,7 @@
                 data-default="{% spaceless %}
                 {% if item.is_checkbox %}{% if item.raw_default %} true {% else %} false {% endif %}
                 {% elif item.is_datetime %}{{ item.raw_default|date:"U" }}
+                {% elif item.is_date %}{{ item.raw_default.isoformat }}
                 {% else %}{{ item.default }}
                 {% endif %}
                 {% endspaceless %}">{% trans "Reset to default" %}</a>
