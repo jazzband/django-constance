@@ -25,13 +25,14 @@
                 data-field-id="{{ item.form_field.auto_id }}"
                 data-field-type="{% spaceless %}
                 {% if item.is_checkbox %}checkbox
+                {% elif item.is_date %}date
                 {% elif item.is_datetime %}datetime
                 {% endif %}
                 {% endspaceless %}"
                 data-default="{% spaceless %}
                 {% if item.is_checkbox %}{% if item.raw_default %} true {% else %} false {% endif %}
+                {% elif item.is_date %}{{ item.raw_default|date:"U" }}
                 {% elif item.is_datetime %}{{ item.raw_default|date:"U" }}
-                {% elif item.is_date %}{{ item.raw_default.isoformat }}
                 {% else %}{{ item.default }}
                 {% endif %}
                 {% endspaceless %}">{% trans "Reset to default" %}</a>
