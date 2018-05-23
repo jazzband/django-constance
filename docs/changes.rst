@@ -7,7 +7,7 @@ v2.2.0 (2018/03/23)
 * Fix ConstanceForm validation.
 
 * `CONSTANCE_DBS` setting for directing constance permissions/content_type
-    settings to certian DBs only.
+  settings to certain DBs only.
 
 * Added config labels.
 
