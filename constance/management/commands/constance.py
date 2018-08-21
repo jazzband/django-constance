@@ -47,7 +47,7 @@ class Command(BaseCommand):
 
     def _subparsers_add_parser(self, subparsers, name, **kwargs):
         # API in Django >= 2.1 changed and removed cmd parameter from add_parser
-        if VERSION >= (2, 1):
+        if VERSION >= (2, 1) and 'cmd' in kwargs:
             kwargs.pop('cmd')
         return subparsers.add_parser(name, **kwargs)
 
