@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 from django.core.exceptions import ValidationError
 from django.core.management import BaseCommand, CommandError
 from django.utils.translation import ugettext as _
+from django import VERSION
+
 
 from ... import config
 from ...admin import ConstanceForm, get_values
@@ -31,16 +33,37 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         subparsers = parser.add_subparsers(dest='command')
+        # API changed in Django>=2.1. cmd argument was removed.
+        parser_list = self._subparsers_add_parser(subparsers, 'list', cmd=self, help='list all Constance keys and their values')
 
-        parser_list = subparsers.add_parser('list', help='list all Constance keys and their values')
-
-        parser_get = subparsers.add_parser('get', help='get the value of a Constance key')
+        parser_get = self._subparsers_add_parser(subparsers, 'get', cmd=self, help='get the value of a Constance key')
         parser_get.add_argument('key', help='name of the key to get', metavar='KEY')
 
-        parser_set = subparsers.add_parser('set', help='set the value of a Constance key')
+        parser_set = self._subparsers_add_parser(subparsers, 'set', cmd=self, help='set the value of a Constance key')
         parser_set.add_argument('key', help='name of the key to get', metavar='KEY')
         # use nargs='+' so that we pass a list to MultiValueField (eg SplitDateTimeField)
         parser_set.add_argument('value', help='value to set', metavar='VALUE', nargs='+')
+
+
+    def _subparsers_add_parser(self, subparsers, name, **kwargs):
+        # API in Django >= 2.1 changed and removed cmd parameter from add_parser
+        if VERSION >= (2, 1):
+            kwargs.pop('cmd')
+        return subparsers.add_parser(name, **kwargs)
+
+
+
+    def add_arguments_gte2_1(self, parser):
+            parser_list = subparsers.add_parser('list', cmd=self, help='list all Constance keys and their values')
+
+            parser_get = subparsers.add_parser('get', cmd=self, help='get the value of a Constance key')
+            parser_get.add_argument('key', help='name of the key to get', metavar='KEY')
+
+            parser_set = subparsers.add_parser('set', cmd=self, help='set the value of a Constance key')
+            parser_set.add_argument('key', help='name of the key to get', metavar='KEY')
+            # use nargs='+' so that we pass a list to MultiValueField (eg SplitDateTimeField)
+            parser_set.add_argument('value', help='value to set', metavar='VALUE', nargs='+')
+
 
     def handle(self, command, key=None, value=None, *args, **options):
 
