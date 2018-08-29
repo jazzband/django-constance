@@ -86,7 +86,7 @@ You can use it as:
     def constance_updated(sender, key, old_value, new_value, **kwargs):
         print(sender, key, old_value, new_value)
 
-The sender is the ``config`` object, and the ``updated_key`` and ``new_value``
+The sender is the ``config`` object, and the ``key`` and ``new_value``
 are the ones just changed.
 
 This callback will get the ``config`` object as the first parameter so you
@@ -201,7 +201,7 @@ To group settings together you can define fieldsets. Here's an example:
             'General Options': ('SITE_NAME', 'SITE_DESCRIPTION'),
             'Theme Options': ('THEME',),
         }
-        
+
 .. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONSTANCE_CONFIG
 
 .. image:: screenshot3.png
