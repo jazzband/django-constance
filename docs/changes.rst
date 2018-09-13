@@ -1,6 +1,26 @@
 Changelog
 ---------
 
+v2.3.0 (2018/09/13)
+~~~~~~~~~~~~~~~~~~~
+
+* Added zh_Hans translation.
+
+* Fixed TestAdmin.test_linebreaks() due to linebreaksbr() behavior change 
+  on Django 2.1
+
+* Improved chinese translation
+
+* Fix bug of can't change permission chang_config's name
+
+* Improve consistency of reset value handling for `date`
+
+* Drop support for Python 3.3
+
+* Added official Django 2.0 support.
+
+* Added support for Django 2.1
+
 v2.2.0 (2018/03/23)
 ~~~~~~~~~~~~~~~~~~~
 
