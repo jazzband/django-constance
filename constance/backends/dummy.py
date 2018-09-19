@@ -1,7 +1,6 @@
 from django.conf import settings
 
 from . import Backend
-from .. import settings as constance_settings
 
 
 class DummyBackend(Backend):

@@ -1,0 +1,19 @@
+{% load admin_static admin_list static i18n %}
+<table>
+    <thead>
+        <tr>
+            <th><div class="text">{% trans "Name" %}</div></th>
+            <th><div class="text">{% trans "Value" %}</div></th>
+        </tr>
+    </thead>
+    {% for item in config_values %}
+    <tr class="{% cycle 'row1' 'row2' %}">
+        <th>
+            {{ item.name }} <div class="help">{{ item.help_text|linebreaksbr }}</div>
+        </th>
+        <td>
+            {{ item.default|linebreaks }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

@@ -6,6 +6,12 @@ BACKEND = getattr(
     'constance.backends.redisd.RedisBackend'
 )
 
+READONLY_BACKEND = getattr(
+    settings,
+    'CONSTANCE_READONLY_BACKEND',
+    BACKEND == 'constance.backends.dummy.DummyBackend'
+)
+
 CONFIG = getattr(settings, 'CONSTANCE_CONFIG', {})
 
 CONFIG_FIELDSETS = getattr(settings, 'CONSTANCE_CONFIG_FIELDSETS', {})

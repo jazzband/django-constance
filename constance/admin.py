@@ -250,6 +250,10 @@ class ConstanceAdmin(admin.ModelAdmin):
             form=form,
             media=self.media + form.media,
             icon_type='gif' if VERSION < (1, 9) else 'svg',
+            readonly_backend=settings.READONLY_BACKEND,
+            result_list_template="admin/constance/includes/{readonly}results_list.html".format(
+                readonly='readonly_' if settings.READONLY_BACKEND else ''
+            )
         )
         for name, options in settings.CONFIG.items():
             context['config_values'].append(
