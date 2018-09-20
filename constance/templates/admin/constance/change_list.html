@@ -48,17 +48,19 @@
               <fieldset class="module">
                   <h2>{{ fieldset.title }}</h2>
                   {% with config_values=fieldset.config_values %}
-                    {% include "admin/constance/includes/results_list.html" %}
+                    {% include result_list_template %}
                   {% endwith %}
               </fieldset>
               {% endfor %}
             {% else %}
-              {% include "admin/constance/includes/results_list.html" %}
+              {% include result_list_template %}
             {% endif %}
 
-            <p class="paginator">
-              <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
-            </p>
+            {% if not readonly_backend %}
+                <p class="paginator">
+                  <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
+                </p>
+            {% endif %}
         </form>
     </div>
   </div>
