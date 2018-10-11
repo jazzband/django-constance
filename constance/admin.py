@@ -259,8 +259,12 @@ class ConstanceAdmin(admin.ModelAdmin):
         if settings.CONFIG_FIELDSETS:
             context['fieldsets'] = []
             for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
-                fields_exist = all(field in settings.CONFIG for field in fields_list)
-                assert fields_exist, "CONSTANCE_CONFIG_FIELDSETS contains field(s) that does not exist"
+                absent_fields = [field for field in fields_list
+                                 if field not in settings.CONFIG]
+                assert not any(absent_fields), (
+                    "CONSTANCE_CONFIG_FIELDSETS contains field(s) that does "
+                    "not exist: %s" % ', '.join(absent_fields))
+
                 config_values = []
 
                 for name in fields_list:
