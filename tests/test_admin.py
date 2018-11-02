@@ -1,3 +1,4 @@
+# set encoding=utf8
 import mock
 from django.contrib import admin
 from django.contrib.auth.models import User, Permission
@@ -6,10 +7,13 @@ from django.core.exceptions import PermissionDenied
 from django.template.defaultfilters import linebreaksbr
 from django.test import TestCase, RequestFactory
 from django.utils import six
-
+from django.views.decorators.csrf import csrf_exempt
 from constance import settings
 from constance.admin import Config
-
+from django.utils.decorators import method_decorator
+from django.contrib.messages.storage.fallback import FallbackStorage
+import datetime
+from decimal import Decimal
 
 class TestAdmin(TestCase):
     model = Config
@@ -22,6 +26,37 @@ class TestAdmin(TestCase):
         self.normaluser.is_staff = True
         self.normaluser.save()
         self.options = admin.site._registry[self.model]
+
+    @mock.patch("constance.admin.ConstanceForm.clean_version", lambda x: 'test')
+    def test_changelist_post(self):
+        self.client.login(username='admin', password='nimda')
+        data = {
+            'FLOAT_VALUE': 3.1415926536,
+            'BOOL_VALUE': True,
+            'EMAIL_VALUE': 'test@example.com',
+            'INT_VALUE': 1,
+            'CHOICE_VALUE': 'yes',
+            'TIME_VALUE': datetime.time(23, 59, 59),
+            'DATE_VALUE': datetime.date(2010, 12, 24),
+            'TIMEDELTA_VALUE': datetime.timedelta(days=1, hours=2, minutes=3),
+            'LINEBREAK_VALUE': 'Spam spam',
+            'DECIMAL_VALUE': Decimal('0.1'),
+            'STRING_VALUE': 'Hello world',
+            'UNICODE_VALUE': u'Rivière-Bonjour რუსთაველი',
+            'DATETIME_VALUE': datetime.datetime(2010, 8, 23, 11, 29, 24),
+            'LONG_VALUE': 123456,
+            'DATETIME_VALUE_0': datetime.datetime(2010, 8, 23, 11, 29, 24).strftime("%Y-%m-%d"),
+            'DATETIME_VALUE_1': datetime.datetime(2010, 8, 23, 11, 29, 24).strftime("%H:%M:%S"),
+            'version': 'test'
+        }
+        request = self.rf.post('/admin/constance/config/', data, follow=True)
+        request._dont_enforce_csrf_checks=True
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+        request.user = self.superuser
+        response = self.options.changelist_view(request, {})
+        self.assertEqual(response.status_code, 302)
 
     def test_changelist(self):
         self.client.login(username='admin', password='nimda')
