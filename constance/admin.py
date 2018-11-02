@@ -21,6 +21,7 @@ from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from . import LazyConfig, settings
 
@@ -36,13 +37,24 @@ STRING_LIKE = (fields.CharField, {
     'required': False,
 })
 
+
+class CustomSplitDateTimeField(fields.SplitDateTimeField):
+    def compress(self, value):
+        """
+            Convert all datetime objects without timezone 
+        """
+        value = super(CustomSplitDateTimeField, self).compress(value)
+        if getattr(django_settings, 'USE_TZ') and value is not None:
+            value = timezone.make_naive(value)
+        return value
+
 FIELDS = {
     bool: (fields.BooleanField, {'required': False}),
     int: INTEGER_LIKE,
     Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
     str: STRING_LIKE,
     datetime: (
-        fields.SplitDateTimeField, {'widget': widgets.AdminSplitDateTime}
+        CustomSplitDateTimeField, {'widget': widgets.AdminSplitDateTime}
     ),
     timedelta: (
         fields.DurationField, {'widget': widgets.AdminTextInputWidget}
@@ -144,8 +156,10 @@ class ConstanceForm(forms.Form):
                 self.cleaned_data[file_field] = file.name
 
         for name in settings.CONFIG:
-            if getattr(config, name) != self.cleaned_data[name]:
-                setattr(config, name, self.cleaned_data[name])
+            config_data = getattr(config, name)
+            cleaned_data = self.cleaned_data[name]
+            if config_data != cleaned_data:
+                setattr(config, name, cleaned_data)
 
     def clean_version(self):
         value = self.cleaned_data['version']

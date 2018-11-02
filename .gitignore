@@ -8,3 +8,5 @@ test.db
 .tox
 .coverage
 docs/_build
+tags
+htmlcov
