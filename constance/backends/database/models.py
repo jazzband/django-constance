@@ -15,6 +15,9 @@ class Constance(models.Model):
     key = models.CharField(max_length=255, unique=True)
     value = PickledObjectField()
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = _('constance')
         verbose_name_plural = _('constances')
