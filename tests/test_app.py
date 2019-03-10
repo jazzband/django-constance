@@ -6,6 +6,8 @@ from django.test import TestCase, override_settings
 
 
 class TestApp(TestCase):
+    databases = ["default", "secondary"]
+
     def setUp(self):
         self.app_config = apps.get_app_config('constance')
 
