@@ -6,7 +6,8 @@
         $('#content-main').on('click', '.reset-link', function(e) {
             e.preventDefault();
 
-            var field = $('#' + this.dataset.fieldId);
+            var field_selector = this.dataset.fieldId.replace(/ /g, "\\ ") 
+            var field = $('#' + field_selector);
             var fieldType = this.dataset.fieldType;
 
             if (fieldType === 'checkbox') {
