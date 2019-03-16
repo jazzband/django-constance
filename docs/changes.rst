@@ -1,11 +1,25 @@
 Changelog
 ---------
 
+v2.4.0 (2019/03/16)
+~~~~~~~~~~~~~~~~~~~
+
+* Show not existing fields in field_list
+
+* Drop Django<1.11 and 2.0, fix tests vs Django 2.2b
+
+* Fixed "Reset to default" button with constants whose name contains a space
+
+* Use default_storage to save file
+
+* Allow null & blank for PickleField
+
+* Removed Python 3.4 since is not longer supported
+
 v2.3.1 (2018/09/20)
 ~~~~~~~~~~~~~~~~~~~
 
 * Fixes javascript typo.
-
 
 v2.3.0 (2018/09/13)
 ~~~~~~~~~~~~~~~~~~~
