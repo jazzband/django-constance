@@ -13,7 +13,7 @@ except ImportError:
 
 class Constance(models.Model):
     key = models.CharField(max_length=255, unique=True)
-    value = PickledObjectField()
+    value = PickledObjectField(null=True, blank=True)
 
     class Meta:
         verbose_name = _('constance')
