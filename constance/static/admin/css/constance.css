@@ -13,3 +13,6 @@
 .help {
     font-weight: normal !important;
 }
+#results{
+    overflow-x: auto;
+}
