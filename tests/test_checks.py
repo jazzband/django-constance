@@ -2,7 +2,7 @@
 
 import datetime
 from decimal import Decimal
-from unittest import mock
+import mock
 
 from constance.admin import get_values
 from constance.checks import check_fieldsets, get_inconsistent_fieldnames
