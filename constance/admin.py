@@ -24,6 +24,7 @@ from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
 from . import LazyConfig, settings
+from .checks import get_inconsistent_fieldnames
 
 
 config = LazyConfig()
@@ -163,11 +164,7 @@ class ConstanceForm(forms.Form):
         if not settings.CONFIG_FIELDSETS:
             return cleaned_data
 
-        field_name_list = []
-        for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
-            for field_name in fields_list:
-                field_name_list.append(field_name)
-        if field_name_list and set(set(settings.CONFIG.keys()) - set(field_name_list)):
+        if get_inconsistent_fieldnames():
             raise forms.ValidationError(_('CONSTANCE_CONFIG_FIELDSETS is missing '
                                           'field(s) that exists in CONSTANCE_CONFIG.'))
 

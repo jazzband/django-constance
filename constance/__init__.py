@@ -1,4 +1,5 @@
 from django.utils.functional import LazyObject
+from . import checks
 
 __version__ = '2.4.0'
 

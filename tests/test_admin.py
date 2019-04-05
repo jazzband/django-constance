@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.template.defaultfilters import linebreaksbr
 from django.test import TestCase, RequestFactory
 from django.utils import six
@@ -73,6 +74,45 @@ class TestAdmin(TestCase):
         response = self.options.changelist_view(request, {})
         self.assertContains(response, '<h2>Numbers</h2>')
         self.assertContains(response, '<h2>Text</h2>')
+
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {
+        'FieldSetOne': ('INT_VALUE',)
+    })
+    @mock.patch('constance.settings.CONFIG', {
+        'INT_VALUE': (1, 'some int'),
+    })
+    @mock.patch('constance.settings.IGNORE_ADMIN_VERSION_CHECK', True)
+    def test_submit(self):
+        """
+        Test that submitting the admin page results in an http redirect when
+        everything is in order.
+        """
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.post('/admin/constance/config/', data={
+            "INT_VALUE": settings.CONFIG['INT_VALUE'][0],
+            "version": "123",
+        })
+        request.user = self.superuser
+        request._dont_enforce_csrf_checks = True
+        with mock.patch("django.contrib.messages.add_message"):
+            response = self.options.changelist_view(request, {})
+        self.assertIsInstance(response, HttpResponseRedirect)
+
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {
+        'Numbers': ('LONG_VALUE', 'INT_VALUE',),
+        'Text': ('STRING_VALUE', 'UNICODE_VALUE'),
+    })
+    def test_inconsistent_fieldset_submit(self):
+        """
+        Test that the admin page warns users if the CONFIG_FIELDSETS setting
+        doesn't account for every field in CONFIG.
+        """
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.post('/admin/constance/config/', data=None)
+        request.user = self.superuser
+        request._dont_enforce_csrf_checks = True
+        response = self.options.changelist_view(request, {})
+        self.assertContains(response, 'is missing field(s)')
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {
         'Numbers': ('LONG_VALUE', 'INT_VALUE',),
