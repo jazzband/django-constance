@@ -13,7 +13,7 @@ class TestDatabase(StorageTestsMixin, TestCase):
 
     def test_database_queries(self):
         # Read and set to default value
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(3):
             self.config.INT_VALUE
 
         # Read again
@@ -21,7 +21,7 @@ class TestDatabase(StorageTestsMixin, TestCase):
             self.config.INT_VALUE
 
         # Set value
-        with self.assertNumQueries(3):
+        with self.assertNumQueries(2):
             self.config.INT_VALUE = 15
 
     def tearDown(self):
