@@ -143,8 +143,36 @@ class ConstanceForm(forms.Form):
             self.cleaned_data[file_field] = file.name
 
         for name in settings.CONFIG:
-            if getattr(config, name) != self.cleaned_data[name]:
-                setattr(config, name, self.cleaned_data[name])
+            _current = getattr(config, name)
+            _new = self.cleaned_data[name]
+            if _current != _new:
+                setattr(config, name, _new)
+                self.log_changed_field(name, _current, _new)
+
+    def log_changed_field(self, name, old, new):
+        if not settings.DATABASE_LOG_CHANGES:
+            return
+        if not hasattr(self, '_request'):
+            return
+        if not hasattr(self, '_model_admin'):
+            return
+        #
+        from constance.backends.database import DatabaseBackend
+        from constance.base import Config
+        _backend = Config()._backend
+        if not isinstance(_backend, DatabaseBackend):
+            return
+        #
+        _model = _backend._model
+        try:
+            obj = _model.objects.get(key=name)
+        except _model.DoesNotExist:
+            return
+        change_msg = _('Changed %s.') % (
+            '{0!s}: {1!r} -> {2!r}'.format(name, old, new))
+        self._model_admin.log_change(
+            self._request, obj, change_msg)
+        pass
 
     def clean_version(self):
         value = self.cleaned_data['version']
@@ -215,7 +243,10 @@ class ConstanceAdmin(admin.ModelAdmin):
         """
         # Defaults to self.change_list_form in order to preserve backward
         # compatibility
-        return self.change_list_form
+        class UpdatedChangeListForm(self.change_list_form):
+            _request = request
+            _model_admin = self
+        return UpdatedChangeListForm
 
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):

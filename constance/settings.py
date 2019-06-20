@@ -43,3 +43,9 @@ IGNORE_ADMIN_VERSION_CHECK = getattr(
     'CONSTANCE_IGNORE_ADMIN_VERSION_CHECK',
     False
 )
+
+DATABASE_LOG_CHANGES = getattr(
+    settings,
+    'CONSTANCE_DATABASE_LOG_CHANGES',
+    False
+)
