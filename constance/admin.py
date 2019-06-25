@@ -154,6 +154,7 @@ class ConstanceForm(forms.Form):
 
     def log_changed_field(self, name, old, new):
         if not settings.DATABASE_LOG_CHANGES:
+            ## TODO: log it as debug
             return
         try:
             if not hasattr(self, '_request'):
@@ -161,19 +162,27 @@ class ConstanceForm(forms.Form):
             if not hasattr(self, '_model_admin'):
                 raise self.__ImpossibleException('_model_admin')
         except self.__ImpossibleException as e:
-            ## TODO: log it, or use raven
+            ## TODO: log it as error
+            if 'raven.contrib.django.raven_compat' in django_settings.INSTALLED_APPS:
+                from raven.contrib.django.raven_compat.models import client
+                client.captureException()
             return
         #
         from constance.backends.database import DatabaseBackend
         from constance.base import Config
         _backend = Config()._backend
         if not isinstance(_backend, DatabaseBackend):
+            ## TODO: log it as error
             return
         #
         _model = _backend._model
         try:
             obj = _model.objects.get(key=name)
         except _model.DoesNotExist:
+            ## TODO: log it as error
+            if 'raven.contrib.django.raven_compat' in django_settings.INSTALLED_APPS:
+                from raven.contrib.django.raven_compat.models import client
+                client.captureException()
             return
         change_msg = _('Changed %s.') % (
             '{0!s}: {1!r} -> {2!r}'.format(name, old, new))
