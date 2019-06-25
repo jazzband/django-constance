@@ -105,6 +105,9 @@ def get_values():
 class ConstanceForm(forms.Form):
     version = forms.CharField(widget=forms.HiddenInput)
 
+    class __ImpossibleException(Exception):
+        pass
+
     def __init__(self, initial, *args, **kwargs):
         super(ConstanceForm, self).__init__(*args, initial=initial, **kwargs)
         version_hash = hashlib.md5()
@@ -152,9 +155,13 @@ class ConstanceForm(forms.Form):
     def log_changed_field(self, name, old, new):
         if not settings.DATABASE_LOG_CHANGES:
             return
-        if not hasattr(self, '_request'):
-            return
-        if not hasattr(self, '_model_admin'):
+        try:
+            if not hasattr(self, '_request'):
+                raise self.__ImpossibleException('_request')
+            if not hasattr(self, '_model_admin'):
+                raise self.__ImpossibleException('_model_admin')
+        except self.__ImpossibleException as e:
+            ## TODO: log it, or use raven
             return
         #
         from constance.backends.database import DatabaseBackend
