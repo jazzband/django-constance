@@ -139,8 +139,7 @@ class ConstanceForm(forms.Form):
     def save(self):
         for file_field in self.files:
             file = self.cleaned_data[file_field]
-            default_storage.save(file.name, file)
-            self.cleaned_data[file_field] = file.name
+            self.cleaned_data[file_field] = default_storage.save(file.name, file)
 
         for name in settings.CONFIG:
             if getattr(config, name) != self.cleaned_data[name]:
