@@ -3,11 +3,9 @@ from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 from operator import itemgetter
 import hashlib
-import os
 
 from django import forms, VERSION
 from django.apps import apps
-from django.conf import settings as django_settings
 from django.conf.urls import url
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
@@ -17,7 +15,7 @@ from django.core.files.storage import default_storage
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.utils import six
+from django.utils import six, timezone
 from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.module_loading import import_string
@@ -142,8 +140,14 @@ class ConstanceForm(forms.Form):
             self.cleaned_data[file_field] = default_storage.save(file.name, file)
 
         for name in settings.CONFIG:
-            if getattr(config, name) != self.cleaned_data[name]:
-                setattr(config, name, self.cleaned_data[name])
+            current = getattr(config, name)
+            new = self.cleaned_data[name]
+
+            if isinstance(current, datetime) and not timezone.is_aware(current):
+                current = timezone.make_aware(current)
+
+            if current != new:
+                setattr(config, name, new)
 
     def clean_version(self):
         value = self.cleaned_data['version']

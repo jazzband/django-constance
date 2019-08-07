@@ -8,3 +8,4 @@ test.db
 .tox
 .coverage
 docs/_build
+.idea

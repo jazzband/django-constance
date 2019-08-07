@@ -63,6 +63,8 @@ CONSTANCE_ADDITIONAL_FIELDS = {
     'email': ('django.forms.fields.EmailField',),
 }
 
+USE_TZ = True
+
 CONSTANCE_CONFIG = {
     'INT_VALUE': (1, 'some int'),
     'LONG_VALUE': (long_value, 'some looong int'),

@@ -5,6 +5,7 @@ from textwrap import dedent
 
 from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
+from django.utils import timezone
 from django.utils.encoding import smart_str
 from django.utils.six import StringIO
 
@@ -53,7 +54,7 @@ u"""        BOOL_VALUE	True
 
         call_command('constance', *('set', 'DATETIME_VALUE', '2011-09-24', '12:30:25'), stdout=self.out)
 
-        self.assertEqual(config.DATETIME_VALUE, datetime(2011, 9, 24, 12, 30, 25))
+        self.assertEqual(config.DATETIME_VALUE, timezone.make_aware(datetime(2011, 9, 24, 12, 30, 25)))
 
     def test_get_invalid_name(self):
         self.assertRaisesMessage(CommandError, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG",

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import mock
 from django.contrib import admin
 from django.contrib.auth.models import User, Permission
@@ -97,6 +99,27 @@ class TestAdmin(TestCase):
         with mock.patch("constance.admin.ConstanceForm.save"):
             with mock.patch("django.contrib.messages.add_message"):
                 response = self.options.changelist_view(request, {})
+        self.assertIsInstance(response, HttpResponseRedirect)
+
+    @mock.patch('constance.settings.CONFIG', {
+        'DATETIME_VALUE': (datetime(2019, 8, 7, 18, 40, 0), 'some naive datetime'),
+    })
+    @mock.patch('constance.settings.IGNORE_ADMIN_VERSION_CHECK', True)
+    @mock.patch('tests.redis_mockup.Connection.set', mock.MagicMock())
+    def test_submit_aware_datetime(self):
+        """
+        Test that submitting the admin page results in an http redirect when
+        everything is in order.
+        """
+        request = self.rf.post('/admin/constance/config/', data={
+            "DATETIME_VALUE_0": "2019-08-07",
+            "DATETIME_VALUE_1": "19:17:01",
+            "version": "123",
+        })
+        request.user = self.superuser
+        request._dont_enforce_csrf_checks = True
+        with mock.patch("django.contrib.messages.add_message"):
+            response = self.options.changelist_view(request, {})
         self.assertIsInstance(response, HttpResponseRedirect)
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {
