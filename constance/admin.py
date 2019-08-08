@@ -4,7 +4,7 @@ from decimal import Decimal
 from operator import itemgetter
 import hashlib
 
-from django import forms, VERSION
+from django import forms, VERSION, conf
 from django.apps import apps
 from django.conf.urls import url
 from django.contrib import admin, messages
@@ -143,7 +143,7 @@ class ConstanceForm(forms.Form):
             current = getattr(config, name)
             new = self.cleaned_data[name]
 
-            if isinstance(current, datetime) and not timezone.is_aware(current):
+            if conf.settings.USE_TZ and isinstance(current, datetime) and not timezone.is_aware(current):
                 current = timezone.make_aware(current)
 
             if current != new:
