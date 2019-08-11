@@ -65,8 +65,12 @@ class OverrideConfigBase(override_settings):
         """
         Override the config by modifying TestClass methods.
         """
-        original_pre_setup = getattr(test_case, self._pre_setup)
-        original_post_teardown = getattr(test_case, self._post_teardown)
+        # Test class in pytest can be just inherited from object
+        # and thus have no `setup()` or `teardown()`.
+        # We do not want to set them implicitly so to let the method still work
+        # and avoid raising AttributeError, we default _pre_setup and _post_teardown to the do-nothing-lambda.
+        original_pre_setup = getattr(test_case, self._pre_setup, lambda x: None)
+        original_post_teardown = getattr(test_case, self._post_teardown, lambda x: None)
 
         setattr(test_case, self._pre_setup, _setup(self)(original_pre_setup))
         setattr(test_case, self._post_teardown, _teardown(self)(original_post_teardown))
