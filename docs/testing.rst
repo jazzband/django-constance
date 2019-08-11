@@ -43,10 +43,10 @@ method level and also as a
 Pytest usage
 ~~~~~
 
-By default, if `override_config` is applied to class that is not inherited
-from `SimpleTestCase` or `TestCase`, it raises exception.
+By default, if ``override_config`` is applied to class that is not inherited
+from ``SimpleTestCase`` or ``TestCase``, it raises exception.
 
-Pytest classes may not use `TestCase` and generally inherit only `object`.
+Pytest classes may not use ``TestCase`` and generally inherit only ``object``.
 For that reason was introduced
 
 .. py:class:: pytest.override_config(**kwargs)
