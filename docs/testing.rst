@@ -47,7 +47,12 @@ By default, if `override_config` is applied to class that is not inherited
 from `SimpleTestCase` or `TestCase`, it raises exception.
 
 Pytest classes may not use `TestCase` and generally inherit only `object`.
-For that reason :class:`~django.test.pytest.override_setting` was introduced.
+For that reason was introduced
+
+.. py:class:: pytest.override_config(**kwargs)
+
+    Replaces key-value pairs in the config.
+    Use as decorator or context manager.
 
 .. code-block:: python
 
