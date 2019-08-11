@@ -44,9 +44,9 @@ class OverrideConfigBase(override_settings):
 
     def __init__(self, **kwargs):
         super(OverrideConfigBase, self).__init__(**kwargs)
-        self.original_values = {}
         if not all([self._pre_setup, self._post_teardown]):
             raise Exception("Base override config can not be instantiated.")
+        self.original_values = {}
 
     def __call__(self, test_func):
         """
