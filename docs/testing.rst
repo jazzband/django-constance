@@ -38,3 +38,34 @@ method level and also as a
         def test_what_is_your_favourite_color(self):
             with override_config(YOUR_FAVOURITE_COLOR="Blue?"):
                 self.assertEqual(config.YOUR_FAVOURITE_COLOR, "Blue?")
+
+
+Pytest usage
+~~~~~
+
+By default, if `override_config` is applied to class that is not inherited
+from `SimpleTestCase` or `TestCase`, it raises exception.
+
+Pytest classes may not use `TestCase` and generally inherit only `object`.
+For that reason :class:`~django.test.pytest.override_setting` was introduced.
+
+.. code-block:: python
+
+    from constance import config
+    from constance.test.pytest import override_config
+
+
+    @override_config(YOUR_NAME="Arthur of Camelot")
+    class ExampleTestCase:
+
+        def test_what_is_your_name(self):
+            self.assertEqual(config.YOUR_NAME, "Arthur of Camelot")
+
+        @override_config(YOUR_QUEST="To find the Holy Grail")
+        def test_what_is_your_quest(self):
+            self.assertEqual(config.YOUR_QUEST, "To find the Holy Grail")
+
+        def test_what_is_your_favourite_color(self):
+            with override_config(YOUR_FAVOURITE_COLOR="Blue?"):
+                self.assertEqual(config.YOUR_FAVOURITE_COLOR, "Blue?")
+
