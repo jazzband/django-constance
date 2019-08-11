@@ -36,25 +36,22 @@ class PytestOverrideConfigFunctionDecoratorTestCase():
         """Assert that the default value of config.BOOL_VALUE is True."""
         assert config.BOOL_VALUE
 
-    @override_config(BOOL_VALUE=False)
+    @pytest_override_config(BOOL_VALUE=False)
     def test_override_config_on_method_changes_config_value(self):
         """Assert that the method decorator changes config.BOOL_VALUE."""
         assert not config.BOOL_VALUE
 
     def test_override_config_as_context_manager_changes_config_value(self):
         """Assert that the context manager changes config.BOOL_VALUE."""
-        with override_config(BOOL_VALUE=False):
+        with pytest_override_config(BOOL_VALUE=False):
             assert not config.BOOL_VALUE
 
         assert config.BOOL_VALUE
 
 
-@override_config(ANY_PARAM="any_value")
+@pytest_override_config(ANY_PARAM="any_value")
 class PytestOverrideConfigClassSetupTeardownTestCase():
-    """Test that the override_config decorator works correctly.
-
-    Test usage of override_config on test method and as context manager.
-    """
+    """Test that the override_config class decorator respects setup/teardown of test case."""
     urls = []
 
     def setup(self):
