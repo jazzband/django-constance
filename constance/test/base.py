@@ -1,32 +1,58 @@
+"""
+Tests override config base entities.
+"""
 from functools import wraps
-
-from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from .. import config
 
-__all__ = ('override_config',)
+
+def _setup(override):
+    """
+    Pre setup handler decorator.
+    """
+    def decorator_wrapper(func):
+        @wraps(func)
+        def wrapper(inner_self):
+            override.enable()
+            func(inner_self)
+        return wrapper
+    return decorator_wrapper
 
 
-class override_config(override_settings):
+def _teardown(override):
+    """
+    Post teardown handler decorator.
+    """
+    def decorator_wrapper(func):
+        @wraps(func)
+        def wrapper(inner_self):
+            func(inner_self)
+            override.disable()
+        return wrapper
+    return decorator_wrapper
+
+
+class OverrideConfigBase(override_settings):
     """
     Decorator to modify constance setting for TestCase.
 
     Based on django.test.utils.override_settings.
     """
+    _pre_setup = None
+    _post_teardown = None
+
     def __init__(self, **kwargs):
-        super(override_config, self).__init__(**kwargs)
+        super(OverrideConfigBase, self).__init__(**kwargs)
         self.original_values = {}
+        if not all([self._pre_setup, self._post_teardown]):
+            raise Exception("Base override config can not be instantiated.")
 
     def __call__(self, test_func):
         """
         Modify the decorated function to override config values.
         """
         if isinstance(test_func, type):
-            if not issubclass(test_func, SimpleTestCase):
-                raise Exception(
-                    "Only subclasses of Django SimpleTestCase can be "
-                    "decorated with override_config")
             return self.modify_test_case(test_func)
         else:
             @wraps(test_func)
@@ -37,25 +63,13 @@ class override_config(override_settings):
 
     def modify_test_case(self, test_case):
         """
-        Override the config by modifying TestCase methods.
-
-        This method follows the Django <= 1.6 method of overriding the
-        _pre_setup and _post_teardown hooks rather than modifying the TestCase
-        itself.
+        Override the config by modifying TestClass methods.
         """
-        original_pre_setup = test_case._pre_setup
-        original_post_teardown = test_case._post_teardown
+        original_pre_setup = getattr(test_case, self._pre_setup)
+        original_post_teardown = getattr(test_case, self._post_teardown)
 
-        def _pre_setup(inner_self):
-            self.enable()
-            original_pre_setup(inner_self)
-
-        def _post_teardown(inner_self):
-            original_post_teardown(inner_self)
-            self.disable()
-
-        test_case._pre_setup = _pre_setup
-        test_case._post_teardown = _post_teardown
+        setattr(test_case, self._pre_setup, _setup(self)(original_pre_setup))
+        setattr(test_case, self._post_teardown, _teardown(self)(original_post_teardown))
 
         return test_case
 
