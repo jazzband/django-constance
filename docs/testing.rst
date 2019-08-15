@@ -44,10 +44,23 @@ Pytest usage
 ~~~~~
 
 By default, if ``override_config`` is applied to class that is not inherited
-from ``SimpleTestCase`` or ``TestCase``, it raises exception.
+from ``SimpleTestCase`` or ``TestCase``, it raises exception, e.g.
 
-Pytest classes may not use ``TestCase`` and generally inherit only ``object``.
-For that reason was introduced
+.. code-block:: python
+
+    @override_config(API_URL="/awesome/url/")
+    class SomeClassTest:
+        ...
+
+or
+
+.. code-block:: python
+
+    @override_config(API_URL="/awesome/url/")
+    class SomeClassTest(object):
+        ...
+
+This is the common case for pytest. Luckily, you can use
 
 .. py:class:: pytest.override_config(**kwargs)
 

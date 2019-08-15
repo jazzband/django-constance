@@ -7,50 +7,17 @@ from django.test.utils import override_settings
 from .. import config
 
 
-def _setup(override):
-    """
-    Pre setup handler decorator.
-    """
-    def decorator_wrapper(func):
-        @wraps(func)
-        def wrapper(inner_self):
-            override.enable()
-            func(inner_self)
-        return wrapper
-    return decorator_wrapper
-
-
-def _teardown(override):
-    """
-    Post teardown handler decorator.
-    """
-    def decorator_wrapper(func):
-        @wraps(func)
-        def wrapper(inner_self):
-            func(inner_self)
-            override.disable()
-        return wrapper
-    return decorator_wrapper
-
-
 class OverrideConfigBase(override_settings):
     """
-    Decorator to modify constance setting for TestCase.
-
-    Based on django.test.utils.override_settings.
+    Decorator to modify constance setting for class or class method during testing session.
     """
-    _pre_setup = None
-    _post_teardown = None
-
     def __init__(self, **kwargs):
         super(OverrideConfigBase, self).__init__(**kwargs)
-        if not all([self._pre_setup, self._post_teardown]):
-            raise Exception("Base override config can not be instantiated.")
         self.original_values = {}
 
     def __call__(self, test_func):
         """
-        Modify the decorated function to override config values.
+        Modify the decorated method/class to override config values.
         """
         if isinstance(test_func, type):
             return self.modify_test_case(test_func)
@@ -65,16 +32,7 @@ class OverrideConfigBase(override_settings):
         """
         Override the config by modifying TestClass methods.
         """
-        # Test class can be just inherited from object and thus have no _pre_setup or _post_teardown.
-        # We do not want to set them implicitly, so to let the method still work
-        # and avoid raising AttributeError, we default _pre_setup and _post_teardown to the do-nothing-lambda.
-        original_pre_setup = getattr(test_case, self._pre_setup, lambda x: None)
-        original_post_teardown = getattr(test_case, self._post_teardown, lambda x: None)
-
-        setattr(test_case, self._pre_setup, _setup(self)(original_pre_setup))
-        setattr(test_case, self._post_teardown, _teardown(self)(original_post_teardown))
-
-        return test_case
+        raise NotImplementedError("%s `modify_test_case` is not implemented" % self.__class__.__name__)
 
     def enable(self):
         """
