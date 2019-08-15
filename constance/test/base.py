@@ -30,9 +30,9 @@ class OverrideConfigBase(override_settings):
 
     def modify_test_case(self, test_case):
         """
-        Override the config by modifying TestClass methods.
+        Override the config by modifying TestClass setup/teardown methods.
         """
-        raise NotImplementedError("%s `modify_test_case` is not implemented" % self.__class__.__name__)
+        raise NotImplementedError("%s.modify_test_case is not implemented" % self.__class__.__name__)
 
     def enable(self):
         """
