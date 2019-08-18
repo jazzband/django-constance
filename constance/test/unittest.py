@@ -11,6 +11,7 @@ __all__ = ('override_config',)
 class override_config(override_settings):
     """
     Decorator to modify constance setting for TestCase.
+
     Based on django.test.utils.override_settings.
     """
     def __init__(self, **kwargs):
@@ -37,6 +38,7 @@ class override_config(override_settings):
     def modify_test_case(self, test_case):
         """
         Override the config by modifying TestCase methods.
+
         This method follows the Django <= 1.6 method of overriding the
         _pre_setup and _post_teardown hooks rather than modifying the TestCase
         itself.
