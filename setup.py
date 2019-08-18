@@ -57,5 +57,10 @@ setup(
     extras_require={
         'database': ['django-picklefield'],
         'redis': ['redis'],
-    }
+    },
+    entry_points={
+        'pytest11': [
+            'pytest-django-constance = constance.test.pytest',
+        ],
+    },
 )

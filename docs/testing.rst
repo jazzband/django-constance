@@ -43,47 +43,45 @@ method level and also as a
 Pytest usage
 ~~~~~
 
-By default, if ``override_config`` is applied to class that is not inherited
-from ``SimpleTestCase`` or ``TestCase``, it raises exception, e.g.
+Django-constance provides pytest plugin that adds marker
+:class:`@pytest.mark.override_config()`. It handles config override for
+module/class/function, and automatically revert any changes made to the
+constance config values when test is completed.
+
+.. py:function:: pytest.mark.override_config((**kwargs)
+
+    Specify different config values for the marked tests in kwargs.
+
+Module scope override
 
 .. code-block:: python
 
-    @override_config(API_URL="/awesome/url/")
-    class SomeClassTest:
+    pytestmark = pytest.mark.override_config(API_URL="/awesome/url/")
+
+    def test_api_url_is_awesome():
         ...
 
-or
-
-.. code-block:: python
-
-    @override_config(API_URL="/awesome/url/")
-    class SomeClassTest(object):
-        ...
-
-This is the common case for pytest. Luckily, you can use
-
-.. py:class:: pytest.override_config(**kwargs)
-
-    Replaces key-value pairs in the config.
-    Use as decorator or context manager.
+Class/function scope
 
 .. code-block:: python
 
     from constance import config
-    from constance.test.pytest import override_config
 
+    @pytest.mark.override_config(API_URL="/awesome/url/")
+    class SomeClassTest(object):
+        def test_is_awesome_url(self):
+            assert config.API_URL == "/awesome/url/"
 
-    @override_config(YOUR_NAME="Arthur of Camelot")
-    class ExampleTestCase:
+        @pytest.mark.override_config(API_URL="/another/awesome/url/")
+        def test_another_awesome_url(self):
+            assert config.API_URL == "/another/awesome/url/"
 
-        def test_what_is_your_name(self):
-            self.assertEqual(config.YOUR_NAME, "Arthur of Camelot")
+If you want to use override as a context manager, consider using
 
-        @override_config(YOUR_QUEST="To find the Holy Grail")
-        def test_what_is_your_quest(self):
-            self.assertEqual(config.YOUR_QUEST, "To find the Holy Grail")
+.. code-block:: python
 
-        def test_what_is_your_favourite_color(self):
-            with override_config(YOUR_FAVOURITE_COLOR="Blue?"):
-                self.assertEqual(config.YOUR_FAVOURITE_COLOR, "Blue?")
+    from constance.test.pytest import ConstanceConfigWrapper as override_config
 
+    def test_override_context_manager():
+        with override_config(BOOL_VALUE=False):
+            ...

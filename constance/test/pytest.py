@@ -1,26 +1,70 @@
+"""
+Pytest constance override config plugin.
+
+Inspired by https://github.com/pytest-dev/pytest-django/.
+"""
 import pytest
-from .base import OverrideConfigBase
+
+from constance import config as constance_config
 
 
-__all__ = ["override_config"]
-
-
-class override_config(OverrideConfigBase):
+@pytest.hookimpl(trylast=True)
+def pytest_configure(config):  # pragma: no cover
     """
-    Pytest config override.
+    Register override_config marker.
     """
-    def modify_test_case(self, test_case):
-        """
-        Override the config by injecting a hidden autouse, class scoped fixture
-        into the collected class object.
+    config.addinivalue_line(
+        "markers",
+        (
+            "override_config(**kwargs): "
+            "mark test to override django-constance config"
+        )
+    )
 
-        Respects setup_class/teardown_class.
-        """
-        @pytest.fixture(autouse=True, scope="class")
-        def _setup_class_fixture():
-            self.enable()
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_call(item):  # pragma: no cover
+    """
+    Validate constance override marker params. Run test with overrided config.
+    """
+    marker = item.get_closest_marker("override_config")
+    if marker is not None:
+        if marker.args:
+            pytest.fail(
+                "Constance override can not not accept positional args"
+            )
+        with ConstanceConfigWrapper(**marker.kwargs):
             yield
-            self.disable()
+    else:
+        yield
 
-        test_case.__pytest_setup_class = _setup_class_fixture
-        return test_case
+
+class ConstanceConfigWrapper(object):
+    """
+    Override config while running test function.
+
+    Act as context manager. Use it with the ``with`` statement.
+    """
+    def enable(self):
+        """
+        Store original config values and set overridden values.
+        """
+        for key, value in self._to_override.items():
+            self._original_values[key] = getattr(constance_config, key)
+
+    def disable(self):
+        """
+        Set original values to the config.
+        """
+        for key, value in self._original_values.items():
+            setattr(constance_config, key, value)
+
+    def __init__(self, **kwargs):
+        self._to_override = kwargs.copy()
+        self._original_values = {}
+
+    def __enter__(self):
+        self.enable()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.disable()

@@ -1,8 +1,9 @@
+import pytest
 from django.test import TestCase
 
 from constance import config
 from constance.test import override_config
-from constance.test.pytest import override_config as pytest_override_config
+from constance.test.pytest import ConstanceConfigWrapper as pytest_override_config
 
 
 class OverrideConfigFunctionDecoratorTestCase(TestCase):
@@ -36,7 +37,7 @@ class PytestOverrideConfigFunctionDecoratorTestCase:
         """Assert that the default value of config.BOOL_VALUE is True."""
         assert config.BOOL_VALUE
 
-    @pytest_override_config(BOOL_VALUE=False)
+    @pytest.mark.override_config(BOOL_VALUE=False)
     def test_override_config_on_method_changes_config_value(self):
         """Assert that the method decorator changes config.BOOL_VALUE."""
         assert not config.BOOL_VALUE
@@ -49,25 +50,6 @@ class PytestOverrideConfigFunctionDecoratorTestCase:
         assert config.BOOL_VALUE
 
 
-@pytest_override_config(ANY_PARAM="any_value")
-class PytestOverrideConfigClassSetupTeardownTestCase:
-    """Test that the override_config class decorator respects setup/teardown of test case."""
-    urls = []
-
-    def setup(self):
-        self.urls.append("/some/url/")
-
-    def teardown(self):
-        self.urls.pop()
-
-    def test_override_not_affects_setup_teardown(self):
-        """Ensure setup() and teardown() methods are not affected by override."""
-        self.setup()  # emulate pytest triggered setup
-        assert self.urls
-        self.teardown()  # emulate pytest triggered teardown
-        assert not self.urls
-
-
 @override_config(BOOL_VALUE=False)
 class OverrideConfigClassDecoratorTestCase(TestCase):
     """Test that the override_config decorator works on classes."""
@@ -76,7 +58,7 @@ class OverrideConfigClassDecoratorTestCase(TestCase):
         self.assertFalse(config.BOOL_VALUE)
 
 
-@pytest_override_config(BOOL_VALUE=False)
+@pytest.mark.override_config(BOOL_VALUE=False)
 class PytestOverrideConfigClassDecoratorTestCase:
     """Test that the override_config decorator works on classes."""
     def test_override_config_on_class_changes_config_value(self):
