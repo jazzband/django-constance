@@ -51,6 +51,7 @@ class ConstanceConfigWrapper(object):
         """
         for key, value in self._to_override.items():
             self._original_values[key] = getattr(constance_config, key)
+            setattr(constance_config, key, value)
 
     def disable(self):
         """

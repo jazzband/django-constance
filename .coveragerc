@@ -3,4 +3,4 @@ source = constance
 branch = 1
 
 [report]
-omit = *tests*,*migrations*
+omit = *tests*,*migrations*,.tox/*,setup.py,*settings.py
