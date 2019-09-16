@@ -8,7 +8,7 @@ from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
 from django.utils import timezone
 from django.utils.encoding import smart_str
-from django.utils.six import StringIO
+from six import StringIO
 
 from constance import config
 
