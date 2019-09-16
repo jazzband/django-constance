@@ -15,11 +15,12 @@ from django.core.files.storage import default_storage
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.utils import six, timezone
+from django.utils import timezone
 from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
+import six
 
 from . import LazyConfig, settings
 from .checks import get_inconsistent_fieldnames

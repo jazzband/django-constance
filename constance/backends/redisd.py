@@ -1,6 +1,5 @@
 from django.core.exceptions import ImproperlyConfigured
-from django.utils import six
-from django.utils.six.moves import zip
+import six
 
 from . import Backend
 from .. import settings, utils, signals, config
@@ -43,7 +42,7 @@ class RedisBackend(Backend):
         if not keys:
             return
         prefixed_keys = [self.add_prefix(key) for key in keys]
-        for key, value in zip(keys, self._rd.mget(prefixed_keys)):
+        for key, value in six.moves.zip(keys, self._rd.mget(prefixed_keys)):
             if value:
                 yield key, loads(value)
 
