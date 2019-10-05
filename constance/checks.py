@@ -1,3 +1,4 @@
+
 from django.conf import settings
 from django.core import checks
 from django.utils.translation import ugettext_lazy as _
@@ -15,7 +16,7 @@ MISSING_IN_FIELDSET = _('Key missing from Constance Config Fieldset: %r')
 MISSING_IN_FIELDSET_HINT = _('Add the missing key %r to CONFIG_FIELDSETS')
 MISSING_IN_FIELDSET_ID = _('constance.E003')
 
-NO_CONSTANCE_CONFIG = _('Constance is loaded, but CONSTANCE_CONFIG is setup in settings')
+NO_CONSTANCE_CONFIG = _('Constance is loaded, but CONSTANCE_CONFIG is not setup in settings')
 NO_CONSTANCE_CONFIG_HINT = _('If you wish to use constance, create a CONSTANCE_CONFIG in settings, see https://django-constance.readthedocs.io/en/latest/')
 NO_CONSTANCE_CONFIG_ID = _('constance.E004')
 
@@ -23,7 +24,7 @@ NO_CONSTANCE_CONFIG_ID = _('constance.E004')
 @checks.register()
 def constance_config_check(app_configs, **kwargs):
     errors = []
-    if 'CONSTANCE_CONFIG' not in settings:
+    if hasattr(settings, 'CONFIG'):
         errors.append(
             checks.Warning(
                 NO_CONSTANCE_CONFIG,
@@ -33,7 +34,7 @@ def constance_config_check(app_configs, **kwargs):
             )
         )
         return errors
-    if 'CONSTANCE_CONFIG_FIELDSETS' not in settings:
+    if not hasattr(settings, 'CONSTANCE_CONFIG_FIELDSETS'):
         return errors
 
     existing_keys = set(settings.CONSTANCE_CONFIG.keys())
