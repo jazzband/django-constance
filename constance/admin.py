@@ -3,11 +3,9 @@ from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 from operator import itemgetter
 import hashlib
-import os
 
-from django import forms, VERSION
+from django import forms, VERSION, conf
 from django.apps import apps
-from django.conf import settings as django_settings
 from django.conf.urls import url
 from django.contrib import admin, messages
 from django.contrib.admin import widgets
@@ -17,13 +15,15 @@ from django.core.files.storage import default_storage
 from django.forms import fields
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.utils import six
+from django.utils import timezone
 from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
+import six
 
 from . import LazyConfig, settings
+from .checks import get_inconsistent_fieldnames
 
 
 config = LazyConfig()
@@ -138,12 +138,17 @@ class ConstanceForm(forms.Form):
     def save(self):
         for file_field in self.files:
             file = self.cleaned_data[file_field]
-            default_storage.save(file.name, file)
-            self.cleaned_data[file_field] = file.name
+            self.cleaned_data[file_field] = default_storage.save(file.name, file)
 
         for name in settings.CONFIG:
-            if getattr(config, name) != self.cleaned_data[name]:
-                setattr(config, name, self.cleaned_data[name])
+            current = getattr(config, name)
+            new = self.cleaned_data[name]
+
+            if conf.settings.USE_TZ and isinstance(current, datetime) and not timezone.is_aware(current):
+                current = timezone.make_aware(current)
+
+            if current != new:
+                setattr(config, name, new)
 
     def clean_version(self):
         value = self.cleaned_data['version']
@@ -163,11 +168,7 @@ class ConstanceForm(forms.Form):
         if not settings.CONFIG_FIELDSETS:
             return cleaned_data
 
-        field_name_list = []
-        for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
-            for field_name in fields_list:
-                field_name_list.append(field_name)
-        if field_name_list and set(set(settings.CONFIG.keys()) - set(field_name_list)):
+        if get_inconsistent_fieldnames():
             raise forms.ValidationError(_('CONSTANCE_CONFIG_FIELDSETS is missing '
                                           'field(s) that exists in CONSTANCE_CONFIG.'))
 
