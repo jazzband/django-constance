@@ -272,11 +272,15 @@ class ConstanceAdmin(admin.ModelAdmin):
                         config_values.append(
                             self.get_config_value(name, options, form, initial)
                         )
-
-                context['fieldsets'].append({
+                fieldset_context = {
                     'title': fieldset_title,
                     'config_values': config_values
-                })
+                }
+
+                if (settings.CONFIG_COLLPASED_FIELDSETS and 
+                        fieldset_title in settings.CONFIG_COLLPASED_FIELDSETS):
+                    fieldset_context['collapse'] = True
+                context['fieldsets'].append(fieldset_context)
             if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict):
                 context['fieldsets'].sort(key=itemgetter('title'))
 
