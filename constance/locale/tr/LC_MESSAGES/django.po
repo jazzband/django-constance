@@ -77,7 +77,7 @@ msgstr "Kaydet"
 
 #: constance/templates/admin/constance/change_list.html:69
 msgid "Home"
-msgstr "Ana Sayfa"
+msgstr "Anasayfa"
 
 #: constance/templates/admin/constance/includes/results_list.html:6
 msgid "Name"
