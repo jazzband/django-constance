@@ -1,6 +1,7 @@
 from datetime import datetime
 from textwrap import dedent
 
+from django.apps import apps
 from django.conf import settings
 from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
@@ -73,7 +74,7 @@ class CliTestCase(TransactionTestCase):
                                  call_command, 'constance', 'set', 'DATETIME_VALUE', '2011-09-24 12:30:25')
 
     def test_delete_stale_records(self):
-        from constance.backends.database.models import Constance
+        Constance = apps.get_model('database.Constance')
 
         initial_count = Constance.objects.count()
 
