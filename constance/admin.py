@@ -277,7 +277,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                     'config_values': config_values
                 }
 
-                if (settings.CONFIG_COLLPASED_FIELDSETS and 
+                if (settings.CONFIG_COLLPASED_FIELDSETS and
                         fieldset_title in settings.CONFIG_COLLPASED_FIELDSETS):
                     fieldset_context['collapse'] = True
                 context['fieldsets'].append(fieldset_context)
