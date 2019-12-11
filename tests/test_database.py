@@ -9,7 +9,7 @@ class TestDatabase(StorageTestsMixin, TestCase):
     def setUp(self):
         self.old_backend = settings.BACKEND
         settings.BACKEND = 'constance.backends.database.DatabaseBackend'
-        super(TestDatabase, self).setUp()
+        super().setUp()
 
     def test_database_queries(self):
         # Read and set to default value

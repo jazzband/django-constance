@@ -3,7 +3,7 @@ Defines the base constance backend
 """
 
 
-class Backend(object):
+class Backend:
 
     def get(self, key):
         """

@@ -1,28 +1,19 @@
-# -*- encoding: utf-8 -*-
 from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 
-from django.utils import six
-
 from constance.base import Config
 
-if six.PY3:
-    def long(value):
-        return value
 
-
-class StorageTestsMixin(object):
+class StorageTestsMixin:
 
     def setUp(self):
         self.config = Config()
-        super(StorageTestsMixin, self).setUp()
+        super().setUp()
 
     def test_store(self):
         self.assertEqual(self.config.INT_VALUE, 1)
-        self.assertEqual(self.config.LONG_VALUE, long(123456))
         self.assertEqual(self.config.BOOL_VALUE, True)
         self.assertEqual(self.config.STRING_VALUE, 'Hello world')
-        self.assertEqual(self.config.UNICODE_VALUE, u'Rivière-Bonjour რუსთაველი')
         self.assertEqual(self.config.DECIMAL_VALUE, Decimal('0.1'))
         self.assertEqual(self.config.DATETIME_VALUE, datetime(2010, 8, 23, 11, 29, 24))
         self.assertEqual(self.config.FLOAT_VALUE, 3.1415926536)
@@ -34,10 +25,8 @@ class StorageTestsMixin(object):
 
         # set values
         self.config.INT_VALUE = 100
-        self.config.LONG_VALUE = long(654321)
         self.config.BOOL_VALUE = False
         self.config.STRING_VALUE = 'Beware the weeping angel'
-        self.config.UNICODE_VALUE = u'Québec'
         self.config.DECIMAL_VALUE = Decimal('1.2')
         self.config.DATETIME_VALUE = datetime(1977, 10, 2)
         self.config.FLOAT_VALUE = 2.718281845905
@@ -49,10 +38,8 @@ class StorageTestsMixin(object):
 
         # read again
         self.assertEqual(self.config.INT_VALUE, 100)
-        self.assertEqual(self.config.LONG_VALUE, long(654321))
         self.assertEqual(self.config.BOOL_VALUE, False)
         self.assertEqual(self.config.STRING_VALUE, 'Beware the weeping angel')
-        self.assertEqual(self.config.UNICODE_VALUE, u'Québec')
         self.assertEqual(self.config.DECIMAL_VALUE, Decimal('1.2'))
         self.assertEqual(self.config.DATETIME_VALUE, datetime(1977, 10, 2))
         self.assertEqual(self.config.FLOAT_VALUE, 2.718281845905)
@@ -75,19 +62,15 @@ class StorageTestsMixin(object):
 
     def test_missing_values(self):
         # set some values and leave out others
-        self.config.LONG_VALUE = long(654321)
         self.config.BOOL_VALUE = False
-        self.config.UNICODE_VALUE = u'Québec'
         self.config.DECIMAL_VALUE = Decimal('1.2')
         self.config.DATETIME_VALUE = datetime(1977, 10, 2)
         self.config.DATE_VALUE = date(2001, 12, 20)
         self.config.TIME_VALUE = time(1, 59, 0)
 
         self.assertEqual(self.config.INT_VALUE, 1)  # this should be the default value
-        self.assertEqual(self.config.LONG_VALUE, long(654321))
         self.assertEqual(self.config.BOOL_VALUE, False)
         self.assertEqual(self.config.STRING_VALUE, 'Hello world')  # this should be the default value
-        self.assertEqual(self.config.UNICODE_VALUE, u'Québec')
         self.assertEqual(self.config.DECIMAL_VALUE, Decimal('1.2'))
         self.assertEqual(self.config.DATETIME_VALUE, datetime(1977, 10, 2))
         self.assertEqual(self.config.FLOAT_VALUE, 3.1415926536)  # this should be the default value

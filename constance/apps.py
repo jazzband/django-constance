@@ -7,7 +7,7 @@ class ConstanceConfig(AppConfig):
     verbose_name = 'Constance'
 
     def ready(self):
-        super(ConstanceConfig, self).ready()
+        super().ready()
         signals.post_migrate.connect(self.create_perm,
                                      dispatch_uid='constance.create_perm')
 

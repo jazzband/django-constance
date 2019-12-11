@@ -10,10 +10,8 @@ class TestForm(TestCase):
         f = ConstanceForm({})
 
         self.assertIsInstance(f.fields['INT_VALUE'], fields.IntegerField)
-        self.assertIsInstance(f.fields['LONG_VALUE'], fields.IntegerField)
         self.assertIsInstance(f.fields['BOOL_VALUE'], fields.BooleanField)
         self.assertIsInstance(f.fields['STRING_VALUE'], fields.CharField)
-        self.assertIsInstance(f.fields['UNICODE_VALUE'], fields.CharField)
         self.assertIsInstance(f.fields['DECIMAL_VALUE'], fields.DecimalField)
         self.assertIsInstance(f.fields['DATETIME_VALUE'], fields.SplitDateTimeField)
         self.assertIsInstance(f.fields['TIMEDELTA_VALUE'], fields.DurationField)
