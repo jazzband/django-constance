@@ -52,6 +52,8 @@ the :setting:`CONSTANCE_CONFIG` section, like this:
                            'The Universe, and Everything'),
     }
 
+.. note:: Add constance *before* your project apps.
+
 .. note::  If you use admin extensions like `Grapelli <http://grappelliproject.com/>`_, ``'constance'`` should be added in :setting:`INSTALLED_APPS` *before* that extension
 
 Here, ``42`` is the default value for the key ``THE_ANSWER`` if it is
