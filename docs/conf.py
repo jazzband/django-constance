@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # django-constance documentation build configuration file, created by
 # sphinx-quickstart on Tue Nov 25 19:38:51 2014.
 #
@@ -45,8 +43,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'django-constance'
-copyright = u'2017, Jazzband'
+project = 'django-constance'
+copyright = '2017, Jazzband'
 
 # The short X.Y version.
 try:
@@ -199,8 +197,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'django-constance.tex', u'django-constance Documentation',
-   u'Jazzband', 'manual'),
+  ('index', 'django-constance.tex', 'django-constance Documentation',
+   'Jazzband', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -229,8 +227,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'django-constance', u'django-constance Documentation',
-     [u'Jazzband'], 1)
+    ('index', 'django-constance', 'django-constance Documentation',
+     ['Jazzband'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -243,8 +241,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'django-constance', u'django-constance Documentation',
-   u'Jazzband', 'django-constance', 'One line description of project.',
+  ('index', 'django-constance', 'django-constance Documentation',
+   'Jazzband', 'django-constance', 'One line description of project.',
    'Miscellaneous'),
 ]
 
