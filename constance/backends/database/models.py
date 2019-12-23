@@ -20,5 +20,5 @@ class Constance(models.Model):
         verbose_name_plural = _('constances')
         db_table = 'constance_config'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.key

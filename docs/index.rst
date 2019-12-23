@@ -109,9 +109,7 @@ The supported types are:
 * ``int``
 * ``float``
 * ``Decimal``
-* ``long`` (on python 2)
 * ``str``
-* ``unicode`` (on python 2)
 * ``datetime``
 * ``date``
 * ``time``
@@ -359,7 +357,7 @@ settings the way you like.
     from constance.admin import ConstanceAdmin, ConstanceForm, Config
     class CustomConfigForm(ConstanceForm):
           def __init__(self, *args, **kwargs):
-            super(CustomConfigForm, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
             #... do stuff to make your settings form nice ...
 
     class ConfigAdmin(ConstanceAdmin):
@@ -384,7 +382,7 @@ request. For example:
             if request.user.is_superuser:
               return SuperuserForm:
             else:
-              return super(MyConstanceAdmin, self).get_changelist_form(request)
+              return super().get_changelist_form(request)
 
 Note that the default method returns ``self.change_list_form``.
 
