@@ -48,7 +48,7 @@ Django-constance provides pytest plugin that adds marker
 module/class/function, and automatically revert any changes made to the
 constance config values when test is completed.
 
-.. py:function:: pytest.mark.override_config((**kwargs)
+.. py:function:: pytest.mark.override_config(**kwargs)
 
     Specify different config values for the marked tests in kwargs.
 
@@ -68,7 +68,7 @@ Class/function scope
     from constance import config
 
     @pytest.mark.override_config(API_URL="/awesome/url/")
-    class SomeClassTest(object):
+    class SomeClassTest:
         def test_is_awesome_url(self):
             assert config.API_URL == "/awesome/url/"
 
