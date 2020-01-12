@@ -40,6 +40,15 @@ try:
             """Asser that the class decorator changes config.BOOL_VALUE."""
             assert not config.BOOL_VALUE
 
+
+    def test_fixture_override_config(override_config):
+        """
+        Ensure `override_config` fixture is available globally
+        and can be used in test functions.
+        """
+        with override_config(BOOL_VALUE=False):
+            assert not config.BOOL_VALUE
+
 except ImportError:
     pass
 

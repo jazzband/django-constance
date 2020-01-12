@@ -85,3 +85,20 @@ If you want to use override as a context manager, consider using
     def test_override_context_manager():
         with override_config(BOOL_VALUE=False):
             ...
+
+    # or with fixture as function parameter
+    # NOTE: no import needed as fixture is available globally
+
+    def test_api_url_is_awesome(override_config):
+        with override_config(API_URL="/awesome/url/"):
+            ...
+
+Any scope, auto-used fixture alternative can also be implemented like this
+
+.. code-block:: python
+
+    @pytest.fixture(scope='module', autouse=True)  # e.g. module scope
+    def api_url(override_config):
+        with override_config(API_URL="/awesome/url/"):
+            yield
+

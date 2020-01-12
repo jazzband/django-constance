@@ -69,3 +69,11 @@ class ConstanceConfigWrapper(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.disable()
+
+
+@pytest.fixture
+def override_config():
+    """
+    Make ConstanceConfigWrapper available as a function fixture.
+    """
+    return ConstanceConfigWrapper
