@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import datetime
 from decimal import Decimal
 
@@ -31,7 +29,5 @@ class UtilsTestCase(TestCase):
             'LINEBREAK_VALUE': 'Spam spam',
             'DECIMAL_VALUE': Decimal('0.1'),
             'STRING_VALUE': 'Hello world',
-            'UNICODE_VALUE': u'Rivière-Bonjour რუსთაველი',
             'DATETIME_VALUE': datetime.datetime(2010, 8, 23, 11, 29, 24),
-            'LONG_VALUE': 123456
         })

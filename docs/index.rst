@@ -52,6 +52,8 @@ the :setting:`CONSTANCE_CONFIG` section, like this:
                            'The Universe, and Everything'),
     }
 
+.. note:: Add constance *before* your project apps.
+
 .. note::  If you use admin extensions like `Grapelli <http://grappelliproject.com/>`_, ``'constance'`` should be added in :setting:`INSTALLED_APPS` *before* that extension
 
 Here, ``42`` is the default value for the key ``THE_ANSWER`` if it is
@@ -107,9 +109,7 @@ The supported types are:
 * ``int``
 * ``float``
 * ``Decimal``
-* ``long`` (on python 2)
 * ``str``
-* ``unicode`` (on python 2)
 * ``datetime``
 * ``date``
 * ``time``
@@ -357,7 +357,7 @@ settings the way you like.
     from constance.admin import ConstanceAdmin, ConstanceForm, Config
     class CustomConfigForm(ConstanceForm):
           def __init__(self, *args, **kwargs):
-            super(CustomConfigForm, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
             #... do stuff to make your settings form nice ...
 
     class ConfigAdmin(ConstanceAdmin):
@@ -382,7 +382,7 @@ request. For example:
             if request.user.is_superuser:
               return SuperuserForm:
             else:
-              return super(MyConstanceAdmin, self).get_changelist_form(request)
+              return super().get_changelist_form(request)
 
 Note that the default method returns ``self.change_list_form``.
 

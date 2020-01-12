@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime
 from textwrap import dedent
 
@@ -8,7 +6,7 @@ from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
 from django.utils import timezone
 from django.utils.encoding import smart_str
-from django.utils.six import StringIO
+from io import StringIO
 
 from constance import config
 
@@ -27,16 +25,14 @@ class CliTestCase(TransactionTestCase):
         call_command('constance', 'list', stdout=self.out)
 
         self.assertEqual(set(self.out.getvalue().splitlines()), set(dedent(smart_str(
-u"""        BOOL_VALUE	True
+"""        BOOL_VALUE	True
         EMAIL_VALUE	test@example.com
         INT_VALUE	1
         LINEBREAK_VALUE	Spam spam
         DATE_VALUE	2010-12-24
         TIME_VALUE	23:59:59
         TIMEDELTA_VALUE	1 day, 2:03:00
-        LONG_VALUE	123456
         STRING_VALUE	Hello world
-        UNICODE_VALUE	Rivière-Bonjour რუსთაველი
         CHOICE_VALUE	yes
         DECIMAL_VALUE	0.1
         DATETIME_VALUE	2010-08-23 11:29:24

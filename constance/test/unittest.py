@@ -15,7 +15,7 @@ class override_config(override_settings):
     Based on django.test.utils.override_settings.
     """
     def __init__(self, **kwargs):
-        super(override_config, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.original_values = {}
 
     def __call__(self, test_func):
