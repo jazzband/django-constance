@@ -44,7 +44,7 @@ class RedisBackend(Backend):
 
     def set(self, key, value):
         old_value = self.get(key)
-        self._rd.set(self.add_prefix(key), dumps(value))
+        self._rd.set(self.add_prefix(key), dumps(value, protocol=settings.REDIS_PICKLE_VERSION))
         signals.config_updated.send(
             sender=config, key=key, old_value=old_value, new_value=value
         )
