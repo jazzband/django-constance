@@ -326,6 +326,13 @@ This doesn't work::
    ./manage.py constance set DATETIME_VALUE '2011-09-24 12:30:25'
    CommandError: Enter a list of values.
 
+
+remove_stale_keys - delete all stale records in database::
+
+    $ ./manage.py constance remove_stale_keys
+
+Record is considered stale if it exists in database but absent in config
+
 Editing
 -------
 
