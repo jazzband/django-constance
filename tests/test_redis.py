@@ -10,7 +10,7 @@ class TestRedis(StorageTestsMixin, TestCase):
     def setUp(self):
         self.old_backend = settings.BACKEND
         settings.BACKEND = 'constance.backends.redisd.RedisBackend'
-        super(TestRedis, self).setUp()
+        super().setUp()
         self.config._backend._rd.clear()
 
     def tearDown(self):

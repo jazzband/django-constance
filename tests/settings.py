@@ -1,6 +1,3 @@
-# -*- encoding: utf-8 -*-
-from django.utils import six
-
 from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 
@@ -46,11 +43,6 @@ ROOT_URLCONF = 'tests.urls'
 
 CONSTANCE_REDIS_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
 
-long_value = 123456
-
-if not six.PY3:
-    long_value = long(long_value)
-
 CONSTANCE_ADDITIONAL_FIELDS = {
     'yes_no_null_select': [
         'django.forms.fields.ChoiceField',
@@ -67,10 +59,8 @@ USE_TZ = True
 
 CONSTANCE_CONFIG = {
     'INT_VALUE': (1, 'some int'),
-    'LONG_VALUE': (long_value, 'some looong int'),
     'BOOL_VALUE': (True, 'true or false'),
     'STRING_VALUE': ('Hello world', 'greetings'),
-    'UNICODE_VALUE': (u'Rivière-Bonjour რუსთაველი', 'greetings'),
     'DECIMAL_VALUE': (Decimal('0.1'), 'the first release version'),
     'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24),
                        'time of the first commit'),

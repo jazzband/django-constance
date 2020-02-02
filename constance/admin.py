@@ -20,7 +20,6 @@ from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
-import six
 
 from . import LazyConfig, settings
 from .checks import get_inconsistent_fieldnames
@@ -79,12 +78,6 @@ def parse_additional_fields(fields):
 
 FIELDS.update(parse_additional_fields(settings.ADDITIONAL_FIELDS))
 
-if not six.PY3:
-    FIELDS.update({
-        long: INTEGER_LIKE,
-        unicode: STRING_LIKE,
-    })
-
 
 def get_values():
     """
@@ -105,7 +98,7 @@ class ConstanceForm(forms.Form):
     version = forms.CharField(widget=forms.HiddenInput)
 
     def __init__(self, initial, *args, **kwargs):
-        super(ConstanceForm, self).__init__(*args, initial=initial, **kwargs)
+        super().__init__(*args, initial=initial, **kwargs)
         version_hash = hashlib.md5()
 
         for name, options in settings.CONFIG.items():
@@ -163,7 +156,7 @@ class ConstanceForm(forms.Form):
         return value
 
     def clean(self):
-        cleaned_data = super(ConstanceForm, self).clean()
+        cleaned_data = super().clean()
 
         if not settings.CONFIG_FIELDSETS:
             return cleaned_data
@@ -298,11 +291,11 @@ class ConstanceAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         if settings.SUPERUSER_ONLY:
             return request.user.is_superuser
-        return super(ConstanceAdmin, self).has_change_permission(request, obj)
+        return super().has_change_permission(request, obj)
 
 
-class Config(object):
-    class Meta(object):
+class Config:
+    class Meta:
         app_label = 'constance'
         object_name = 'Config'
         model_name = module_name = 'config'

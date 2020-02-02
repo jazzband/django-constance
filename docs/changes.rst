@@ -1,6 +1,28 @@
 Changelog
 ---------
 
+v2.6.0 (2020/01/29)
+~~~~~~~~~~~~~~~~~~~
+
+* Drop support py<3.5 django<2.2
+* Set pickle protocol version for the Redis backend
+* Add a command to delete stale records
+
+v2.5.0 (2019/12/23)
+~~~~~~~~~~~~~~~~~~~
+
+* Made results table responsive for Django 2 admin
+
+* Add a Django system check that CONFIG_FIELDSETS accounts for all of CONFIG
+
+* Rewrite set() method of database backend to reduce number of queries
+
+* Fixed "can't compare offset-naive and offset-aware datetimes" when USE_TZ = True
+
+* Fixed compatibility issue with Django 3.0 due to django.utils.six
+
+* Add Turkish language
+
 v2.4.0 (2019/03/16)
 ~~~~~~~~~~~~~~~~~~~
 

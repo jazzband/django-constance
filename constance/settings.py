@@ -1,3 +1,5 @@
+import pickle
+
 from django.conf import settings
 
 BACKEND = getattr(
@@ -37,6 +39,8 @@ REDIS_CONNECTION_CLASS = getattr(
 )
 
 REDIS_CONNECTION = getattr(settings, 'CONSTANCE_REDIS_CONNECTION', {})
+
+REDIS_PICKLE_VERSION = getattr(settings, 'CONSTANCE_REDIS_PICKLE_VERSION', pickle.DEFAULT_PROTOCOL)
 
 SUPERUSER_ONLY = getattr(settings, 'CONSTANCE_SUPERUSER_ONLY', True)
 

@@ -66,6 +66,17 @@ database. Defaults to ``'constance:'``. E.g.::
 
     CONSTANCE_REDIS_PREFIX = 'constance:myproject:'
 
+``CONSTANCE_REDIS_PICKLE_VERSION``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The (optional) protocol version of pickle you want to use to serialize your python
+objects when storing in the Redis database. Defaults to ``pickle.DEFAULT_PROTOCOL``. E.g.::
+
+    CONSTANCE_REDIS_PICKLE_VERSION = pickle.DEFAULT_PROTOCOL
+
+You might want to pin this value to a specific protocol number, since ``pickle.DEFAULT_PROTOCOL``
+means different things between versions of Python.
+
 Database
 --------
 

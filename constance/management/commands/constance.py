@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-
+from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.management import BaseCommand, CommandError
 from django.utils.translation import ugettext as _
@@ -44,6 +42,13 @@ class Command(BaseCommand):
         # use nargs='+' so that we pass a list to MultiValueField (eg SplitDateTimeField)
         parser_set.add_argument('value', help='value to set', metavar='VALUE', nargs='+')
 
+        self._subparsers_add_parser(
+            subparsers,
+            'remove_stale_keys',
+            cmd=self,
+            help='delete all Constance keys and their values if they are not in settings.CONSTANCE_CONFIG (stale keys)',
+        )
+
 
     def _subparsers_add_parser(self, subparsers, name, **kwargs):
         # API in Django >= 2.1 changed and removed cmd parameter from add_parser
@@ -75,3 +80,25 @@ class Command(BaseCommand):
         elif command == 'list':
             for k, v in get_values().items():
                 self.stdout.write("{}\t{}".format(k, v), ending="\n")
+
+        elif command == 'remove_stale_keys':
+            try:
+                Constance = apps.get_model('database.Constance')
+            except LookupError:
+                Constance = None
+
+            if Constance:
+                actual_keys = settings.CONSTANCE_CONFIG.keys()
+
+                stale_records = Constance.objects.exclude(key__in=actual_keys)
+                if stale_records:
+                    self.stdout.write("The following record will be deleted:", ending="\n")
+                else:
+                    self.stdout.write("There are no stale records in database.", ending="\n")
+
+                for stale_record in stale_records:
+                    self.stdout.write("{}\t{}".format(stale_record.key, stale_record.value), ending="\n")
+
+                stale_records.delete()
+            else:
+                self.stdout.write("Database backend is not set. Nothing is deleted", ending="\n")
