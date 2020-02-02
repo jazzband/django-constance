@@ -78,11 +78,11 @@ class TestAdmin(TestCase):
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {
         'Numbers': {
-            'fields': ('LONG_VALUE', 'INT_VALUE',),
+            'fields': ('INT_VALUE', 'DECIMAL_VALUE',),
             'collapse': True,
         },
         'Text': {
-            'fields': ('STRING_VALUE', 'UNICODE_VALUE'),
+            'fields': ('STRING_VALUE', 'LINEBREAK_VALUE',),
             'collapse': True,
         },
     })
