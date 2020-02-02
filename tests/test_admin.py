@@ -77,12 +77,15 @@ class TestAdmin(TestCase):
         self.assertContains(response, '<h2>Text</h2>')
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {
-        'Numbers': ('LONG_VALUE', 'INT_VALUE',),
-        'Text': ('STRING_VALUE', 'UNICODE_VALUE'),
+        'Numbers': {
+            'fields': ('LONG_VALUE', 'INT_VALUE',),
+            'collapse': True,
+        },
+        'Text': {
+            'fields': ('STRING_VALUE', 'UNICODE_VALUE'),
+            'collapse': True,
+        },
     })
-    @mock.patch('constance.settings.CONFIG_COLLPASED_FIELDSETS', (
-        'Numbers', 'Text',
-    ))
     def test_collapsed_fieldsets(self):
         self.client.login(username='admin', password='nimda')
         request = self.rf.get('/admin/constance/config/')

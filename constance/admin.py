@@ -250,7 +250,14 @@ class ConstanceAdmin(admin.ModelAdmin):
 
         if settings.CONFIG_FIELDSETS:
             context['fieldsets'] = []
-            for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
+            for fieldset_title, fieldset_data in settings.CONFIG_FIELDSETS.items():
+                if type(fieldset_data) == dict:
+                    fields_list = fieldset_data['fields']
+                    collapse = fieldset_data.get('collapse', False)
+                else:
+                    fields_list = fieldset_data
+                    collapse = False
+
                 absent_fields = [field for field in fields_list
                                  if field not in settings.CONFIG]
                 assert not any(absent_fields), (
@@ -270,8 +277,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                     'config_values': config_values
                 }
 
-                if (settings.CONFIG_COLLPASED_FIELDSETS and
-                        fieldset_title in settings.CONFIG_COLLPASED_FIELDSETS):
+                if collapse:
                     fieldset_context['collapse'] = True
                 context['fieldsets'].append(fieldset_context)
             if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict):
