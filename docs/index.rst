@@ -210,7 +210,7 @@ To group settings together you can define fieldsets. Here's an example:
 Fieldsets collapsing
 --------------------
 
-To make some fieldsets collapsing you can define them. Here's an example:
+To make some fieldsets collapsing you can use new format if CONSTANCE_CONFIG_FIELDSETS. Here's an example:
 
 .. code-block:: python
 
@@ -221,12 +221,12 @@ To make some fieldsets collapsing you can define them. Here's an example:
         }
 
         CONSTANCE_CONFIG_FIELDSETS = {
-            'General Options': ('SITE_NAME', 'SITE_DESCRIPTION'),
+            'General Options': {
+                'fields': ('SITE_NAME', 'SITE_DESCRIPTION'),
+                'collapse': True
+            },
             'Theme Options': ('THEME',),
         }
-
-        CONSTANCE_COLLPASED_FIELDSETS = ('General Options', )
-
 
 Usage
 -----
