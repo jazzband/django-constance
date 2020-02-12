@@ -5,7 +5,7 @@ Features
 --------
 
 * Easily migrate your static settings to dynamic settings.
-* Admin interface to edit the dynamic settings.
+* Edit the dynamic settings in the Django admin interface.
 
 .. image:: screenshot2.png
 
@@ -54,7 +54,9 @@ the :setting:`CONSTANCE_CONFIG` section, like this:
 
 .. note:: Add constance *before* your project apps.
 
-.. note::  If you use admin extensions like `Grapelli <http://grappelliproject.com/>`_, ``'constance'`` should be added in :setting:`INSTALLED_APPS` *before* that extension
+.. note::  If you use admin extensions like
+   `Grapelli <http://grappelliproject.com/>`_, ``'constance'`` should be added
+   in :setting:`INSTALLED_APPS` *before* those extensions.
 
 Here, ``42`` is the default value for the key ``THE_ANSWER`` if it is
 not found in the backend. The other member of the tuple is a help text the
@@ -66,7 +68,8 @@ finish the configuration.
 ``django-constance``'s hashes generated in different instances of the same
 application may differ, preventing data from being saved.
 
-Use this option in order to skip hash verification.
+Use :setting:`CONSTANCE_IGNORE_ADMIN_VERSION_CHECK` in order to skip hash
+verification.
 
 .. code-block:: python
 
@@ -78,8 +81,6 @@ Signals
 
 Each time a value is changed it will trigger a ``config_updated`` signal.
 
-You can use it as:
-
 .. code-block:: python
 
     from constance.signals import config_updated
@@ -89,12 +90,7 @@ You can use it as:
         print(sender, key, old_value, new_value)
 
 The sender is the ``config`` object, and the ``key`` and ``new_value``
-are the ones just changed.
-
-This callback will get the ``config`` object as the first parameter so you
-can have an isolated function where you can access the ``config`` object
-without dealing with additional imports.
-
+are the changed settings.
 
 Custom fields
 -------------
@@ -171,7 +167,7 @@ Images are uploaded to MEDIA_ROOT.
 Ordered Fields in Django Admin
 ------------------------------
 
-In order to Order the fields , you can use OrderedDict collection. Here is an example:
+To sort the fields, you can use an OrderedDict:
 
 .. code-block:: python
 
@@ -187,7 +183,7 @@ In order to Order the fields , you can use OrderedDict collection. Here is an ex
 Fieldsets
 ---------
 
-To group settings together you can define fieldsets. Here's an example:
+You can define fieldsets to group settings together:
 
 .. code-block:: python
 
@@ -202,7 +198,7 @@ To group settings together you can define fieldsets. Here's an example:
             'Theme Options': ('THEME',),
         }
 
-.. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONSTANCE_CONFIG
+.. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONSTANCE_CONFIG.
 
 .. image:: screenshot3.png
 
@@ -227,7 +223,7 @@ object and accessing the variables with attribute lookups::
 Django templates
 ^^^^^^^^^^^^^^^^
 
-To access the config object from your template you can either
+To access the config object from your template you can
 pass the object to the template context:
 
 .. code-block:: python
@@ -238,16 +234,9 @@ pass the object to the template context:
     def myview(request):
         return render(request, 'my_template.html', {'config': config})
 
-Or you can use the included config context processor. For Django pre-1.8, this looks like this:
+You can also use the included context processor.
 
-.. code-block:: python
-
-    TEMPLATE_CONTEXT_PROCESSORS = (
-        # ...
-        'constance.context_processors.config',
-    )
-
-For Django 1.8 and above, insert ``'constance.context_processors.config'`` at
+Insert ``'constance.context_processors.config'`` at
 the top of your ``TEMPLATES['OPTIONS']['context_processors']`` list.  See the
 `Django documentation`_ for details.
 
@@ -302,16 +291,15 @@ E.g., given this config as per the example app::
        'DATE_ESTABLISHED': (date(1972, 11, 30), "the shop's first opening"),
    }
 
-Then setting an invalid date will fail as follow::
+Setting an invalid date will fail as follow::
 
    $ ./manage.py constance set DATE_ESTABLISHED '1999-12-00'
    CommandError: Enter a valid date.
 
 
-.. note::  If the admin fields is a `MultiValueField`, (e.g. datetime, which uses `SplitDateTimeField` by default)
+.. note::  If the admin field is a `MultiValueField`,
+(e.g. a datetime using `SplitDateTimeField`)
 then the separate field values need to be provided as separate arguments.
-
-E.g., given this config::
 
    CONSTANCE_CONFIG = {
        'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
@@ -339,10 +327,9 @@ Editing
 Fire up your ``admin`` and you should see a new app called ``Constance``
 with ``THE_ANSWER`` in the ``Config`` pseudo model.
 
-By default changing the settings via the admin is only allowed for super users.
-But in case you want to use the admin's ability to implement custom
-authorization checks, feel free to set the :setting:`CONSTANCE_SUPERUSER_ONLY`
-setting to ``False`` and give the users or user groups access to the
+By default, changing the settings via the admin is only allowed for superusers.
+To change this, feel free to set the :setting:`CONSTANCE_SUPERUSER_ONLY`
+setting to ``False`` and give users or user groups access to the
 ``constance.change_config`` permission.
 
 .. figure:: screenshot1.png
