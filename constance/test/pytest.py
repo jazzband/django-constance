@@ -39,7 +39,7 @@ def pytest_runtest_call(item):  # pragma: no cover
         yield
 
 
-class ConstanceConfigWrapper:
+class override_config(ContextDecorator):
     """
     Override config while running test function.
 
