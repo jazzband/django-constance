@@ -1,7 +1,12 @@
 from django.core.cache import caches
 from django.core.cache.backends.locmem import LocMemCache
 from django.core.exceptions import ImproperlyConfigured
-from django.db import OperationalError, ProgrammingError
+from django.db import (
+    IntegrityError,
+    OperationalError,
+    ProgrammingError,
+    transaction,
+)
 from django.db.models.signals import post_save
 
 from .. import Backend
@@ -82,19 +87,32 @@ class DatabaseBackend(Backend):
 
     def set(self, key, value):
         key = self.add_prefix(key)
+        created = False
+        queryset = self._model._default_manager.all()
+        # Set _for_write attribute as get_or_create method does
+        # https://github.com/django/django/blob/2.2.11/django/db/models/query.py#L536
+        queryset._for_write = True
 
         try:
-            constance = self._model._default_manager.get(key=key)
+            constance = queryset.get(key=key)
         except (OperationalError, ProgrammingError):
             # database is not created, noop
             return
         except self._model.DoesNotExist:
-            old_value = None
-            constance = self._model._default_manager.create(key=key, value=value)
-        else:
+            try:
+                with transaction.atomic(using=queryset.db):
+                    queryset.create(key=key, value=value)
+                created = True
+            except IntegrityError as error:
+                # Allow concurrent writes
+                constance = queryset.get(key=key)
+
+        if not created:
             old_value = constance.value
             constance.value = value
             constance.save()
+        else:
+            old_value = None
 
         if self._cache:
             self._cache.set(key, value)
