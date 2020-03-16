@@ -192,6 +192,28 @@ You can define fieldsets to group settings together:
 
 .. image:: screenshot3.png
 
+
+Fieldsets collapsing
+--------------------
+
+To make some fieldsets collapsing you can use new format if CONSTANCE_CONFIG_FIELDSETS. Here's an example:
+
+.. code-block:: python
+
+        CONSTANCE_CONFIG = {
+            'SITE_NAME': ('My Title', 'Website title'),
+            'SITE_DESCRIPTION': ('', 'Website description'),
+            'THEME': ('light-blue', 'Website theme'),
+        }
+
+        CONSTANCE_CONFIG_FIELDSETS = {
+            'General Options': {
+                'fields': ('SITE_NAME', 'SITE_DESCRIPTION'),
+                'collapse': True
+            },
+            'Theme Options': ('THEME',),
+        }
+
 Usage
 -----
 
