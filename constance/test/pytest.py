@@ -4,7 +4,7 @@ Pytest constance override config plugin.
 Inspired by https://github.com/pytest-dev/pytest-django/.
 """
 import pytest
-
+from contextlib import ContextDecorator
 from constance import config as constance_config
 
 
@@ -33,7 +33,7 @@ def pytest_runtest_call(item):  # pragma: no cover
             pytest.fail(
                 "Constance override can not not accept positional args"
             )
-        with ConstanceConfigWrapper(**marker.kwargs):
+        with override_config(**marker.kwargs):
             yield
     else:
         yield
@@ -43,7 +43,7 @@ class override_config(ContextDecorator):
     """
     Override config while running test function.
 
-    Act as context manager. Use it with the ``with`` statement.
+    Act as context manager and decorator.
     """
     def enable(self):
         """
@@ -71,9 +71,9 @@ class override_config(ContextDecorator):
         self.disable()
 
 
-@pytest.fixture
-def override_config():
+@pytest.fixture(name="override_config")
+def _override_config():
     """
-    Make ConstanceConfigWrapper available as a function fixture.
+    Make override_config available as a function fixture.
     """
-    return ConstanceConfigWrapper
+    return override_config

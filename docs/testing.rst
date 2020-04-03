@@ -76,18 +76,24 @@ Class/function scope
         def test_another_awesome_url(self):
             assert config.API_URL == "/another/awesome/url/"
 
-If you want to use override as a context manager, consider using
+If you want to use override as a context manager or decorator, consider using
 
 .. code-block:: python
 
-    from constance.test.pytest import ConstanceConfigWrapper as override_config
+    from constance.test.pytest import override_config
 
     def test_override_context_manager():
         with override_config(BOOL_VALUE=False):
             ...
+    # or
+    @override_config(BOOL_VALUE=False)
+    def test_override_context_manager():
+        ...
 
-    # or with fixture as function parameter
-    # NOTE: no import needed as fixture is available globally
+Pytest fixture as function or method parameter (
+NOTE: no import needed as fixture is available globally)
+
+.. code-block:: python
 
     def test_api_url_is_awesome(override_config):
         with override_config(API_URL="/awesome/url/"):

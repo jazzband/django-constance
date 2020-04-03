@@ -2,11 +2,10 @@ import unittest
 
 
 try:
-
     import pytest
 
     from constance import config
-    from constance.test.pytest import ConstanceConfigWrapper as override_config
+    from constance.test.pytest import override_config
 
 
     class TestPytestOverrideConfigFunctionDecorator:
@@ -21,7 +20,7 @@ try:
 
         @pytest.mark.override_config(BOOL_VALUE=False)
         def test_override_config_on_method_changes_config_value(self):
-            """Assert that the method decorator changes config.BOOL_VALUE."""
+            """Assert that the pytest mark decorator changes config.BOOL_VALUE."""
             assert not config.BOOL_VALUE
 
         def test_override_config_as_context_manager_changes_config_value(self):
@@ -30,6 +29,11 @@ try:
                 assert not config.BOOL_VALUE
 
             assert config.BOOL_VALUE
+
+        @override_config(BOOL_VALUE=False)
+        def test_method_decorator(self):
+            """Ensure `override_config` can be used as test method decorator."""
+            assert not config.BOOL_VALUE
 
 
     @pytest.mark.override_config(BOOL_VALUE=False)
@@ -48,6 +52,11 @@ try:
         """
         with override_config(BOOL_VALUE=False):
             assert not config.BOOL_VALUE
+
+    @override_config(BOOL_VALUE=False)
+    def test_func_decorator():
+        """Ensure `override_config` can be used as test function decorator."""
+        assert not config.BOOL_VALUE
 
 except ImportError:
     pass
