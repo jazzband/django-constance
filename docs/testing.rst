@@ -38,3 +38,73 @@ method level and also as a
         def test_what_is_your_favourite_color(self):
             with override_config(YOUR_FAVOURITE_COLOR="Blue?"):
                 self.assertEqual(config.YOUR_FAVOURITE_COLOR, "Blue?")
+
+
+Pytest usage
+~~~~~
+
+Django-constance provides pytest plugin that adds marker
+:class:`@pytest.mark.override_config()`. It handles config override for
+module/class/function, and automatically revert any changes made to the
+constance config values when test is completed.
+
+.. py:function:: pytest.mark.override_config(**kwargs)
+
+    Specify different config values for the marked tests in kwargs.
+
+Module scope override
+
+.. code-block:: python
+
+    pytestmark = pytest.mark.override_config(API_URL="/awesome/url/")
+
+    def test_api_url_is_awesome():
+        ...
+
+Class/function scope
+
+.. code-block:: python
+
+    from constance import config
+
+    @pytest.mark.override_config(API_URL="/awesome/url/")
+    class SomeClassTest:
+        def test_is_awesome_url(self):
+            assert config.API_URL == "/awesome/url/"
+
+        @pytest.mark.override_config(API_URL="/another/awesome/url/")
+        def test_another_awesome_url(self):
+            assert config.API_URL == "/another/awesome/url/"
+
+If you want to use override as a context manager or decorator, consider using
+
+.. code-block:: python
+
+    from constance.test.pytest import override_config
+
+    def test_override_context_manager():
+        with override_config(BOOL_VALUE=False):
+            ...
+    # or
+    @override_config(BOOL_VALUE=False)
+    def test_override_context_manager():
+        ...
+
+Pytest fixture as function or method parameter (
+NOTE: no import needed as fixture is available globally)
+
+.. code-block:: python
+
+    def test_api_url_is_awesome(override_config):
+        with override_config(API_URL="/awesome/url/"):
+            ...
+
+Any scope, auto-used fixture alternative can also be implemented like this
+
+.. code-block:: python
+
+    @pytest.fixture(scope='module', autouse=True)  # e.g. module scope
+    def api_url(override_config):
+        with override_config(API_URL="/awesome/url/"):
+            yield
+
