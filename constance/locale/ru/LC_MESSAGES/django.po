@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-constance\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-13 19:40+0530\n"
+"POT-Creation-Date: 2020-04-21 18:02+0300\n"
 "PO-Revision-Date: 2014-11-27 18:13+0000\n"
-"Last-Translator: Jannis Leidel <jannis@leidel.info>\n"
+"Last-Translator: Rostislav Grigorev <hjcnbckfd@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/django-constance/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -19,43 +19,47 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: admin.py:113
+#: admin.py:109
 #, python-format
 msgid ""
 "Default value type must be equal to declared config parameter type. Please "
 "fix the default value of '%(name)s'."
 msgstr ""
+"Тип значения по умолчанию не совпадает с объявленным типом в конфигурации. "
+"Пожалуйста, исправьте значение по умолчанию для %(name)s'."
 
-#: admin.py:123
+#: admin.py:119
 #, python-format
 msgid ""
 "Constance doesn't support config values of the type %(config_type)s. Please "
 "fix the value of '%(name)s'."
 msgstr ""
+"Не поддерживается тип конфигурации %(config_type)s. Пожалуйста, исправьте "
+"значение для %(name)s'."
 
-#: admin.py:147
+#: admin.py:153
 msgid ""
 "The settings have been modified by someone else. Please reload the form and "
 "resubmit your changes."
 msgstr ""
+"Настройки были изменены кем-то другим. Пожалуйста, перезагрузите форму и "
+"повторно отправьте ваши изменения."
 
-#: admin.py:160
+#: admin.py:165 checks.py:19
 msgid ""
-"CONSTANCE_CONFIG_FIELDSETS does not contain fields that exist in "
+"CONSTANCE_CONFIG_FIELDSETS is missing field(s) that exists in "
 "CONSTANCE_CONFIG."
 msgstr ""
+"В CONSTANCE_CONFIG_FIELDSETS отсутствует одно или несколько полей, которые "
+"указаны в CONSTANCE_CONFIG."
 
-#: admin.py:224
+#: admin.py:233
 msgid "Live settings updated successfully."
-msgstr "Настройки успешно сохранены"
+msgstr "Настройки успешно сохранены."
 
-#: admin.py:285
+#: admin.py:308
 msgid "config"
 msgstr "настройки"
-
-#: apps.py:8
-msgid "Constance"
-msgstr ""
 
 #: backends/database/models.py:19
 msgid "constance"
@@ -68,30 +72,36 @@ msgstr "настройки"
 #: management/commands/constance.py:30
 msgid "Get/Set In-database config settings handled by Constance"
 msgstr ""
+"Получить/Установить настройки из базы данных, созданные с помощью Constance"
 
-#: templates/admin/constance/change_list.html:75
+#: templates/admin/constance/change_list.html:61
 msgid "Save"
 msgstr "Сохранить"
 
-#: templates/admin/constance/change_list.html:84
+#: templates/admin/constance/change_list.html:70
 msgid "Home"
 msgstr "Главная"
 
-#: templates/admin/constance/includes/results_list.html:5
+#: templates/admin/constance/includes/results_list.html:6
 msgid "Name"
 msgstr "Название"
 
-#: templates/admin/constance/includes/results_list.html:6
+#: templates/admin/constance/includes/results_list.html:7
 msgid "Default"
 msgstr "По умолчанию"
 
-#: templates/admin/constance/includes/results_list.html:7
+#: templates/admin/constance/includes/results_list.html:8
 msgid "Value"
 msgstr "Текущее значение"
 
-#: templates/admin/constance/includes/results_list.html:8
+#: templates/admin/constance/includes/results_list.html:9
 msgid "Is modified"
 msgstr "Было изменено"
 
-#~ msgid "Constance config"
-#~ msgstr "Настройки"
+#: templates/admin/constance/includes/results_list.html:22
+msgid "Current file"
+msgstr "Текущий файл"
+
+#: templates/admin/constance/includes/results_list.html:39
+msgid "Reset to default"
+msgstr "Сбросить на значение по умолчанию"
