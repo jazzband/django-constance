@@ -103,9 +103,11 @@ class ConstanceForm(forms.Form):
 
         for name, options in settings.CONFIG.items():
             default = options[0]
-            if len(options) == 3:
+            options_length = len(options)
+            if options_length > 2:
                 config_type = options[2]
-                if config_type not in settings.ADDITIONAL_FIELDS and not isinstance(default, config_type):
+                if config_type not in settings.ADDITIONAL_FIELDS and not isinstance(default,
+                                                                                    config_type):
                     raise ImproperlyConfigured(_("Default value type must be "
                                                  "equal to declared config "
                                                  "parameter type. Please fix "
@@ -114,7 +116,7 @@ class ConstanceForm(forms.Form):
                                                % {'name': name})
             else:
                 config_type = type(default)
-
+            label = options[3] if options_length > 3 else name
             if config_type not in FIELDS:
                 raise ImproperlyConfigured(_("Constance doesn't support "
                                              "config values of the type "
@@ -123,7 +125,7 @@ class ConstanceForm(forms.Form):
                                            % {'config_type': config_type,
                                               'name': name})
             field_class, kwargs = FIELDS[config_type]
-            self.fields[name] = field_class(label=name, **kwargs)
+            self.fields[name] = field_class(label=label, **kwargs)
 
             version_hash.update(smart_bytes(initial.get(name, '')))
         self.initial['version'] = version_hash.hexdigest()

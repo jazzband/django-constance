@@ -11,7 +11,7 @@ class Config:
 
     def __getattr__(self, key):
         try:
-            if not len(settings.CONFIG[key]) in (2, 3):
+            if not len(settings.CONFIG[key]) in (2, 3, 4):
                 raise AttributeError(key)
             default = settings.CONFIG[key][0]
         except KeyError:
