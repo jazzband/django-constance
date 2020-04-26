@@ -97,9 +97,16 @@ def get_values():
 class ConstanceForm(forms.Form):
     version = forms.CharField(widget=forms.HiddenInput)
 
-    def __init__(self, initial, *args, **kwargs):
+    def __init__(self, initial, request=None, *args, **kwargs):
         super().__init__(*args, initial=initial, **kwargs)
         version_hash = hashlib.md5()
+
+        only_view = request and not request.user.has_perm('constance.change_config')
+        if only_view:
+            messages.warning(
+                request,
+                _("You don't have permission to change these values"),
+            )
 
         for name, options in settings.CONFIG.items():
             default = options[0]
@@ -123,6 +130,8 @@ class ConstanceForm(forms.Form):
                                            % {'config_type': config_type,
                                               'name': name})
             field_class, kwargs = FIELDS[config_type]
+            if only_view:
+                kwargs['disabled'] = True
             self.fields[name] = field_class(label=name, **kwargs)
 
             version_hash.update(smart_bytes(initial.get(name, '')))
@@ -216,12 +225,12 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
-        if not self.has_change_permission(request, None):
+        if not self.has_view_or_change_permission(request):
             raise PermissionDenied
         initial = get_values()
         form_cls = self.get_changelist_form(request)
-        form = form_cls(initial=initial)
-        if request.method == 'POST':
+        form = form_cls(initial=initial, request=request)
+        if request.method == 'POST' and request.user.has_perm('constance.change_config'):
             form = form_cls(
                 data=request.POST, files=request.FILES, initial=initial
             )

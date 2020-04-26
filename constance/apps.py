@@ -29,7 +29,13 @@ class ConstanceConfig(AppConfig):
                 model='config',
             )
 
-            permission, created = Permission.objects.using(using).get_or_create(
+            Permission.objects.using(using).get_or_create(
                 content_type=content_type,
                 codename='change_config',
-                defaults={'name': 'Can change config'})
+                defaults={'name': 'Can change config'},
+            )
+            Permission.objects.using(using).get_or_create(
+                content_type=content_type,
+                codename='view_config',
+                defaults={'name': 'Can view config'},
+            )
