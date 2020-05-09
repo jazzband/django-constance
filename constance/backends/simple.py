@@ -3,7 +3,9 @@ from .. import signals, config
 
 
 class SimpleBackend(Backend):
-
+    """
+    Simple in-memory backend that should be mostly used for testing purposes
+    """
     def __init__(self):
         super().__init__()
         self._storage = {}
