@@ -1,6 +1,7 @@
 from datetime import datetime, date, time, timedelta
 from decimal import Decimal
 
+from constance import settings
 from constance.base import Config
 
 
@@ -77,3 +78,18 @@ class StorageTestsMixin:
         self.assertEqual(self.config.DATE_VALUE, date(2001, 12, 20))
         self.assertEqual(self.config.TIME_VALUE, time(1, 59, 0))
         self.assertEqual(self.config.TIMEDELTA_VALUE, timedelta(days=1, hours=2, minutes=3))
+
+    def test_backend_retrieves_multiple_values(self):
+        # Check corner cases such as falsy values
+        self.config.INT_VALUE = 0
+        self.config.BOOL_VALUE = False
+        self.config.STRING_VALUE = ''
+
+        values = dict(self.config._backend.mget(settings.CONFIG))
+        self.assertEqual(values['INT_VALUE'], 0)  # this should be the default value
+        self.assertEqual(values['BOOL_VALUE'], False)  # this should be the default value
+        self.assertEqual(values['STRING_VALUE'], '')  # this should be the default value
+
+    def test_backend_does_not_return_none_values(self):
+        result = dict(self.config._backend.mget(settings.CONFIG))
+        self.assertEqual(result, {})

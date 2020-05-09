@@ -14,7 +14,10 @@ class SimpleBackend(Backend):
     def mget(self, keys):
         if not keys:
             return
-        yield from ((key, self._storage.get(key)) for key in keys)
+        for key in keys:
+            value = self._storage.get(key)
+            if value is not None:
+                yield key, value
 
     def set(self, key, value):
         old_value = self.get(key)
