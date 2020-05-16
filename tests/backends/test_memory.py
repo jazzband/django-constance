@@ -5,11 +5,11 @@ from constance import settings
 from tests.storage import StorageTestsMixin
 
 
-class TestSimple(StorageTestsMixin, TestCase):
+class TestMemory(StorageTestsMixin, TestCase):
 
     def setUp(self):
         self.old_backend = settings.BACKEND
-        settings.BACKEND = 'constance.backends.simple.SimpleBackend'
+        settings.BACKEND = 'constance.backends.memory.MemoryBackend'
         super().setUp()
         self.config._backend._storage = {}
 

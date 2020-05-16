@@ -1,14 +1,17 @@
+from threading import Lock
+
 from . import Backend
 from .. import signals, config
 
 
-class SimpleBackend(Backend):
+class MemoryBackend(Backend):
     """
     Simple in-memory backend that should be mostly used for testing purposes
     """
     def __init__(self):
         super().__init__()
         self._storage = {}
+        self._lock = Lock()
 
     def get(self, key):
         return self._storage.get(key)
@@ -16,10 +19,13 @@ class SimpleBackend(Backend):
     def mget(self, keys):
         if not keys:
             return
-        for key in keys:
-            value = self._storage.get(key)
-            if value is not None:
-                yield key, value
+        result = []
+        with self._lock:
+            for key in keys:
+                value = self._storage.get(key)
+                if value is not None:
+                    result.append((key, value))
+        return result
 
     def set(self, key, value):
         old_value = self.get(key)
