@@ -41,7 +41,7 @@ method level and also as a
 
 
 Pytest usage
-~~~~~
+~~~~~~~~~~~~
 
 Django-constance provides pytest plugin that adds marker
 :class:`@pytest.mark.override_config()`. It handles config override for
