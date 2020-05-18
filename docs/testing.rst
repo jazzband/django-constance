@@ -113,26 +113,11 @@ Memory backend
 ~~~~~~~~~~~~~~
 
 If you don't want to rely on any external services such as Redis or database when
-running your unittests you can select :class:`MemoryBackend` in a test Django settings file
+running your unittests you can select :class:`MemoryBackend` for a test Django settings file
 
 .. code-block:: python
 
     CONSTANCE_BACKEND = 'constance.backends.memory.MemoryBackend'
 
-Alternatively you can override backend on the per test basis with
-
-.. code-block:: python
-
-    from django.test import TestCase
-
-    class ExampleTestCase(TestCase):
-        def test_with_backend_overridden(self):
-
-            with self.settings(CONSTANCE_BACKEND='constance.backends.memory.MemoryBackend'):
-                ...
-
-
-See `Django documentation`_ for details.
-
-.. _`Django documentation`: https://docs.djangoproject.com/en/dev/topics/testing/tools/#overriding-settings
-
+It will provide simple thread-safe backend which will reset to default values after each
+test run.
