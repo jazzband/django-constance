@@ -99,7 +99,7 @@ class ConstanceForm(forms.Form):
 
     def __init__(self, initial, request=None, *args, **kwargs):
         super().__init__(*args, initial=initial, **kwargs)
-        version_hash = hashlib.md5()
+        version_hash = hashlib.sha256()
 
         only_view = request and not request.user.has_perm('constance.change_config')
         if only_view:
