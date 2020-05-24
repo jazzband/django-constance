@@ -8,13 +8,15 @@ class MemoryBackend(Backend):
     """
     Simple in-memory backend that should be mostly used for testing purposes
     """
+    _storage = {}
+    _lock = Lock()
+
     def __init__(self):
         super().__init__()
-        self._storage = {}
-        self._lock = Lock()
 
     def get(self, key):
-        return self._storage.get(key)
+        with self._lock:
+            return self._storage.get(key)
 
     def mget(self, keys):
         if not keys:
@@ -28,8 +30,9 @@ class MemoryBackend(Backend):
         return result
 
     def set(self, key, value):
-        old_value = self.get(key)
-        self._storage[key] = value
-        signals.config_updated.send(
-            sender=config, key=key, old_value=old_value, new_value=value
-        )
+        with self._lock:
+            old_value = self._storage.get(key)
+            self._storage[key] = value
+            signals.config_updated.send(
+                sender=config, key=key, old_value=old_value, new_value=value
+            )
