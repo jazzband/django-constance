@@ -19,6 +19,7 @@ from django.utils import timezone
 from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.module_loading import import_string
+from django.utils.text import normalize_newlines
 from django.utils.translation import ugettext_lazy as _
 
 from . import LazyConfig, settings
@@ -145,6 +146,9 @@ class ConstanceForm(forms.Form):
         for name in settings.CONFIG:
             current = getattr(config, name)
             new = self.cleaned_data[name]
+
+            if isinstance(new, str):
+                new = normalize_newlines(new)
 
             if conf.settings.USE_TZ and isinstance(current, datetime) and not timezone.is_aware(current):
                 current = timezone.make_aware(current)
