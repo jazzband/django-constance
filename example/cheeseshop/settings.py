@@ -111,6 +111,7 @@ CONSTANCE_CONFIG = {
     'MUSICIANS': (4, 'number of musicians inside the shop'),
     'DATE_ESTABLISHED': (date(1972, 11, 30), "the shop's first opening"),
     'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
+    'MULTILINE': ('Line one\nLine two', 'multiline string'),
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
