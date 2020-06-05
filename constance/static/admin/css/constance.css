@@ -16,3 +16,6 @@
 #results{
     overflow-x: auto;
 }
+.item-name {
+    white-space: nowrap;
+}
