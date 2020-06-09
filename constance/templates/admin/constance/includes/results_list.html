@@ -14,7 +14,7 @@
             <th>
                 <span class="item-name" id="{{ item.name|slugify }}">
                     {{ item.name }}
-                    <a href="#{{ item.name|slugify }}" title="Permalink to this headline">¶</a>
+                    <a class="item-anchor" href="#{{ item.name|slugify }}" title="Link to this setting">¶</a>
                 </span>
                 <div class="help">{{ item.help_text|linebreaksbr }}</div>
             </th>
