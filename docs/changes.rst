@@ -1,11 +1,46 @@
 Changelog
 ---------
 
+v2.7.0 (2020/06/11)
+~~~~~~~~~~~~~~~~~~~
+
+* Delete south migrations
+
+* Improve grammar of documentation index file
+
+* Simplify documentation installation section
+
+* Fix IntegrityError after 2.5.0 release
+  (Allow concurrent calls to `DatabaseBackend.set()` method)
+
+* Make groups of fieldsets collapsable
+
+* Allow override_config for pytest
+
+* Put back wheel generation in travis
+
+* Fix wrong "is modified" in admin for multi line strings
+
+* Switch md5 to sha256
+
+* Fix Attempts to change config values fail silently and 
+  appear to succeed when user does not have change permissions
+
+* Make constance app verbose name translatable
+
+* Update example project for Django>2 
+
+* Add anchors in admin for constance settings
+
+* Added a sticky footer in django constance admin
+
 v2.6.0 (2020/01/29)
 ~~~~~~~~~~~~~~~~~~~
 
 * Drop support py<3.5 django<2.2
+
 * Set pickle protocol version for the Redis backend
+
 * Add a command to delete stale records
 
 v2.5.0 (2019/12/23)
