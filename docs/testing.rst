@@ -41,7 +41,7 @@ method level and also as a
 
 
 Pytest usage
-~~~~~
+~~~~~~~~~~~~
 
 Django-constance provides pytest plugin that adds marker
 :class:`@pytest.mark.override_config()`. It handles config override for
@@ -108,3 +108,16 @@ Any scope, auto-used fixture alternative can also be implemented like this
         with override_config(API_URL="/awesome/url/"):
             yield
 
+
+Memory backend
+~~~~~~~~~~~~~~
+
+If you don't want to rely on any external services such as Redis or database when
+running your unittests you can select :class:`MemoryBackend` for a test Django settings file
+
+.. code-block:: python
+
+    CONSTANCE_BACKEND = 'constance.backends.memory.MemoryBackend'
+
+It will provide simple thread-safe backend which will reset to default values after each
+test run.
