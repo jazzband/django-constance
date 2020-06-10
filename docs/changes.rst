@@ -34,6 +34,8 @@ v2.7.0 (2020/06/11)
 
 * Added a sticky footer in django constance admin
 
+* Add memory backend
+
 v2.6.0 (2020/01/29)
 ~~~~~~~~~~~~~~~~~~~
 
