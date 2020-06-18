@@ -18,7 +18,7 @@ def skip_if_django_not_configured():  # pragma: no cover
         django_is_configured = sys.modules["django.conf"].settings.configured
 
     if not django_is_configured():
-        pytest.skip("no Django settings")
+        pytest.skip("Django settings are not configured")
 
 
 @pytest.hookimpl(trylast=True)
@@ -82,8 +82,6 @@ class override_config(ContextDecorator):
         self._original_values = {}
 
     def __enter__(self):
-        skip_if_django_not_configured()
-
         self.enable()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -95,6 +93,4 @@ def _override_config():
     """
     Make override_config available as a function fixture.
     """
-    skip_if_django_not_configured()
-
     return override_config
