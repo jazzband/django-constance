@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+v2.6.0 (2020/01/29)
+~~~~~~~~~~~~~~~~~~~
+
+* Drop support py<3.5 django<2.2
+* Set pickle protocol version for the Redis backend
+* Add a command to delete stale records
+
 v2.5.0 (2019/12/23)
 ~~~~~~~~~~~~~~~~~~~
 

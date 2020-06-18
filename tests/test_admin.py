@@ -11,6 +11,7 @@ from django.test import TestCase, RequestFactory
 
 from constance import settings
 from constance.admin import Config
+from constance.admin import get_values
 
 
 class TestAdmin(TestCase):
@@ -77,6 +78,23 @@ class TestAdmin(TestCase):
         self.assertContains(response, '<h2>Text</h2>')
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {
+        'Numbers': {
+            'fields': ('INT_VALUE', 'DECIMAL_VALUE',),
+            'collapse': True,
+        },
+        'Text': {
+            'fields': ('STRING_VALUE', 'LINEBREAK_VALUE',),
+            'collapse': True,
+        },
+    })
+    def test_collapsed_fieldsets(self):
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.get('/admin/constance/config/')
+        request.user = self.superuser
+        response = self.options.changelist_view(request, {})
+        self.assertContains(response, 'module collapse')
+
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {
         'FieldSetOne': ('INT_VALUE',)
     })
     @mock.patch('constance.settings.CONFIG', {
@@ -99,6 +117,26 @@ class TestAdmin(TestCase):
             with mock.patch("django.contrib.messages.add_message"):
                 response = self.options.changelist_view(request, {})
         self.assertIsInstance(response, HttpResponseRedirect)
+
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {
+        'FieldSetOne': ('MULTILINE',)
+    })
+    @mock.patch('constance.settings.CONFIG', {
+        'MULTILINE': ('Hello\nWorld', 'multiline value'),
+    })
+    @mock.patch('constance.settings.IGNORE_ADMIN_VERSION_CHECK', True)
+    def test_newlines_normalization(self):
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.post('/admin/constance/config/', data={
+            "MULTILINE": "Hello\r\nWorld",
+            "version": "123",
+        })
+        request.user = self.superuser
+        request._dont_enforce_csrf_checks = True
+        with mock.patch("django.contrib.messages.add_message"):
+            response = self.options.changelist_view(request, {})
+        self.assertIsInstance(response, HttpResponseRedirect)
+        self.assertEqual(get_values()['MULTILINE'], 'Hello\nWorld')
 
     @mock.patch('constance.settings.CONFIG', {
         'DATETIME_VALUE': (datetime(2019, 8, 7, 18, 40, 0), 'some naive datetime'),

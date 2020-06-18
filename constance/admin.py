@@ -19,6 +19,7 @@ from django.utils import timezone
 from django.utils.encoding import smart_bytes
 from django.utils.formats import localize
 from django.utils.module_loading import import_string
+from django.utils.text import normalize_newlines
 from django.utils.translation import ugettext_lazy as _
 
 from . import LazyConfig, settings
@@ -97,9 +98,16 @@ def get_values():
 class ConstanceForm(forms.Form):
     version = forms.CharField(widget=forms.HiddenInput)
 
-    def __init__(self, initial, *args, **kwargs):
+    def __init__(self, initial, request=None, *args, **kwargs):
         super().__init__(*args, initial=initial, **kwargs)
-        version_hash = hashlib.md5()
+        version_hash = hashlib.sha256()
+
+        only_view = request and not request.user.has_perm('constance.change_config')
+        if only_view:
+            messages.warning(
+                request,
+                _("You don't have permission to change these values"),
+            )
 
         for name, options in settings.CONFIG.items():
             default = options[0]
@@ -123,6 +131,8 @@ class ConstanceForm(forms.Form):
                                            % {'config_type': config_type,
                                               'name': name})
             field_class, kwargs = FIELDS[config_type]
+            if only_view:
+                kwargs['disabled'] = True
             self.fields[name] = field_class(label=name, **kwargs)
 
             version_hash.update(smart_bytes(initial.get(name, '')))
@@ -136,6 +146,9 @@ class ConstanceForm(forms.Form):
         for name in settings.CONFIG:
             current = getattr(config, name)
             new = self.cleaned_data[name]
+
+            if isinstance(new, str):
+                new = normalize_newlines(new)
 
             if conf.settings.USE_TZ and isinstance(current, datetime) and not timezone.is_aware(current):
                 current = timezone.make_aware(current)
@@ -216,12 +229,12 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
-        if not self.has_change_permission(request, None):
+        if not self.has_view_or_change_permission(request):
             raise PermissionDenied
         initial = get_values()
         form_cls = self.get_changelist_form(request)
-        form = form_cls(initial=initial)
-        if request.method == 'POST':
+        form = form_cls(initial=initial, request=request)
+        if request.method == 'POST' and request.user.has_perm('constance.change_config'):
             form = form_cls(
                 data=request.POST, files=request.FILES, initial=initial
             )
@@ -250,7 +263,14 @@ class ConstanceAdmin(admin.ModelAdmin):
 
         if settings.CONFIG_FIELDSETS:
             context['fieldsets'] = []
-            for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
+            for fieldset_title, fieldset_data in settings.CONFIG_FIELDSETS.items():
+                if type(fieldset_data) == dict:
+                    fields_list = fieldset_data['fields']
+                    collapse = fieldset_data.get('collapse', False)
+                else:
+                    fields_list = fieldset_data
+                    collapse = False
+
                 absent_fields = [field for field in fields_list
                                  if field not in settings.CONFIG]
                 assert not any(absent_fields), (
@@ -265,11 +285,14 @@ class ConstanceAdmin(admin.ModelAdmin):
                         config_values.append(
                             self.get_config_value(name, options, form, initial)
                         )
-
-                context['fieldsets'].append({
+                fieldset_context = {
                     'title': fieldset_title,
                     'config_values': config_values
-                })
+                }
+
+                if collapse:
+                    fieldset_context['collapse'] = True
+                context['fieldsets'].append(fieldset_context)
             if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict):
                 context['fieldsets'].sort(key=itemgetter('title'))
 

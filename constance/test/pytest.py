@@ -6,7 +6,6 @@ Inspired by https://github.com/pytest-dev/pytest-django/.
 import pytest
 from contextlib import ContextDecorator
 from constance import config as constance_config
-from django.conf import settings
 
 
 def skip_if_django_not_configured():  # pragma: no cover

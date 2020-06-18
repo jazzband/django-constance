@@ -13,6 +13,22 @@
 .help {
     font-weight: normal !important;
 }
-#results{
+#results {
     overflow-x: auto;
+}
+.item-anchor {
+    visibility: hidden;
+    margin-left: .1em;
+} 
+.item-name {
+    white-space: nowrap;
+}
+.item-name:hover .item-anchor {
+    visibility: visible;
+}
+.sticky-footer {
+    position: sticky;
+    width: 100%;
+    left: 0;
+    bottom: 0;
 }

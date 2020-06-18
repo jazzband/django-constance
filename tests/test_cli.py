@@ -1,6 +1,7 @@
 from datetime import datetime
 from textwrap import dedent
 
+from django.apps import apps
 from django.conf import settings
 from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
@@ -71,3 +72,13 @@ class CliTestCase(TransactionTestCase):
     def test_set_invalid_multi_value(self):
         self.assertRaisesMessage(CommandError, "Enter a list of values.",
                                  call_command, 'constance', 'set', 'DATETIME_VALUE', '2011-09-24 12:30:25')
+
+    def test_delete_stale_records(self):
+        Constance = apps.get_model('database.Constance')
+
+        initial_count = Constance.objects.count()
+
+        Constance.objects.create(key='STALE_KEY', value=None)
+        call_command('constance', 'remove_stale_keys', stdout=self.out)
+
+        self.assertEqual(Constance.objects.count(), initial_count)
