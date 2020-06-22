@@ -1,7 +1,6 @@
 from django.core import checks
 from django.utils.translation import ugettext_lazy as _
 
-from . import settings
 
 
 @checks.register("constance")
@@ -10,6 +9,8 @@ def check_fieldsets(*args, **kwargs):
     A Django system check to make sure that, if defined, CONFIG_FIELDSETS accounts for
     every entry in settings.CONFIG.
     """
+    from . import settings
+
     if hasattr(settings, "CONFIG_FIELDSETS") and settings.CONFIG_FIELDSETS:
         inconsistent_fieldnames = get_inconsistent_fieldnames()
         if inconsistent_fieldnames:
@@ -33,6 +34,8 @@ def get_inconsistent_fieldnames():
     settings.CONFIG_FIELDSETS.
     If there are no fieldnames in settings.CONFIG_FIELDSETS, returns an empty set.
     """
+    from . import settings
+
     field_name_list = []
     for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
         for field_name in fields_list:
