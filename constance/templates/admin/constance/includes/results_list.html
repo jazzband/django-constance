@@ -25,22 +25,24 @@
                 {{ item.form_field.errors }}
                 {% if item.is_file %}{% trans "Current file" %}: <a href="{% get_media_prefix as MEDIA_URL %}{{ MEDIA_URL }}{{ item.value }}" target="_blank">{{ item.value }}</a>{% endif %}
                 {{ item.form_field }}
-                <br>
-                <a href="#" class="reset-link"
-                    data-field-id="{{ item.form_field.auto_id }}"
-                    data-field-type="{% spaceless %}
-                    {% if item.is_checkbox %}checkbox
-                    {% elif item.is_date %}date
-                    {% elif item.is_datetime %}datetime
-                    {% endif %}
-                    {% endspaceless %}"
-                    data-default="{% spaceless %}
-                    {% if item.is_checkbox %}{% if item.raw_default %} true {% else %} false {% endif %}
-                    {% elif item.is_date %}{{ item.raw_default|date:"U" }}
-                    {% elif item.is_datetime %}{{ item.raw_default|date:"U" }}
-                    {% else %}{{ item.default }}
-                    {% endif %}
-                    {% endspaceless %}">{% trans "Reset to default" %}</a>
+                {% if not item.is_file %}
+                    <br>
+                    <a href="#" class="reset-link"
+                        data-field-id="{{ item.form_field.auto_id }}"
+                        data-field-type="{% spaceless %}
+                        {% if item.is_checkbox %}checkbox
+                        {% elif item.is_date %}date
+                        {% elif item.is_datetime %}datetime
+                        {% endif %}
+                        {% endspaceless %}"
+                        data-default="{% spaceless %}
+                        {% if item.is_checkbox %}{% if item.raw_default %} true {% else %} false {% endif %}
+                        {% elif item.is_date %}{{ item.raw_default|date:"U" }}
+                        {% elif item.is_datetime %}{{ item.raw_default|date:"U" }}
+                        {% else %}{{ item.default }}
+                        {% endif %}
+                        {% endspaceless %}">{% trans "Reset to default" %}</a>
+                {% endif %}
             </td>
             <td>
                 {% if item.modified %}
