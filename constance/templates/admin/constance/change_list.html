@@ -18,7 +18,7 @@
 <script type="text/javascript" src="{% static 'admin/js/collapse.js' %}"></script>
 {% endblock %}
 
-{% block bodyclass %}change-list{% endblock %}
+{% block bodyclass %}{{ block.super }} change-list{% endblock %}
 
 {% block content %}
   <div id="content-main" class="constance">
