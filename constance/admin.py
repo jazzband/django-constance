@@ -20,7 +20,7 @@ from django.utils.formats import localize
 from django.utils.module_loading import import_string
 from django.utils.text import normalize_newlines
 from django.utils.translation import ugettext_lazy as _
-from django.urls import re_path
+from django.urls import path
 
 from . import LazyConfig, settings
 from .checks import get_inconsistent_fieldnames
