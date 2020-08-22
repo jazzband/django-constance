@@ -188,7 +188,7 @@ class ConstanceAdmin(admin.ModelAdmin):
     def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
         return [
-            re_path(r'^$',
+            path('',
                 self.admin_site.admin_view(self.changelist_view),
                 name='%s_%s_changelist' % info),
             re_path(r'^$',
