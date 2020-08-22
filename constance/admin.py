@@ -191,7 +191,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             path('',
                 self.admin_site.admin_view(self.changelist_view),
                 name='%s_%s_changelist' % info),
-            re_path(r'^$',
+            path('',
                 self.admin_site.admin_view(self.changelist_view),
                 name='%s_%s_add' % info),
         ]
