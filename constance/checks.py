@@ -38,7 +38,9 @@ def get_inconsistent_fieldnames():
 
     field_name_list = []
     for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
-        for field_name in fields_list['fields']:
+        fields_list_indices = dict([i[::-1] for i in fields_list])
+        fields_indices_index = fields_list_indices['fields']
+        for field_name in fields_list[fields_indices_index]:
             field_name_list.append(field_name)
     if not field_name_list:
         return {}
