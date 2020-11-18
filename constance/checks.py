@@ -2,7 +2,6 @@ from django.core import checks
 from django.utils.translation import ugettext_lazy as _
 
 
-
 @checks.register("constance")
 def check_fieldsets(*args, **kwargs):
     """
@@ -38,8 +37,11 @@ def get_inconsistent_fieldnames():
 
     field_name_list = []
     for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
-        for field_name in fields_list:
-            field_name_list.append(field_name)
+        # fields_list can be a dictionary, when a fieldset is defined as collapsible
+        # https://django-constance.readthedocs.io/en/latest/#fieldsets-collapsing
+        if isinstance(fields_list, dict) and 'fields' in fields_list:
+            fields_list = fields_list['fields']
+        field_name_list += list(fields_list)
     if not field_name_list:
         return {}
     return set(set(settings.CONFIG.keys()) - set(field_name_list))
