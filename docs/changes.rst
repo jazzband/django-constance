@@ -1,6 +1,23 @@
 Changelog
 ---------
 
+v2.8.0 (2020/11/19)
+~~~~~~~~~~~~~~~~~~~
+
+* Prevent reset to default for file field
+
+* Fields_list can be a dictionary, when a fieldset is defined as collapsible
+
+* Create and add fa language translations files
+
+* Respect other classes added by admin templates
+
+* Removed deprecated url()
+
+* Use gettext_lazy instead of ugettext_lazy
+
+* Updated python and django version support
+
 v2.7.0 (2020/06/22)
 ~~~~~~~~~~~~~~~~~~~
 
