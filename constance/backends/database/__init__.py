@@ -7,7 +7,6 @@ from django.db import (
     ProgrammingError,
     transaction,
 )
-from django.db.models.signals import post_save
 
 from .. import Backend
 from ... import settings, signals, config
@@ -37,8 +36,6 @@ class DatabaseBackend(Backend):
         else:
             self._cache = None
         self.autofill()
-        # Clear simple cache.
-        post_save.connect(self.clear, sender=self._model)
 
     def add_prefix(self, key):
         return "%s%s" % (self._prefix, key)
@@ -103,7 +100,7 @@ class DatabaseBackend(Backend):
                 with transaction.atomic(using=queryset.db):
                     queryset.create(key=key, value=value)
                 created = True
-            except IntegrityError as error:
+            except IntegrityError:
                 # Allow concurrent writes
                 constance = queryset.get(key=key)
 
@@ -120,10 +117,3 @@ class DatabaseBackend(Backend):
         signals.config_updated.send(
             sender=config, key=key, old_value=old_value, new_value=value
         )
-
-    def clear(self, sender, instance, created, **kwargs):
-        if self._cache and not created:
-            keys = [self.add_prefix(k) for k in settings.CONFIG]
-            keys.append(self.add_prefix(self._autofill_cachekey))
-            self._cache.delete_many(keys)
-            self.autofill()
