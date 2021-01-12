@@ -185,6 +185,10 @@ class ConstanceAdmin(admin.ModelAdmin):
     change_list_template = 'admin/constance/change_list.html'
     change_list_form = ConstanceForm
 
+    def __init__(self, model, admin_site):
+        model._meta.concrete_model = Config
+        super().__init__(model, admin_site)
+
     def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
         return [
@@ -317,7 +321,7 @@ class Config:
     class Meta:
         app_label = 'constance'
         object_name = 'Config'
-        concrete_model = Config
+        concrete_model = None
         model_name = module_name = 'config'
         verbose_name_plural = _('config')
         abstract = False
