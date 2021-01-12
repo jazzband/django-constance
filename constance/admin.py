@@ -317,6 +317,7 @@ class Config:
     class Meta:
         app_label = 'constance'
         object_name = 'Config'
+        concrete_model = Config
         model_name = module_name = 'config'
         verbose_name_plural = _('config')
         abstract = False
