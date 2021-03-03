@@ -17,7 +17,7 @@ class Config:
         except KeyError:
             raise AttributeError(key)
         result = self._backend.get(key)
-        if result is None:
+        if result is None and default is not None:
             result = default
             setattr(self, key, default)
             return result
