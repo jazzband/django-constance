@@ -12,6 +12,8 @@ Features
 Quick Installation
 ------------------
 
+.. code-block::
+
     pip install "django-constance[redis]"
 
 For complete installation instructions, including how to install the
