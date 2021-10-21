@@ -137,6 +137,19 @@ configured cache backend to enable this feature, e.g. "default"::
              incompatible with cross-process caching like the local memory
              cache backend included in Django because correct cache
              invalidation can't be guaranteed.
+             
+             If you try this, Constance will throw an error and refuse
+             to let your application start. You can work around this by
+             subclassing ``constance.backends.database.DatabaseBackend``
+             and and overriding `__init__` to remove the check. You'll
+             want to consult the source code for that function to see
+             exactly how. 
+             
+             We're deliberately being vague about this, because it's 
+             dangerous; the behavior is undefined, and could even cause
+             your app to crash. Nevertheless, there are some limited 
+             circumstances in which this could be useful, but please
+             think carefully before going down this path.
 
 .. note:: By default Constance will autofill the cache on startup and after
           saving any of the config values. If you want to disable the cache
