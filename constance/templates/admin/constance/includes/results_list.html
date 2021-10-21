@@ -31,8 +31,8 @@
                         data-field-id="{{ item.form_field.auto_id }}"
                         data-field-type="{% spaceless %}
                         {% if item.is_checkbox %}checkbox
-                        {% elif item.is_date %}date
                         {% elif item.is_datetime %}datetime
+                        {% elif item.is_date %}date
                         {% endif %}
                         {% endspaceless %}"
                         data-default="{% spaceless %}
