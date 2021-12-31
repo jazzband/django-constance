@@ -23,6 +23,14 @@ to add it to your project settings::
 
     CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
 
+Default redis backend retrieves values every time. There is another redis backend with local cache.
+`CachingRedisBackend` stores the value from a redis to memory at first access and checks a value ttl at next.
+Configuration installation is simple::
+
+    CONSTANCE_BACKEND = 'constance.backends.redisd.CachingRedisBackend'
+    # optionally set a value ttl
+    CONSTANCE_REDIS_CACHE_TIMEOUT = 60
+
 .. _`redis-py`: https://pypi.python.org/pypi/redis
 
 Settings
@@ -76,6 +84,12 @@ objects when storing in the Redis database. Defaults to ``pickle.DEFAULT_PROTOCO
 
 You might want to pin this value to a specific protocol number, since ``pickle.DEFAULT_PROTOCOL``
 means different things between versions of Python.
+
+``CONSTANCE_REDIS_CACHE_TIMEOUT``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The (optional) ttl of values in seconds used by `CachingRedisBackend` for storing in a local cache.
+Defaults to `60` seconds.
 
 Database
 --------
