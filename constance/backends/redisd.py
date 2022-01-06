@@ -81,10 +81,14 @@ class CachingRedisBackend(RedisBackend):
 
     def set(self, key, value):
         with self._lock:
-            self._cache_value(key, value)
             super().set(key, value)
+            self._cache_value(key, value)
+
 
     def mget(self, keys):
         if not keys:
             return
-        return [(key, self.get(key)) for key in keys]
+        for key in keys:
+            value = self.get(key)
+            if value:
+                yield key, value
