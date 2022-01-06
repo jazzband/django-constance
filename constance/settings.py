@@ -30,6 +30,8 @@ DATABASE_PREFIX = getattr(settings, 'CONSTANCE_DATABASE_PREFIX', '')
 
 REDIS_PREFIX = getattr(settings, 'CONSTANCE_REDIS_PREFIX', 'constance:')
 
+REDIS_CACHE_TIMEOUT = getattr(settings, 'CONSTANCE_REDIS_CACHE_TIMEOUT', 60)
+
 REDIS_CONNECTION_CLASS = getattr(
     settings,
     'CONSTANCE_REDIS_CONNECTION_CLASS',
