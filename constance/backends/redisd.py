@@ -1,5 +1,5 @@
 from pickle import loads, dumps
-from threading import Lock
+from threading import RLock
 from time import monotonic
 
 from django.core.exceptions import ImproperlyConfigured
@@ -54,7 +54,7 @@ class RedisBackend(Backend):
 
 class CachingRedisBackend(RedisBackend):
     _sentinel = object()
-    _lock = Lock()
+    _lock = RLock()
 
     def __init__(self):
         super().__init__()
@@ -84,11 +84,10 @@ class CachingRedisBackend(RedisBackend):
             super().set(key, value)
             self._cache_value(key, value)
 
-
     def mget(self, keys):
         if not keys:
             return
         for key in keys:
             value = self.get(key)
-            if value:
+            if value is not None:
                 yield key, value
