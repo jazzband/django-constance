@@ -80,4 +80,4 @@ class CliTestCase(TransactionTestCase):
         Constance.objects.create(key='STALE_KEY', value=None)
         call_command('constance', 'remove_stale_keys', stdout=self.out)
 
-        self.assertEqual(Constance.objects.count(), initial_count)
+        self.assertEqual(Constance.objects.count(), initial_count, msg=self.out)
