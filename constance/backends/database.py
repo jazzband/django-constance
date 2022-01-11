@@ -9,13 +9,13 @@ from django.db import (
 )
 from django.db.models.signals import post_save
 
-from .. import Backend
-from ... import settings, signals, config
+from constance.backends import Backend
+from constance import settings, signals, config
 
 
 class DatabaseBackend(Backend):
     def __init__(self):
-        from .models import Constance
+        from constance.models import Constance
         self._model = Constance
         self._prefix = settings.DATABASE_PREFIX
         self._autofill_timeout = settings.DATABASE_CACHE_AUTOFILL_TIMEOUT

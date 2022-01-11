@@ -7,7 +7,7 @@ import picklefield.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('database', '0001_initial'),
+        ('constance', '0001_initial'),
     ]
 
     operations = [
