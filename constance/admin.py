@@ -202,11 +202,16 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     def get_config_value(self, name, options, form, initial):
         default, help_text = options[0], options[1]
+        field_type = None
+        if len(options) == 3:
+            field_type = options[2]
         # First try to load the value from the actual backend
         value = initial.get(name)
         # Then if the returned value is None, get the default
         if value is None:
             value = getattr(config, name)
+
+        form_field = form[name]
         config_value = {
             'name': name,
             'default': localize(default),
@@ -214,12 +219,17 @@ class ConstanceAdmin(admin.ModelAdmin):
             'help_text': _(help_text),
             'value': localize(value),
             'modified': localize(value) != localize(default),
-            'form_field': form[name],
+            'form_field': form_field,
             'is_date': isinstance(default, date),
             'is_datetime': isinstance(default, datetime),
-            'is_checkbox': isinstance(form[name].field.widget, forms.CheckboxInput),
-            'is_file': isinstance(form[name].field.widget, forms.FileInput),
+            'is_checkbox': isinstance(form_field.field.widget, forms.CheckboxInput),
+            'is_file': isinstance(form_field.field.widget, forms.FileInput),
         }
+        if field_type and field_type in settings.ADDITIONAL_FIELDS:
+            serialized_default = form[name].field.prepare_value(default)
+            config_value['default'] = serialized_default
+            config_value['raw_default'] = serialized_default
+            config_value['value'] = form[name].field.prepare_value(value)
 
         return config_value
 

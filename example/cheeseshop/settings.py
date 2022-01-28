@@ -102,6 +102,7 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         }
     ],
     'email': ('django.forms.fields.EmailField',),
+    'json_field': ['cheeseshop.fields.JsonField']
 }
 
 CONSTANCE_CONFIG = {
@@ -112,6 +113,11 @@ CONSTANCE_CONFIG = {
     'DATE_ESTABLISHED': (date(1972, 11, 30), "the shop's first opening"),
     'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
     'MULTILINE': ('Line one\nLine two', 'multiline string'),
+    'JSON_DATA': (
+        {'a': 1_000, 'b': 'test', 'max': 30_000_000},
+        'Some test data for json',
+        'json_field',
+    ),
 }
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
