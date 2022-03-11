@@ -1,6 +1,29 @@
 Changelog
 ---------
 
+v2.9.0 (2022/03/11)
+~~~~~~~~~~~~~~~~~~~
+
+* Added arabic translation
+
+* Add concrete_model class attribute to fake admin model
+
+* Added tests for django 3.2
+
+* Fix do not detect datetime fields as date type
+
+* Added support for python 3.10
+
+* Fixes for Ukrainian locale
+
+* Added documentation for constance_dbs config
+
+* Add caching redis backend
+
+* Serialize according to widget
+
+* Add default_auto_field to database backend
+
 v2.8.0 (2020/11/19)
 ~~~~~~~~~~~~~~~~~~~
 
