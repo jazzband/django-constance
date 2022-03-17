@@ -99,7 +99,8 @@ CONSTANCE_ADDITIONAL_FIELDS = {
         }
     ],
     'email': ('django.forms.fields.EmailField',),
-    'json_field': ['cheeseshop.fields.JsonField']
+    'json_field': ['cheeseshop.fields.JsonField'],
+    'image_field': ['django.forms.ImageField', {}],
 }
 
 CONSTANCE_CONFIG = {
@@ -114,6 +115,11 @@ CONSTANCE_CONFIG = {
         {'a': 1_000, 'b': 'test', 'max': 30_000_000},
         'Some test data for json',
         'json_field',
+    ),
+    'LOGO': (
+        '',
+        'Logo image file',
+        'image_field',
     ),
 }
 

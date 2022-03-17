@@ -153,7 +153,7 @@ When used in a template you probably need to use:
         {% get_media_prefix as MEDIA_URL %}
         <img src="{{ MEDIA_URL }}{{ config.LOGO_IMAGE }}">
 
-Images are uploaded to MEDIA_ROOT.
+Images are uploaded to ``MEDIA_ROOT`` by default. You can specify a subdirectory of ``MEDIA_ROOT`` to use instead by specifying it in the ``CONSTANCE_FILE_ROOT`` setting.
 
 
 Ordered Fields in Django Admin
