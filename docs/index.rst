@@ -151,7 +151,7 @@ When used in a template you probably need to use:
         {% load static %}
 
         {% get_media_prefix as MEDIA_URL %}
-        <img src="{{ MEDIA_URL }}{{ constance.LOGO_IMAGE }}">
+        <img src="{{ MEDIA_URL }}{{ config.LOGO_IMAGE }}">
 
 Images are uploaded to MEDIA_ROOT.
 
