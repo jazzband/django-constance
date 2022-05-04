@@ -198,7 +198,7 @@ You can define fieldsets to group settings together:
 Fieldsets collapsing
 --------------------
 
-To make some fieldsets collapsing you can use new format if CONSTANCE_CONFIG_FIELDSETS. Here's an example:
+To make some fieldsets collapsing you can use new format in CONSTANCE_CONFIG_FIELDSETS. Here's an example:
 
 .. code-block:: python
 
