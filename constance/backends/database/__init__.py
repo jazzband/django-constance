@@ -21,7 +21,7 @@ class DatabaseBackend(Backend):
         self._autofill_timeout = settings.DATABASE_CACHE_AUTOFILL_TIMEOUT
         self._autofill_cachekey = 'autofilled'
 
-        if not self._model._meta.installed:
+        if self._model._meta.app_config is None:
             raise ImproperlyConfigured(
                 "The constance.backends.database app isn't installed "
                 "correctly. Make sure it's in your INSTALLED_APPS setting.")
