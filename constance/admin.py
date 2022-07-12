@@ -276,8 +276,13 @@ class ConstanceAdmin(admin.ModelAdmin):
             )
 
         if settings.CONFIG_FIELDSETS:
+            if isinstance(settings.CONFIG_FIELDSETS, dict):
+                fieldset_items = settings.CONFIG_FIELDSETS.items()
+            else:
+                fieldset_items = settings.CONFIG_FIELDSETS
+
             context['fieldsets'] = []
-            for fieldset_title, fieldset_data in settings.CONFIG_FIELDSETS.items():
+            for fieldset_title, fieldset_data in fieldset_items:
                 if type(fieldset_data) == dict:
                     fields_list = fieldset_data['fields']
                     collapse = fieldset_data.get('collapse', False)
