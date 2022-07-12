@@ -77,6 +77,18 @@ class TestAdmin(TestCase):
         self.assertContains(response, '<h2>Numbers</h2>')
         self.assertContains(response, '<h2>Text</h2>')
 
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', (
+        ('Numbers', ('INT_VALUE',)),
+        ('Text', ('STRING_VALUE',)),
+    ))
+    def test_fieldset_tuple(self):
+        self.client.login(username='admin', password='nimda')
+        request = self.rf.get('/admin/constance/config/')
+        request.user = self.superuser
+        response = self.options.changelist_view(request, {})
+        self.assertContains(response, '<h2>Numbers</h2>')
+        self.assertContains(response, '<h2>Text</h2>')
+
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {
         'Numbers': {
             'fields': ('INT_VALUE', 'DECIMAL_VALUE',),
