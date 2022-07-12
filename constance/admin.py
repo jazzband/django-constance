@@ -312,7 +312,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 if collapse:
                     fieldset_context['collapse'] = True
                 context['fieldsets'].append(fieldset_context)
-            if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict):
+            if not isinstance(settings.CONFIG_FIELDSETS, (OrderedDict, tuple)):
                 context['fieldsets'].sort(key=itemgetter('title'))
 
         if not isinstance(settings.CONFIG, OrderedDict):
