@@ -216,6 +216,36 @@ To make some fieldsets collapsing you can use new format in CONSTANCE_CONFIG_FIE
             'Theme Options': ('THEME',),
         }
 
+Field internationalization
+--------------------------
+
+Field description and fieldset headers can be integrated into Django's
+internationalization using the ``gettext_lazy`` function. Note that the
+``CONSTANCE_CONFIG_FIELDSETS`` must be converted to a tuple instead of dict
+as it is not possible to have lazy proxy objects as dictionary keys in the
+settings file. Example:
+
+.. code-block:: python
+
+        from django.utils.translation import gettext_lazy as _
+
+        CONSTANCE_CONFIG = {
+            'SITE_NAME': ('My Title', _('Website title')),
+            'SITE_DESCRIPTION': ('', _('Website description')),
+            'THEME': ('light-blue', _('Website theme')),
+        }
+
+        CONSTANCE_CONFIG_FIELDSETS = (
+            (
+                _('General Options'),
+                {
+                    'fields': ('SITE_NAME', 'SITE_DESCRIPTION'),
+                    'collapse': True,
+                },
+            ),
+            (_('Theme Options'), ('THEME',)),
+        )
+
 Usage
 -----
 

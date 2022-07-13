@@ -35,8 +35,13 @@ def get_inconsistent_fieldnames():
     """
     from . import settings
 
+    if isinstance(settings.CONFIG_FIELDSETS, dict):
+        fieldset_items = settings.CONFIG_FIELDSETS.items()
+    else:
+        fieldset_items = settings.CONFIG_FIELDSETS
+
     field_name_list = []
-    for fieldset_title, fields_list in settings.CONFIG_FIELDSETS.items():
+    for fieldset_title, fields_list in fieldset_items:
         # fields_list can be a dictionary, when a fieldset is defined as collapsible
         # https://django-constance.readthedocs.io/en/latest/#fieldsets-collapsing
         if isinstance(fields_list, dict) and 'fields' in fields_list:
