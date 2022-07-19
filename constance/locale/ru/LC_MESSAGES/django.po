@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-constance\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-13 19:40+0530\n"
+"POT-Creation-Date: 2022-07-19 20:59+0500\n"
 "PO-Revision-Date: 2014-11-27 18:13+0000\n"
 "Last-Translator: Jannis Leidel <jannis@leidel.info>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/django-constance/"
@@ -48,6 +48,10 @@ msgstr ""
 #: admin.py:224
 msgid "Live settings updated successfully."
 msgstr "Настройки успешно сохранены"
+
+#: admin.py:267
+msgid "Failed to update live settings."
+msgstr "Не удалось сохранить настройки"
 
 #: admin.py:285
 msgid "config"

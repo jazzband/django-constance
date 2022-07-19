@@ -260,6 +260,12 @@ class ConstanceAdmin(admin.ModelAdmin):
                     _('Live settings updated successfully.'),
                 )
                 return HttpResponseRedirect('.')
+            else:
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    _('Failed to update live settings.'),
+                )
         context = dict(
             self.admin_site.each_context(request),
             config_values=[],
