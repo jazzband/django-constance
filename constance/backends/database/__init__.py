@@ -1,4 +1,6 @@
 from django.core.cache import caches
+from threading import RLock
+from time import monotonic
 from django.core.cache.backends.locmem import LocMemCache
 from django.core.exceptions import ImproperlyConfigured
 from django.db import (
@@ -127,3 +129,44 @@ class DatabaseBackend(Backend):
             keys.append(self.add_prefix(self._autofill_cachekey))
             self._cache.delete_many(keys)
             self.autofill()
+
+
+class CachingDatabaseBackend(DatabaseBackend):
+    _sentinel = object()
+    _lock = RLock()
+
+    def __init__(self):
+        super().__init__()
+        self._timeout = settings.DATABASE_LOCAL_CACHE_TIMEOUT
+        self._local_cache = {}
+        self._sentinel = object()
+
+    def _has_expired(self, value):
+        return value[0] <= monotonic()
+
+    def _local_cache_value(self, key, new_value):
+        self._local_cache[key] = (monotonic() + self._timeout, new_value)
+
+    def get(self, key):
+        value = self._local_cache.get(key, self._sentinel)
+
+        if value is self._sentinel or self._has_expired(value):
+            with self._lock:
+                new_value = super().get(key)
+                self._local_cache_value(key, new_value)
+                return new_value
+
+        return value[1]
+
+    def set(self, key, value):
+        with self._lock:
+            super().set(key, value)
+            self._local_cache_value(key, value)
+
+    def mget(self, keys):
+        if not keys:
+            return
+        for key in keys:
+            value = self.get(key)
+            if value is not None:
+                yield key, value
