@@ -136,9 +136,9 @@ class CachingDatabaseBackend(DatabaseBackend):
     _lock = RLock()
 
     def __init__(self):
+        self._local_cache = {}
         super().__init__()
         self._timeout = settings.DATABASE_LOCAL_CACHE_TIMEOUT
-        self._local_cache = {}
         self._sentinel = object()
 
     def _has_expired(self, value):
