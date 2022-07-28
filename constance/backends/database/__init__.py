@@ -162,11 +162,3 @@ class CachingDatabaseBackend(DatabaseBackend):
         with self._lock:
             super().set(key, value)
             self._local_cache_value(key, value)
-
-    def mget(self, keys):
-        if not keys:
-            return
-        for key in keys:
-            value = self.get(key)
-            if value is not None:
-                yield key, value
