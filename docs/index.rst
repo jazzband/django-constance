@@ -341,9 +341,8 @@ Setting an invalid date will fail as follow::
    CommandError: Enter a valid date.
 
 
-.. note::  If the admin field is a `MultiValueField`,
-(e.g. a datetime using `SplitDateTimeField`)
-then the separate field values need to be provided as separate arguments.
+.. note::  If the admin field is a `MultiValueField`, then the separate field values need to be provided as separate arguments.
+E.g., a datetime using `SplitDateTimeField`::
 
    CONSTANCE_CONFIG = {
        'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
