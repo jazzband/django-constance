@@ -1,6 +1,15 @@
 Changelog
 ---------
 
+2.9.1 (2022-08-11)
+~~~~~~~~~~~~~~~~~~
+
+* Add support for gettext in fieldset headers
+
+* Add support for Django 4.1
+
+* Fix text format for MultiValueField usage
+
 v2.9.0 (2022/03/11)
 ~~~~~~~~~~~~~~~~~~~
 
