@@ -250,7 +250,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         form = form_cls(initial=initial, request=request)
         if request.method == 'POST' and request.user.has_perm('constance.change_config'):
             form = form_cls(
-                data=request.POST, files=request.FILES, initial=initial
+                data=request.POST, files=request.FILES, initial=initial, request=request
             )
             if form.is_valid():
                 form.save()

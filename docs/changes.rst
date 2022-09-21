@@ -1,7 +1,12 @@
 Changelog
 ---------
 
-2.9.1 (2022-08-11)
+v2.10.0 (unreleased)
+~~~~~~~~~~~~~~~~~~
+
+* Forward the request when saving the admin changelist form
+
+v2.9.1 (2022/08/11)
 ~~~~~~~~~~~~~~~~~~
 
 * Add support for gettext in fieldset headers
