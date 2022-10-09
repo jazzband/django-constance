@@ -47,7 +47,7 @@ the :setting:`CONSTANCE_CONFIG` section, like this:
 .. note:: Add constance *before* your project apps.
 
 .. note::  If you use admin extensions like
-   `Grapelli <http://grappelliproject.com/>`_, ``'constance'`` should be added
+   `Grapelli <https://grappelliproject.com/>`_, ``'constance'`` should be added
    in :setting:`INSTALLED_APPS` *before* those extensions.
 
 Here, ``42`` is the default value for the key ``THE_ANSWER`` if it is
