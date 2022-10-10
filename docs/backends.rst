@@ -60,7 +60,7 @@ An (optional) dotted import path to a connection to use, e.g.::
 
     CONSTANCE_REDIS_CONNECTION_CLASS = 'myproject.myapp.mockup.Connection'
 
-If you are using `django-redis <http://niwinz.github.io/django-redis/latest/>`_,
+If you are using `django-redis <https://niwinz.github.io/django-redis/latest/>`_,
 feel free to use the ``CONSTANCE_REDIS_CONNECTION_CLASS`` setting to define
 a callable that returns a redis connection, e.g.::
 
@@ -175,7 +175,7 @@ configured cache backend to enable this feature, e.g. "default"::
           simply set the :setting:`CONSTANCE_DATABASE_CACHE_AUTOFILL_TIMEOUT`
           setting to ``None``.
 
-.. _django-picklefield: http://pypi.python.org/pypi/django-picklefield/
+.. _django-picklefield: https://pypi.org/project/django-picklefield/
 
 Memory
 ------
