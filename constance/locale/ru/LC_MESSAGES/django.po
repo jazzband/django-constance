@@ -47,7 +47,7 @@ msgstr ""
 
 #: admin.py:224
 msgid "Live settings updated successfully."
-msgstr "Настройки успешно сохранены"
+msgstr "Настройки успешно сохранены."
 
 #: admin.py:267
 msgid "Failed to update live settings."
