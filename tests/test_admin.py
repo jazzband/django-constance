@@ -205,7 +205,8 @@ class TestAdmin(TestCase):
         request = self.rf.post('/admin/constance/config/', data=None)
         request.user = self.superuser
         request._dont_enforce_csrf_checks = True
-        response = self.options.changelist_view(request, {})
+        with mock.patch("django.contrib.messages.add_message"):
+            response = self.options.changelist_view(request, {})
         self.assertContains(response, 'is missing field(s)')
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-13 19:40+0530\n"
+"POT-Creation-Date: 2022-07-19 21:00+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,10 @@ msgstr ""
 
 #: admin.py:224
 msgid "Live settings updated successfully."
+msgstr ""
+
+#: admin.py:267
+msgid "Failed to update live settings."
 msgstr ""
 
 #: admin.py:285
