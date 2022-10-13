@@ -8,11 +8,11 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import linebreaksbr
 from django.test import TestCase, RequestFactory
+from django.utils.translation import gettext_lazy as _
 
 from constance import settings
-from constance.admin import Config
-from constance.admin import get_values
-
+from constance.admin import Config, get_values, ConstanceForm
+from unittest import mock
 
 class TestAdmin(TestCase):
     model = Config
@@ -113,21 +113,42 @@ class TestAdmin(TestCase):
         'INT_VALUE': (1, 'some int'),
     })
     @mock.patch('constance.settings.IGNORE_ADMIN_VERSION_CHECK', True)
+    @mock.patch("constance.admin.ConstanceForm.save", lambda _: None)
+    @mock.patch("constance.admin.ConstanceForm.is_valid", lambda _: True)
     def test_submit(self):
         """
         Test that submitting the admin page results in an http redirect when
         everything is in order.
         """
+        initial_value = {"INT_VALUE": settings.CONFIG['INT_VALUE'][0]}
+        
         self.client.login(username='admin', password='nimda')
+        
         request = self.rf.post('/admin/constance/config/', data={
-            "INT_VALUE": settings.CONFIG['INT_VALUE'][0],
+            **initial_value,
             "version": "123",
         })
+        
         request.user = self.superuser
         request._dont_enforce_csrf_checks = True
-        with mock.patch("constance.admin.ConstanceForm.save"):
-            with mock.patch("django.contrib.messages.add_message"):
+
+        with mock.patch("django.contrib.messages.add_message") as mock_message:
+            with mock.patch.object(ConstanceForm, "__init__", 
+                **initial_value, 
+                return_value=None
+            ) as mock_form:
                 response = self.options.changelist_view(request, {})
+                mock_form.assert_called_with(
+                    data=request.POST, 
+                    files=request.FILES, 
+                    initial=initial_value, 
+                    request=request
+                )
+
+                mock_message.assert_called_with(
+                    request, 25, _('Live settings updated successfully.'),
+                )
+
         self.assertIsInstance(response, HttpResponseRedirect)
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {
