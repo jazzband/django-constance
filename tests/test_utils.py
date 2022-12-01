@@ -1,7 +1,7 @@
 import datetime
 from decimal import Decimal
 
-from constance.admin import get_values
+from constance.utils import get_values
 from constance.management.commands.constance import _set_constance_value
 from django.core.exceptions import ValidationError
 from django.test import TestCase

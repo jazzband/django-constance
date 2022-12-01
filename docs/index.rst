@@ -391,7 +391,8 @@ settings the way you like.
 
 .. code-block:: python
 
-    from constance.admin import ConstanceAdmin, ConstanceForm, Config
+    from constance.admin import ConstanceAdmin, Config
+    from constance.forms import ConstanceForm
     class CustomConfigForm(ConstanceForm):
           def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)

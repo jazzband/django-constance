@@ -1,13 +1,13 @@
 import datetime
 from decimal import Decimal
-import mock
 
-from constance.admin import get_values
+import mock
+from constance import settings
+from constance.utils import get_values
 from constance.checks import check_fieldsets, get_inconsistent_fieldnames
 from constance.management.commands.constance import _set_constance_value
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from constance import settings
 
 
 class ChecksTestCase(TestCase):

@@ -1,13 +1,13 @@
+from django import VERSION
 from django.apps import apps
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.management import BaseCommand, CommandError
 from django.utils.translation import gettext as _
-from django import VERSION
-
 
 from ... import config
-from ...admin import ConstanceForm, get_values
+from ...forms import ConstanceForm
+from ...utils import get_values
 
 
 def _set_constance_value(key, value):
