@@ -160,7 +160,7 @@ configured cache backend to enable this feature, e.g. "default"::
              If you try this, Constance will throw an error and refuse
              to let your application start. You can work around this by
              subclassing ``constance.backends.database.DatabaseBackend``
-             and and overriding `__init__` to remove the check. You'll
+             and overriding `__init__` to remove the check. You'll
              want to consult the source code for that function to see
              exactly how.
 
