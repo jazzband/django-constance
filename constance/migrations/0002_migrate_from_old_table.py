@@ -9,13 +9,14 @@ def _migrate_from_old_table(apps, schema_editor) -> None:
     try:
         with connection.cursor() as cursor:
             cursor.execute('INSERT INTO constance_constance ( id, key, value ) SELECT id, key, value FROM constance_config', [])
+            cursor.execute('DROP TABLE constance_config', [])
     except DatabaseError:
         pass
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [('constance', '0002_auto_20190129_2304')]
+    dependencies = [('constance', '0001_initial')]
 
     operations = [
         migrations.RunPython(_migrate_from_old_table),
