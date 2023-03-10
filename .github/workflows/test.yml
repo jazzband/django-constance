@@ -40,7 +40,7 @@ jobs:
 
     - name: Tox tests
       run: |
-        tox -vvv
+        tox -v
 
     - name: Upload coverage
       uses: codecov/codecov-action@v3
