@@ -18,7 +18,10 @@ class Constance(models.Model):
     class Meta:
         verbose_name = _('constance')
         verbose_name_plural = _('constances')
-        db_table = 'constance_config'
+        permissions = [
+            ('change_config', 'Can change config'),
+            ('view_config', 'Can view config'),
+        ]
 
     def __str__(self):
         return self.key

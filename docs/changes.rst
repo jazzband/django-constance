@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+v3.0.0 (future)
+~~~~~~~~~~~~~~~~~~~
+
+* Refactor database backend
+Backward incompatible changes:
+remove 'constance.backends.database' from INSTALLED_APPS
+
 v2.10.0 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 

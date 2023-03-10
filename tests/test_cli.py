@@ -1,7 +1,6 @@
 from datetime import datetime
 from textwrap import dedent
 
-from django.apps import apps
 from django.conf import settings
 from django.core.management import call_command, CommandError
 from django.test import TransactionTestCase
@@ -10,6 +9,7 @@ from django.utils.encoding import smart_str
 from io import StringIO
 
 from constance import config
+from constance.models import Constance
 
 
 class CliTestCase(TransactionTestCase):
@@ -74,11 +74,10 @@ class CliTestCase(TransactionTestCase):
                                  call_command, 'constance', 'set', 'DATETIME_VALUE', '2011-09-24 12:30:25')
 
     def test_delete_stale_records(self):
-        Constance = apps.get_model('database.Constance')
 
         initial_count = Constance.objects.count()
 
         Constance.objects.create(key='STALE_KEY', value=None)
         call_command('constance', 'remove_stale_keys', stdout=self.out)
 
-        self.assertEqual(Constance.objects.count(), initial_count)
+        self.assertEqual(Constance.objects.count(), initial_count, msg=self.out)
