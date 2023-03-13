@@ -117,6 +117,17 @@ CONSTANCE_CONFIG = {
     ),
 }
 
+CONSTANCE_CONFIG_FIELDSETS = {
+    'Cheese shop general info': [
+        'BANNER',
+        'OWNER',
+        'OWNER_EMAIL',
+        'MUSICIANS',
+        'DATE_ESTABLISHED',
+    ],
+    'Awkward test settings': ['MY_SELECT_KEY', 'MULTILINE', 'JSON_DATA'],
+}
+
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
 
