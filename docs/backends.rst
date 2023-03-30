@@ -94,27 +94,17 @@ Defaults to `60` seconds.
 Database
 --------
 
-The database backend is optional and stores the configuration values in a
+Database backend stores configuration values in a
 standard Django model. It requires the package `django-picklefield`_ for
-storing those values. Please install it like so::
-
-  pip install django-constance[database]
+storing those values.
 
 You must set the ``CONSTANCE_BACKEND`` Django setting to::
 
     CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
-Then add the database backend app to your :setting:`INSTALLED_APPS` setting to
-make sure the data model is correctly created::
-
-    INSTALLED_APPS = (
-        # other apps
-        'constance.backends.database',
-    )
-
 Please make sure to apply the database migrations::
 
-    python manage.py migrate database
+    python manage.py migrate
 
 .. note:: If you're upgrading Constance to 1.0 and use Django 1.7 or higher
           please make sure to let the migration system know that you've
@@ -124,10 +114,6 @@ Please make sure to apply the database migrations::
 
               python manage.py migrate database --fake
 
-.. note:: If you have multiple databases you can set what databases
-          will be used with ``CONSTANCE_DBS``
-
-              CONSTANCE_DBS = "default"
 
 Just like the Redis backend you can set an optional prefix that is used during
 database interactions (it defaults to an empty string, ``''``). To use
@@ -160,7 +146,7 @@ configured cache backend to enable this feature, e.g. "default"::
              If you try this, Constance will throw an error and refuse
              to let your application start. You can work around this by
              subclassing ``constance.backends.database.DatabaseBackend``
-             and and overriding `__init__` to remove the check. You'll
+             and overriding `__init__` to remove the check. You'll
              want to consult the source code for that function to see
              exactly how.
 

@@ -1,6 +1,15 @@
 Changelog
 ---------
 
+v3.0.0 (future)
+~~~~~~~~~~~~~~~~~~~
+
+* Refactor database backend
+Backward incompatible changes:
+remove 'constance.backends.database' from INSTALLED_APPS
+* Dropped support for python < 3.7 and django < 3.2
+* Example app now supports django 4.1
+
 v2.10.0 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 

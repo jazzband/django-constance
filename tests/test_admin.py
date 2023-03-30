@@ -1,9 +1,8 @@
 from datetime import datetime
 
-import mock
+from unittest import mock
 from django.contrib import admin
 from django.contrib.auth.models import User, Permission
-from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import linebreaksbr
@@ -55,10 +54,6 @@ class TestAdmin(TestCase):
 
         response = self.options.changelist_view(request, {})
         self.assertEqual(response.status_code, 200)
-
-    def test_str(self):
-        ct = ContentType.objects.get(app_label='constance', model='config')
-        self.assertEqual(str(ct), 'config')
 
     def test_linebreaks(self):
         self.client.login(username='admin', password='nimda')

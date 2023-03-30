@@ -1,2 +1,2 @@
-Django>=2.2
-python-memcached
+Django>=3.2
+pymemcache
