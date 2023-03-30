@@ -5,7 +5,8 @@ from django.core.management import BaseCommand, CommandError
 from django.utils.translation import gettext as _
 
 from ... import config
-from ...admin import ConstanceForm, get_values
+from ...forms import ConstanceForm
+from ...utils import get_values
 from ...models import Constance
 
 
