@@ -1,8 +1,8 @@
+from constance import settings
 from unittest import mock
 
 from constance.checks import check_fieldsets, get_inconsistent_fieldnames
 from django.test import TestCase
-from constance import settings
 
 
 class ChecksTestCase(TestCase):

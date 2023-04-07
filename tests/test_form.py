@@ -1,4 +1,4 @@
-from constance.admin import ConstanceForm
+from constance.forms import ConstanceForm
 from django.forms import fields
 from django.test import TestCase
 

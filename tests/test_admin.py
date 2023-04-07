@@ -10,8 +10,11 @@ from django.test import TestCase, RequestFactory
 from django.utils.translation import gettext_lazy as _
 
 from constance import settings
-from constance.admin import Config, get_values, ConstanceForm
+from constance.admin import Config
+from constance.utils import get_values
+from constance.forms import ConstanceForm
 from unittest import mock
+
 
 class TestAdmin(TestCase):
     model = Config
@@ -108,8 +111,8 @@ class TestAdmin(TestCase):
         'INT_VALUE': (1, 'some int'),
     })
     @mock.patch('constance.settings.IGNORE_ADMIN_VERSION_CHECK', True)
-    @mock.patch("constance.admin.ConstanceForm.save", lambda _: None)
-    @mock.patch("constance.admin.ConstanceForm.is_valid", lambda _: True)
+    @mock.patch("constance.forms.ConstanceForm.save", lambda _: None)
+    @mock.patch("constance.forms.ConstanceForm.is_valid", lambda _: True)
     def test_submit(self):
         """
         Test that submitting the admin page results in an http redirect when
