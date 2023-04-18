@@ -12,6 +12,8 @@ v3.0.0 (future)
 
 * Example app now supports django 4.1
 
+* Add support for django 4.2
+
 v2.10.0 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
