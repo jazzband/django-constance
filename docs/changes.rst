@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-v3.0.0 (future)
+v3.0.0 (2023/07/27)
 ~~~~~~~~~~~~~~~~~~~
 
 * Refactor database backend
@@ -13,9 +13,6 @@ v3.0.0 (future)
 * Example app now supports django 4.1
 
 * Add support for django 4.2
-
-v2.10.0 (unreleased)
-~~~~~~~~~~~~~~~~~~
 
 * Forward the request when saving the admin changelist form
 
