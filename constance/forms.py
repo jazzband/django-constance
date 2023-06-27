@@ -1,6 +1,7 @@
 import hashlib
 from datetime import date, datetime, time, timedelta
 from decimal import Decimal
+from os.path import join
 
 from django import conf, forms
 from django.contrib import messages
@@ -116,7 +117,7 @@ class ConstanceForm(forms.Form):
     def save(self):
         for file_field in self.files:
             file = self.cleaned_data[file_field]
-            self.cleaned_data[file_field] = default_storage.save(file.name, file)
+            self.cleaned_data[file_field] = default_storage.save(join(settings.FILE_ROOT, file.name), file)
 
         for name in settings.CONFIG:
             current = getattr(config, name)

@@ -157,10 +157,10 @@ Images and files are uploaded to ``MEDIA_ROOT`` by default. You can specify a su
 
 .. code-block:: python
 
-        MEDIA_ROOT = '/media/'
+        MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
         CONSTANCE_FILE_ROOT = 'constance'
 
-This will result in files being placed in ``/media/constance/``. You can use deeper nesting in this setting (e.g. ``constance/images``) but other relative path components (e.g. ``../``) will be rejected.
+This will result in files being placed in ``media/constance`` within your ``BASE_DIR``. You can use deeper nesting in this setting (e.g. ``constance/images``) but other relative path components (e.g. ``../``) will be rejected.
 
 Ordered Fields in Django Admin
 ------------------------------

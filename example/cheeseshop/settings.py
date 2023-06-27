@@ -130,6 +130,7 @@ CONSTANCE_CONFIG_FIELDSETS = {
         'OWNER_EMAIL',
         'MUSICIANS',
         'DATE_ESTABLISHED',
+        'LOGO',
     ],
     'Awkward test settings': ['MY_SELECT_KEY', 'MULTILINE', 'JSON_DATA'],
 }
@@ -163,5 +164,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CONSTANCE_FILE_ROOT = 'constance'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
