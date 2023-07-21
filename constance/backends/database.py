@@ -78,7 +78,7 @@ class DatabaseBackend(Backend):
         if value is None:
             try:
                 value = self._model._default_manager.get(key=key).value
-            except (OperationalError, ProgrammingError, self._model.DoesNotExist):
+            except (ProgrammingError, self._model.DoesNotExist):
                 pass
             else:
                 if self._cache:
