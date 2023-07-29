@@ -132,7 +132,7 @@ Note: Use later evaluated strings instead of direct classes for the field and wi
             'MY_SELECT_KEY': ('yes', 'select yes or no', 'yes_no_null_select'),
         }
 
-If you want to work with files you can use this configuration:
+If you want to work with images or files you can use this configuration:
 
 .. code-block:: python
 
@@ -153,8 +153,14 @@ When used in a template you probably need to use:
         {% get_media_prefix as MEDIA_URL %}
         <img src="{{ MEDIA_URL }}{{ config.LOGO_IMAGE }}">
 
-Images are uploaded to MEDIA_ROOT.
+Images and files are uploaded to ``MEDIA_ROOT`` by default. You can specify a subdirectory of ``MEDIA_ROOT`` to use instead by adding the ``CONSTANCE_FILE_ROOT`` setting. E.g.:
 
+.. code-block:: python
+
+        MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+        CONSTANCE_FILE_ROOT = 'constance'
+
+This will result in files being placed in ``media/constance`` within your ``BASE_DIR``. You can use deeper nesting in this setting (e.g. ``constance/images``) but other relative path components (e.g. ``../``) will be rejected.
 
 Ordered Fields in Django Admin
 ------------------------------
