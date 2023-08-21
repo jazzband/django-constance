@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+v3.1.0 (2023/08/21)
+~~~~~~~~~~~~~~~~~~~
+
+* Add support for using a subdirectory of `MEDIA_ROOT` for file fields
+
+* Remove pypy from tox tests
+
 v3.0.0 (2023/07/27)
 ~~~~~~~~~~~~~~~~~~~
 
