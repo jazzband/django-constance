@@ -23,7 +23,7 @@ def check_fieldsets(*args, **kwargs) -> List[CheckMessage]:
                     "field(s) that exists in CONSTANCE_CONFIG."
                 ),
                 hint=", ".join(sorted(missing_keys)),
-                obj="settings.CONSTANCE_CONFIG",
+                obj="settings.CONFIG_FIELDSETS",
                 id="constance.E001",
             )
             errors.append(check)
@@ -34,7 +34,7 @@ def check_fieldsets(*args, **kwargs) -> List[CheckMessage]:
                     "field(s) that does not exist in CONFIG."
                 ),
                 hint=", ".join(sorted(extra_keys)),
-                obj="settings.CONSTANCE_CONFIG",
+                obj="settings.CONFIG_FIELDSETS",
                 id="constance.E002",
             )
             errors.append(check)
@@ -68,3 +68,28 @@ def get_inconsistent_fieldnames() -> Tuple[Set, Set]:
     missing_keys = config_keys - unique_field_names
     extra_keys = unique_field_names - config_keys
     return missing_keys, extra_keys
+
+
+@checks.register("constance")
+def check_config(*args, **kwargs) -> List[CheckMessage]:
+    """
+    A Django system check to make sure that, CONSTANCE_CONFIG is 2 or 3 length tuple.
+    """
+    from . import settings
+
+    errors = []
+    allowed_length = (2, 3)
+
+    for key, value in settings.CONFIG.items():
+        if len(value) not in allowed_length:
+            check = checks.ERROR(
+                _(
+                    "CONSTANCE_CONFIG values should be 2 or 3 length tuple"
+                ),
+                hint="Set default value, description and optionally type",
+                obj="settings.CONSTANCE_CONFIG",
+                id="constance.E003",
+            )
+            errors.append(check)
+
+    return errors

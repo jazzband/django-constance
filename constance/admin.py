@@ -13,11 +13,11 @@ from django.urls import path
 from django.utils.formats import localize
 from django.utils.translation import gettext_lazy as _
 
-from . import LazyConfig, settings
+
+from constance import config
+from . import settings
 from .forms import ConstanceForm
 from .utils import get_values
-
-config = LazyConfig()
 
 
 class ConstanceAdmin(admin.ModelAdmin):

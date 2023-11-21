@@ -11,9 +11,6 @@ class MemoryBackend(Backend):
     _storage = {}
     _lock = Lock()
 
-    def __init__(self):
-        super().__init__()
-
     def get(self, key):
         with self._lock:
             return self._storage.get(key)

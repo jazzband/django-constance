@@ -15,10 +15,9 @@ from django.utils.module_loading import import_string
 from django.utils.text import normalize_newlines
 from django.utils.translation import gettext_lazy as _
 
-from . import LazyConfig, settings
+from constance import config
+from . import settings
 from .checks import get_inconsistent_fieldnames
-
-config = LazyConfig()
 
 NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
 

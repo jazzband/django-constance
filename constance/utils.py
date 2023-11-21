@@ -1,17 +1,18 @@
 from importlib import import_module
 
-from . import LazyConfig, settings
 
-config = LazyConfig()
+from constance import config
+from . import settings
+
 
 def import_module_attr(path):
     package, module = path.rsplit('.', 1)
     return getattr(import_module(package), module)
 
+
 def get_values():
     """
     Get dictionary of values from the backend
-    :return:
     """
 
     # First load a mapping between config name and default value
