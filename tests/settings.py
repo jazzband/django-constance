@@ -36,7 +36,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
 
     'constance',
-    'constance.backends.database',
 )
 
 ROOT_URLCONF = 'tests.urls'

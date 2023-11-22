@@ -9,6 +9,7 @@ class StorageTestsMixin:
 
     def setUp(self):
         self.config = Config()
+        self.config.init()
         super().setUp()
 
     def test_store(self):

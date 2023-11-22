@@ -9,14 +9,13 @@ class DatabaseBackend(Backend):
         return "%s%s" % (settings.DATABASE_PREFIX, key)
 
     def mget(self, keys):
+        result = []
         if not keys:
-            return {}
+            return result
 
         objects = Constance.objects.filter(key__in=[self.add_prefix(key) for key in keys])
-        # all keys should be present in result even they are absent in database
-        result = {key: self.get_default(key) for key in keys}
         for obj in objects:
-            result[obj.key] = obj.value
+            result.append((obj.key, obj.value))
         return result
 
     def get(self, key):

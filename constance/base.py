@@ -20,7 +20,8 @@ def _get_config_class():
         def __getattr__(self, key):
             if not is_ready:
                 raise AppRegistryNotReady("Apps aren't loaded yet.")
-
+            if key not in settings.CONFIG:
+                raise AttributeError
             result = self._backend.get(key)
             if result is None:
                 result = self._backend.get_default(key)

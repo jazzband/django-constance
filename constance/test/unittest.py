@@ -3,8 +3,6 @@ from functools import wraps
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from .. import config
-
 __all__ = ('override_config',)
 
 
@@ -63,6 +61,7 @@ class override_config(override_settings):
         """
         Store original config values and set overridden values.
         """
+        from constance import config
         # Store the original values to an instance variable
         for config_key in self.options:
             self.original_values[config_key] = getattr(config, config_key)
@@ -81,5 +80,6 @@ class override_config(override_settings):
         """
         Unpack values from the given dict to config.
         """
+        from constance import config
         for name, value in options.items():
             setattr(config, name, value)

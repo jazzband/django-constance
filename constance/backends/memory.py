@@ -16,9 +16,9 @@ class MemoryBackend(Backend):
             return self._storage.get(key)
 
     def mget(self, keys):
-        if not keys:
-            return
         result = []
+        if not keys:
+            return result
         with self._lock:
             for key in keys:
                 value = self._storage.get(key)

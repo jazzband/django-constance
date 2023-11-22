@@ -1,7 +1,7 @@
 """
 Defines the base constance backend
 """
-from django.conf import settings
+from constance import settings
 
 
 class Backend:
@@ -10,7 +10,7 @@ class Backend:
         """
         Get the key from the settings config and return the value.
         """
-        return settings.CONSTANCE_CONFIG[key][0]
+        return settings.CONFIG[key][0]
 
     def get(self, key):
         """
