@@ -37,12 +37,15 @@ class RedisBackend(Backend):
         return None
 
     def mget(self, keys):
+        result = []
         if not keys:
-            return
+            return result
+
         prefixed_keys = [self.add_prefix(key) for key in keys]
         for key, value in zip(keys, self._rd.mget(prefixed_keys)):
-            if value:
-                yield key, loads(value)
+            if value is not None:
+                result.append((key, loads(value)))
+        return result
 
     def set(self, key, value):
         old_value = self.get(key)
@@ -85,9 +88,12 @@ class CachingRedisBackend(RedisBackend):
             self._cache_value(key, value)
 
     def mget(self, keys):
+        result = []
         if not keys:
-            return
+            return result
+
         for key in keys:
             value = self.get(key)
             if value is not None:
-                yield key, value
+                result.append((key, value))
+        return result

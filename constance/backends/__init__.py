@@ -1,9 +1,16 @@
 """
 Defines the base constance backend
 """
+from constance import settings
 
 
 class Backend:
+
+    def get_default(self, key):
+        """
+        Get the key from the settings config and return the value.
+        """
+        return settings.CONFIG[key][0]
 
     def get(self, key):
         """

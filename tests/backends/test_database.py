@@ -13,7 +13,7 @@ class TestDatabase(StorageTestsMixin, TestCase):
 
     def test_database_queries(self):
         # Read and set to default value
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(1):
             self.config.INT_VALUE
 
         # Read again
