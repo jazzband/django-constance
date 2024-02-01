@@ -16,7 +16,7 @@ class TestDatabase(StorageTestsMixin, TestCase):
         with self.assertNumQueries(5):
             self.config.INT_VALUE
 
-        # Read
+        # Read again
         with self.assertNumQueries(1):
             self.config.INT_VALUE
 
