@@ -76,11 +76,11 @@ class DatabaseBackend(Backend):
         else:
             value = None
         if value is None:
-            try:
-                value = self._model._default_manager.get(key=key).value
-            except (OperationalError, ProgrammingError, self._model.DoesNotExist):
+            match = self._model._default_manager.filter(key=key)
+            if len(match) == 0:
                 pass
             else:
+                value = match.first().value
                 if self._cache:
                     self._cache.add(key, value)
         return value
