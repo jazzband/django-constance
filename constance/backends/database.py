@@ -68,19 +68,16 @@ class DatabaseBackend(Backend):
 
     def get(self, key):
         key = self.add_prefix(key)
+        value = None
         if self._cache:
             value = self._cache.get(key)
             if value is None:
                 self.autofill()
                 value = self._cache.get(key)
-        else:
-            value = None
         if value is None:
-            try:
-                value = self._model._default_manager.get(key=key).value
-            except (OperationalError, ProgrammingError, self._model.DoesNotExist):
-                pass
-            else:
+            match = self._model._default_manager.filter(key=key).first()
+            if match:
+                value = match.value
                 if self._cache:
                     self._cache.add(key, value)
         return value
