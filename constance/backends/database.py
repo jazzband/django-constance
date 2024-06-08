@@ -41,7 +41,7 @@ class DatabaseBackend(Backend):
         post_save.connect(self.clear, sender=self._model)
 
     def add_prefix(self, key):
-        return "%s%s" % (self._prefix, key)
+        return f"{self._prefix}{key}"
 
     def autofill(self):
         if not self._autofill_timeout or not self._cache:
