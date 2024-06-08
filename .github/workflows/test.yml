@@ -9,29 +9,16 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', 'pypy-3.8']
+        python-version: ['3.8', '3.9', '3.10', '3.11'] # '3.12' does not work with tox@3
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Get pip cache dir
-      id: pip-cache
-      run: |
-        echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
-
-    - name: Cache
-      uses: actions/cache@v3
-      with:
-        path: ${{ steps.pip-cache.outputs.dir }}
-        key:
-          ${{ matrix.python-version }}-v1-${{ hashFiles('**/setup.py') }}-${{ hashFiles('**/tox.ini') }}
-        restore-keys: |
-          ${{ matrix.python-version }}-v1-
+        cache: 'pip'
 
     - name: Install dependencies
       run: |
@@ -43,6 +30,6 @@ jobs:
         tox -v
 
     - name: Upload coverage
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         name: Python ${{ matrix.python-version }}
