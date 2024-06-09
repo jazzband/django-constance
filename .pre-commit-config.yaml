@@ -10,5 +10,13 @@ repos:
       - id: check-merge-conflict
       - id: check-yaml
 
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.2
+    hooks:
+      - id: pyupgrade
+        args: [ --py38-plus ]
+
+exclude: /migrations/
+
 ci:
   autoupdate_schedule: quarterly
