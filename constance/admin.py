@@ -199,11 +199,11 @@ class Config:
 
         @property
         def label(self):
-            return '%s.%s' % (self.app_label, self.object_name)
+            return f'{self.app_label}.{self.object_name}'
 
         @property
         def label_lower(self):
-            return '%s.%s' % (self.app_label, self.model_name)
+            return f'{self.app_label}.{self.model_name}'
 
     _meta = Meta()
 

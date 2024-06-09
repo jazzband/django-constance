@@ -28,7 +28,7 @@ class RedisBackend(Backend):
                 self._rd = redis.Redis(**settings.REDIS_CONNECTION)
 
     def add_prefix(self, key):
-        return "%s%s" % (self._prefix, key)
+        return f"{self._prefix}{key}"
 
     def get(self, key):
         value = self._rd.get(self.add_prefix(key))

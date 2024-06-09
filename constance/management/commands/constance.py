@@ -60,7 +60,7 @@ class Command(BaseCommand):
 
         if command == 'get':
             try:
-                self.stdout.write("{}".format(getattr(config, key)), ending="\n")
+                self.stdout.write(str(getattr(config, key)), ending="\n")
             except AttributeError as e:
                 raise CommandError(key + " is not defined in settings.CONSTANCE_CONFIG")
 
@@ -78,7 +78,7 @@ class Command(BaseCommand):
 
         elif command == 'list':
             for k, v in get_values().items():
-                self.stdout.write("{}\t{}".format(k, v), ending="\n")
+                self.stdout.write(f"{k}\t{v}", ending="\n")
 
         elif command == 'remove_stale_keys':
 
@@ -91,6 +91,6 @@ class Command(BaseCommand):
                 self.stdout.write("There are no stale records in database.", ending="\n")
 
             for stale_record in stale_records:
-                self.stdout.write("{}\t{}".format(stale_record.key, stale_record.value), ending="\n")
+                self.stdout.write(f"{stale_record.key}\t{stale_record.value}", ending="\n")
 
             stale_records.delete()
