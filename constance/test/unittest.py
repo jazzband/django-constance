@@ -67,7 +67,7 @@ class override_config(override_settings):
         for config_key in self.options:
             self.original_values[config_key] = getattr(config, config_key)
 
-        # Update config with the overriden values
+        # Update config with the overridden values
         self.unpack_values(self.options)
 
     def disable(self):

@@ -30,5 +30,5 @@ class OverrideConfigFunctionDecoratorTestCase(TestCase):
 class OverrideConfigClassDecoratorTestCase(TestCase):
     """Test that the override_config decorator works on classes."""
     def test_override_config_on_class_changes_config_value(self):
-        """Asser that the class decorator changes config.BOOL_VALUE."""
+        """Assert that the class decorator changes config.BOOL_VALUE."""
         self.assertFalse(config.BOOL_VALUE)

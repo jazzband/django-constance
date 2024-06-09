@@ -25,7 +25,7 @@ def pytest_configure(config):  # pragma: no cover
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_call(item):  # pragma: no cover
     """
-    Validate constance override marker params. Run test with overrided config.
+    Validate constance override marker params. Run test with overridden config.
     """
     marker = item.get_closest_marker("override_config")
     if marker is not None:

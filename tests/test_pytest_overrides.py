@@ -41,12 +41,12 @@ try:
         """Test that the override_config decorator works on classes."""
 
         def test_override_config_on_class_changes_config_value(self):
-            """Asser that the class decorator changes config.BOOL_VALUE."""
+            """Assert that the class decorator changes config.BOOL_VALUE."""
             assert not config.BOOL_VALUE
 
         @pytest.mark.override_config(BOOL_VALUE='True')
-        def test_override_config_on_overrided_value(self):
-            """Ensure that method mark decorator changes already overrided value for class."""
+        def test_override_config_on_overridden_value(self):
+            """Ensure that method mark decorator changes already overridden value for class."""
             assert config.BOOL_VALUE == 'True'
 
 
