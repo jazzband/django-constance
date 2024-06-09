@@ -3,10 +3,10 @@
 
 {% block extrastyle %}
   {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/changelists.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}">
   {{ media.css }}
-  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/constance.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/constance.css' %}">
 {% endblock %}
 
 {% block extrahead %}
@@ -58,7 +58,7 @@
             {% endif %}
 
             <p class="paginator sticky-footer">
-              <input type="submit" name="_save" class="default" value="{% trans 'Save' %}"/>
+              <input type="submit" name="_save" class="default" value="{% trans 'Save' %}">
             </p>
         </form>
     </div>
