@@ -7,7 +7,7 @@ Features
 * Easily migrate your static settings to dynamic settings.
 * Edit the dynamic settings in the Django admin interface.
 
-.. image:: screenshot2.png
+.. image:: _static/screenshot2.png
 
 Quick Installation
 ------------------
@@ -198,7 +198,7 @@ You can define fieldsets to group settings together:
 
 .. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONSTANCE_CONFIG.
 
-.. image:: screenshot3.png
+.. image:: _static/screenshot3.png
 
 
 Fieldsets collapsing
@@ -381,7 +381,7 @@ To change this, feel free to set the :setting:`CONSTANCE_SUPERUSER_ONLY`
 setting to ``False`` and give users or user groups access to the
 ``constance.change_config`` permission.
 
-.. figure:: screenshot1.png
+.. figure:: _static/screenshot1.png
 
    The virtual application ``Constance`` among your regular applications.
 
