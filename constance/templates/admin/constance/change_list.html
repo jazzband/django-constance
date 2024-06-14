@@ -15,7 +15,9 @@
 {{ block.super }}
 {{ media.js }}
 <script type="text/javascript" src="{% static 'admin/js/constance.js' %}"></script>
+{% if django_version < "5.1" %}
 <script type="text/javascript" src="{% static 'admin/js/collapse.js' %}"></script>
+{% endif %}
 {% endblock %}
 
 {% block bodyclass %}{{ block.super }} change-list{% endblock %}

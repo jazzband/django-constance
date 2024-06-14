@@ -2,7 +2,7 @@ from collections import OrderedDict
 from datetime import date, datetime
 from operator import itemgetter
 
-from django import forms
+from django import forms, get_version
 from django.apps import apps
 from django.contrib import admin, messages
 from django.contrib.admin.options import csrf_protect_m
@@ -114,6 +114,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             form=form,
             media=self.media + form.media,
             icon_type='svg',
+            django_version=get_version(),
         )
         for name, options in settings.CONFIG.items():
             context['config_values'].append(
