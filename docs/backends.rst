@@ -31,7 +31,7 @@ Configuration installation is simple::
     # optionally set a value ttl
     CONSTANCE_REDIS_CACHE_TIMEOUT = 60
 
-.. _`redis-py`: https://pypi.python.org/pypi/redis
+.. _`redis-py`: https://pypi.org/project/redis/
 
 Settings
 ^^^^^^^^
@@ -60,7 +60,7 @@ An (optional) dotted import path to a connection to use, e.g.::
 
     CONSTANCE_REDIS_CONNECTION_CLASS = 'myproject.myapp.mockup.Connection'
 
-If you are using `django-redis <https://niwinz.github.io/django-redis/latest/>`_,
+If you are using `django-redis <https://github.com/jazzband/django-redis>`_,
 feel free to use the ``CONSTANCE_REDIS_CONNECTION_CLASS`` setting to define
 a callable that returns a redis connection, e.g.::
 
