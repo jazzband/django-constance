@@ -1,0 +1,3 @@
+readthedocs-sphinx-search==0.3.2
+sphinx==7.3.7
+sphinx-rtd-theme==2.0.0

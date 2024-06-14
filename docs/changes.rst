@@ -24,7 +24,7 @@ v3.0.0 (2023/07/27)
 * Forward the request when saving the admin changelist form
 
 v2.9.1 (2022/08/11)
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 * Add support for gettext in fieldset headers
 
