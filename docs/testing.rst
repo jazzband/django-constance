@@ -15,7 +15,7 @@ Usage
 
 It can be used as a decorator at the :class:`~django.test.TestCase` level, the
 method level and also as a
-`context manager <https://www.python.org/dev/peps/pep-0343/>`_.
+`context manager <https://peps.python.org/pep-0343/>`_.
 
 .. code-block:: python
 
