@@ -48,7 +48,7 @@
 
             {% if fieldsets %}
               {% for fieldset in fieldsets %}
-              <fieldset class="module{% if fieldset.collapse %} collapse{% endif %}">
+              <fieldset class="module{% if fieldset.collapse %} collapse{% endif %} card card-body">
                   <h2>{{ fieldset.title }}</h2>
                   {% with config_values=fieldset.config_values %}
                     {% include "admin/constance/includes/results_list.html" %}
