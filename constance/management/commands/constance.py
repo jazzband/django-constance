@@ -4,10 +4,10 @@ from django.core.management import BaseCommand
 from django.core.management import CommandError
 from django.utils.translation import gettext as _
 
-from ... import config
-from ...forms import ConstanceForm
-from ...models import Constance
-from ...utils import get_values
+from constance import config
+from constance.forms import ConstanceForm
+from constance.models import Constance
+from constance.utils import get_values
 
 
 def _set_constance_value(key, value):

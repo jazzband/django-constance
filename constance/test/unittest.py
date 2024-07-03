@@ -3,7 +3,7 @@ from functools import wraps
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from .. import config
+from constance import config
 
 __all__ = ('override_config',)
 

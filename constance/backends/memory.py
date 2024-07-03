@@ -1,7 +1,8 @@
 from threading import Lock
 
-from .. import config
-from .. import signals
+from constance import config
+from constance import signals
+
 from . import Backend
 
 

@@ -5,10 +5,11 @@ from time import monotonic
 
 from django.core.exceptions import ImproperlyConfigured
 
-from .. import config
-from .. import settings
-from .. import signals
-from .. import utils
+from constance import config
+from constance import settings
+from constance import signals
+from constance import utils
+
 from . import Backend
 
 
