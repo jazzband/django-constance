@@ -55,18 +55,18 @@ class Command(BaseCommand):
         if command == self.GET:
             try:
                 self.stdout.write(str(getattr(config, key)), ending='\n')
-            except AttributeError:
-                raise CommandError(f'{key} is not defined in settings.CONSTANCE_CONFIG')
+            except AttributeError as e:
+                raise CommandError(f'{key} is not defined in settings.CONSTANCE_CONFIG') from e
         elif command == self.SET:
             try:
                 if len(value) == 1:
                     # assume that if a single argument was passed, the field doesn't expect a list
                     value = value[0]
                 _set_constance_value(key, value)
-            except KeyError:
-                raise CommandError(f'{key} is not defined in settings.CONSTANCE_CONFIG')
+            except KeyError as e:
+                raise CommandError(f'{key} is not defined in settings.CONSTANCE_CONFIG') from e
             except ValidationError as e:
-                raise CommandError(', '.join(e))
+                raise CommandError(', '.join(e)) from e
         elif command == self.LIST:
             for k, v in get_values().items():
                 self.stdout.write(f'{k}\t{v}', ending='\n')

@@ -15,8 +15,8 @@ class Config:
             if len(settings.CONFIG[key]) not in (2, 3):
                 raise AttributeError(key)
             default = settings.CONFIG[key][0]
-        except KeyError:
-            raise AttributeError(key)
+        except KeyError as e:
+            raise AttributeError(key) from e
         result = self._backend.get(key)
         if result is None:
             result = default

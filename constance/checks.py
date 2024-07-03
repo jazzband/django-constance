@@ -53,7 +53,7 @@ def get_inconsistent_fieldnames() -> Tuple[Set, Set]:
         fieldset_items = settings.CONFIG_FIELDSETS
 
     unique_field_names = set()
-    for fieldset_title, fields_list in fieldset_items:
+    for _fieldset_title, fields_list in fieldset_items:
         # fields_list can be a dictionary, when a fieldset is defined as collapsible
         # https://django-constance.readthedocs.io/en/latest/#fieldsets-collapsing
         if isinstance(fields_list, dict) and 'fields' in fields_list:

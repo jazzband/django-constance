@@ -67,6 +67,7 @@ line-ending = "auto"
 
 [tool.ruff.lint]
 select = [
+    "B",
     "E",
     "EXE",
     "I",
