@@ -75,6 +75,7 @@ select = [
     "I",
     "ICN",
     "INP",
+    "LOG",
     "PGH",
     "RET",
     "RUF",
