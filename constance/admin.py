@@ -91,18 +91,9 @@ class ConstanceAdmin(admin.ModelAdmin):
             form = form_cls(data=request.POST, files=request.FILES, initial=initial, request=request)
             if form.is_valid():
                 form.save()
-                messages.add_message(
-                    request,
-                    messages.SUCCESS,
-                    _('Live settings updated successfully.'),
-                )
+                messages.add_message(request, messages.SUCCESS, _('Live settings updated successfully.'))
                 return HttpResponseRedirect('.')
-            else:
-                messages.add_message(
-                    request,
-                    messages.ERROR,
-                    _('Failed to update live settings.'),
-                )
+            messages.add_message(request, messages.ERROR, _('Failed to update live settings.'))
         context = dict(
             self.admin_site.each_context(request),
             config_values=[],

@@ -68,6 +68,7 @@ line-ending = "auto"
 [tool.ruff.lint]
 select = [
     "I", # isort
+    "RET",
     "RUF",
     "UP",
 ]

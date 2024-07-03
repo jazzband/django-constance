@@ -22,7 +22,7 @@ class MemoryBackend(Backend):
 
     def mget(self, keys):
         if not keys:
-            return
+            return None
         result = []
         with self._lock:
             for key in keys:
