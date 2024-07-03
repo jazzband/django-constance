@@ -20,7 +20,7 @@ def _migrate_from_old_table(apps, schema_editor) -> None:
                 f'INSERT INTO constance_constance ( {quoted_string} ) SELECT {quoted_string} FROM constance_config', []
             )
             cursor.execute('DROP TABLE constance_config', [])
-    except DatabaseError as exc:
+    except DatabaseError:
         logger.exception('copy data from old constance table to a new one')
 
     Constance = apps.get_model('constance', 'Constance')

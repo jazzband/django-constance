@@ -102,7 +102,7 @@ class DatabaseBackend(Backend):
                 with transaction.atomic(using=queryset.db):
                     queryset.create(key=key, value=value)
                 created = True
-            except IntegrityError as error:
+            except IntegrityError:
                 # Allow concurrent writes
                 constance = queryset.get(key=key)
 
