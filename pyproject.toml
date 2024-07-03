@@ -72,6 +72,7 @@ select = [
     "E",
     "EXE",
     "F",
+    "FBT003",
     "G",
     "FA",
     "I",
@@ -96,3 +97,6 @@ ignore = ["D1", "D203", "D205", "D415", "D212", "RUF012", "D400", "D401"]
 
 [tool.ruff.lint.isort]
 force-single-line = true
+
+[tool.ruff.lint.flake8-boolean-trap]
+extend-allowed-calls = ["unittest.mock.patch", "django.db.models.Value"]
