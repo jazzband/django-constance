@@ -68,8 +68,10 @@ line-ending = "auto"
 [tool.ruff.lint]
 select = [
     "I", # isort
+    "RUF",
     "UP",
 ]
+ignore = ["RUF012"]
 
 [tool.ruff.lint.isort]
 force-single-line = true

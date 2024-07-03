@@ -34,7 +34,7 @@ class ChecksTestCase(TestCase):
 
     @mock.patch(
         'constance.settings.CONFIG_FIELDSETS',
-        {'Set1': list(settings.CONFIG.keys()) + ['FORGOTTEN_KEY']},
+        {'Set1': [*settings.CONFIG.keys(), 'FORGOTTEN_KEY']},
     )
     def test_get_inconsistent_fieldnames_for_extra_keys(self):
         """
