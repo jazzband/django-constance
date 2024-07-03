@@ -1,8 +1,8 @@
 from logging import getLogger
 
 from django.core.management.color import no_style
-from django.db import migrations, DatabaseError
-
+from django.db import DatabaseError
+from django.db import migrations
 
 logger = getLogger(__name__)
 
@@ -16,7 +16,9 @@ def _migrate_from_old_table(apps, schema_editor) -> None:
     quoted_string = ', '.join([connection.ops.quote_name(item) for item in ['id', 'key', 'value']])
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f'INSERT INTO constance_constance ( {quoted_string} ) SELECT {quoted_string} FROM constance_config', [])
+            cursor.execute(
+                f'INSERT INTO constance_constance ( {quoted_string} ) SELECT {quoted_string} FROM constance_config', []
+            )
             cursor.execute('DROP TABLE constance_config', [])
     except DatabaseError as exc:
         logger.exception('copy data from old constance table to a new one')
@@ -29,7 +31,6 @@ def _migrate_from_old_table(apps, schema_editor) -> None:
 
 
 class Migration(migrations.Migration):
-
     dependencies = [('constance', '0001_initial')]
 
     atomic = False

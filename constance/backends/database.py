@@ -1,21 +1,22 @@
 from django.core.cache import caches
 from django.core.cache.backends.locmem import LocMemCache
 from django.core.exceptions import ImproperlyConfigured
-from django.db import (
-    IntegrityError,
-    OperationalError,
-    ProgrammingError,
-    transaction,
-)
+from django.db import IntegrityError
+from django.db import OperationalError
+from django.db import ProgrammingError
+from django.db import transaction
 from django.db.models.signals import post_save
 
+from constance import config
+from constance import settings
+from constance import signals
 from constance.backends import Backend
-from constance import settings, signals, config
 
 
 class DatabaseBackend(Backend):
     def __init__(self):
         from constance.models import Constance
+
         self._model = Constance
         self._prefix = settings.DATABASE_PREFIX
         self._autofill_timeout = settings.DATABASE_CACHE_AUTOFILL_TIMEOUT
@@ -24,16 +25,17 @@ class DatabaseBackend(Backend):
         if self._model._meta.app_config is None:
             raise ImproperlyConfigured(
                 "The constance.backends.database app isn't installed "
-                "correctly. Make sure it's in your INSTALLED_APPS setting.")
+                "correctly. Make sure it's in your INSTALLED_APPS setting."
+            )
 
         if settings.DATABASE_CACHE_BACKEND:
             self._cache = caches[settings.DATABASE_CACHE_BACKEND]
             if isinstance(self._cache, LocMemCache):
                 raise ImproperlyConfigured(
-                    "The CONSTANCE_DATABASE_CACHE_BACKEND setting refers to a "
+                    'The CONSTANCE_DATABASE_CACHE_BACKEND setting refers to a '
                     "subclass of Django's local-memory backend (%r). Please "
-                    "set it to a backend that supports cross-process caching."
-                    % settings.DATABASE_CACHE_BACKEND)
+                    'set it to a backend that supports cross-process caching.' % settings.DATABASE_CACHE_BACKEND
+                )
         else:
             self._cache = None
         self.autofill()
@@ -41,7 +43,7 @@ class DatabaseBackend(Backend):
         post_save.connect(self.clear, sender=self._model)
 
     def add_prefix(self, key):
-        return f"{self._prefix}{key}"
+        return f'{self._prefix}{key}'
 
     def autofill(self):
         if not self._autofill_timeout or not self._cache:
@@ -114,9 +116,7 @@ class DatabaseBackend(Backend):
         if self._cache:
             self._cache.set(key, value)
 
-        signals.config_updated.send(
-            sender=config, key=key, old_value=old_value, new_value=value
-        )
+        signals.config_updated.send(sender=config, key=key, old_value=old_value, new_value=value)
 
     def clear(self, sender, instance, created, **kwargs):
         if self._cache and not created:

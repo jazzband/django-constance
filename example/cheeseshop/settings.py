@@ -93,10 +93,7 @@ CONSTANCE_REDIS_CONNECTION = {
 CONSTANCE_ADDITIONAL_FIELDS = {
     'yes_no_null_select': [
         'django.forms.fields.ChoiceField',
-        {
-            'widget': 'django.forms.Select',
-            'choices': ((None, "-----"), ("yes", "Yes"), ("no", "No"))
-        }
+        {'widget': 'django.forms.Select', 'choices': ((None, '-----'), ('yes', 'Yes'), ('no', 'No'))},
     ],
     'email': ('django.forms.fields.EmailField',),
     'json_field': ['cheeseshop.fields.JsonField'],

@@ -1,12 +1,13 @@
 from datetime import datetime
+from io import StringIO
 from textwrap import dedent
 
 from django.conf import settings
-from django.core.management import call_command, CommandError
+from django.core.management import CommandError
+from django.core.management import call_command
 from django.test import TransactionTestCase
 from django.utils import timezone
 from django.utils.encoding import smart_str
-from io import StringIO
 
 from constance import config
 from constance.models import Constance
@@ -25,8 +26,12 @@ class CliTestCase(TransactionTestCase):
     def test_list(self):
         call_command('constance', 'list', stdout=self.out)
 
-        self.assertEqual(set(self.out.getvalue().splitlines()), set(dedent(smart_str(
-"""        BOOL_VALUE	True
+        self.assertEqual(
+            set(self.out.getvalue().splitlines()),
+            set(
+                dedent(
+                    smart_str(
+                        """        BOOL_VALUE	True
         EMAIL_VALUE	test@example.com
         INT_VALUE	1
         LINEBREAK_VALUE	Spam spam
@@ -38,17 +43,21 @@ class CliTestCase(TransactionTestCase):
         DECIMAL_VALUE	0.1
         DATETIME_VALUE	2010-08-23 11:29:24
         FLOAT_VALUE	3.1415926536
-""")).splitlines()))
+"""
+                    )
+                ).splitlines()
+            ),
+        )
 
     def test_get(self):
         call_command('constance', *('get EMAIL_VALUE'.split()), stdout=self.out)
 
-        self.assertEqual(self.out.getvalue().strip(), "test@example.com")
+        self.assertEqual(self.out.getvalue().strip(), 'test@example.com')
 
     def test_set(self):
         call_command('constance', *('set EMAIL_VALUE blah@example.com'.split()), stdout=self.out)
 
-        self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
+        self.assertEqual(config.EMAIL_VALUE, 'blah@example.com')
 
         call_command('constance', *('set', 'DATETIME_VALUE', '2011-09-24', '12:30:25'), stdout=self.out)
 
@@ -58,23 +67,49 @@ class CliTestCase(TransactionTestCase):
         self.assertEqual(config.DATETIME_VALUE, expected)
 
     def test_get_invalid_name(self):
-        self.assertRaisesMessage(CommandError, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG",
-                                 call_command, 'constance', 'get', 'NOT_A_REAL_CONFIG')
+        self.assertRaisesMessage(
+            CommandError,
+            'NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG',
+            call_command,
+            'constance',
+            'get',
+            'NOT_A_REAL_CONFIG',
+        )
 
     def test_set_invalid_name(self):
-        self.assertRaisesMessage(CommandError, "NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG",
-                                 call_command, 'constance', 'set', 'NOT_A_REAL_CONFIG', 'foo')
+        self.assertRaisesMessage(
+            CommandError,
+            'NOT_A_REAL_CONFIG is not defined in settings.CONSTANCE_CONFIG',
+            call_command,
+            'constance',
+            'set',
+            'NOT_A_REAL_CONFIG',
+            'foo',
+        )
 
     def test_set_invalid_value(self):
-        self.assertRaisesMessage(CommandError, "Enter a valid email address.",
-                                 call_command, 'constance', 'set', 'EMAIL_VALUE', 'not a valid email')
+        self.assertRaisesMessage(
+            CommandError,
+            'Enter a valid email address.',
+            call_command,
+            'constance',
+            'set',
+            'EMAIL_VALUE',
+            'not a valid email',
+        )
 
     def test_set_invalid_multi_value(self):
-        self.assertRaisesMessage(CommandError, "Enter a list of values.",
-                                 call_command, 'constance', 'set', 'DATETIME_VALUE', '2011-09-24 12:30:25')
+        self.assertRaisesMessage(
+            CommandError,
+            'Enter a list of values.',
+            call_command,
+            'constance',
+            'set',
+            'DATETIME_VALUE',
+            '2011-09-24 12:30:25',
+        )
 
     def test_delete_stale_records(self):
-
         initial_count = Constance.objects.count()
 
         Constance.objects.create(key='STALE_KEY', value=None)

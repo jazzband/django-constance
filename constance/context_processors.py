@@ -12,4 +12,4 @@ def config(request):
         )
 
     """
-    return {"config": constance.config}
+    return {'config': constance.config}

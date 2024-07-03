@@ -1,6 +1,8 @@
-from datetime import datetime, date, time, timedelta
+from datetime import date
+from datetime import datetime
+from datetime import time
+from datetime import timedelta
 from decimal import Decimal
-
 
 SECRET_KEY = 'cheese'
 
@@ -24,7 +26,7 @@ DATABASES = {
     'secondary': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:',
-    }
+    },
 }
 
 INSTALLED_APPS = (
@@ -34,7 +36,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-
     'constance',
     'constance.backends.database',
 )
@@ -46,10 +47,7 @@ CONSTANCE_REDIS_CONNECTION_CLASS = 'tests.redis_mockup.Connection'
 CONSTANCE_ADDITIONAL_FIELDS = {
     'yes_no_null_select': [
         'django.forms.fields.ChoiceField',
-        {
-            'widget': 'django.forms.Select',
-            'choices': ((None, "-----"), ("yes", "Yes"), ("no", "No"))
-        }
+        {'widget': 'django.forms.Select', 'choices': ((None, '-----'), ('yes', 'Yes'), ('no', 'No'))},
     ],
     # note this intentionally uses a tuple so that we can test immutable
     'email': ('django.forms.fields.EmailField',),
@@ -62,8 +60,7 @@ CONSTANCE_CONFIG = {
     'BOOL_VALUE': (True, 'true or false'),
     'STRING_VALUE': ('Hello world', 'greetings'),
     'DECIMAL_VALUE': (Decimal('0.1'), 'the first release version'),
-    'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24),
-                       'time of the first commit'),
+    'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
     'FLOAT_VALUE': (3.1415926536, 'PI'),
     'DATE_VALUE': (date(2010, 12, 24), 'Merry Chrismas'),
     'TIME_VALUE': (time(23, 59, 59), 'And happy New Year'),

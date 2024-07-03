@@ -9,4 +9,3 @@ class ConstanceConfig(AppConfig):
 
     def ready(self):
         from . import checks
-

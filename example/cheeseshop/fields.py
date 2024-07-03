@@ -1,5 +1,7 @@
 import json
-from django.forms import fields, widgets
+
+from django.forms import fields
+from django.forms import widgets
 
 
 class JsonField(fields.CharField):

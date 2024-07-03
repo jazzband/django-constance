@@ -9,6 +9,7 @@ class OverrideConfigFunctionDecoratorTestCase(TestCase):
 
     Test usage of override_config on test method and as context manager.
     """
+
     def test_default_value_is_true(self):
         """Assert that the default value of config.BOOL_VALUE is True."""
         self.assertTrue(config.BOOL_VALUE)
@@ -29,6 +30,7 @@ class OverrideConfigFunctionDecoratorTestCase(TestCase):
 @override_config(BOOL_VALUE=False)
 class OverrideConfigClassDecoratorTestCase(TestCase):
     """Test that the override_config decorator works on classes."""
+
     def test_override_config_on_class_changes_config_value(self):
         """Assert that the class decorator changes config.BOOL_VALUE."""
         self.assertFalse(config.BOOL_VALUE)

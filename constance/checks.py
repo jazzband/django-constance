@@ -1,10 +1,13 @@
-from typing import Tuple, Set, List
+from typing import List
+from typing import Set
+from typing import Tuple
+
 from django.core import checks
 from django.core.checks import CheckMessage
 from django.utils.translation import gettext_lazy as _
 
 
-@checks.register("constance")
+@checks.register('constance')
 def check_fieldsets(*args, **kwargs) -> List[CheckMessage]:
     """
     A Django system check to make sure that, if defined,
@@ -14,28 +17,22 @@ def check_fieldsets(*args, **kwargs) -> List[CheckMessage]:
 
     errors = []
 
-    if hasattr(settings, "CONFIG_FIELDSETS") and settings.CONFIG_FIELDSETS:
+    if hasattr(settings, 'CONFIG_FIELDSETS') and settings.CONFIG_FIELDSETS:
         missing_keys, extra_keys = get_inconsistent_fieldnames()
         if missing_keys:
             check = checks.Warning(
-                _(
-                    "CONSTANCE_CONFIG_FIELDSETS is missing "
-                    "field(s) that exists in CONSTANCE_CONFIG."
-                ),
-                hint=", ".join(sorted(missing_keys)),
-                obj="settings.CONSTANCE_CONFIG",
-                id="constance.E001",
+                _('CONSTANCE_CONFIG_FIELDSETS is missing ' 'field(s) that exists in CONSTANCE_CONFIG.'),
+                hint=', '.join(sorted(missing_keys)),
+                obj='settings.CONSTANCE_CONFIG',
+                id='constance.E001',
             )
             errors.append(check)
         if extra_keys:
             check = checks.Warning(
-                _(
-                    "CONSTANCE_CONFIG_FIELDSETS contains extra "
-                    "field(s) that does not exist in CONFIG."
-                ),
-                hint=", ".join(sorted(extra_keys)),
-                obj="settings.CONSTANCE_CONFIG",
-                id="constance.E002",
+                _('CONSTANCE_CONFIG_FIELDSETS contains extra ' 'field(s) that does not exist in CONFIG.'),
+                hint=', '.join(sorted(extra_keys)),
+                obj='settings.CONSTANCE_CONFIG',
+                id='constance.E002',
             )
             errors.append(check)
     return errors
