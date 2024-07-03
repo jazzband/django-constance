@@ -124,11 +124,12 @@ class ConstanceAdmin(admin.ModelAdmin):
                     collapse = False
 
                 absent_fields = [field for field in fields_list if field not in settings.CONFIG]
-                assert not any(absent_fields), (
-                    'CONSTANCE_CONFIG_FIELDSETS contains field(s) that does ' 'not exist: {}'.format(
-                        ', '.join(absent_fields)
+                if any(absent_fields):
+                    raise ValueError(
+                        'CONSTANCE_CONFIG_FIELDSETS contains field(s) that does not exist(s): {}'.format(
+                            ', '.join(absent_fields)
+                        )
                     )
-                )
 
                 config_values = []
 

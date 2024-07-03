@@ -75,9 +75,14 @@ select = [
     "PGH",
     "RET",
     "RUF",
+    "S",
     "UP",
 ]
 ignore = ["RUF012"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S"]
+"example/*" = ["S"]
 
 [tool.ruff.lint.isort]
 force-single-line = true

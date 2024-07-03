@@ -35,7 +35,7 @@ class RedisBackend(Backend):
     def get(self, key):
         value = self._rd.get(self.add_prefix(key))
         if value:
-            return loads(value)
+            return loads(value)  # noqa: S301
         return None
 
     def mget(self, keys):
@@ -44,7 +44,7 @@ class RedisBackend(Backend):
         prefixed_keys = [self.add_prefix(key) for key in keys]
         for key, value in zip(keys, self._rd.mget(prefixed_keys)):
             if value:
-                yield key, loads(value)
+                yield key, loads(value)  # noqa: S301
 
     def set(self, key, value):
         old_value = self.get(key)
