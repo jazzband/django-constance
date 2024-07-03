@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-constance"
+version = "3.1.0"
+description = "Django live settings with pluggable backends, including Redis."
+readme = "README.rst"
+license = { text = "BSD" }
+requires-python = ">=3.8"
+authors = [
+    { name = "Jannis Leidel", email = "jannis@leidel.info" },
+]
+keywords = ["django", "libraries", "redis", "settings"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "django-picklefield",
+]
+
+[project.optional-dependencies]
+redis = [
+    "redis",
+]
+
+[project.entry-points.pytest11]
+pytest-django-constance = "constance.test.pytest"
+
+[project.urls]
+homepage = "https://github.com/jazzband/django-constance/"
+documentation = "https://django-constance.readthedocs.io/en/latest/"
+repository = "https://github.com/jazzband/django-constance/"
+changelog = "https://github.com/jazzband/django-constance/releases/"
+
+[tool.setuptools.packages.find]
+include = ["constance*"]
