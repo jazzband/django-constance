@@ -1,6 +1,4 @@
-from typing import List
-from typing import Set
-from typing import Tuple
+from __future__ import annotations
 
 from django.core import checks
 from django.core.checks import CheckMessage
@@ -8,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 @checks.register('constance')
-def check_fieldsets(*args, **kwargs) -> List[CheckMessage]:
+def check_fieldsets(*args, **kwargs) -> list[CheckMessage]:
     """
     A Django system check to make sure that, if defined,
     CONFIG_FIELDSETS is consistent with settings.CONFIG.
@@ -38,7 +36,7 @@ def check_fieldsets(*args, **kwargs) -> List[CheckMessage]:
     return errors
 
 
-def get_inconsistent_fieldnames() -> Tuple[Set, Set]:
+def get_inconsistent_fieldnames() -> tuple[set, set]:
     """
     Returns a pair of values:
     1) set of keys from settings.CONFIG that are not accounted for in settings.CONFIG_FIELDSETS
