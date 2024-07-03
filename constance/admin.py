@@ -116,7 +116,7 @@ class ConstanceAdmin(admin.ModelAdmin):
 
             context['fieldsets'] = []
             for fieldset_title, fieldset_data in fieldset_items:
-                if type(fieldset_data) == dict:
+                if isinstance(fieldset_data, dict):
                     fields_list = fieldset_data['fields']
                     collapse = fieldset_data.get('collapse', False)
                 else:
