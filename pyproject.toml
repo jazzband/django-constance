@@ -72,6 +72,7 @@ select = [
     "EXE",
     "F",
     "I",
+    "PGH",
     "RET",
     "RUF",
     "UP",
