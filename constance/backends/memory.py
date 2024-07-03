@@ -7,9 +7,7 @@ from . import Backend
 
 
 class MemoryBackend(Backend):
-    """
-    Simple in-memory backend that should be mostly used for testing purposes
-    """
+    """Simple in-memory backend that should be mostly used for testing purposes."""
 
     _storage = {}
     _lock = Lock()

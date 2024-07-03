@@ -20,9 +20,7 @@ class override_config(override_settings):
         self.original_values = {}
 
     def __call__(self, test_func):
-        """
-        Modify the decorated function to override config values.
-        """
+        """Modify the decorated function to override config values."""
         if isinstance(test_func, type):
             if not issubclass(test_func, SimpleTestCase):
                 raise Exception('Only subclasses of Django SimpleTestCase can be decorated with override_config')
@@ -60,9 +58,7 @@ class override_config(override_settings):
         return test_case
 
     def enable(self):
-        """
-        Store original config values and set overridden values.
-        """
+        """Store original config values and set overridden values."""
         # Store the original values to an instance variable
         for config_key in self.options:
             self.original_values[config_key] = getattr(config, config_key)
@@ -71,15 +67,11 @@ class override_config(override_settings):
         self.unpack_values(self.options)
 
     def disable(self):
-        """
-        Set original values to the config.
-        """
+        """Set original values to the config."""
         self.unpack_values(self.original_values)
 
     @staticmethod
     def unpack_values(options):
-        """
-        Unpack values from the given dict to config.
-        """
+        """Unpack values from the given dict to config."""
         for name, value in options.items():
             setattr(config, name, value)

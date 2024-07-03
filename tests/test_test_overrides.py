@@ -5,7 +5,8 @@ from constance.test import override_config
 
 
 class OverrideConfigFunctionDecoratorTestCase(TestCase):
-    """Test that the override_config decorator works correctly.
+    """
+    Test that the override_config decorator works correctly.
 
     Test usage of override_config on test method and as context manager.
     """

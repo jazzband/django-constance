@@ -73,9 +73,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         return config_value
 
     def get_changelist_form(self, request):
-        """
-        Returns a Form class for use in the changelist_view.
-        """
+        """Returns a Form class for use in the changelist_view."""
         # Defaults to self.change_list_form in order to preserve backward
         # compatibility
         return self.change_list_form

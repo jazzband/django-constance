@@ -17,7 +17,6 @@ def _set_constance_value(key, value):
     :param value:
     :return:
     """
-
     form = ConstanceForm(initial=get_values())
 
     field = form.fields[key]

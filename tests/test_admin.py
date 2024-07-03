@@ -238,7 +238,7 @@ class TestAdmin(TestCase):
         },
     )
     def test_fieldset_ordering_1(self):
-        """Ordering of inner list should be preserved"""
+        """Ordering of inner list should be preserved."""
         self.client.login(username='admin', password='nimda')
         request = self.rf.get('/admin/constance/config/')
         request.user = self.superuser
@@ -257,7 +257,7 @@ class TestAdmin(TestCase):
         },
     )
     def test_fieldset_ordering_2(self):
-        """Ordering of inner list should be preserved"""
+        """Ordering of inner list should be preserved."""
         self.client.login(username='admin', password='nimda')
         request = self.rf.get('/admin/constance/config/')
         request.user = self.superuser
