@@ -1,13 +1,15 @@
 from threading import Lock
 
+from .. import config
+from .. import signals
 from . import Backend
-from .. import signals, config
 
 
 class MemoryBackend(Backend):
     """
     Simple in-memory backend that should be mostly used for testing purposes
     """
+
     _storage = {}
     _lock = Lock()
 
@@ -33,6 +35,4 @@ class MemoryBackend(Backend):
         with self._lock:
             old_value = self._storage.get(key)
             self._storage[key] = value
-            signals.config_updated.send(
-                sender=config, key=key, old_value=old_value, new_value=value
-            )
+            signals.config_updated.send(sender=config, key=key, old_value=old_value, new_value=value)

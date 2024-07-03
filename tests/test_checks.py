@@ -1,12 +1,14 @@
-from constance import settings
 from unittest import mock
 
-from constance.checks import check_fieldsets, get_inconsistent_fieldnames
 from django.test import TestCase
+
+from constance import settings
+from constance.checks import check_fieldsets
+from constance.checks import get_inconsistent_fieldnames
 
 
 class ChecksTestCase(TestCase):
-    @mock.patch("constance.settings.CONFIG_FIELDSETS", {"Set1": settings.CONFIG.keys()})
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {'Set1': settings.CONFIG.keys()})
     def test_get_inconsistent_fieldnames_none(self):
         """
         Test that get_inconsistent_fieldnames returns an empty data and no checks fail
@@ -17,8 +19,8 @@ class ChecksTestCase(TestCase):
         self.assertFalse(extra_keys)
 
     @mock.patch(
-        "constance.settings.CONFIG_FIELDSETS",
-        {"Set1": list(settings.CONFIG.keys())[:-1]},
+        'constance.settings.CONFIG_FIELDSETS',
+        {'Set1': list(settings.CONFIG.keys())[:-1]},
     )
     def test_get_inconsistent_fieldnames_for_missing_keys(self):
         """
@@ -31,8 +33,8 @@ class ChecksTestCase(TestCase):
         self.assertEqual(1, len(check_fieldsets()))
 
     @mock.patch(
-        "constance.settings.CONFIG_FIELDSETS",
-        {"Set1": list(settings.CONFIG.keys()) + ['FORGOTTEN_KEY']},
+        'constance.settings.CONFIG_FIELDSETS',
+        {'Set1': list(settings.CONFIG.keys()) + ['FORGOTTEN_KEY']},
     )
     def test_get_inconsistent_fieldnames_for_extra_keys(self):
         """
@@ -44,9 +46,7 @@ class ChecksTestCase(TestCase):
         self.assertTrue(extra_keys)
         self.assertEqual(1, len(check_fieldsets()))
 
-    @mock.patch(
-        "constance.settings.CONFIG_FIELDSETS", {}
-    )
+    @mock.patch('constance.settings.CONFIG_FIELDSETS', {})
     def test_check_fieldsets(self):
         """
         check_fieldsets should not output warning if CONFIG_FIELDSETS is not defined.

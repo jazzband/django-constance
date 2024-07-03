@@ -1,9 +1,9 @@
-from django.db import migrations, models
 import picklefield.fields
+from django.db import migrations
+from django.db import models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []

@@ -1,13 +1,14 @@
 from django import VERSION
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.management import BaseCommand, CommandError
+from django.core.management import BaseCommand
+from django.core.management import CommandError
 from django.utils.translation import gettext as _
 
 from ... import config
 from ...forms import ConstanceForm
-from ...utils import get_values
 from ...models import Constance
+from ...utils import get_values
 
 
 def _set_constance_value(key, value):
@@ -32,7 +33,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         subparsers = parser.add_subparsers(dest='command')
         # API changed in Django>=2.1. cmd argument was removed.
-        parser_list = self._subparsers_add_parser(subparsers, 'list', cmd=self, help='list all Constance keys and their values')
+        parser_list = self._subparsers_add_parser(
+            subparsers, 'list', cmd=self, help='list all Constance keys and their values'
+        )
 
         parser_get = self._subparsers_add_parser(subparsers, 'get', cmd=self, help='get the value of a Constance key')
         parser_get.add_argument('key', help='name of the key to get', metavar='KEY')
@@ -55,14 +58,12 @@ class Command(BaseCommand):
             kwargs.pop('cmd')
         return subparsers.add_parser(name, **kwargs)
 
-
     def handle(self, command, key=None, value=None, *args, **options):
-
         if command == 'get':
             try:
-                self.stdout.write(str(getattr(config, key)), ending="\n")
+                self.stdout.write(str(getattr(config, key)), ending='\n')
             except AttributeError as e:
-                raise CommandError(key + " is not defined in settings.CONSTANCE_CONFIG")
+                raise CommandError(key + ' is not defined in settings.CONSTANCE_CONFIG')
 
         elif command == 'set':
             try:
@@ -72,25 +73,24 @@ class Command(BaseCommand):
 
                 _set_constance_value(key, value)
             except KeyError as e:
-                raise CommandError(key + " is not defined in settings.CONSTANCE_CONFIG")
+                raise CommandError(key + ' is not defined in settings.CONSTANCE_CONFIG')
             except ValidationError as e:
-                raise CommandError(", ".join(e))
+                raise CommandError(', '.join(e))
 
         elif command == 'list':
             for k, v in get_values().items():
-                self.stdout.write(f"{k}\t{v}", ending="\n")
+                self.stdout.write(f'{k}\t{v}', ending='\n')
 
         elif command == 'remove_stale_keys':
-
             actual_keys = settings.CONSTANCE_CONFIG.keys()
 
             stale_records = Constance.objects.exclude(key__in=actual_keys)
             if stale_records:
-                self.stdout.write("The following record will be deleted:", ending="\n")
+                self.stdout.write('The following record will be deleted:', ending='\n')
             else:
-                self.stdout.write("There are no stale records in database.", ending="\n")
+                self.stdout.write('There are no stale records in database.', ending='\n')
 
             for stale_record in stale_records:
-                self.stdout.write(f"{stale_record.key}\t{stale_record.value}", ending="\n")
+                self.stdout.write(f'{stale_record.key}\t{stale_record.value}', ending='\n')
 
             stale_records.delete()

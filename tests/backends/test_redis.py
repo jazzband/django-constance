@@ -1,12 +1,10 @@
 from django.test import TestCase
 
 from constance import settings
-
 from tests.storage import StorageTestsMixin
 
 
 class TestRedis(StorageTestsMixin, TestCase):
-
     _BACKEND = 'constance.backends.redisd.RedisBackend'
 
     def setUp(self):
@@ -21,5 +19,4 @@ class TestRedis(StorageTestsMixin, TestCase):
 
 
 class TestCachingRedis(TestRedis):
-
     _BACKEND = 'constance.backends.redisd.CachingRedisBackend'

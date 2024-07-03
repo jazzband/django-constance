@@ -14,6 +14,7 @@ class override_config(override_settings):
 
     Based on django.test.utils.override_settings.
     """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.original_values = {}
@@ -24,15 +25,15 @@ class override_config(override_settings):
         """
         if isinstance(test_func, type):
             if not issubclass(test_func, SimpleTestCase):
-                raise Exception(
-                    "Only subclasses of Django SimpleTestCase can be "
-                    "decorated with override_config")
+                raise Exception('Only subclasses of Django SimpleTestCase can be ' 'decorated with override_config')
             return self.modify_test_case(test_func)
         else:
+
             @wraps(test_func)
             def inner(*args, **kwargs):
                 with self:
                     return test_func(*args, **kwargs)
+
         return inner
 
     def modify_test_case(self, test_case):

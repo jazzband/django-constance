@@ -1,4 +1,7 @@
-from datetime import datetime, date, time, timedelta
+from datetime import date
+from datetime import datetime
+from datetime import time
+from datetime import timedelta
 from decimal import Decimal
 
 from constance import settings
@@ -6,7 +9,6 @@ from constance.base import Config
 
 
 class StorageTestsMixin:
-
     def setUp(self):
         self.config = Config()
         super().setUp()

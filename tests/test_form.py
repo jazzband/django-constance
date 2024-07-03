@@ -1,12 +1,11 @@
-from constance.forms import ConstanceForm
 from django.forms import fields
 from django.test import TestCase
 
+from constance.forms import ConstanceForm
+
 
 class TestForm(TestCase):
-
     def test_form_field_types(self):
-
         f = ConstanceForm({})
 
         self.assertIsInstance(f.fields['INT_VALUE'], fields.IntegerField)

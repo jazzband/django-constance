@@ -1,14 +1,15 @@
-from django.db import models
 from django.core.exceptions import ImproperlyConfigured
-
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 try:
     from picklefield import PickledObjectField
 except ImportError:
-    raise ImproperlyConfigured("Couldn't find the the 3rd party app "
-                               "django-picklefield which is required for "
-                               "the constance database backend.")
+    raise ImproperlyConfigured(
+        "Couldn't find the the 3rd party app "
+        'django-picklefield which is required for '
+        'the constance database backend.'
+    )
 
 
 class Constance(models.Model):

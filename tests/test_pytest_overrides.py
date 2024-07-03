@@ -1,12 +1,10 @@
 import unittest
 
-
 try:
     import pytest
 
     from constance import config
     from constance.test.pytest import override_config
-
 
     class TestPytestOverrideConfigFunctionDecorator:
         """Test that the override_config decorator works correctly for Pytest classes.
@@ -35,7 +33,6 @@ try:
             """Ensure `override_config` can be used as test method decorator."""
             assert not config.BOOL_VALUE
 
-
     @pytest.mark.override_config(BOOL_VALUE=False)
     class TestPytestOverrideConfigDecorator:
         """Test that the override_config decorator works on classes."""
@@ -48,7 +45,6 @@ try:
         def test_override_config_on_overridden_value(self):
             """Ensure that method mark decorator changes already overridden value for class."""
             assert config.BOOL_VALUE == 'True'
-
 
     def test_fixture_override_config(override_config):
         """
