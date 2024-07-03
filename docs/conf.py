@@ -31,7 +31,6 @@ sys.path.insert(0, os.path.abspath('..'))
 
 project = 'django-constance'
 project_copyright = datetime.now().year.__str__() + ', Jazzband'
-# author = ''
 
 # The full version, including alpha/beta/rc tags
 release = get_version()
