@@ -73,6 +73,7 @@ select = [
     "F",
     "FA",
     "I",
+    "ICN",
     "INP",
     "PGH",
     "RET",
