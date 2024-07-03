@@ -35,8 +35,8 @@ class ConstanceAdmin(admin.ModelAdmin):
     def get_urls(self):
         info = self.model._meta.app_label, self.model._meta.module_name
         return [
-            path('', self.admin_site.admin_view(self.changelist_view), name='%s_%s_changelist' % info),
-            path('', self.admin_site.admin_view(self.changelist_view), name='%s_%s_add' % info),
+            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info[0]}_{info[1]}_changelist'),
+            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info[0]}_{info[1]}_add'),
         ]
 
     def get_config_value(self, name, options, form, initial):
@@ -134,7 +134,9 @@ class ConstanceAdmin(admin.ModelAdmin):
 
                 absent_fields = [field for field in fields_list if field not in settings.CONFIG]
                 assert not any(absent_fields), (
-                    'CONSTANCE_CONFIG_FIELDSETS contains field(s) that does ' 'not exist: %s' % ', '.join(absent_fields)
+                    'CONSTANCE_CONFIG_FIELDSETS contains field(s) that does ' 'not exist: {}'.format(
+                        ', '.join(absent_fields)
+                    )
                 )
 
                 config_values = []
@@ -182,7 +184,7 @@ class Config:
             return False
 
         def get_change_permission(self):
-            return 'change_%s' % self.model_name
+            return f'change_{self.model_name}'
 
         @property
         def app_config(self):
