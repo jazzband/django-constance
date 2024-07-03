@@ -21,7 +21,7 @@ def check_fieldsets(*args, **kwargs) -> List[CheckMessage]:
         missing_keys, extra_keys = get_inconsistent_fieldnames()
         if missing_keys:
             check = checks.Warning(
-                _('CONSTANCE_CONFIG_FIELDSETS is missing ' 'field(s) that exists in CONSTANCE_CONFIG.'),
+                _('CONSTANCE_CONFIG_FIELDSETS is missing field(s) that exists in CONSTANCE_CONFIG.'),
                 hint=', '.join(sorted(missing_keys)),
                 obj='settings.CONSTANCE_CONFIG',
                 id='constance.E001',
@@ -29,7 +29,7 @@ def check_fieldsets(*args, **kwargs) -> List[CheckMessage]:
             errors.append(check)
         if extra_keys:
             check = checks.Warning(
-                _('CONSTANCE_CONFIG_FIELDSETS contains extra ' 'field(s) that does not exist in CONFIG.'),
+                _('CONSTANCE_CONFIG_FIELDSETS contains extra field(s) that does not exist in CONFIG.'),
                 hint=', '.join(sorted(extra_keys)),
                 obj='settings.CONSTANCE_CONFIG',
                 id='constance.E002',

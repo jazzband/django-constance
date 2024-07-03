@@ -16,7 +16,7 @@ def pytest_configure(config):  # pragma: no cover
     """
     Register override_config marker.
     """
-    config.addinivalue_line('markers', ('override_config(**kwargs): ' 'mark test to override django-constance config'))
+    config.addinivalue_line('markers', ('override_config(**kwargs): mark test to override django-constance config'))
 
 
 @pytest.hookimpl(hookwrapper=True)

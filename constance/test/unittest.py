@@ -25,7 +25,7 @@ class override_config(override_settings):
         """
         if isinstance(test_func, type):
             if not issubclass(test_func, SimpleTestCase):
-                raise Exception('Only subclasses of Django SimpleTestCase can be ' 'decorated with override_config')
+                raise Exception('Only subclasses of Django SimpleTestCase can be decorated with override_config')
             return self.modify_test_case(test_func)
 
         @wraps(test_func)
