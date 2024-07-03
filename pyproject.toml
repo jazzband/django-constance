@@ -76,6 +76,7 @@ select = [
     "RET",
     "RUF",
     "S",
+    "SIM",
     "UP",
 ]
 ignore = ["RUF012"]

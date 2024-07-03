@@ -1,3 +1,4 @@
+import contextlib
 from datetime import datetime
 from io import StringIO
 from textwrap import dedent
@@ -18,10 +19,8 @@ class CliTestCase(TransactionTestCase):
         self.out = StringIO()
 
     def test_help(self):
-        try:
+        with contextlib.suppress(SystemExit):
             call_command('constance', '--help')
-        except SystemExit:
-            pass
 
     def test_list(self):
         call_command('constance', 'list', stdout=self.out)
