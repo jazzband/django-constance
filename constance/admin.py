@@ -33,10 +33,10 @@ class ConstanceAdmin(admin.ModelAdmin):
         super().__init__(model, admin_site)
 
     def get_urls(self):
-        info = self.model._meta.app_label, self.model._meta.module_name
+        info = f'{self.model._meta.app_label}_{self.model._meta.module_name}'
         return [
-            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info[0]}_{info[1]}_changelist'),
-            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info[0]}_{info[1]}_add'),
+            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info}_changelist'),
+            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info}_add'),
         ]
 
     def get_config_value(self, name, options, form, initial):
