@@ -67,8 +67,38 @@ line-ending = "auto"
 
 [tool.ruff.lint]
 select = [
-    "I", # isort
+    "B",
+    "D",
+    "E",
+    "ERA",
+    "EXE",
+    "F",
+    "FBT",
+    "FURB",
+    "G",
+    "FA",
+    "I",
+    "ICN",
+    "INP",
+    "LOG",
+    "PGH",
+    "RET",
+    "RUF",
+    "S",
+    "SIM",
+    "TID",
+    "UP",
+    "W",
 ]
+ignore = ["D1", "D203", "D205", "D415", "D212", "RUF012", "D400", "D401"]
+
+[tool.ruff.lint.per-file-ignores]
+"docs/*" = ["INP"]
+"example/*" = ["S"]
+"tests/*" = ["S"]
 
 [tool.ruff.lint.isort]
 force-single-line = true
+
+[tool.ruff.lint.flake8-boolean-trap]
+extend-allowed-calls = ["unittest.mock.patch", "django.db.models.Value"]

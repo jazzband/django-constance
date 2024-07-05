@@ -7,7 +7,8 @@ try:
     from constance.test.pytest import override_config
 
     class TestPytestOverrideConfigFunctionDecorator:
-        """Test that the override_config decorator works correctly for Pytest classes.
+        """
+        Test that the override_config decorator works correctly for Pytest classes.
 
         Test usage of override_config on test method and as context manager.
         """
@@ -68,7 +69,5 @@ class PytestTests(unittest.TestCase):
         self.skipTest('Skip all pytest tests when using unittest')
 
     def test_do_not_skip_silently(self):
-        """
-        If no at least one test present, unittest silently skips module.
-        """
+        """If no at least one test present, unittest silently skips module."""
         pass

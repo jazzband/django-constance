@@ -33,8 +33,8 @@ class DatabaseBackend(Backend):
             if isinstance(self._cache, LocMemCache):
                 raise ImproperlyConfigured(
                     'The CONSTANCE_DATABASE_CACHE_BACKEND setting refers to a '
-                    "subclass of Django's local-memory backend (%r). Please "
-                    'set it to a backend that supports cross-process caching.' % settings.DATABASE_CACHE_BACKEND
+                    f"subclass of Django's local-memory backend ({settings.DATABASE_CACHE_BACKEND!r}). Please "
+                    'set it to a backend that supports cross-process caching.'
                 )
         else:
             self._cache = None
@@ -102,7 +102,7 @@ class DatabaseBackend(Backend):
                 with transaction.atomic(using=queryset.db):
                     queryset.create(key=key, value=value)
                 created = True
-            except IntegrityError as error:
+            except IntegrityError:
                 # Allow concurrent writes
                 constance = queryset.get(key=key)
 

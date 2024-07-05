@@ -1,14 +1,13 @@
 from threading import Lock
 
-from .. import config
-from .. import signals
+from constance import config
+from constance import signals
+
 from . import Backend
 
 
 class MemoryBackend(Backend):
-    """
-    Simple in-memory backend that should be mostly used for testing purposes
-    """
+    """Simple in-memory backend that should be mostly used for testing purposes."""
 
     _storage = {}
     _lock = Lock()
@@ -22,7 +21,7 @@ class MemoryBackend(Backend):
 
     def mget(self, keys):
         if not keys:
-            return
+            return None
         result = []
         with self._lock:
             for key in keys:

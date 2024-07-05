@@ -9,7 +9,7 @@ except ImportError:
         "Couldn't find the the 3rd party app "
         'django-picklefield which is required for '
         'the constance database backend.'
-    )
+    ) from None
 
 
 class Constance(models.Model):

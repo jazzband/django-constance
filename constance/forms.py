@@ -166,7 +166,7 @@ class ConstanceForm(forms.Form):
         missing_keys, extra_keys = get_inconsistent_fieldnames()
         if missing_keys or extra_keys:
             raise forms.ValidationError(
-                _('CONSTANCE_CONFIG_FIELDSETS is missing ' 'field(s) that exists in CONSTANCE_CONFIG.')
+                _('CONSTANCE_CONFIG_FIELDSETS is missing field(s) that exists in CONSTANCE_CONFIG.')
             )
 
         return cleaned_data

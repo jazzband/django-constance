@@ -5,10 +5,11 @@ from time import monotonic
 
 from django.core.exceptions import ImproperlyConfigured
 
-from .. import config
-from .. import settings
-from .. import signals
-from .. import utils
+from constance import config
+from constance import settings
+from constance import signals
+from constance import utils
+
 from . import Backend
 
 
@@ -23,7 +24,7 @@ class RedisBackend(Backend):
             try:
                 import redis
             except ImportError:
-                raise ImproperlyConfigured('The Redis backend requires redis-py to be installed.')
+                raise ImproperlyConfigured('The Redis backend requires redis-py to be installed.') from None
             if isinstance(settings.REDIS_CONNECTION, str):
                 self._rd = redis.from_url(settings.REDIS_CONNECTION)
             else:
@@ -35,7 +36,7 @@ class RedisBackend(Backend):
     def get(self, key):
         value = self._rd.get(self.add_prefix(key))
         if value:
-            return loads(value)
+            return loads(value)  # noqa: S301
         return None
 
     def mget(self, keys):
@@ -44,7 +45,7 @@ class RedisBackend(Backend):
         prefixed_keys = [self.add_prefix(key) for key in keys]
         for key, value in zip(keys, self._rd.mget(prefixed_keys)):
             if value:
-                yield key, loads(value)
+                yield key, loads(value)  # noqa: S301
 
     def set(self, key, value):
         old_value = self.get(key)

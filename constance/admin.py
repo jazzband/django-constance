@@ -33,10 +33,10 @@ class ConstanceAdmin(admin.ModelAdmin):
         super().__init__(model, admin_site)
 
     def get_urls(self):
-        info = self.model._meta.app_label, self.model._meta.module_name
+        info = f'{self.model._meta.app_label}_{self.model._meta.module_name}'
         return [
-            path('', self.admin_site.admin_view(self.changelist_view), name='%s_%s_changelist' % info),
-            path('', self.admin_site.admin_view(self.changelist_view), name='%s_%s_add' % info),
+            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info}_changelist'),
+            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info}_add'),
         ]
 
     def get_config_value(self, name, options, form, initial):
@@ -73,9 +73,7 @@ class ConstanceAdmin(admin.ModelAdmin):
         return config_value
 
     def get_changelist_form(self, request):
-        """
-        Returns a Form class for use in the changelist_view.
-        """
+        """Returns a Form class for use in the changelist_view."""
         # Defaults to self.change_list_form in order to preserve backward
         # compatibility
         return self.change_list_form
@@ -91,18 +89,9 @@ class ConstanceAdmin(admin.ModelAdmin):
             form = form_cls(data=request.POST, files=request.FILES, initial=initial, request=request)
             if form.is_valid():
                 form.save()
-                messages.add_message(
-                    request,
-                    messages.SUCCESS,
-                    _('Live settings updated successfully.'),
-                )
+                messages.add_message(request, messages.SUCCESS, _('Live settings updated successfully.'))
                 return HttpResponseRedirect('.')
-            else:
-                messages.add_message(
-                    request,
-                    messages.ERROR,
-                    _('Failed to update live settings.'),
-                )
+            messages.add_message(request, messages.ERROR, _('Failed to update live settings.'))
         context = dict(
             self.admin_site.each_context(request),
             config_values=[],
@@ -125,7 +114,7 @@ class ConstanceAdmin(admin.ModelAdmin):
 
             context['fieldsets'] = []
             for fieldset_title, fieldset_data in fieldset_items:
-                if type(fieldset_data) == dict:
+                if isinstance(fieldset_data, dict):
                     fields_list = fieldset_data['fields']
                     collapse = fieldset_data.get('collapse', False)
                 else:
@@ -133,9 +122,12 @@ class ConstanceAdmin(admin.ModelAdmin):
                     collapse = False
 
                 absent_fields = [field for field in fields_list if field not in settings.CONFIG]
-                assert not any(absent_fields), (
-                    'CONSTANCE_CONFIG_FIELDSETS contains field(s) that does ' 'not exist: %s' % ', '.join(absent_fields)
-                )
+                if any(absent_fields):
+                    raise ValueError(
+                        'CONSTANCE_CONFIG_FIELDSETS contains field(s) that does not exist(s): {}'.format(
+                            ', '.join(absent_fields)
+                        )
+                    )
 
                 config_values = []
 
@@ -182,7 +174,7 @@ class Config:
             return False
 
         def get_change_permission(self):
-            return 'change_%s' % self.model_name
+            return f'change_{self.model_name}'
 
         @property
         def app_config(self):
