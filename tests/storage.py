@@ -53,8 +53,7 @@ class StorageTestsMixin:
         self.assertEqual(self.config.EMAIL_VALUE, 'foo@bar.com')
 
     def test_nonexistent(self):
-        with self.assertRaises(AttributeError):
-            _ = self.config.NON_EXISTENT
+        self.assertRaises(AttributeError, getattr, self.config, 'NON_EXISTENT')
 
         with self.assertRaises(AttributeError):
             self.config.NON_EXISTENT = 1
