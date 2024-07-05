@@ -5,7 +5,6 @@ from django.core.checks import CheckMessage
 from django.utils.translation import gettext_lazy as _
 
 
-@checks.register('constance')
 def check_fieldsets(*args, **kwargs) -> list[CheckMessage]:
     """
     A Django system check to make sure that, if defined,
