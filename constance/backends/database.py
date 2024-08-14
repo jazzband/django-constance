@@ -11,6 +11,8 @@ from constance import config
 from constance import settings
 from constance import signals
 from constance.backends import Backend
+from constance.codecs import dumps
+from constance.codecs import loads
 
 
 class DatabaseBackend(Backend):
@@ -64,7 +66,7 @@ class DatabaseBackend(Backend):
         try:
             stored = self._model._default_manager.filter(key__in=keys)
             for const in stored:
-                yield keys[const.key], const.value
+                yield keys[const.key], loads(const.value)
         except (OperationalError, ProgrammingError):
             pass
 
@@ -79,7 +81,7 @@ class DatabaseBackend(Backend):
         if value is None:
             match = self._model._default_manager.filter(key=key).first()
             if match:
-                value = match.value
+                value = loads(match.value)
                 if self._cache:
                     self._cache.add(key, value)
         return value
@@ -100,16 +102,16 @@ class DatabaseBackend(Backend):
         except self._model.DoesNotExist:
             try:
                 with transaction.atomic(using=queryset.db):
-                    queryset.create(key=key, value=value)
+                    queryset.create(key=key, value=dumps(value))
                 created = True
             except IntegrityError:
                 # Allow concurrent writes
                 constance = queryset.get(key=key)
 
         if not created:
-            old_value = constance.value
-            constance.value = value
-            constance.save()
+            old_value = loads(constance.value)
+            constance.value = dumps(value)
+            constance.save(update_fields=['value'])
         else:
             old_value = None
 

@@ -1,5 +1,3 @@
-from pickle import dumps
-from pickle import loads
 from threading import RLock
 from time import monotonic
 
@@ -9,8 +7,9 @@ from constance import config
 from constance import settings
 from constance import signals
 from constance import utils
-
-from . import Backend
+from constance.backends import Backend
+from constance.codecs import dumps
+from constance.codecs import loads
 
 
 class RedisBackend(Backend):
@@ -36,7 +35,7 @@ class RedisBackend(Backend):
     def get(self, key):
         value = self._rd.get(self.add_prefix(key))
         if value:
-            return loads(value)  # noqa: S301
+            return loads(value)
         return None
 
     def mget(self, keys):
@@ -45,11 +44,11 @@ class RedisBackend(Backend):
         prefixed_keys = [self.add_prefix(key) for key in keys]
         for key, value in zip(keys, self._rd.mget(prefixed_keys)):
             if value:
-                yield key, loads(value)  # noqa: S301
+                yield key, loads(value)
 
     def set(self, key, value):
         old_value = self.get(key)
-        self._rd.set(self.add_prefix(key), dumps(value, protocol=settings.REDIS_PICKLE_VERSION))
+        self._rd.set(self.add_prefix(key), dumps(value))
         signals.config_updated.send(sender=config, key=key, old_value=old_value, new_value=value)
 
 

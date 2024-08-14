@@ -74,16 +74,6 @@ database. Defaults to ``'constance:'``. E.g.::
 
     CONSTANCE_REDIS_PREFIX = 'constance:myproject:'
 
-``CONSTANCE_REDIS_PICKLE_VERSION``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The (optional) protocol version of pickle you want to use to serialize your python
-objects when storing in the Redis database. Defaults to ``pickle.DEFAULT_PROTOCOL``. E.g.::
-
-    CONSTANCE_REDIS_PICKLE_VERSION = pickle.DEFAULT_PROTOCOL
-
-You might want to pin this value to a specific protocol number, since ``pickle.DEFAULT_PROTOCOL``
-means different things between versions of Python.
 
 ``CONSTANCE_REDIS_CACHE_TIMEOUT``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,9 +84,7 @@ Defaults to `60` seconds.
 Database
 --------
 
-Database backend stores configuration values in a
-standard Django model. It requires the package `django-picklefield`_ for
-storing those values.
+Database backend stores configuration values in a standard Django model.
 
 You must set the ``CONSTANCE_BACKEND`` Django setting to::
 
@@ -160,8 +148,6 @@ configured cache backend to enable this feature, e.g. "default"::
           saving any of the config values. If you want to disable the cache
           simply set the :setting:`CONSTANCE_DATABASE_CACHE_AUTOFILL_TIMEOUT`
           setting to ``None``.
-
-.. _django-picklefield: https://pypi.org/project/django-picklefield/
 
 Memory
 ------

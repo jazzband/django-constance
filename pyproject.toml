@@ -34,9 +34,6 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
     "Topic :: Utilities",
 ]
-dependencies = [
-    "django-picklefield",
-]
 
 [project.optional-dependencies]
 redis = [
