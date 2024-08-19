@@ -52,21 +52,21 @@ def object_hook(o: dict) -> Any:
             return o['__value__']
         codec = _codecs.get(o['__type__'])
         if not codec:
-            raise ValueError('Unsupported type', type, o)
+            raise ValueError(f'Unsupported type: {o["__type__"]}')
         return codec[1](o['__value__'])
     logger.error('Cannot deserialize object: %s', o)
-    raise ValueError('Invalid object', o)
+    raise ValueError(f'Invalid object: {o}')
 
 
 T = TypeVar('T')
 
 
 class Encoder(Protocol[T]):
-    def __call__(self, value: T, /) -> str: ...
+    def __call__(self, value: T, /) -> str: ...  # pragma: no cover
 
 
 class Decoder(Protocol[T]):
-    def __call__(self, value: str, /) -> T: ...
+    def __call__(self, value: str, /) -> T: ...  # pragma: no cover
 
 
 def register_type(t: type[T], discriminator: str, encoder: Encoder[T], decoder: Decoder[T]):

@@ -16,7 +16,7 @@ def import_module_attr(path):
     return getattr(import_module(package), module)
 
 
-def migrate_pickled_data(apps, schema_editor) -> None:
+def migrate_pickled_data(apps, schema_editor) -> None:  # pragma: no cover
     Constance = apps.get_model('constance', 'Constance')
 
     for constance in Constance.objects.exclude(value=None):

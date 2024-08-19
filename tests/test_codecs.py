@@ -52,11 +52,19 @@ class TestJSONSerialization(TestCase):
         ):
             self.assertEqual(t, loads(dumps(t)))
 
+    def test_invalid_deserialization(self):
+        with self.assertRaisesRegex(ValueError, 'Expecting value'):
+            loads('THIS_IS_NOT_RIGHT')
+        with self.assertRaisesRegex(ValueError, 'Invalid object'):
+            loads('{"__type__": "THIS_IS_NOT_RIGHT", "__value__": "test", "THIS_IS_NOT_RIGHT": "THIS_IS_NOT_RIGHT"}')
+        with self.assertRaisesRegex(ValueError, 'Unsupported type'):
+            loads('{"__type__": "THIS_IS_NOT_RIGHT", "__value__": "test"}')
+
     def test_handles_unknown_type(self):
         class UnknownType:
             pass
 
-        with self.assertRaises(TypeError):
+        with self.assertRaisesRegex(TypeError, 'Object of type UnknownType is not JSON serializable'):
             dumps(UnknownType())
 
     def test_custom_type_serialization(self):
@@ -73,8 +81,10 @@ class TestJSONSerialization(TestCase):
         self.assertEqual(deserialized_data.value, 'test')
 
     def test_register_known_type(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError, 'Discriminator must be specified'):
+            register_type(int, '', lambda o: o.value, lambda o: int(o))
+        with self.assertRaisesRegex(ValueError, 'Type with discriminator default is already registered'):
             register_type(int, 'default', lambda o: o.value, lambda o: int(o))
         register_type(int, 'new_custom_type', lambda o: o.value, lambda o: int(o))
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError, 'Type with discriminator new_custom_type is already registered'):
             register_type(int, 'new_custom_type', lambda o: o.value, lambda o: int(o))
