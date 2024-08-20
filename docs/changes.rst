@@ -1,6 +1,23 @@
 Changelog
 ---------
 
+v4.0.0 (2024/08/21)
+~~~~~~~~~~~~~~~~~~~
+
+* Replace `pickle` with JSON for the database backend
+* Fix migration on MySQL
+* Fix data loss using `DatabaseBackend` when the DB connection is unstable
+* Fix typos in the documentation
+* Fix small HTML errors
+* Drop support for legacy Django versions
+* Migrate JavaScript to ES2015
+* Fix documentation build
+* Add linters and formatters (using `ruff`)
+* Prepare for Django 5.1 support
+* Migrate from `setup.py` to `pyproject.toml`
+* Bump `tox`
+* Declare support for Python 3.12
+
 v3.1.0 (2023/08/21)
 ~~~~~~~~~~~~~~~~~~~
 
