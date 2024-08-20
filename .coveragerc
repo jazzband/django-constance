@@ -3,6 +3,7 @@ source = constance
 branch = 1
 omit =
     */pytest.py
+    */tests/*
 
 [report]
 omit = *tests*,*migrations*,.tox/*,setup.py,*settings.py
