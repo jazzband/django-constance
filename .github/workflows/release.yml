@@ -17,21 +17,6 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v5
-        with:
-          python-version: 3.8
-
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: release-${{ hashFiles('**/setup.py') }}-${{ hashFiles('**/tox.ini') }}
-          restore-keys: |
-            release-
 
       - name: Install dependencies
         run: |
@@ -40,8 +25,7 @@ jobs:
 
       - name: Build package
         run: |
-          python setup.py --version
-          python setup.py sdist --format=gztar bdist_wheel
+          python -m build
           twine check dist/*
 
       - name: Upload packages to Jazzband
