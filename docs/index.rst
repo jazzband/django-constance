@@ -305,7 +305,7 @@ any other variable, e.g.:
         Woohoo! Head over <a href="/sekrit/">here</a> to use the beta.
     {% else %}
         Sadly we haven't launched yet, click <a href="/newsletter/">here</a>
-        to signup for our newletter.
+        to signup for our newsletter.
     {% endif %}
 
 Command Line
