@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Constance(models.Model):
     key = models.CharField(max_length=255, unique=True)
-    value = models.TextField(null=True, blank=True)
+    value = models.TextField(null=True, blank=True, editable=False)
 
     class Meta:
         verbose_name = _('constance')
