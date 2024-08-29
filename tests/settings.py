@@ -51,6 +51,8 @@ CONSTANCE_ADDITIONAL_FIELDS = {
     ],
     # note this intentionally uses a tuple so that we can test immutable
     'email': ('django.forms.fields.EmailField',),
+    'array': ['django.forms.fields.CharField', {'widget': 'django.forms.Textarea'}],
+    'json': ['django.forms.fields.CharField', {'widget': 'django.forms.Textarea'}],
 }
 
 USE_TZ = True
@@ -68,6 +70,19 @@ CONSTANCE_CONFIG = {
     'CHOICE_VALUE': ('yes', 'select yes or no', 'yes_no_null_select'),
     'LINEBREAK_VALUE': ('Spam spam', 'eggs\neggs'),
     'EMAIL_VALUE': ('test@example.com', 'An email', 'email'),
+    'LIST_VALUE': ([1, '1', date(2019, 1, 1)], 'A list', 'array'),
+    'JSON_VALUE': (
+        {
+            'key': 'value',
+            'key2': 2,
+            'key3': [1, 2, 3],
+            'key4': {'key': 'value'},
+            'key5': date(2019, 1, 1),
+            'key6': None,
+        },
+        'A JSON object',
+        'json',
+    ),
 }
 
 DEBUG = True

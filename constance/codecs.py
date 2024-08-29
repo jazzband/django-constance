@@ -34,14 +34,20 @@ def _as(discriminator: str, v: Any) -> dict[str, Any]:
 def dumps(obj, _dumps=json.dumps, cls=JSONEncoder, default_kwargs=None, **kwargs):
     """Serialize object to json string."""
     default_kwargs = default_kwargs or {}
-    is_default_type = isinstance(obj, (str, int, bool, float, type(None)))
+    is_default_type = isinstance(obj, (list, dict, str, int, bool, float, type(None)))
     return _dumps(
         _as(DEFAULT_DISCRIMINATOR, obj) if is_default_type else obj, cls=cls, **dict(default_kwargs, **kwargs)
     )
 
 
-def loads(s, _loads=json.loads, **kwargs):
+def loads(s, _loads=json.loads, *, first_level=True, **kwargs):
     """Deserialize json string to object."""
+    if first_level:
+        return _loads(s, object_hook=object_hook, **kwargs)
+    if isinstance(s, dict) and '__type__' not in s and '__value__' not in s:
+        return {k: loads(v, first_level=False) for k, v in s.items()}
+    if isinstance(s, list):
+        return list(loads(v, first_level=False) for v in s)
     return _loads(s, object_hook=object_hook, **kwargs)
 
 
@@ -54,6 +60,8 @@ def object_hook(o: dict) -> Any:
         if not codec:
             raise ValueError(f'Unsupported type: {o["__type__"]}')
         return codec[1](o['__value__'])
+    if '__type__' not in o and '__value__' not in o:
+        return o
     logger.error('Cannot deserialize object: %s', o)
     raise ValueError(f'Invalid object: {o}')
 
