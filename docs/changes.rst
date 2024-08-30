@@ -1,5 +1,8 @@
 Changelog
 ---------
+Starting with version 4.0.0, the changelog is maintained at the GitHub releases `GitHub releases`_
+
+.. _GitHub releases: https://github.com/jazzband/django-constance/releases
 
 v4.0.0 (2024/08/21)
 ~~~~~~~~~~~~~~~~~~~
@@ -111,12 +114,12 @@ v2.7.0 (2020/06/22)
 
 * Switch md5 to sha256
 
-* Fix Attempts to change config values fail silently and 
+* Fix Attempts to change config values fail silently and
   appear to succeed when user does not have change permissions
 
 * Make constance app verbose name translatable
 
-* Update example project for Django>2 
+* Update example project for Django>2
 
 * Add anchors in admin for constance settings
 
@@ -177,7 +180,7 @@ v2.3.0 (2018/09/13)
 
 * Added zh_Hans translation.
 
-* Fixed TestAdmin.test_linebreaks() due to linebreaksbr() behavior change 
+* Fixed TestAdmin.test_linebreaks() due to linebreaksbr() behavior change
   on Django 2.1
 
 * Improved chinese translation
