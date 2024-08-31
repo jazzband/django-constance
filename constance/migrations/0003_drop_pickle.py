@@ -40,7 +40,10 @@ def migrate_pickled_data(apps, schema_editor) -> None:  # pragma: no cover
             prefixed_key = f'{_prefix}{key}'
             value = _rd.get(prefixed_key)
             if value is not None:
-                redis_migrated_data[prefixed_key] = dumps(pickle.loads(value))  # noqa: S301
+                try:
+                    redis_migrated_data[prefixed_key] = dumps(pickle.loads(value))  # noqa: S301
+                except pickle.UnpicklingError:
+                    continue
         for prefixed_key, value in redis_migrated_data.items():
             _rd.set(prefixed_key, value)
 
