@@ -42,8 +42,12 @@ def migrate_pickled_data(apps, schema_editor) -> None:  # pragma: no cover
             if value is not None:
                 try:
                     redis_migrated_data[prefixed_key] = dumps(pickle.loads(value))  # noqa: S301
-                except pickle.UnpicklingError:
-                    continue
+                except pickle.UnpicklingError as e:
+                    if value.startswith(b'{"__'):
+                        # Seems like we're facing already migrated data
+                        # Might be related to defaults and when config was accessed while django inits for migration
+                        continue
+                    raise e
         for prefixed_key, value in redis_migrated_data.items():
             _rd.set(prefixed_key, value)
 
