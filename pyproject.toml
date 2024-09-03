@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-constance"
-version = "4.0.1"
+version = "4.0.2"
 description = "Django live settings with pluggable backends, including Redis."
 readme = "README.rst"
 license = { text = "BSD" }
