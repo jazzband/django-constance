@@ -24,6 +24,8 @@ class TestJSONSerialization(TestCase):
         self.boolean = True
         self.none = None
         self.timedelta = timedelta(days=1, hours=2, minutes=3)
+        self.list = [1, 2, self.date]
+        self.dict = {'key': self.date, 'key2': 1}
 
     def test_serializes_and_deserializes_default_types(self):
         self.assertEqual(dumps(self.datetime), '{"__type__": "datetime", "__value__": "2023-10-05T15:30:00"}')
@@ -37,6 +39,14 @@ class TestJSONSerialization(TestCase):
         self.assertEqual(dumps(self.boolean), '{"__type__": "default", "__value__": true}')
         self.assertEqual(dumps(self.none), '{"__type__": "default", "__value__": null}')
         self.assertEqual(dumps(self.timedelta), '{"__type__": "timedelta", "__value__": 93780.0}')
+        self.assertEqual(
+            dumps(self.list),
+            '{"__type__": "default", "__value__": [1, 2, {"__type__": "date", "__value__": "2023-10-05"}]}',
+        )
+        self.assertEqual(
+            dumps(self.dict),
+            '{"__type__": "default", "__value__": {"key": {"__type__": "date", "__value__": "2023-10-05"}, "key2": 1}}',
+        )
         for t in (
             self.datetime,
             self.date,
@@ -49,6 +59,8 @@ class TestJSONSerialization(TestCase):
             self.boolean,
             self.none,
             self.timedelta,
+            self.dict,
+            self.list,
         ):
             self.assertEqual(t, loads(dumps(t)))
 
@@ -88,3 +100,14 @@ class TestJSONSerialization(TestCase):
         register_type(int, 'new_custom_type', lambda o: o.value, lambda o: int(o))
         with self.assertRaisesRegex(ValueError, 'Type with discriminator new_custom_type is already registered'):
             register_type(int, 'new_custom_type', lambda o: o.value, lambda o: int(o))
+
+    def test_nested_collections(self):
+        data = {'key': [[[[{'key': self.date}]]]]}
+        self.assertEqual(
+            dumps(data),
+            (
+                '{"__type__": "default", '
+                '"__value__": {"key": [[[[{"key": {"__type__": "date", "__value__": "2023-10-05"}}]]]]}}'
+            ),
+        )
+        self.assertEqual(data, loads(dumps(data)))

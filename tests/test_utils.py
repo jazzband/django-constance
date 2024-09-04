@@ -51,5 +51,14 @@ class UtilsTestCase(TestCase):
                 'DECIMAL_VALUE': Decimal('0.1'),
                 'STRING_VALUE': 'Hello world',
                 'DATETIME_VALUE': datetime.datetime(2010, 8, 23, 11, 29, 24),
+                'LIST_VALUE': [1, '1', datetime.date(2019, 1, 1)],
+                'JSON_VALUE': {
+                    'key': 'value',
+                    'key2': 2,
+                    'key3': [1, 2, 3],
+                    'key4': {'key': 'value'},
+                    'key5': datetime.date(2019, 1, 1),
+                    'key6': None,
+                },
             },
         )

@@ -30,19 +30,21 @@ class CliTestCase(TransactionTestCase):
             set(
                 dedent(
                     smart_str(
-                        """        BOOL_VALUE	True
-        EMAIL_VALUE	test@example.com
-        INT_VALUE	1
-        LINEBREAK_VALUE	Spam spam
-        DATE_VALUE	2010-12-24
-        TIME_VALUE	23:59:59
-        TIMEDELTA_VALUE	1 day, 2:03:00
-        STRING_VALUE	Hello world
-        CHOICE_VALUE	yes
-        DECIMAL_VALUE	0.1
-        DATETIME_VALUE	2010-08-23 11:29:24
-        FLOAT_VALUE	3.1415926536
-"""
+                        """        BOOL_VALUE\tTrue
+        EMAIL_VALUE\ttest@example.com
+        INT_VALUE\t1
+        LINEBREAK_VALUE\tSpam spam
+        DATE_VALUE\t2010-12-24
+        TIME_VALUE\t23:59:59
+        TIMEDELTA_VALUE\t1 day, 2:03:00
+        STRING_VALUE\tHello world
+        CHOICE_VALUE\tyes
+        DECIMAL_VALUE\t0.1
+        DATETIME_VALUE\t2010-08-23 11:29:24
+        FLOAT_VALUE\t3.1415926536
+        JSON_VALUE\t{'key': 'value', 'key2': 2, 'key3': [1, 2, 3], 'key4': {'key': 'value'}, 'key5': datetime.date(2019, 1, 1), 'key6': None}
+        LIST_VALUE\t[1, '1', datetime.date(2019, 1, 1)]
+"""  # noqa: E501
                     )
                 ).splitlines()
             ),

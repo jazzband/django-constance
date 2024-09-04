@@ -25,6 +25,18 @@ class StorageTestsMixin:
         self.assertEqual(self.config.TIMEDELTA_VALUE, timedelta(days=1, hours=2, minutes=3))
         self.assertEqual(self.config.CHOICE_VALUE, 'yes')
         self.assertEqual(self.config.EMAIL_VALUE, 'test@example.com')
+        self.assertEqual(self.config.LIST_VALUE, [1, '1', date(2019, 1, 1)])
+        self.assertEqual(
+            self.config.JSON_VALUE,
+            {
+                'key': 'value',
+                'key2': 2,
+                'key3': [1, 2, 3],
+                'key4': {'key': 'value'},
+                'key5': date(2019, 1, 1),
+                'key6': None,
+            },
+        )
 
         # set values
         self.config.INT_VALUE = 100
@@ -38,6 +50,8 @@ class StorageTestsMixin:
         self.config.TIMEDELTA_VALUE = timedelta(days=2, hours=3, minutes=4)
         self.config.CHOICE_VALUE = 'no'
         self.config.EMAIL_VALUE = 'foo@bar.com'
+        self.config.LIST_VALUE = [1, date(2020, 2, 2)]
+        self.config.JSON_VALUE = {'key': 'OK'}
 
         # read again
         self.assertEqual(self.config.INT_VALUE, 100)
@@ -51,6 +65,8 @@ class StorageTestsMixin:
         self.assertEqual(self.config.TIMEDELTA_VALUE, timedelta(days=2, hours=3, minutes=4))
         self.assertEqual(self.config.CHOICE_VALUE, 'no')
         self.assertEqual(self.config.EMAIL_VALUE, 'foo@bar.com')
+        self.assertEqual(self.config.LIST_VALUE, [1, date(2020, 2, 2)])
+        self.assertEqual(self.config.JSON_VALUE, {'key': 'OK'})
 
     def test_nonexistent(self):
         self.assertRaises(AttributeError, getattr, self.config, 'NON_EXISTENT')

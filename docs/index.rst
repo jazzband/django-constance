@@ -101,6 +101,8 @@ The supported types are:
 * ``datetime``
 * ``date``
 * ``time``
+* ``list``
+* ``dict``
 
 For example, to force a value to be handled as a string:
 

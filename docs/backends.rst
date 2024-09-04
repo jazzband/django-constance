@@ -10,6 +10,9 @@ configuration values. By default it uses the Redis backend. To override
 the default please set the :setting:`CONSTANCE_BACKEND` setting to the appropriate
 dotted path.
 
+Configuration values are stored in JSON format and automatically serialized/deserialized
+on access.
+
 Redis
 -----
 
