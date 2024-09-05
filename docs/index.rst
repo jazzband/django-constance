@@ -99,10 +99,9 @@ The supported types are:
 * ``Decimal``
 * ``str``
 * ``datetime``
+* ``timedelta``
 * ``date``
 * ``time``
-* ``list``
-* ``dict``
 
 For example, to force a value to be handled as a string:
 
