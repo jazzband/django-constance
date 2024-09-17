@@ -1,3 +1,4 @@
+import json
 import logging
 import pickle
 from base64 import b64decode
@@ -11,6 +12,16 @@ from constance.codecs import dumps
 logger = logging.getLogger(__name__)
 
 
+def is_already_migrated(value):
+    try:
+        data = json.loads(value)
+        if isinstance(data, dict) and set(data.keys()) == {'__type__', '__value__'}:
+            return True
+    except (json.JSONDecodeError, TypeError):
+        return False
+    return False
+
+
 def import_module_attr(path):
     package, module = path.rsplit('.', 1)
     return getattr(import_module(package), module)
@@ -20,8 +31,9 @@ def migrate_pickled_data(apps, schema_editor) -> None:  # pragma: no cover
     Constance = apps.get_model('constance', 'Constance')
 
     for constance in Constance.objects.exclude(value=None):
-        constance.value = dumps(pickle.loads(b64decode(constance.value.encode())))  # noqa: S301
-        constance.save(update_fields=['value'])
+        if not is_already_migrated(constance.value):
+            constance.value = dumps(pickle.loads(b64decode(constance.value.encode())))  # noqa: S301
+            constance.save(update_fields=['value'])
 
     if settings.BACKEND in ('constance.backends.redisd.RedisBackend', 'constance.backends.redisd.CachingRedisBackend'):
         import redis
@@ -39,15 +51,8 @@ def migrate_pickled_data(apps, schema_editor) -> None:  # pragma: no cover
         for key in settings.CONFIG:
             prefixed_key = f'{_prefix}{key}'
             value = _rd.get(prefixed_key)
-            if value is not None:
-                try:
-                    redis_migrated_data[prefixed_key] = dumps(pickle.loads(value))  # noqa: S301
-                except pickle.UnpicklingError as e:
-                    if value.startswith(b'{"__'):
-                        # Seems like we're facing already migrated data
-                        # Might be related to defaults and when config was accessed while django inits for migration
-                        continue
-                    raise e
+            if value is not None and not is_already_migrated(value):
+                redis_migrated_data[prefixed_key] = dumps(pickle.loads(value))  # noqa: S301
         for prefixed_key, value in redis_migrated_data.items():
             _rd.set(prefixed_key, value)
 

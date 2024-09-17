@@ -10,3 +10,4 @@ test.db
 coverage.xml
 docs/_build
 .idea
+constance/_version.py
