@@ -96,6 +96,8 @@ class ConstanceAdmin(admin.ModelAdmin):
             self.admin_site.each_context(request),
             config_values=[],
             title=self.model._meta.app_config.verbose_name,
+            subtitle=None,
+            fieldsets=[],
             app_label='constance',
             opts=self.model._meta,
             form=form,
