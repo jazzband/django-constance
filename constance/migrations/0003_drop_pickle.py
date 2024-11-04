@@ -17,7 +17,7 @@ def is_already_migrated(value):
         data = json.loads(value)
         if isinstance(data, dict) and set(data.keys()) == {'__type__', '__value__'}:
             return True
-    except (json.JSONDecodeError, TypeError):
+    except (json.JSONDecodeError, TypeError, UnicodeDecodeError):
         return False
     return False
 
