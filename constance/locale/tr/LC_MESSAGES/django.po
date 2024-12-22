@@ -69,7 +69,7 @@ msgstr "constances"
 
 #: constance/management/commands/constance.py:32
 msgid "Get/Set In-database config settings handled by Constance"
-msgstr ""
+msgstr "Constance tarafından veritabanında barındırılan ayarları görüntüle/değiştir"
 
 #: constance/templates/admin/constance/change_list.html:60
 msgid "Save"
@@ -93,7 +93,7 @@ msgstr "Değer"
 
 #: constance/templates/admin/constance/includes/results_list.html:9
 msgid "Is modified"
-msgstr "Değiştiril mi"
+msgstr "Değiştirildi mi"
 
 #: constance/templates/admin/constance/includes/results_list.html:22
 msgid "Current file"
