@@ -313,64 +313,93 @@ any other variable, e.g.:
 Command Line
 ^^^^^^^^^^^^
 
-Constance settings can be get/set on the command line with the manage command `constance`
+Constance settings can be get/set on the command line with the manage command :command:`constance`.
 
 Available options are:
 
-list - output all values in a tab-separated format::
+.. program:: constance
 
-    $ ./manage.py constance list
-    THE_ANSWER 42
-    SITE_NAME  My Title
+.. option:: list
 
-get KEY - output a single values::
+   list all Constance keys and their values
 
-    $ ./manage.py constance get THE_ANSWER
-    42
+   .. code-block:: console
 
-set KEY VALUE - set a single value::
+      $ ./manage.py constance list
+      THE_ANSWER 42
+      SITE_NAME  My Title
 
-    $ ./manage.py constance set SITE_NAME "Another Title"
+.. option:: get <KEY>
 
-If the value contains spaces it should be wrapped in quotes.
+   get the value of a Constance key
 
-.. note::  Set values are validated as per in admin, an error will be raised if validation fails:
+   .. code-block:: console
 
-E.g., given this config as per the example app::
+      $ ./manage.py constance get THE_ANSWER
+      42
 
-   CONSTANCE_CONFIG = {
-       ...
-       'DATE_ESTABLISHED': (date(1972, 11, 30), "the shop's first opening"),
-   }
+.. option:: set <KEY> <VALUE>
 
-Setting an invalid date will fail as follow::
+   set the value of a Constance key
 
-   $ ./manage.py constance set DATE_ESTABLISHED '1999-12-00'
-   CommandError: Enter a valid date.
+   .. code-block:: console
+
+      $ ./manage.py constance set SITE_NAME "Another Title"
+
+   If the value contains spaces it should be wrapped in quotes.
+
+   .. note:: Set values are validated as per in admin, an error will be raised if validation fails:
+
+   E.g., given this config as per the example app:
+
+   .. code-block:: python
+
+      CONSTANCE_CONFIG = {
+          ...
+          'DATE_ESTABLISHED': (date(1972, 11, 30), "the shop's first opening"),
+      }
+
+   Setting an invalid date will fail as follow:
+
+   .. code-block:: console
+
+      $ ./manage.py constance set DATE_ESTABLISHED '1999-12-00'
+      CommandError: Enter a valid date.
 
 
-.. note::  If the admin field is a `MultiValueField`, then the separate field values need to be provided as separate arguments.
-E.g., a datetime using `SplitDateTimeField`::
+   .. note:: If the admin field is a :class:`MultiValueField`, then the separate field values need to be provided as separate arguments.
 
-   CONSTANCE_CONFIG = {
-       'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
-   }
+   E.g., a datetime using :class:`SplitDateTimeField`:
 
-Then this works (and the quotes are optional)::
+   .. code-block:: python
 
-   ./manage.py constance set DATETIME_VALUE '2011-09-24' '12:30:25'
+      CONSTANCE_CONFIG = {
+          'DATETIME_VALUE': (datetime(2010, 8, 23, 11, 29, 24), 'time of the first commit'),
+      }
 
-This doesn't work::
+   Then this works (and the quotes are optional):
 
-   ./manage.py constance set DATETIME_VALUE '2011-09-24 12:30:25'
-   CommandError: Enter a list of values.
+   .. code-block:: console
+
+      ./manage.py constance set DATETIME_VALUE '2011-09-24' '12:30:25'
+
+   This doesn't work:
+
+   .. code-block:: console
+
+      ./manage.py constance set DATETIME_VALUE '2011-09-24 12:30:25'
+      CommandError: Enter a list of values.
 
 
-remove_stale_keys - delete all stale records in database::
+.. option:: remove_stale_keys
 
-    $ ./manage.py constance remove_stale_keys
+   delete all Constance keys and their values if they are not in settings.CONSTANCE_CONFIG (stale keys)
 
-Record is considered stale if it exists in database but absent in config
+   .. code-block:: console
+
+      $ ./manage.py constance remove_stale_keys
+
+   Record is considered stale if it exists in database but absent in config.
 
 Editing
 -------
