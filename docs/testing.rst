@@ -90,8 +90,9 @@ If you want to use override as a context manager or decorator, consider using
     def test_override_context_manager():
         ...
 
-Pytest fixture as function or method parameter (
-NOTE: no import needed as fixture is available globally)
+Pytest fixture as function or method parameter.
+
+.. note:: No import needed as fixture is available globally.
 
 .. code-block:: python
 
