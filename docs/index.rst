@@ -99,6 +99,7 @@ The supported types are:
 * ``Decimal``
 * ``str``
 * ``datetime``
+* ``timedelta``
 * ``date``
 * ``time``
 * ``list``
