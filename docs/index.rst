@@ -102,6 +102,8 @@ The supported types are:
 * ``timedelta``
 * ``date``
 * ``time``
+* ``list``
+* ``dict``
 
 For example, to force a value to be handled as a string:
 
