@@ -21,6 +21,7 @@ def get_values():
     # Then update the mapping with actually values from the backend
     return dict(default_initial, **dict(config._backend.mget(settings.CONFIG)))
 
+
 def get_values_for_keys(keys):
     """
     Retrieve values for specified keys from the backend.
@@ -33,14 +34,12 @@ def get_values_for_keys(keys):
         raise TypeError('keys must be a list, tuple, or set of strings')
 
     # Prepare default initial mapping
-    default_initial = {
-        name: options[0] for name, options in settings.CONFIG.items() if name in keys
-    }
+    default_initial = {name: options[0] for name, options in settings.CONFIG.items() if name in keys}
 
     # Check if all keys are present in the default_initial mapping
     missing_keys = [key for key in keys if key not in default_initial]
     if missing_keys:
-        raise AttributeError(f'Key "{missing_keys[0]}" not found in configuration.')
+        raise AttributeError(f'"{", ".join(missing_keys)}" keys not found in configuration.')
 
     # Merge default values and backend values, prioritizing backend values
     return dict(default_initial, **dict(config._backend.mget(keys)))
