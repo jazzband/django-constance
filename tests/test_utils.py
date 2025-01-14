@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from constance.management.commands.constance import _set_constance_value
-from constance.utils import get_values
+from constance.utils import get_values, get_values_for_keys
 
 
 class UtilsTestCase(TestCase):
@@ -62,3 +62,29 @@ class UtilsTestCase(TestCase):
                 },
             },
         )
+
+    def test_get_values_for_keys(self):
+        self.assertEqual(
+            get_values_for_keys(['BOOL_VALUE', 'CHOICE_VALUE', 'LINEBREAK_VALUE']),
+            {
+                'BOOL_VALUE': True,
+                'CHOICE_VALUE': 'yes',
+                'LINEBREAK_VALUE': 'Spam spam',
+            },
+        )
+
+    def test_get_values_for_keys_empty_keys(self):
+        result = get_values_for_keys([])
+        self.assertEqual(result, {})
+
+    def test_get_values_for_keys_throw_error_if_no_key(self):
+        self.assertRaisesMessage(
+            AttributeError,
+            '"OLD_VALUE, BOLD_VALUE" keys not found in configuration.',
+            get_values_for_keys,
+            ['BOOL_VALUE', 'OLD_VALUE', 'BOLD_VALUE'],
+        )
+
+    def test_get_values_for_keys_invalid_input_type(self):
+        with self.assertRaises(TypeError):
+            get_values_for_keys('key1')
