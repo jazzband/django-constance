@@ -5,7 +5,8 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from constance.management.commands.constance import _set_constance_value
-from constance.utils import get_values, get_values_for_keys
+from constance.utils import get_values
+from constance.utils import get_values_for_keys
 
 
 class UtilsTestCase(TestCase):
