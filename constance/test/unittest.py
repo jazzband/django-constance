@@ -1,5 +1,6 @@
 from functools import wraps
 
+from django import VERSION as DJANGO_VERSION
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
@@ -44,9 +45,17 @@ class override_config(override_settings):
         original_pre_setup = test_case._pre_setup
         original_post_teardown = test_case._post_teardown
 
-        def _pre_setup(inner_self):
-            self.enable()
-            original_pre_setup(inner_self)
+        if DJANGO_VERSION < (5, 2):
+            def _pre_setup(inner_self):
+                self.enable()
+                original_pre_setup(inner_self)
+        else:
+            @classmethod
+            def _pre_setup(cls):
+                # NOTE: Django 5.2 turned this as a classmethod
+                # https://github.com/django/django/pull/18514/files
+                self.enable()
+                original_pre_setup()
 
         def _post_teardown(inner_self):
             original_post_teardown(inner_self)
