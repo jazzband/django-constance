@@ -50,6 +50,9 @@ documentation = "https://django-constance.readthedocs.io/en/latest/"
 repository = "https://github.com/jazzband/django-constance/"
 changelog = "https://github.com/jazzband/django-constance/releases/"
 
+[tool.setuptools]
+license-files = []  # see https://github.com/pypa/twine/issues/1216#issuecomment-2609745412
+
 [tool.setuptools.packages.find]
 include = ["constance*"]
 
