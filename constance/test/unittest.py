@@ -46,10 +46,12 @@ class override_config(override_settings):
         original_post_teardown = test_case._post_teardown
 
         if DJANGO_VERSION < (5, 2):
+
             def _pre_setup(inner_self):
                 self.enable()
                 original_pre_setup(inner_self)
         else:
+
             @classmethod
             def _pre_setup(cls):
                 # NOTE: Django 5.2 turned this as a classmethod
