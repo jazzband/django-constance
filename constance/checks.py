@@ -15,7 +15,7 @@ def check_fieldsets(*args, **kwargs) -> list[CheckMessage]:
     errors = []
 
     if hasattr(settings, 'CONFIG_FIELDSETS') and settings.CONFIG_FIELDSETS:
-        missing_keys, extra_keys = get_inconsistent_fieldnames()
+        missing_keys, extra_keys, derived_value_in_fieldset_keys = get_inconsistent_fieldnames()
         if missing_keys:
             check = checks.Warning(
                 _('CONSTANCE_CONFIG_FIELDSETS is missing field(s) that exists in CONSTANCE_CONFIG.'),
@@ -32,14 +32,24 @@ def check_fieldsets(*args, **kwargs) -> list[CheckMessage]:
                 id='constance.E002',
             )
             errors.append(check)
+        if derived_value_in_fieldset_keys: 
+            check = checks.Warning(
+                _('CONSTANCE_CONFIG_FIELDSETS contains field(s) that are derived_value type in CONFIG.'),
+                hint=', '.join(sorted(derived_value_in_fieldset_keys)),
+                obj='settings.CONSTANCE_CONFIG',
+                id='constance.E003',
+            )
+            errors.append(check)
+
     return errors
 
 
 def get_inconsistent_fieldnames() -> tuple[set, set]:
     """
-    Returns a pair of values:
-    1) set of keys from settings.CONFIG that are not accounted for in settings.CONFIG_FIELDSETS
+    Returns three list of values:
+    1) set of keys from settings.CONFIG that are not accounted for in settings.CONFIG_FIELDSETS except the derived_value type
     2) set of keys from settings.CONFIG_FIELDSETS that are not present in settings.CONFIG
+    3) set of keys from settings.CONFIG_FIELDSETS that are derived_value type
     If there are no fieldnames in settings.CONFIG_FIELDSETS, returns an empty set.
     """
     from . import settings
@@ -59,6 +69,13 @@ def get_inconsistent_fieldnames() -> tuple[set, set]:
     if not unique_field_names:
         return unique_field_names, unique_field_names
     config_keys = set(settings.CONFIG.keys())
-    missing_keys = config_keys - unique_field_names
+    config_derived_value_keys = {
+        key for key, value in settings.CONFIG.items() if len(value) == 3 and value[2] == 'derived_value'
+    }
+    config_without_derived_value_keys = config_keys - config_derived_value_keys
+
+    missing_keys = config_without_derived_value_keys - unique_field_names
     extra_keys = unique_field_names - config_keys
-    return missing_keys, extra_keys
+    derived_value_in_fieldset_keys = [key for key in unique_field_names if key in config_derived_value_keys]
+
+    return missing_keys, extra_keys, derived_value_in_fieldset_keys

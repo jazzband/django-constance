@@ -67,6 +67,9 @@ class StorageTestsMixin:
         self.assertEqual(self.config.EMAIL_VALUE, 'foo@bar.com')
         self.assertEqual(self.config.LIST_VALUE, [1, date(2020, 2, 2)])
         self.assertEqual(self.config.JSON_VALUE, {'key': 'OK'})
+        self.assertEqual(self.config.DERIVED_VALUE_FUNC, 'Beware the weeping angel to foo@bar.com')
+        self.assertEqual(self.config.DERIVED_VALUE_FUNC_STR, 'Beware the weeping angel to foo@bar.com')
+        self.assertEqual(self.config.DERIVED_VALUE_LAMBDA, 'Beware the weeping angel to foo@bar.com')
 
     def test_nonexistent(self):
         self.assertRaises(AttributeError, getattr, self.config, 'NON_EXISTENT')
@@ -91,6 +94,10 @@ class StorageTestsMixin:
         self.assertEqual(self.config.DATE_VALUE, date(2001, 12, 20))
         self.assertEqual(self.config.TIME_VALUE, time(1, 59, 0))
         self.assertEqual(self.config.TIMEDELTA_VALUE, timedelta(days=1, hours=2, minutes=3))
+        self.assertEqual(self.config.DERIVED_VALUE_FUNC, 'Hello world to test@example.com')
+        self.assertEqual(self.config.DERIVED_VALUE_FUNC_STR, 'Hello world to test@example.com')
+        self.assertEqual(self.config.DERIVED_VALUE_LAMBDA, 'Hello world to test@example.com')
+
 
     def test_backend_retrieves_multiple_values(self):
         # Check corner cases such as falsy values
