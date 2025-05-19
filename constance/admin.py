@@ -192,4 +192,4 @@ class Config:
     _meta = Meta()
 
 
-admin.site.register([Config], ConstanceAdmin)
+admin.site.register(Config, ConstanceAdmin)
