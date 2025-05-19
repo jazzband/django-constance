@@ -104,6 +104,7 @@ The supported types are:
 * ``time``
 * ``list``
 * ``dict``
+* ``derived_value``
 
 For example, to force a value to be handled as a string:
 
@@ -165,6 +166,40 @@ Images and files are uploaded to ``MEDIA_ROOT`` by default. You can specify a su
 
 This will result in files being placed in ``media/constance`` within your ``BASE_DIR``. You can use deeper nesting in this setting (e.g. ``constance/images``) but other relative path components (e.g. ``../``) will be rejected.
 
+
+Derived value fields
+-------------
+Derived value fields are fields that are calculated based on other fields. They are read-only and are not visible/editable in the admin.
+
+To define a derived value field, use the ``derived_value`` type in the ``CONSTANCE_CONFIG`` tuple, and give a callable that returns the value as the default.
+The callable will be called with the config object as the only argument, which can be used to access other config values like ``constance.config``.
+You can also use the ``config`` object to access the current value of the derived field, but be careful to avoid infinite loops.
+
+Thoese callables are valid default parameters for the derived value fields:
+* A function object
+* A string containing the path to a function object
+* A labmda function
+
+.. code-block:: python
+        def get_answer(config):
+            return 'The answer is %s' % config.THE_ANSWER
+
+        CONSTANCE_CONFIG = {
+            'THE_ANSWER': (42, 'Answer to the Ultimate Question of Life, '
+                               'The Universe, and Everything'),
+            'THE_QUESTION': ('What is the answer to the ultimate question of life, the universe, and everything?', 'The question'),
+            'THE_QUESTION_ANSWERED_LAMBDA': (lambda config: 'The answer is %s' % config.THE_ANSWER, 'The question answered', 'derived_value'),
+            'THE_QUESTION_ANSWERED_FUNCTION': (get_answer, 'The question answered', 'derived_value'),
+            'THE_QUESTION_ANSWERED_FUNCTION_PATH': ('path.to.get_answer', 'The question answered', 'derived_value'),
+        }
+
+This will result in the following values:
+* THE_QUESTION_ANSWERED_LAMBDA: 'The answer is 42'
+* THE_QUESTION_ANSWERED_FUNCTION: 'The answer is 42'
+* THE_QUESTION_ANSWERED_FUNCTION_PATH: 'The answer is 42'
+
+.. note:: The derived value fields are not editable in the admin, and the value is recalculated every time the config object is accessed. So that the derived value fields should never present in CONSTANCE_CONFIG_FIELDSETS.
+
 Ordered Fields in Django Admin
 ------------------------------
 
@@ -199,7 +234,7 @@ You can define fieldsets to group settings together:
             'Theme Options': ('THEME',),
         }
 
-.. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONSTANCE_CONFIG.
+.. note:: CONSTANCE_CONFIG_FIELDSETS must contain all fields from CONSTANCE_CONFIG, except for derived value fields.
 
 .. image:: _static/screenshot3.png
 

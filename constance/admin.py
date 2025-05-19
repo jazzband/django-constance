@@ -104,6 +104,8 @@ class ConstanceAdmin(admin.ModelAdmin):
             django_version=get_version(),
         )
         for name, options in settings.CONFIG.items():
+            if len(options) == 3 and options[2] == 'derived_value':
+                continue
             context['config_values'].append(self.get_config_value(name, options, form, initial))
 
         if settings.CONFIG_FIELDSETS:

@@ -61,6 +61,9 @@ class UtilsTestCase(TestCase):
                     'key5': datetime.date(2019, 1, 1),
                     'key6': None,
                 },
+                'DERIVED_VALUE_FUNC': 'Hello world to test@example.com',
+                'DERIVED_VALUE_FUNC_STR': 'Hello world to test@example.com',
+                'DERIVED_VALUE_LAMBDA': 'Hello world to test@example.com',
             },
         )
 

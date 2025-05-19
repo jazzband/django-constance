@@ -91,6 +91,9 @@ class ConstanceForm(forms.Form):
             default = options[0]
             if len(options) == 3:
                 config_type = options[2]
+                if config_type == 'derived_value':
+                    print(f"Warning: {name} is a derived value and will not be displayed in the form.")
+                    continue
                 if config_type not in settings.ADDITIONAL_FIELDS and not isinstance(default, config_type):
                     raise ImproperlyConfigured(
                         _(
@@ -128,7 +131,10 @@ class ConstanceForm(forms.Form):
             file = self.cleaned_data[file_field]
             self.cleaned_data[file_field] = default_storage.save(join(settings.FILE_ROOT, file.name), file)
 
-        for name in settings.CONFIG:
+        for name, options in settings.CONFIG.items():
+            if len(options) == 3 and options[2] == 'derived_value':
+                continue
+
             current = getattr(config, name)
             new = self.cleaned_data[name]
 
@@ -163,8 +169,8 @@ class ConstanceForm(forms.Form):
         if not settings.CONFIG_FIELDSETS:
             return cleaned_data
 
-        missing_keys, extra_keys = get_inconsistent_fieldnames()
-        if missing_keys or extra_keys:
+        missing_keys, extra_keys, derived_value_in_fieldset_keys = get_inconsistent_fieldnames()
+        if missing_keys or extra_keys or derived_value_in_fieldset_keys:
             raise forms.ValidationError(
                 _('CONSTANCE_CONFIG_FIELDSETS is missing field(s) that exists in CONSTANCE_CONFIG.')
             )

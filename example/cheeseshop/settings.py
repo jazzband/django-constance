@@ -117,6 +117,7 @@ CONSTANCE_CONFIG = {
         'Logo image file',
         'image_field',
     ),
+    'BANNER_WITH_OWNER': ('cheeseshop.utils.get_banner_with_owner', 'banner with owner name', 'derived_value'),
 }
 
 CONSTANCE_CONFIG_FIELDSETS = {

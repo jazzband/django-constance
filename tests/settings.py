@@ -57,6 +57,9 @@ CONSTANCE_ADDITIONAL_FIELDS = {
 
 USE_TZ = True
 
+def get_derived_value_func(config):
+    return f'{config.STRING_VALUE} to {config.EMAIL_VALUE}'
+
 CONSTANCE_CONFIG = {
     'INT_VALUE': (1, 'some int'),
     'BOOL_VALUE': (True, 'true or false'),
@@ -83,6 +86,9 @@ CONSTANCE_CONFIG = {
         'A JSON object',
         'json',
     ),
+    'DERIVED_VALUE_FUNC': (get_derived_value_func, 'Derived value from a function', 'derived_value'),
+    'DERIVED_VALUE_FUNC_STR': ('tests.settings.get_derived_value_func', 'Derived value from a function str', 'derived_value'),
+    'DERIVED_VALUE_LAMBDA': (lambda config: f'{config.STRING_VALUE} to {config.EMAIL_VALUE}', 'Derived value from a lambda expression', 'derived_value'),
 }
 
 DEBUG = True
