@@ -89,7 +89,7 @@ Custom fields
 
 You can set the field type with the third value in the ``CONSTANCE_CONFIG`` tuple.
 
-The value can be one of the supported types or a string matching a key in your :setting:``CONSTANCE_ADDITIONAL_FIELDS``
+The value can be one of the supported types or a string matching a key in your :setting:`CONSTANCE_ADDITIONAL_FIELDS`
 
 The supported types are:
 
@@ -112,7 +112,7 @@ For example, to force a value to be handled as a string:
         'THE_ANSWER': (42, 'Answer to the Ultimate Question of Life, '
                                    'The Universe, and Everything', str),
 
-Custom field types are supported using the dictionary :setting:``CONSTANCE_ADDITIONAL_FIELDS``.
+Custom field types are supported using the dictionary :setting:`CONSTANCE_ADDITIONAL_FIELDS`.
 
 This is a mapping between a field label and a sequence (list or tuple).  The first item in the sequence is the string
 path of a field class, and the (optional) second item is a dictionary used to configure the field.
