@@ -6,11 +6,10 @@ from textwrap import dedent
 from django.conf import settings
 from django.core.management import CommandError
 from django.core.management import call_command
-from django.test import TransactionTestCase
+from django.test import TransactionTestCase, override_settings
 from django.utils import timezone
 from django.utils.encoding import smart_str
 
-from constance import config
 from constance.models import Constance
 
 
@@ -111,9 +110,29 @@ class CliTestCase(TransactionTestCase):
         )
 
     def test_delete_stale_records(self):
+        self._populate_database_with_default_values()
         initial_count = Constance.objects.count()
 
         Constance.objects.create(key='STALE_KEY', value=None)
         call_command('constance', 'remove_stale_keys', stdout=self.out)
 
         self.assertEqual(Constance.objects.count(), initial_count, msg=self.out)
+
+    @override_settings(
+        CONSTANCE_DATABASE_PREFIX='constance:',
+    )
+    def test_delete_stale_records_respects_prefix(self):
+        self._populate_database_with_default_values()
+        initial_count = Constance.objects.count()
+
+        call_command('constance', 'remove_stale_keys', stdout=self.out)
+
+        self.assertEqual(Constance.objects.count(), initial_count, msg=self.out)
+
+    def _populate_database_with_default_values(self):
+        """
+        Helper function to populate the database with default values defined
+        in settings since that's not done automatically at startup
+        """
+        for key, (value, *_) in settings.CONSTANCE_CONFIG.items():
+            Constance.objects.create(key=f'{getattr(settings, "CONSTANCE_DATABASE_PREFIX", "")}{key}', value=value)
