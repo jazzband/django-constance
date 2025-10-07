@@ -13,7 +13,7 @@ class JsonField(fields.CharField):
 
     def widget_attrs(self, widget: widgets.Widget):
         attrs = super().widget_attrs(widget)
-        attrs['rows'] = self.rows
+        attrs["rows"] = self.rows
         return attrs
 
     def to_python(self, value):
