@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: chartboost/ruff-action@v1
         with:
           version: 0.5.0
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: chartboost/ruff-action@v1
         with:
           version: 0.5.0
@@ -31,10 +31,10 @@ jobs:
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
