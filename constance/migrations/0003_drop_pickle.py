@@ -35,7 +35,10 @@ def migrate_pickled_data(apps, schema_editor) -> None:  # pragma: no cover
             constance.value = dumps(pickle.loads(b64decode(constance.value.encode())))  # noqa: S301
             constance.save(update_fields=['value'])
 
-    if settings.BACKEND in ('constance.backends.redisd.RedisBackend', 'constance.backends.redisd.CachingRedisBackend'):
+    if settings.BACKEND in (
+        'constance.backends.redisd.RedisBackend',
+        'constance.backends.redisd.CachingRedisBackend',
+    ):
         import redis
 
         _prefix = settings.REDIS_PREFIX

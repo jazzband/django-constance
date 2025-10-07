@@ -50,6 +50,7 @@ class override_config(override_settings):
             def _pre_setup(inner_self):
                 self.enable()
                 original_pre_setup(inner_self)
+
         else:
 
             @classmethod

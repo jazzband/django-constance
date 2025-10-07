@@ -149,11 +149,7 @@ class ConstanceForm(forms.Form):
 
         if value != self.initial['version']:
             raise forms.ValidationError(
-                _(
-                    'The settings have been modified '
-                    'by someone else. Please reload the '
-                    'form and resubmit your changes.'
-                )
+                _('The settings have been modified by someone else. Please reload the form and resubmit your changes.')
             )
         return value
 

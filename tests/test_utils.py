@@ -13,7 +13,11 @@ class UtilsTestCase(TestCase):
     def test_set_value_validation(self):
         self.assertRaisesMessage(ValidationError, 'Enter a whole number.', _set_constance_value, 'INT_VALUE', 'foo')
         self.assertRaisesMessage(
-            ValidationError, 'Enter a valid email address.', _set_constance_value, 'EMAIL_VALUE', 'not a valid email'
+            ValidationError,
+            'Enter a valid email address.',
+            _set_constance_value,
+            'EMAIL_VALUE',
+            'not a valid email',
         )
         self.assertRaisesMessage(
             ValidationError,
