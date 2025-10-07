@@ -7,23 +7,23 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Shelf',
+            name="Shelf",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=75)),
+                ("id", models.AutoField(verbose_name="ID", serialize=False, auto_created=True, primary_key=True)),
+                ("name", models.CharField(max_length=75)),
             ],
             options={
-                'verbose_name_plural': 'shelves',
+                "verbose_name_plural": "shelves",
             },
         ),
         migrations.CreateModel(
-            name='Supply',
+            name="Supply",
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=75)),
+                ("id", models.AutoField(verbose_name="ID", serialize=False, auto_created=True, primary_key=True)),
+                ("name", models.CharField(max_length=75)),
             ],
             options={
-                'verbose_name_plural': 'supplies',
+                "verbose_name_plural": "supplies",
             },
         ),
     ]

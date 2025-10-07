@@ -5,7 +5,7 @@ from tests.storage import StorageTestsMixin
 
 
 class TestRedis(StorageTestsMixin, TestCase):
-    _BACKEND = 'constance.backends.redisd.RedisBackend'
+    _BACKEND = "constance.backends.redisd.RedisBackend"
 
     def setUp(self):
         self.old_backend = settings.BACKEND
@@ -19,4 +19,4 @@ class TestRedis(StorageTestsMixin, TestCase):
 
 
 class TestCachingRedis(TestRedis):
-    _BACKEND = 'constance.backends.redisd.CachingRedisBackend'
+    _BACKEND = "constance.backends.redisd.CachingRedisBackend"

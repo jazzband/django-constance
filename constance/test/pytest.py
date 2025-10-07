@@ -14,16 +14,16 @@ from constance import config as constance_config
 @pytest.hookimpl(trylast=True)
 def pytest_configure(config):  # pragma: no cover
     """Register override_config marker."""
-    config.addinivalue_line('markers', ('override_config(**kwargs): mark test to override django-constance config'))
+    config.addinivalue_line("markers", ("override_config(**kwargs): mark test to override django-constance config"))
 
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_call(item):  # pragma: no cover
     """Validate constance override marker params. Run test with overridden config."""
-    marker = item.get_closest_marker('override_config')
+    marker = item.get_closest_marker("override_config")
     if marker is not None:
         if marker.args:
-            pytest.fail('Constance override can not not accept positional args')
+            pytest.fail("Constance override can not not accept positional args")
         with override_config(**marker.kwargs):
             yield
     else:
@@ -59,7 +59,7 @@ class override_config(ContextDecorator):
         self.disable()
 
 
-@pytest.fixture(name='override_config')
+@pytest.fixture(name="override_config")
 def _override_config():
     """Make override_config available as a function fixture."""
     return override_config

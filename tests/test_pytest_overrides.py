@@ -42,10 +42,10 @@ try:
             """Assert that the class decorator changes config.BOOL_VALUE."""
             assert not config.BOOL_VALUE
 
-        @pytest.mark.override_config(BOOL_VALUE='True')
+        @pytest.mark.override_config(BOOL_VALUE="True")
         def test_override_config_on_overridden_value(self):
             """Ensure that method mark decorator changes already overridden value for class."""
-            assert config.BOOL_VALUE == 'True'
+            assert config.BOOL_VALUE == "True"
 
     def test_fixture_override_config(override_config):
         """
@@ -66,7 +66,7 @@ except ImportError:
 
 class PytestTests(unittest.TestCase):
     def setUp(self):
-        self.skipTest('Skip all pytest tests when using unittest')
+        self.skipTest("Skip all pytest tests when using unittest")
 
     def test_do_not_skip_silently(self):
         """If no at least one test present, unittest silently skips module."""

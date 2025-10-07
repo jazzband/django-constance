@@ -5,11 +5,11 @@ class Shelf(models.Model):
     name = models.CharField(max_length=75)
 
     class Meta:
-        verbose_name_plural = 'shelves'
+        verbose_name_plural = "shelves"
 
 
 class Supply(models.Model):
     name = models.CharField(max_length=75)
 
     class Meta:
-        verbose_name_plural = 'supplies'
+        verbose_name_plural = "supplies"

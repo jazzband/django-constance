@@ -7,11 +7,11 @@ class Constance(models.Model):
     value = models.TextField(null=True, blank=True, editable=False)
 
     class Meta:
-        verbose_name = _('constance')
-        verbose_name_plural = _('constances')
+        verbose_name = _("constance")
+        verbose_name_plural = _("constances")
         permissions = [
-            ('change_config', 'Can change config'),
-            ('view_config', 'Can view config'),
+            ("change_config", "Can change config"),
+            ("view_config", "Can view config"),
         ]
 
     def __str__(self):

@@ -6,7 +6,7 @@ from django.urls import re_path
 admin.autodiscover()
 
 urlpatterns = [
-    re_path('admin/', admin.site.urls),
+    re_path("admin/", admin.site.urls),
 ]
 
 if settings.DEBUG:
