@@ -89,7 +89,7 @@ Custom fields
 
 You can set the field type with the third value in the ``CONSTANCE_CONFIG`` tuple.
 
-The value can be one of the supported types or a string matching a key in your :setting:``CONSTANCE_ADDITIONAL_FIELDS``
+The value can be one of the supported types or a string matching a key in your :setting:`CONSTANCE_ADDITIONAL_FIELDS`
 
 The supported types are:
 
@@ -105,6 +105,10 @@ The supported types are:
 * ``list``
 * ``dict``
 
+.. note::
+    To be able to use ``list`` and ``dict`` you need to set a widget and form field for these types as it is ambiguous what types shall be stored in the collection object.
+    You can do so with :setting:`CONSTANCE_ADDITIONAL_FIELDS` as explained below.
+
 For example, to force a value to be handled as a string:
 
 .. code-block:: python
@@ -112,7 +116,7 @@ For example, to force a value to be handled as a string:
         'THE_ANSWER': (42, 'Answer to the Ultimate Question of Life, '
                                    'The Universe, and Everything', str),
 
-Custom field types are supported using the dictionary :setting:``CONSTANCE_ADDITIONAL_FIELDS``.
+Custom field types are supported using the dictionary :setting:`CONSTANCE_ADDITIONAL_FIELDS`.
 
 This is a mapping between a field label and a sequence (list or tuple).  The first item in the sequence is the string
 path of a field class, and the (optional) second item is a dictionary used to configure the field.
@@ -164,6 +168,21 @@ Images and files are uploaded to ``MEDIA_ROOT`` by default. You can specify a su
         CONSTANCE_FILE_ROOT = 'constance'
 
 This will result in files being placed in ``media/constance`` within your ``BASE_DIR``. You can use deeper nesting in this setting (e.g. ``constance/images``) but other relative path components (e.g. ``../``) will be rejected.
+
+In case you want to store a list of ``int`` values in the constance config, a working setup is
+
+.. code-block:: python
+    
+    CONSTANCE_ADDITIONAL_FIELDS = {
+        list: ["django.forms.fields.JSONField", {"widget": "django.forms.Textarea"}],
+    }
+
+    CONSTANCE_CONFIG = {
+        'KEY': ([0, 10, 20], 'A list of integers', list),
+    }
+
+Make sure to use the ``JSONField`` for this purpose as user input in the admin page may be understood and saved as ``str`` otherwise.
+
 
 Ordered Fields in Django Admin
 ------------------------------
