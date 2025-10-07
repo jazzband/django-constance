@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.encoding import smart_str
 
 from constance.models import Constance
+from constance import config
 
 
 class CliTestCase(TransactionTestCase):
