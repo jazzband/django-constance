@@ -14,9 +14,10 @@ class ChecksTestCase(TestCase):
         Test that get_inconsistent_fieldnames returns an empty data and no checks fail
         if CONFIG_FIELDSETS accounts for every key in settings.CONFIG.
         """
-        missing_keys, extra_keys = get_inconsistent_fieldnames()
+        missing_keys, extra_keys, derived_value_in_fieldset_keys = get_inconsistent_fieldnames()
         self.assertFalse(missing_keys)
         self.assertFalse(extra_keys)
+        self.assertFalse(derived_value_in_fieldset_keys)
 
     @mock.patch(
         'constance.settings.CONFIG_FIELDSETS',
@@ -27,9 +28,10 @@ class ChecksTestCase(TestCase):
         Test that get_inconsistent_fieldnames returns data and the check fails
         if CONFIG_FIELDSETS does not account for every key in settings.CONFIG.
         """
-        missing_keys, extra_keys = get_inconsistent_fieldnames()
+        missing_keys, extra_keys, derived_value_in_fieldset_keys = get_inconsistent_fieldnames()
         self.assertTrue(missing_keys)
         self.assertFalse(extra_keys)
+        self.assertFalse(derived_value_in_fieldset_keys)
         self.assertEqual(1, len(check_fieldsets()))
 
     @mock.patch(
@@ -41,9 +43,10 @@ class ChecksTestCase(TestCase):
         Test that get_inconsistent_fieldnames returns data and the check fails
         if CONFIG_FIELDSETS contains extra key that is absent in settings.CONFIG.
         """
-        missing_keys, extra_keys = get_inconsistent_fieldnames()
+        missing_keys, extra_keys, derived_value_in_fieldset_keys = get_inconsistent_fieldnames()
         self.assertFalse(missing_keys)
         self.assertTrue(extra_keys)
+        self.assertFalse(derived_value_in_fieldset_keys)
         self.assertEqual(1, len(check_fieldsets()))
 
     @mock.patch('constance.settings.CONFIG_FIELDSETS', {})
