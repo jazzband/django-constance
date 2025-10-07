@@ -16,7 +16,7 @@ v4.0.0 (2024/08/21)
 * Migrate JavaScript to ES2015
 * Fix documentation build
 * Add linters and formatters (using `ruff`)
-* Prepare for Django 5.1 support
+* Add support for Django 5.1 and 5.2
 * Migrate from `setup.py` to `pyproject.toml`
 * Bump `tox`
 * Declare support for Python 3.12
