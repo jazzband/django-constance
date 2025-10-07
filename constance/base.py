@@ -6,7 +6,7 @@ class Config:
     """The global config wrapper that handles the backend."""
 
     def __init__(self):
-        super().__setattr__('_backend', utils.import_module_attr(settings.BACKEND)())
+        super().__setattr__("_backend", utils.import_module_attr(settings.BACKEND)())
 
     def __getattr__(self, key):
         try:

@@ -25,27 +25,27 @@ from .checks import get_inconsistent_fieldnames
 
 config = LazyConfig()
 
-NUMERIC_WIDGET = forms.TextInput(attrs={'size': 10})
+NUMERIC_WIDGET = forms.TextInput(attrs={"size": 10})
 
-INTEGER_LIKE = (fields.IntegerField, {'widget': NUMERIC_WIDGET})
+INTEGER_LIKE = (fields.IntegerField, {"widget": NUMERIC_WIDGET})
 STRING_LIKE = (
     fields.CharField,
     {
-        'widget': forms.Textarea(attrs={'rows': 3}),
-        'required': False,
+        "widget": forms.Textarea(attrs={"rows": 3}),
+        "required": False,
     },
 )
 
 FIELDS = {
-    bool: (fields.BooleanField, {'required': False}),
+    bool: (fields.BooleanField, {"required": False}),
     int: INTEGER_LIKE,
-    Decimal: (fields.DecimalField, {'widget': NUMERIC_WIDGET}),
+    Decimal: (fields.DecimalField, {"widget": NUMERIC_WIDGET}),
     str: STRING_LIKE,
-    datetime: (fields.SplitDateTimeField, {'widget': widgets.AdminSplitDateTime}),
-    timedelta: (fields.DurationField, {'widget': widgets.AdminTextInputWidget}),
-    date: (fields.DateField, {'widget': widgets.AdminDateWidget}),
-    time: (fields.TimeField, {'widget': widgets.AdminTimeWidget}),
-    float: (fields.FloatField, {'widget': NUMERIC_WIDGET}),
+    datetime: (fields.SplitDateTimeField, {"widget": widgets.AdminSplitDateTime}),
+    timedelta: (fields.DurationField, {"widget": widgets.AdminTextInputWidget}),
+    date: (fields.DateField, {"widget": widgets.AdminDateWidget}),
+    time: (fields.TimeField, {"widget": widgets.AdminTimeWidget}),
+    float: (fields.FloatField, {"widget": NUMERIC_WIDGET}),
 }
 
 
@@ -58,12 +58,12 @@ def parse_additional_fields(fields):
 
         field[0] = import_string(field[0])
 
-        if 'widget' in field[1]:
-            klass = import_string(field[1]['widget'])
-            field[1]['widget'] = klass(**(field[1].get('widget_kwargs', {}) or {}))
+        if "widget" in field[1]:
+            klass = import_string(field[1]["widget"])
+            field[1]["widget"] = klass(**(field[1].get("widget_kwargs", {}) or {}))
 
-            if 'widget_kwargs' in field[1]:
-                del field[1]['widget_kwargs']
+            if "widget_kwargs" in field[1]:
+                del field[1]["widget_kwargs"]
 
         fields[key] = field
 
@@ -80,7 +80,7 @@ class ConstanceForm(forms.Form):
         super().__init__(*args, initial=initial, **kwargs)
         version_hash = hashlib.sha256()
 
-        only_view = request and not request.user.has_perm('constance.change_config')
+        only_view = request and not request.user.has_perm("constance.change_config")
         if only_view:
             messages.warning(
                 request,
@@ -94,13 +94,13 @@ class ConstanceForm(forms.Form):
                 if config_type not in settings.ADDITIONAL_FIELDS and not isinstance(default, config_type):
                     raise ImproperlyConfigured(
                         _(
-                            'Default value type must be '
-                            'equal to declared config '
-                            'parameter type. Please fix '
-                            'the default value of '
+                            "Default value type must be "
+                            "equal to declared config "
+                            "parameter type. Please fix "
+                            "the default value of "
                             "'%(name)s'."
                         )
-                        % {'name': name}
+                        % {"name": name}
                     )
             else:
                 config_type = type(default)
@@ -109,19 +109,19 @@ class ConstanceForm(forms.Form):
                 raise ImproperlyConfigured(
                     _(
                         "Constance doesn't support "
-                        'config values of the type '
-                        '%(config_type)s. Please fix '
+                        "config values of the type "
+                        "%(config_type)s. Please fix "
                         "the value of '%(name)s'."
                     )
-                    % {'config_type': config_type, 'name': name}
+                    % {"config_type": config_type, "name": name}
                 )
             field_class, kwargs = FIELDS[config_type]
             if only_view:
-                kwargs['disabled'] = True
+                kwargs["disabled"] = True
             self.fields[name] = field_class(label=name, **kwargs)
 
-            version_hash.update(smart_bytes(initial.get(name, '')))
-        self.initial['version'] = version_hash.hexdigest()
+            version_hash.update(smart_bytes(initial.get(name, "")))
+        self.initial["version"] = version_hash.hexdigest()
 
     def save(self):
         for file_field in self.files:
@@ -142,17 +142,17 @@ class ConstanceForm(forms.Form):
                 setattr(config, name, new)
 
     def clean_version(self):
-        value = self.cleaned_data['version']
+        value = self.cleaned_data["version"]
 
         if settings.IGNORE_ADMIN_VERSION_CHECK:
             return value
 
-        if value != self.initial['version']:
+        if value != self.initial["version"]:
             raise forms.ValidationError(
                 _(
-                    'The settings have been modified '
-                    'by someone else. Please reload the '
-                    'form and resubmit your changes.'
+                    "The settings have been modified "
+                    "by someone else. Please reload the "
+                    "form and resubmit your changes."
                 )
             )
         return value
@@ -166,7 +166,7 @@ class ConstanceForm(forms.Form):
         missing_keys, extra_keys = get_inconsistent_fieldnames()
         if missing_keys or extra_keys:
             raise forms.ValidationError(
-                _('CONSTANCE_CONFIG_FIELDSETS is missing field(s) that exists in CONSTANCE_CONFIG.')
+                _("CONSTANCE_CONFIG_FIELDSETS is missing field(s) that exists in CONSTANCE_CONFIG.")
             )
 
         return cleaned_data

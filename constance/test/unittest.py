@@ -6,7 +6,7 @@ from django.test.utils import override_settings
 
 from constance import config
 
-__all__ = ('override_config',)
+__all__ = ("override_config",)
 
 
 class override_config(override_settings):
@@ -24,7 +24,9 @@ class override_config(override_settings):
         """Modify the decorated function to override config values."""
         if isinstance(test_func, type):
             if not issubclass(test_func, SimpleTestCase):
-                raise Exception('Only subclasses of Django SimpleTestCase can be decorated with override_config')
+                raise Exception(
+                    "Only subclasses of Django SimpleTestCase can be decorated with override_config"
+                )
             return self.modify_test_case(test_func)
 
         @wraps(test_func)
@@ -50,6 +52,7 @@ class override_config(override_settings):
             def _pre_setup(inner_self):
                 self.enable()
                 original_pre_setup(inner_self)
+
         else:
 
             @classmethod

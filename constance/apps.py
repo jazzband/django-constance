@@ -6,9 +6,9 @@ from constance.checks import check_fieldsets
 
 
 class ConstanceConfig(AppConfig):
-    name = 'constance'
-    verbose_name = _('Constance')
-    default_auto_field = 'django.db.models.AutoField'
+    name = "constance"
+    verbose_name = _("Constance")
+    default_auto_field = "django.db.models.AutoField"
 
     def ready(self):
-        checks.register(check_fieldsets, 'constance')
+        checks.register(check_fieldsets, "constance")

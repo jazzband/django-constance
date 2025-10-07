@@ -22,7 +22,7 @@ class DatabaseBackend(Backend):
         self._model = Constance
         self._prefix = settings.DATABASE_PREFIX
         self._autofill_timeout = settings.DATABASE_CACHE_AUTOFILL_TIMEOUT
-        self._autofill_cachekey = 'autofilled'
+        self._autofill_cachekey = "autofilled"
 
         if self._model._meta.app_config is None:
             raise ImproperlyConfigured(
@@ -34,9 +34,9 @@ class DatabaseBackend(Backend):
             self._cache = caches[settings.DATABASE_CACHE_BACKEND]
             if isinstance(self._cache, LocMemCache):
                 raise ImproperlyConfigured(
-                    'The CONSTANCE_DATABASE_CACHE_BACKEND setting refers to a '
+                    "The CONSTANCE_DATABASE_CACHE_BACKEND setting refers to a "
                     f"subclass of Django's local-memory backend ({settings.DATABASE_CACHE_BACKEND!r}). Please "
-                    'set it to a backend that supports cross-process caching.'
+                    "set it to a backend that supports cross-process caching."
                 )
         else:
             self._cache = None
@@ -45,7 +45,7 @@ class DatabaseBackend(Backend):
         post_save.connect(self.clear, sender=self._model)
 
     def add_prefix(self, key):
-        return f'{self._prefix}{key}'
+        return f"{self._prefix}{key}"
 
     def autofill(self):
         if not self._autofill_timeout or not self._cache:
@@ -111,7 +111,7 @@ class DatabaseBackend(Backend):
         if not created:
             old_value = loads(constance.value)
             constance.value = dumps(value)
-            constance.save(update_fields=['value'])
+            constance.save(update_fields=["value"])
         else:
             old_value = None
 

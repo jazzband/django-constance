@@ -23,14 +23,14 @@ class RedisBackend(Backend):
             try:
                 import redis
             except ImportError:
-                raise ImproperlyConfigured('The Redis backend requires redis-py to be installed.') from None
+                raise ImproperlyConfigured("The Redis backend requires redis-py to be installed.") from None
             if isinstance(settings.REDIS_CONNECTION, str):
                 self._rd = redis.from_url(settings.REDIS_CONNECTION)
             else:
                 self._rd = redis.Redis(**settings.REDIS_CONNECTION)
 
     def add_prefix(self, key):
-        return f'{self._prefix}{key}'
+        return f"{self._prefix}{key}"
 
     def get(self, key):
         value = self._rd.get(self.add_prefix(key))

@@ -25,7 +25,7 @@ config = LazyConfig()
 
 
 class ConstanceAdmin(admin.ModelAdmin):
-    change_list_template = 'admin/constance/change_list.html'
+    change_list_template = "admin/constance/change_list.html"
     change_list_form = ConstanceForm
 
     def __init__(self, model, admin_site):
@@ -33,10 +33,10 @@ class ConstanceAdmin(admin.ModelAdmin):
         super().__init__(model, admin_site)
 
     def get_urls(self):
-        info = f'{self.model._meta.app_label}_{self.model._meta.module_name}'
+        info = f"{self.model._meta.app_label}_{self.model._meta.module_name}"
         return [
-            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info}_changelist'),
-            path('', self.admin_site.admin_view(self.changelist_view), name=f'{info}_add'),
+            path("", self.admin_site.admin_view(self.changelist_view), name=f"{info}_changelist"),
+            path("", self.admin_site.admin_view(self.changelist_view), name=f"{info}_add"),
         ]
 
     def get_config_value(self, name, options, form, initial):
@@ -52,23 +52,23 @@ class ConstanceAdmin(admin.ModelAdmin):
 
         form_field = form[name]
         config_value = {
-            'name': name,
-            'default': localize(default),
-            'raw_default': default,
-            'help_text': _(help_text),
-            'value': localize(value),
-            'modified': localize(value) != localize(default),
-            'form_field': form_field,
-            'is_date': isinstance(default, date),
-            'is_datetime': isinstance(default, datetime),
-            'is_checkbox': isinstance(form_field.field.widget, forms.CheckboxInput),
-            'is_file': isinstance(form_field.field.widget, forms.FileInput),
+            "name": name,
+            "default": localize(default),
+            "raw_default": default,
+            "help_text": _(help_text),
+            "value": localize(value),
+            "modified": localize(value) != localize(default),
+            "form_field": form_field,
+            "is_date": isinstance(default, date),
+            "is_datetime": isinstance(default, datetime),
+            "is_checkbox": isinstance(form_field.field.widget, forms.CheckboxInput),
+            "is_file": isinstance(form_field.field.widget, forms.FileInput),
         }
         if field_type and field_type in settings.ADDITIONAL_FIELDS:
             serialized_default = form[name].field.prepare_value(default)
-            config_value['default'] = serialized_default
-            config_value['raw_default'] = serialized_default
-            config_value['value'] = form[name].field.prepare_value(value)
+            config_value["default"] = serialized_default
+            config_value["raw_default"] = serialized_default
+            config_value["value"] = form[name].field.prepare_value(value)
 
         return config_value
 
@@ -85,26 +85,26 @@ class ConstanceAdmin(admin.ModelAdmin):
         initial = get_values()
         form_cls = self.get_changelist_form(request)
         form = form_cls(initial=initial, request=request)
-        if request.method == 'POST' and request.user.has_perm('constance.change_config'):
+        if request.method == "POST" and request.user.has_perm("constance.change_config"):
             form = form_cls(data=request.POST, files=request.FILES, initial=initial, request=request)
             if form.is_valid():
                 form.save()
-                messages.add_message(request, messages.SUCCESS, _('Live settings updated successfully.'))
-                return HttpResponseRedirect('.')
-            messages.add_message(request, messages.ERROR, _('Failed to update live settings.'))
+                messages.add_message(request, messages.SUCCESS, _("Live settings updated successfully."))
+                return HttpResponseRedirect(".")
+            messages.add_message(request, messages.ERROR, _("Failed to update live settings."))
         context = dict(
             self.admin_site.each_context(request),
             config_values=[],
             title=self.model._meta.app_config.verbose_name,
-            app_label='constance',
+            app_label="constance",
             opts=self.model._meta,
             form=form,
             media=self.media + form.media,
-            icon_type='svg',
+            icon_type="svg",
             django_version=get_version(),
         )
         for name, options in settings.CONFIG.items():
-            context['config_values'].append(self.get_config_value(name, options, form, initial))
+            context["config_values"].append(self.get_config_value(name, options, form, initial))
 
         if settings.CONFIG_FIELDSETS:
             if isinstance(settings.CONFIG_FIELDSETS, dict):
@@ -112,11 +112,11 @@ class ConstanceAdmin(admin.ModelAdmin):
             else:
                 fieldset_items = settings.CONFIG_FIELDSETS
 
-            context['fieldsets'] = []
+            context["fieldsets"] = []
             for fieldset_title, fieldset_data in fieldset_items:
                 if isinstance(fieldset_data, dict):
-                    fields_list = fieldset_data['fields']
-                    collapse = fieldset_data.get('collapse', False)
+                    fields_list = fieldset_data["fields"]
+                    collapse = fieldset_data.get("collapse", False)
                 else:
                     fields_list = fieldset_data
                     collapse = False
@@ -124,8 +124,8 @@ class ConstanceAdmin(admin.ModelAdmin):
                 absent_fields = [field for field in fields_list if field not in settings.CONFIG]
                 if any(absent_fields):
                     raise ValueError(
-                        'CONSTANCE_CONFIG_FIELDSETS contains field(s) that does not exist(s): {}'.format(
-                            ', '.join(absent_fields)
+                        "CONSTANCE_CONFIG_FIELDSETS contains field(s) that does not exist(s): {}".format(
+                            ", ".join(absent_fields)
                         )
                     )
 
@@ -135,16 +135,16 @@ class ConstanceAdmin(admin.ModelAdmin):
                     options = settings.CONFIG.get(name)
                     if options:
                         config_values.append(self.get_config_value(name, options, form, initial))
-                fieldset_context = {'title': fieldset_title, 'config_values': config_values}
+                fieldset_context = {"title": fieldset_title, "config_values": config_values}
 
                 if collapse:
-                    fieldset_context['collapse'] = True
-                context['fieldsets'].append(fieldset_context)
+                    fieldset_context["collapse"] = True
+                context["fieldsets"].append(fieldset_context)
             if not isinstance(settings.CONFIG_FIELDSETS, (OrderedDict, tuple)):
-                context['fieldsets'].sort(key=itemgetter('title'))
+                context["fieldsets"].sort(key=itemgetter("title"))
 
         if not isinstance(settings.CONFIG, OrderedDict):
-            context['config_values'].sort(key=itemgetter('name'))
+            context["config_values"].sort(key=itemgetter("name"))
         request.current_app = self.admin_site.name
         return TemplateResponse(request, self.change_list_template, context)
 
@@ -162,11 +162,11 @@ class ConstanceAdmin(admin.ModelAdmin):
 
 class Config:
     class Meta:
-        app_label = 'constance'
-        object_name = 'Config'
+        app_label = "constance"
+        object_name = "Config"
         concrete_model = None
-        model_name = module_name = 'config'
-        verbose_name_plural = _('config')
+        model_name = module_name = "config"
+        verbose_name_plural = _("config")
         abstract = False
         swapped = False
         is_composite_pk = False
@@ -175,7 +175,7 @@ class Config:
             return False
 
         def get_change_permission(self):
-            return f'change_{self.model_name}'
+            return f"change_{self.model_name}"
 
         @property
         def app_config(self):
@@ -183,11 +183,11 @@ class Config:
 
         @property
         def label(self):
-            return f'{self.app_label}.{self.object_name}'
+            return f"{self.app_label}.{self.object_name}"
 
         @property
         def label_lower(self):
-            return f'{self.app_label}.{self.model_name}'
+            return f"{self.app_label}.{self.model_name}"
 
     _meta = Meta()
 
