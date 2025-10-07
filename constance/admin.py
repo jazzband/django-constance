@@ -92,17 +92,18 @@ class ConstanceAdmin(admin.ModelAdmin):
                 messages.add_message(request, messages.SUCCESS, _("Live settings updated successfully."))
                 return HttpResponseRedirect(".")
             messages.add_message(request, messages.ERROR, _("Failed to update live settings."))
-        context = dict(
-            self.admin_site.each_context(request),
-            config_values=[],
-            title=self.model._meta.app_config.verbose_name,
-            app_label="constance",
-            opts=self.model._meta,
-            form=form,
-            media=self.media + form.media,
-            icon_type="svg",
-            django_version=get_version(),
-        )
+        context = {
+            **self.admin_site.each_context(request),
+            **(extra_context or {}),
+            "config_values": [],
+            "title": self.model._meta.app_config.verbose_name,
+            "app_label": "constance",
+            "opts": self.model._meta,
+            "form": form,
+            "media": self.media + form.media,
+            "icon_type": "svg",
+            "django_version": get_version(),
+        }
         for name, options in settings.CONFIG.items():
             context["config_values"].append(self.get_config_value(name, options, form, initial))
 
