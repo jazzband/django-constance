@@ -70,8 +70,8 @@ class Command(BaseCommand):
             for k, v in get_values().items():
                 self.stdout.write(f"{k}\t{v}", ending="\n")
         elif command == self.REMOVE_STALE_KEYS:
-            prefix = getattr(settings, 'CONSTANCE_DATABASE_PREFIX', '')
-            actual_keys = [f'{prefix}{key}' for key in settings.CONSTANCE_CONFIG]
+            prefix = getattr(settings, "CONSTANCE_DATABASE_PREFIX", "")
+            actual_keys = [f"{prefix}{key}" for key in settings.CONSTANCE_CONFIG]
             stale_records = Constance.objects.exclude(key__in=actual_keys)
             if stale_records:
                 self.stdout.write("The following record will be deleted:", ending="\n")
