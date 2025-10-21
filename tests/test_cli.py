@@ -10,8 +10,8 @@ from django.test import TransactionTestCase, override_settings
 from django.utils import timezone
 from django.utils.encoding import smart_str
 
-from constance.models import Constance
 from constance import config
+from constance.models import Constance
 
 
 class CliTestCase(TransactionTestCase):
