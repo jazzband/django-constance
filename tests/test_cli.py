@@ -6,7 +6,8 @@ from textwrap import dedent
 from django.conf import settings
 from django.core.management import CommandError
 from django.core.management import call_command
-from django.test import TransactionTestCase, override_settings
+from django.test import TransactionTestCase
+from django.test import override_settings
 from django.utils import timezone
 from django.utils.encoding import smart_str
 
@@ -51,12 +52,12 @@ class CliTestCase(TransactionTestCase):
         )
 
     def test_get(self):
-        call_command("constance", *("get EMAIL_VALUE".split()), stdout=self.out)
+        call_command("constance", *(["get", "EMAIL_VALUE"]), stdout=self.out)
 
         self.assertEqual(self.out.getvalue().strip(), "test@example.com")
 
     def test_set(self):
-        call_command("constance", *("set EMAIL_VALUE blah@example.com".split()), stdout=self.out)
+        call_command("constance", *(["set", "EMAIL_VALUE", "blah@example.com"]), stdout=self.out)
 
         self.assertEqual(config.EMAIL_VALUE, "blah@example.com")
 
