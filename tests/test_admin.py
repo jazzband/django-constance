@@ -74,8 +74,8 @@ class TestAdmin(TestCase):
         request = self.rf.get("/admin/constance/config/")
         request.user = self.superuser
         response = self.options.changelist_view(request, {})
-        self.assertContains(response, "<h2>Numbers</h2>")
-        self.assertContains(response, "<h2>Text</h2>")
+        self.assertContains(response, "Numbers</h2>")
+        self.assertContains(response, "Text</h2>")
 
     @mock.patch(
         "constance.settings.CONFIG_FIELDSETS",
@@ -89,8 +89,8 @@ class TestAdmin(TestCase):
         request = self.rf.get("/admin/constance/config/")
         request.user = self.superuser
         response = self.options.changelist_view(request, {})
-        self.assertContains(response, "<h2>Numbers</h2>")
-        self.assertContains(response, "<h2>Text</h2>")
+        self.assertContains(response, "Numbers</h2>")
+        self.assertContains(response, "Text</h2>")
 
     @mock.patch(
         "constance.settings.CONFIG_FIELDSETS",
