@@ -49,21 +49,13 @@
             {% if fieldsets %}
               {% for fieldset in fieldsets %}
               <fieldset class="module{% if fieldset.collapse %} collapse{% endif %}">
-                  {% if django_version < "5.1" %}
-                  <h2>{{ fieldset.title }}</h2>
+                  {% if django_version >= "5.1" and fieldset.collapse %}<details><summary>{% endif %}
+                  <h2 class="fieldset-heading">{{ fieldset.title }}</h2>
+                  {% if django_version >= "5.1" and fieldset.collapse %}</summary>{% endif %}
                   {% with config_values=fieldset.config_values %}
                     {% include "admin/constance/includes/results_list.html" %}
                   {% endwith %}
-                  {% else %}
-                  <details>
-                      <summary>
-                          <h2 class="fieldset-heading">{{ fieldset.title }}</h2>
-                      </summary>
-                      {% with config_values=fieldset.config_values %}
-                        {% include "admin/constance/includes/results_list.html" %}
-                      {% endwith %}
-                  </details>
-                  {% endif %}
+                  {% if django_version >= "5.1" and fieldset.collapse %}</details>{% endif %}
               </fieldset>
               {% endfor %}
             {% else %}
