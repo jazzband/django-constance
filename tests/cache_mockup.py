@@ -1,5 +1,3 @@
-from typing import Any
-
 from django.core.cache.backends.base import BaseCache
 from django.core.cache.backends.locmem import LocMemCache
 
