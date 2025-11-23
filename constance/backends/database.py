@@ -53,8 +53,7 @@ class DatabaseBackend(Backend):
         full_cachekey = self.add_prefix(self._autofill_cachekey)
         if self._cache.get(full_cachekey):
             return
-        autofill_values = {}
-        autofill_values[full_cachekey] = 1
+        autofill_values = {full_cachekey: 1}
         for key, value in self.mget(settings.CONFIG):
             autofill_values[self.add_prefix(key)] = value
         self._cache.set_many(autofill_values, timeout=self._autofill_timeout)
