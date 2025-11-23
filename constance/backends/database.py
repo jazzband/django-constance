@@ -79,7 +79,7 @@ class DatabaseBackend(Backend):
                 self.autofill()
                 value = self._cache.get(key)
         if value is None:
-            match = self._model._default_manager.filter(key=key).first()
+            match = self._model._default_manager.filter(key=key).only("value").first()
             if match:
                 value = loads(match.value)
                 if self._cache:
