@@ -5,7 +5,7 @@ from django.core.cache.backends.locmem import LocMemCache
 
 
 class Cache(BaseCache):
-    def __init__(self, name, params: dict[str, Any]) -> None:
+    def __init__(self, name, params):
         self._cache = LocMemCache(name, params)
         self.add = self._cache.add
         self.delete = self._cache.delete
