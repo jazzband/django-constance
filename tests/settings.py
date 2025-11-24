@@ -29,6 +29,13 @@ DATABASES = {
     },
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "tests.cache_mockup.Cache",
+        "LOCATION": "locmem",
+    }
+}
+
 INSTALLED_APPS = (
     "django.contrib.admin",
     "django.contrib.staticfiles",
