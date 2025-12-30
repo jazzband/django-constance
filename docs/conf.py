@@ -4,17 +4,27 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
-import re
 import sys
 from datetime import datetime
 
 
 def get_version():
-    with open("../pyproject.toml") as f:
-        for line in f:
-            match = re.match(r'version = "(.*)"', line)
-            if match:
-                return match.group(1)
+    # Try to get version from installed package metadata
+    try:
+        from importlib.metadata import version
+
+        return version("django-constance")
+    except Exception:
+        pass
+
+    # Fall back to setuptools_scm generated version file
+    try:
+        from constance._version import __version__
+
+        return __version__
+    except ImportError:
+        pass
+
     return "0.0.0"
 
 
