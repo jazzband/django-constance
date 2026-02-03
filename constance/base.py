@@ -127,7 +127,8 @@ class Config:
 
     def __setattr__(self, key, value):
         if key == "_backend":
-            return super().__setattr__(key, value)
+            super().__setattr__(key, value)
+            return
         if key not in settings.CONFIG:
             raise AttributeError(key)
         self._backend.set(key, value)

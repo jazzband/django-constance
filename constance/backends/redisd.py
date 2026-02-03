@@ -83,15 +83,20 @@ class RedisBackend(Backend):
         self._rd.set(self.add_prefix(key), dumps(value))
         signals.config_updated.send(sender=config, key=key, old_value=old_value, new_value=value)
 
-    async def aset(self, key, value):
-        # We need the old value for the signal.
-        # Signals are synchronous in Django, but we can't easily change that here.
-        old_value = await self.aget(key)
+    async def _aset_internal(self, key, value, old_value):
+        """
+        Internal set operation. Separated to allow subclasses to provide old_value
+        without going through self.aget() which may have locking behavior.
+        """
         if hasattr(self._ard, "aset"):
             await self._ard.aset(self.add_prefix(key), dumps(value))
         else:
             await asyncio.to_thread(self._rd.set, self.add_prefix(key), dumps(value))
         signals.config_updated.send(sender=config, key=key, old_value=old_value, new_value=value)
+
+    async def aset(self, key, value):
+        old_value = await self.aget(key)
+        await self._aset_internal(key, value, old_value)
 
 
 class CachingRedisBackend(RedisBackend):
@@ -128,18 +133,25 @@ class CachingRedisBackend(RedisBackend):
 
         return value[1]
 
+    async def _aget_unlocked(self, key):
+        """
+        Get value with cache support but without acquiring lock.
+        Caller must already hold the lock.
+        """
+        value = self._cache.get(key, self._sentinel)
+        if value is self._sentinel or self._has_expired(value):
+            new_value = await super().aget(key)
+            self._cache_value(key, new_value)
+            return new_value
+        return value[1]
+
     async def aget(self, key):
         value = self._cache.get(key, self._sentinel)
 
         if value is self._sentinel or self._has_expired(value):
             async with self._get_async_lock():
-                # Double-check after acquiring lock
-                value = self._cache.get(key, self._sentinel)
-                if value is self._sentinel or self._has_expired(value):
-                    new_value = await super().aget(key)
-                    self._cache_value(key, new_value)
-                    return new_value
-                return value[1]
+                # Double-check after acquiring lock, then delegate to unlocked version
+                return await self._aget_unlocked(key)
 
         return value[1]
 
@@ -150,7 +162,10 @@ class CachingRedisBackend(RedisBackend):
 
     async def aset(self, key, value):
         async with self._get_async_lock():
-            await super().aset(key, value)
+            # Use unlocked version since we already hold the lock
+            old_value = await self._aget_unlocked(key)
+            # Use internal method to avoid lock recursion (super().aset calls self.aget)
+            await self._aset_internal(key, value, old_value)
             self._cache_value(key, value)
 
     def mget(self, keys):
