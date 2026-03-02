@@ -110,7 +110,7 @@ class Config:
         return result
 
     def __getattr__(self, key):
-        if key in ("_backend",):
+        if key == "_backend":
             return super().__getattribute__(key)
         try:
             if len(settings.CONFIG[key]) not in (2, 3):
