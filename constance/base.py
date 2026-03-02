@@ -121,9 +121,9 @@ class Config:
 
         try:
             asyncio.get_running_loop()
-            return AsyncValueProxy(key, self, default)
         except RuntimeError:
             return self._get_sync_value(key, default)
+        return AsyncValueProxy(key, self, default)
 
     def __setattr__(self, key, value):
         if key == "_backend":
