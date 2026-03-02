@@ -93,7 +93,7 @@ class DatabaseBackend(Backend):
         if self._cache:
             value = await self._cache.aget(prefixed_key)
             if value is None:
-                await sync_to_async(self.autofill)()
+                await sync_to_async(self.autofill, thread_sensitive=True)()
                 value = await self._cache.aget(prefixed_key)
         if value is None:
             match = await self._model._default_manager.filter(key=prefixed_key).only("value").afirst()
@@ -164,7 +164,7 @@ class DatabaseBackend(Backend):
 
         # We use sync_to_async because Django's transaction.atomic() and database connections are thread-local.
         # This ensures the operation runs in the correct database thread until native async transactions are supported.
-        return await sync_to_async(self.set)(key, value)
+        return await sync_to_async(self.set, thread_sensitive=True)(key, value)
 
     def clear(self, sender, instance, created, **kwargs):
         if self._cache and not created:
