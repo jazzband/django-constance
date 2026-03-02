@@ -85,7 +85,7 @@ class TestDatabaseAsync(TransactionTestCase):
 
     async def test_amget_returns_values(self):
         await self.config._backend.aset("INT_VALUE", 10)
-        await self.config._backend.aset("BOOL_VALUE", True)
+        await self.config._backend.aset("BOOL_VALUE", value=True)
         result = await self.config._backend.amget(["INT_VALUE", "BOOL_VALUE"])
         self.assertEqual(result, {"INT_VALUE": 10, "BOOL_VALUE": True})
 
@@ -134,14 +134,14 @@ class TestDatabaseWithCacheAsync(TransactionTestCase):
 
     async def test_amget_returns_values(self):
         await self.config._backend.aset("INT_VALUE", 10)
-        await self.config._backend.aset("BOOL_VALUE", True)
+        await self.config._backend.aset("BOOL_VALUE", value=True)
         result = await self.config._backend.amget(["INT_VALUE", "BOOL_VALUE"])
         self.assertEqual(result, {"INT_VALUE": 10, "BOOL_VALUE": True})
 
     async def test_amget_uses_cache(self):
         # Set values using async and ensure they're cached
         await self.config._backend.aset("INT_VALUE", 10)
-        await self.config._backend.aset("BOOL_VALUE", True)
+        await self.config._backend.aset("BOOL_VALUE", value=True)
 
         result = await self.config._backend.amget(["INT_VALUE", "BOOL_VALUE"])
         self.assertEqual(result["INT_VALUE"], 10)

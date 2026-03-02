@@ -132,6 +132,7 @@ class Config:
         if key not in settings.CONFIG:
             raise AttributeError(key)
         self._backend.set(key, value)
+        return
 
     async def aset(self, key, value):
         if key not in settings.CONFIG:

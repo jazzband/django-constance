@@ -53,6 +53,6 @@ class TestMemoryAsync(TransactionTestCase):
 
     async def test_amget_returns_values(self):
         self.config._backend.set("INT_VALUE", 10)
-        self.config._backend.set("BOOL_VALUE", True)
+        self.config._backend.set("BOOL_VALUE", value=True)
         result = await self.config._backend.amget(["INT_VALUE", "BOOL_VALUE"])
         self.assertEqual(result, {"INT_VALUE": 10, "BOOL_VALUE": True})

@@ -5,8 +5,8 @@ from django.test import TestCase
 from django.test import TransactionTestCase
 
 from constance import settings
-from constance.base import Config
 from constance.backends.redisd import RedisBackend
+from constance.base import Config
 from tests.storage import StorageTestsMixin
 
 
@@ -71,7 +71,7 @@ class TestRedisAsync(TransactionTestCase):
 
     async def test_amget_returns_values(self):
         self.config._backend.set("INT_VALUE", 10)
-        self.config._backend.set("BOOL_VALUE", True)
+        self.config._backend.set("BOOL_VALUE", value=True)
         result = await self.config._backend.amget(["INT_VALUE", "BOOL_VALUE"])
         self.assertEqual(result, {"INT_VALUE": 10, "BOOL_VALUE": True})
 
@@ -200,9 +200,8 @@ class TestRedisBackendInit(TestCase):
     def test_no_redis_package_raises_improperly_configured(self):
         settings.REDIS_CONNECTION_CLASS = None
         settings.REDIS_ASYNC_CONNECTION_CLASS = "tests.redis_mockup.AsyncConnection"
-        with mock.patch.dict("sys.modules", {"redis": None}):
-            with self.assertRaises(ImproperlyConfigured):
-                RedisBackend()
+        with mock.patch.dict("sys.modules", {"redis": None}), self.assertRaises(ImproperlyConfigured):
+            RedisBackend()
 
     def test_sync_redis_from_url_with_string_connection(self):
         settings.REDIS_CONNECTION_CLASS = None

@@ -11,10 +11,11 @@ from datetime import datetime
 def get_version():
     # Try to get version from installed package metadata
     try:
+        from importlib.metadata import PackageNotFoundError
         from importlib.metadata import version
 
         return version("django-constance")
-    except Exception:
+    except (ImportError, PackageNotFoundError):
         pass
 
     # Fall back to setuptools_scm generated version file

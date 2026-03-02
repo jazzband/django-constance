@@ -53,10 +53,7 @@ class AsyncTestCase(TransactionTestCase):
 
     async def test_bool_proxy(self):
         # BOOL_VALUE is True by default
-        if config.BOOL_VALUE:
-            self.assertTrue(True)
-        else:
-            self.fail("BOOL_VALUE should be True")
+        self.assertTrue(config.BOOL_VALUE)
 
     async def test_int_proxy(self):
         await config.aset("INT_VALUE", 1)
@@ -67,7 +64,7 @@ class AsyncTestCase(TransactionTestCase):
         self.assertEqual(config.LIST_VALUE[0], 1)
         self.assertEqual(len(config.LIST_VALUE), 3)
         self.assertIn(1, config.LIST_VALUE)
-        self.assertEqual(list(config.LIST_VALUE)[0], 1)
+        self.assertEqual(next(iter(config.LIST_VALUE)), 1)
 
 
 class AsyncValueProxyTestCase(TransactionTestCase):
