@@ -1,32 +1,28 @@
-class Connection(dict):
-    def set(self, key, value):
-        self[key] = value
+# Shared storage so sync (Connection) and async (AsyncConnection) instances
+# operate on the same underlying data, just like a real Redis server would.
+_shared_store = {}
 
-    async def aset(self, key, value):
-        # Keep this for backward compatibility with previous commit if needed
-        self.set(key, value)
+
+class Connection:
+    def set(self, key, value):
+        _shared_store[key] = value
 
     def get(self, key, default=None):
-        return super().get(key, default)
-
-    async def aget(self, key):
-        # Keep this for backward compatibility
-        return self.get(key)
+        return _shared_store.get(key, default)
 
     def mget(self, keys):
-        return [self.get(key) for key in keys]
+        return [_shared_store.get(key) for key in keys]
 
-    async def amget(self, keys):
-        # Keep this for backward compatibility
-        return self.mget(keys)
+    def clear(self):
+        _shared_store.clear()
 
 
-class AsyncConnection(Connection):
+class AsyncConnection:
     async def set(self, key, value):
-        super().set(key, value)
+        _shared_store[key] = value
 
     async def get(self, key):
-        return super().get(key)
+        return _shared_store.get(key)
 
     async def mget(self, keys):
-        return super().mget(keys)
+        return [_shared_store.get(key) for key in keys]
