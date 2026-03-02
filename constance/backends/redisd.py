@@ -18,32 +18,45 @@ class RedisBackend(Backend):
         super().__init__()
         self._prefix = settings.REDIS_PREFIX
         connection_cls = settings.REDIS_CONNECTION_CLASS
-        if connection_cls is not None:
+        async_connection_cls = settings.REDIS_ASYNC_CONNECTION_CLASS
+
+        if connection_cls:
             self._rd = utils.import_module_attr(connection_cls)()
-            self._ard = self._rd
         else:
             try:
                 import redis
             except ImportError:
                 raise ImproperlyConfigured("The Redis backend requires redis-py to be installed.") from None
-
-            if isinstance(settings.REDIS_CONNECTION, str):
-                self._rd = redis.from_url(settings.REDIS_CONNECTION)
             else:
-                self._rd = redis.Redis(**settings.REDIS_CONNECTION)
+                if isinstance(settings.REDIS_CONNECTION, str):
+                    self._rd = redis.from_url(settings.REDIS_CONNECTION)
+                else:
+                    self._rd = redis.Redis(**settings.REDIS_CONNECTION)
 
+        if async_connection_cls:
+            self._ard = utils.import_module_attr(async_connection_cls)()
+        else:
             try:
                 import redis.asyncio as aredis
-
+            except ImportError:
+                # We set this to none instead of raising an error to indicate that async support is not available
+                # without breaking existing sync usage.
+                self._ard = None
+            else:
                 if isinstance(settings.REDIS_CONNECTION, str):
                     self._ard = aredis.from_url(settings.REDIS_CONNECTION)
                 else:
                     self._ard = aredis.Redis(**settings.REDIS_CONNECTION)
-            except ImportError:
-                self._ard = self._rd
 
     def add_prefix(self, key):
         return f"{self._prefix}{key}"
+
+    def _check_async_support(self):
+        if self._ard is None:
+            raise ImproperlyConfigured(
+                "Async support for the Redis backend requires redis>=4.2.0 "
+                "or a custom CONSTANCE_REDIS_ASYNC_CONNECTION_CLASS to be configured."
+            )
 
     def get(self, key):
         value = self._rd.get(self.add_prefix(key))
@@ -52,10 +65,8 @@ class RedisBackend(Backend):
         return None
 
     async def aget(self, key):
-        if hasattr(self._ard, "aget"):
-            value = await self._ard.aget(self.add_prefix(key))
-        else:
-            value = await asyncio.to_thread(self._rd.get, self.add_prefix(key))
+        self._check_async_support()
+        value = await self._ard.get(self.add_prefix(key))
         if value:
             return loads(value)
         return None
@@ -71,11 +82,9 @@ class RedisBackend(Backend):
     async def amget(self, keys):
         if not keys:
             return {}
+        self._check_async_support()
         prefixed_keys = [self.add_prefix(key) for key in keys]
-        if hasattr(self._ard, "amget"):
-            values = await self._ard.amget(prefixed_keys)
-        else:
-            values = await asyncio.to_thread(self._rd.mget, prefixed_keys)
+        values = await self._ard.mget(prefixed_keys)
         return {key: loads(value) for key, value in zip(keys, values) if value}
 
     def set(self, key, value):
@@ -88,10 +97,8 @@ class RedisBackend(Backend):
         Internal set operation. Separated to allow subclasses to provide old_value
         without going through self.aget() which may have locking behavior.
         """
-        if hasattr(self._ard, "aset"):
-            await self._ard.aset(self.add_prefix(key), dumps(value))
-        else:
-            await asyncio.to_thread(self._rd.set, self.add_prefix(key), dumps(value))
+        self._check_async_support()
+        await self._ard.set(self.add_prefix(key), dumps(value))
         signals.config_updated.send(sender=config, key=key, old_value=old_value, new_value=value)
 
     async def aset(self, key, value):
