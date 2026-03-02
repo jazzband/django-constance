@@ -1,8 +1,12 @@
+from unittest import mock
+
+from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 from django.test import TransactionTestCase
 
 from constance import settings
 from constance.base import Config
+from constance.backends.redisd import RedisBackend
 from tests.storage import StorageTestsMixin
 
 
@@ -178,3 +182,83 @@ class TestCachingRedisAsync(TransactionTestCase):
 
         result = await self.config._backend.amget(["INT_VALUE"])
         self.assertEqual(result["INT_VALUE"], 200)
+
+
+class TestRedisBackendInit(TestCase):
+    """Tests for RedisBackend.__init__ client initialization paths."""
+
+    def setUp(self):
+        self.old_conn_cls = settings.REDIS_CONNECTION_CLASS
+        self.old_async_conn_cls = settings.REDIS_ASYNC_CONNECTION_CLASS
+        self.old_conn = settings.REDIS_CONNECTION
+
+    def tearDown(self):
+        settings.REDIS_CONNECTION_CLASS = self.old_conn_cls
+        settings.REDIS_ASYNC_CONNECTION_CLASS = self.old_async_conn_cls
+        settings.REDIS_CONNECTION = self.old_conn
+
+    def test_no_redis_package_raises_improperly_configured(self):
+        settings.REDIS_CONNECTION_CLASS = None
+        settings.REDIS_ASYNC_CONNECTION_CLASS = "tests.redis_mockup.AsyncConnection"
+        with mock.patch.dict("sys.modules", {"redis": None}):
+            with self.assertRaises(ImproperlyConfigured):
+                RedisBackend()
+
+    def test_sync_redis_from_url_with_string_connection(self):
+        settings.REDIS_CONNECTION_CLASS = None
+        settings.REDIS_ASYNC_CONNECTION_CLASS = "tests.redis_mockup.AsyncConnection"
+        settings.REDIS_CONNECTION = "redis://localhost:6379/0"
+        mock_redis = mock.MagicMock()
+        with mock.patch.dict("sys.modules", {"redis": mock_redis, "redis.asyncio": mock_redis.asyncio}):
+            backend = RedisBackend()
+        mock_redis.from_url.assert_called_once_with("redis://localhost:6379/0")
+        self.assertEqual(backend._rd, mock_redis.from_url.return_value)
+
+    def test_sync_redis_with_dict_connection(self):
+        settings.REDIS_CONNECTION_CLASS = None
+        settings.REDIS_ASYNC_CONNECTION_CLASS = "tests.redis_mockup.AsyncConnection"
+        settings.REDIS_CONNECTION = {"host": "localhost", "port": 6379}
+        mock_redis = mock.MagicMock()
+        with mock.patch.dict("sys.modules", {"redis": mock_redis, "redis.asyncio": mock_redis.asyncio}):
+            backend = RedisBackend()
+        mock_redis.Redis.assert_called_once_with(host="localhost", port=6379)
+        self.assertEqual(backend._rd, mock_redis.Redis.return_value)
+
+    def test_async_redis_not_available_sets_ard_none(self):
+        settings.REDIS_CONNECTION_CLASS = "tests.redis_mockup.Connection"
+        settings.REDIS_ASYNC_CONNECTION_CLASS = None
+        mock_redis = mock.MagicMock()
+        # Simulate redis.asyncio not being available
+        with mock.patch.dict("sys.modules", {"redis": mock_redis, "redis.asyncio": None}):
+            backend = RedisBackend()
+        self.assertIsNone(backend._ard)
+
+    def test_async_redis_from_url_with_string_connection(self):
+        settings.REDIS_CONNECTION_CLASS = "tests.redis_mockup.Connection"
+        settings.REDIS_ASYNC_CONNECTION_CLASS = None
+        settings.REDIS_CONNECTION = "redis://localhost:6379/0"
+        mock_aredis = mock.MagicMock()
+        mock_redis = mock.MagicMock()
+        mock_redis.asyncio = mock_aredis
+        with mock.patch.dict("sys.modules", {"redis": mock_redis, "redis.asyncio": mock_aredis}):
+            backend = RedisBackend()
+        mock_aredis.from_url.assert_called_once_with("redis://localhost:6379/0")
+        self.assertEqual(backend._ard, mock_aredis.from_url.return_value)
+
+    def test_async_redis_with_dict_connection(self):
+        settings.REDIS_CONNECTION_CLASS = "tests.redis_mockup.Connection"
+        settings.REDIS_ASYNC_CONNECTION_CLASS = None
+        settings.REDIS_CONNECTION = {"host": "localhost", "port": 6379}
+        mock_aredis = mock.MagicMock()
+        mock_redis = mock.MagicMock()
+        mock_redis.asyncio = mock_aredis
+        with mock.patch.dict("sys.modules", {"redis": mock_redis, "redis.asyncio": mock_aredis}):
+            backend = RedisBackend()
+        mock_aredis.Redis.assert_called_once_with(host="localhost", port=6379)
+        self.assertEqual(backend._ard, mock_aredis.Redis.return_value)
+
+    def test_check_async_support_raises_when_ard_is_none(self):
+        backend = RedisBackend()
+        backend._ard = None
+        with self.assertRaises(ImproperlyConfigured):
+            backend._check_async_support()
