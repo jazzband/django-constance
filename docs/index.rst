@@ -292,6 +292,36 @@ object and accessing the variables with attribute lookups::
     if config.THE_ANSWER == 42:
         answer_the_question()
 
+Asynchronous usage
+^^^^^^^^^^^^^^^^^^
+
+If you are using Django's asynchronous features (like async views), you can ``await`` the settings directly on the standard ``config`` object::
+
+    from constance import config
+
+    async def my_async_view(request):
+        # Accessing settings is awaitable
+        if await config.THE_ANSWER == 42:
+            return await answer_the_question_async()
+
+    async def update_settings():
+        # Updating settings asynchronously
+        await config.aset('THE_ANSWER', 43)
+
+        # Bulk retrieval is supported as well
+        values = await config.amget(['THE_ANSWER', 'SITE_NAME'])
+
+Performance and Safety
+~~~~~~~~~~~~~~~~~~~~~~
+
+While synchronous access (e.g., ``config.THE_ANSWER``) still works inside async views for some backends, it is highly discouraged:
+
+*   **Blocking:** Synchronous access blocks the event loop, reducing the performance of your entire application.
+*   **Safety Guards:** For the Database backend, Django's safety guards will raise a ``SynchronousOnlyOperation`` error if you attempt to access a setting synchronously from an async thread.
+*   **Automatic Detection:** Constance will emit a ``RuntimeWarning`` if it detects synchronous access inside an asynchronous event loop, helping you identify and fix these performance bottlenecks.
+
+For peak performance, especially with the Redis backend, always use the ``await`` syntax which leverages native asynchronous drivers.
+
 Django templates
 ^^^^^^^^^^^^^^^^
 
