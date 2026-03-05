@@ -98,11 +98,11 @@ class StorageTestsMixin:
         self.config.BOOL_VALUE = False
         self.config.STRING_VALUE = ""
 
-        values = dict(self.config._backend.mget(settings.CONFIG))
+        values = self.config._backend.mget(settings.CONFIG)
         self.assertEqual(values["INT_VALUE"], 0)
         self.assertEqual(values["BOOL_VALUE"], False)
         self.assertEqual(values["STRING_VALUE"], "")
 
     def test_backend_does_not_return_none_values(self):
-        result = dict(self.config._backend.mget(settings.CONFIG))
+        result = self.config._backend.mget(settings.CONFIG)
         self.assertEqual(result, {})

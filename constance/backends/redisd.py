@@ -73,11 +73,9 @@ class RedisBackend(Backend):
 
     def mget(self, keys):
         if not keys:
-            return
+            return {}
         prefixed_keys = [self.add_prefix(key) for key in keys]
-        for key, value in zip(keys, self._rd.mget(prefixed_keys)):
-            if value:
-                yield key, loads(value)
+        return {key: loads(value) for key, value in zip(keys, self._rd.mget(prefixed_keys)) if value}
 
     async def amget(self, keys):
         if not keys:
@@ -177,11 +175,13 @@ class CachingRedisBackend(RedisBackend):
 
     def mget(self, keys):
         if not keys:
-            return
+            return {}
+        result = {}
         for key in keys:
             value = self.get(key)
             if value is not None:
-                yield key, value
+                result[key] = value
+        return result
 
     async def amget(self, keys):
         if not keys:

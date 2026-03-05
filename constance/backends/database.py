@@ -54,20 +54,22 @@ class DatabaseBackend(Backend):
         if self._cache.get(full_cachekey):
             return
         autofill_values = {full_cachekey: 1}
-        for key, value in self.mget(settings.CONFIG):
+        for key, value in self.mget(settings.CONFIG).items():
             autofill_values[self.add_prefix(key)] = value
         self._cache.set_many(autofill_values, timeout=self._autofill_timeout)
 
     def mget(self, keys):
+        result = {}
         if not keys:
-            return
+            return result
         keys = {self.add_prefix(key): key for key in keys}
         try:
             stored = self._model._default_manager.filter(key__in=keys)
             for const in stored:
-                yield keys[const.key], loads(const.value)
+                result[keys[const.key]] = loads(const.value)
         except (OperationalError, ProgrammingError):
             pass
+        return result
 
     def get(self, key):
         key = self.add_prefix(key)

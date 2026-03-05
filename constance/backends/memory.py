@@ -25,14 +25,9 @@ class MemoryBackend(Backend):
 
     def mget(self, keys):
         if not keys:
-            return None
-        result = []
+            return {}
         with self._lock:
-            for key in keys:
-                value = self._storage.get(key)
-                if value is not None:
-                    result.append((key, value))
-        return result
+            return {key: self._storage[key] for key in keys if key in self._storage}
 
     async def amget(self, keys):
         if not keys:
