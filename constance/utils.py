@@ -19,7 +19,7 @@ def get_values():
     # First load a mapping between config name and default value
     default_initial = ((name, options[0]) for name, options in settings.CONFIG.items())
     # Then update the mapping with actually values from the backend
-    return dict(default_initial, **dict(config._backend.mget(settings.CONFIG)))
+    return dict(default_initial, **config._backend.mget(settings.CONFIG))
 
 
 async def aget_values():
@@ -52,7 +52,7 @@ def get_values_for_keys(keys):
         raise AttributeError(f'"{", ".join(missing_keys)}" keys not found in configuration.')
 
     # Merge default values and backend values, prioritizing backend values
-    return dict(default_initial, **dict(config._backend.mget(keys)))
+    return dict(default_initial, **config._backend.mget(keys))
 
 
 async def aget_values_for_keys(keys):

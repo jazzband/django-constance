@@ -24,18 +24,16 @@ class TestRedis(StorageTestsMixin, TestCase):
         settings.BACKEND = self.old_backend
 
     def test_mget_empty_keys(self):
-        # Test that mget returns None for empty keys
-        result = list(self.config._backend.mget([]) or [])
-        self.assertEqual(result, [])
+        result = self.config._backend.mget([])
+        self.assertEqual(result, {})
 
 
 class TestCachingRedis(TestRedis):
     _BACKEND = "constance.backends.redisd.CachingRedisBackend"
 
     def test_mget_empty_keys(self):
-        # Test that mget returns None for empty keys
-        result = list(self.config._backend.mget([]) or [])
-        self.assertEqual(result, [])
+        result = self.config._backend.mget([])
+        self.assertEqual(result, {})
 
 
 class TestRedisAsync(TransactionTestCase):

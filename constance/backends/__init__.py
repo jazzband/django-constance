@@ -24,16 +24,18 @@ class Backend(ABC):
     @abstractmethod
     def mget(self, keys):
         """
-        Get the keys from the backend store and return a list of the values.
-        Return an empty list if not found.
+        Get the keys from the backend store and return a dict mapping
+        each found key to its value. Return an empty dict if no keys
+        are provided or none are found.
         """
         ...
 
     @abstractmethod
     async def amget(self, keys):
         """
-        Get the keys from the backend store and return a list of the values.
-        Return an empty list if not found.
+        Get the keys from the backend store and return a dict mapping
+        each found key to its value. Return an empty dict if no keys
+        are provided or none are found.
         """
         ...
 

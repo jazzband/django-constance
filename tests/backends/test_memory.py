@@ -19,7 +19,7 @@ class TestMemory(StorageTestsMixin, TestCase):
 
     def test_mget_empty_keys(self):
         result = self.config._backend.mget([])
-        self.assertIsNone(result)
+        self.assertEqual(result, {})
 
 
 class TestMemoryAsync(TransactionTestCase):
