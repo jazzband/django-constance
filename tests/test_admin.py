@@ -266,6 +266,55 @@ class TestAdmin(TestCase):
         content_str = response.content.decode()
         self.assertGreater(content_str.find("STRING_VALUE"), content_str.find("INT_VALUE"))
 
+    @mock.patch(
+        "constance.settings.ADDITIONAL_FIELDS",
+        {
+            "language_select": [
+                "django.forms.fields.TypedMultipleChoiceField",
+                {
+                    "widget": "django.forms.CheckboxSelectMultiple",
+                    "choices": (("en", "English"), ("de", "German"), ("fr", "French")),
+                    "coerce": str,
+                },
+            ],
+        },
+    )
+    @mock.patch(
+        "constance.settings.CONFIG",
+        {
+            "LANGUAGES": (["en", "de"], "Supported languages", "language_select"),
+        },
+    )
+    def test_reset_to_default_multi_select(self):
+        """
+        Test that multi-select config values render with data-field-type='multi-select'
+        and a JSON-encoded data-default attribute.
+        """
+        # Re-parse additional fields so the mock is picked up by the form
+        from constance.forms import FIELDS, parse_additional_fields
+
+        FIELDS.update(parse_additional_fields({"language_select": [
+            "django.forms.fields.TypedMultipleChoiceField",
+            {
+                "widget": "django.forms.CheckboxSelectMultiple",
+                "choices": (("en", "English"), ("de", "German"), ("fr", "French")),
+                "coerce": str,
+            },
+        ]}))
+        try:
+            self.client.login(username="admin", password="nimda")
+            request = self.rf.get("/admin/constance/config/")
+            request.user = self.superuser
+            response = self.options.changelist_view(request, {})
+            response.render()
+            content = response.content.decode()
+
+            self.assertIn('data-field-type="multi-select"', content)
+            self.assertIn('data-default="[&quot;en&quot;, &quot;de&quot;]"', content)
+        finally:
+            # Clean up FIELDS to avoid leaking into other tests
+            FIELDS.pop("language_select", None)
+
     def test_labels(self):
         self.assertEqual(type(self.model._meta.label), str)
         self.assertEqual(type(self.model._meta.label_lower), str)
