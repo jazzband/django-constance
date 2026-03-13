@@ -291,16 +291,23 @@ class TestAdmin(TestCase):
         and a JSON-encoded data-default attribute.
         """
         # Re-parse additional fields so the mock is picked up by the form
-        from constance.forms import FIELDS, parse_additional_fields
+        from constance.forms import FIELDS
+        from constance.forms import parse_additional_fields
 
-        FIELDS.update(parse_additional_fields({"language_select": [
-            "django.forms.fields.TypedMultipleChoiceField",
-            {
-                "widget": "django.forms.CheckboxSelectMultiple",
-                "choices": (("en", "English"), ("de", "German"), ("fr", "French")),
-                "coerce": str,
-            },
-        ]}))
+        FIELDS.update(
+            parse_additional_fields(
+                {
+                    "language_select": [
+                        "django.forms.fields.TypedMultipleChoiceField",
+                        {
+                            "widget": "django.forms.CheckboxSelectMultiple",
+                            "choices": (("en", "English"), ("de", "German"), ("fr", "French")),
+                            "coerce": str,
+                        },
+                    ]
+                }
+            )
+        )
         try:
             self.client.login(username="admin", password="nimda")
             request = self.rf.get("/admin/constance/config/")
