@@ -12,6 +12,17 @@
 
             if (fieldType === 'checkbox') {
                 field.prop('checked', this.dataset.default === 'true');
+            } else if (fieldType === 'multi-select') {
+                const defaults = JSON.parse(this.dataset.default);
+                const stringDefaults = defaults.map(function(v) { return String(v); });
+                // CheckboxSelectMultiple: individual checkboxes inside a wrapper
+                field.find('input[type="checkbox"]').each(function() {
+                    $(this).prop('checked', stringDefaults.indexOf($(this).val()) !== -1);
+                });
+                // SelectMultiple: <select multiple> element
+                field.find('option').each(function() {
+                    $(this).prop('selected', stringDefaults.indexOf($(this).val()) !== -1);
+                });
             } else if (fieldType === 'date') {
                 const defaultDate = new Date(this.dataset.default * 1000);
                 $('#' + this.dataset.fieldId).val(defaultDate.strftime(get_format('DATE_INPUT_FORMATS')[0]));

@@ -1,3 +1,4 @@
+import json
 from collections import OrderedDict
 from datetime import date
 from datetime import datetime
@@ -62,8 +63,13 @@ class ConstanceAdmin(admin.ModelAdmin):
             "is_date": isinstance(default, date),
             "is_datetime": isinstance(default, datetime),
             "is_checkbox": isinstance(form_field.field.widget, forms.CheckboxInput),
+            "is_multi_select": isinstance(
+                form_field.field.widget, (forms.SelectMultiple, forms.CheckboxSelectMultiple)
+            ),
             "is_file": isinstance(form_field.field.widget, forms.FileInput),
         }
+        if config_value["is_multi_select"]:
+            config_value["json_default"] = json.dumps(default if isinstance(default, list) else [default])
         if field_type and field_type in settings.ADDITIONAL_FIELDS:
             serialized_default = form[name].field.prepare_value(default)
             config_value["default"] = serialized_default
