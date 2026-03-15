@@ -23,6 +23,9 @@
 {% block bodyclass %}{{ block.super }} change-list{% endblock %}
 
 {% block content %}
+  <ul class="object-tools">
+    <li><a href="history/" class="historylink">{% trans 'History' %}</a></li>
+  </ul>
   <div id="content-main" class="constance">
     <div class="module" id="changelist">
         <form id="changelist-form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}

@@ -41,6 +41,14 @@ class ConstanceAdmin(admin.ModelAdmin):
         return [
             path("", self.admin_site.admin_view(self.changelist_view), name=f"{info}_changelist"),
             path("", self.admin_site.admin_view(self.changelist_view), name=f"{info}_add"),
+            # Redirect <object_id>/change/ to the changelist so that "Recent actions" links in the admin index point
+            # somewhere useful.
+            path(
+                "<path:object_id>/change/",
+                lambda request, object_id: HttpResponseRedirect("../../"),
+                name=f"{info}_change",
+            ),
+            path("history/", self.admin_site.admin_view(self.history_view), name=f"{info}_history"),
         ]
 
     def get_config_value(self, name, options, form, initial):
@@ -159,6 +167,47 @@ class ConstanceAdmin(admin.ModelAdmin):
             context["config_values"].sort(key=itemgetter("name"))
         request.current_app = self.admin_site.name
         return TemplateResponse(request, self.change_list_template, context)
+
+    def history_view(self, request, object_id=None, extra_context=None):
+        """Display the change history for constance config values."""
+        from django.contrib.admin.views.main import PAGE_VAR
+
+        if not self.has_view_or_change_permission(request):
+            raise PermissionDenied
+
+        ct = ContentType.objects.get_for_model(self.model)
+        action_list = (
+            LogEntry.objects.filter(
+                content_type=ct,
+                object_id="Config",
+            )
+            .select_related()
+            .order_by("-action_time")
+        )
+
+        paginator = self.get_paginator(request, action_list, 100)
+        page_number = request.GET.get(PAGE_VAR, 1)
+        page_obj = paginator.get_page(page_number)
+        page_range = paginator.get_elided_page_range(page_obj.number)
+
+        context = {
+            **self.admin_site.each_context(request),
+            "title": _("Change history: %s") % self.model._meta.verbose_name_plural.capitalize(),
+            "action_list": page_obj,
+            "page_range": page_range,
+            "page_var": PAGE_VAR,
+            "pagination_required": paginator.count > 100,
+            "opts": self.model._meta,
+            "app_label": "constance",
+            **(extra_context or {}),
+        }
+
+        request.current_app = self.admin_site.name
+        return TemplateResponse(
+            request,
+            "admin/constance/config_history.html",
+            context,
+        )
 
     def _log_config_change(self, request, changed_fields):
         """

@@ -401,6 +401,78 @@ class TestAdmin(TestCase):
         self.assertIsInstance(response, HttpResponseRedirect)
         self.assertEqual(LogEntry.objects.count(), initial_count)
 
+    def test_history_view(self):
+        """Test that the history view renders and shows LogEntry records."""
+        from django.contrib.admin.models import CHANGE
+        from django.contrib.admin.models import LogEntry
+        from django.contrib.contenttypes.models import ContentType
+
+        ct = ContentType.objects.get_for_model(self.model)
+        LogEntry.objects.create(
+            user_id=self.superuser.pk,
+            content_type_id=ct.pk,
+            object_id="Config",
+            object_repr="Config",
+            action_flag=CHANGE,
+            change_message=json.dumps([{"changed": {"fields": ["INT_VALUE"]}}]),
+        )
+
+        request = self.rf.get("/admin/constance/config/history/")
+        request.user = self.superuser
+        response = self.options.history_view(request)
+        self.assertEqual(response.status_code, 200)
+        response.render()
+        content = response.content.decode()
+        self.assertIn("INT_VALUE", content)
+        self.assertIn("History", content)
+
+    def test_history_view_empty(self):
+        """Test that the history view renders correctly with no entries."""
+        request = self.rf.get("/admin/constance/config/history/")
+        request.user = self.superuser
+        response = self.options.history_view(request)
+        self.assertEqual(response.status_code, 200)
+        response.render()
+        content = response.content.decode()
+        self.assertIn("0", content)
+
+    def test_history_view_permission_denied(self):
+        """Test that the history view denies access to users without permission."""
+        from django.contrib.auth.models import User
+
+        unprivileged = User.objects.create_user("noperm", "noperm", "c@c.cz")
+        request = self.rf.get("/admin/constance/config/history/")
+        request.user = unprivileged
+        with self.assertRaises(PermissionDenied):
+            self.options.history_view(request)
+
+    def test_changelist_has_history_link(self):
+        """Test that the changelist page contains a link to the history view."""
+        request = self.rf.get("/admin/constance/config/")
+        request.user = self.superuser
+        response = self.options.changelist_view(request)
+        response.render()
+        content = response.content.decode()
+        self.assertIn('href="history/"', content)
+        self.assertIn("History", content)
+
+    def test_change_url_redirects_to_changelist(self):
+        """Test that the change URL (used by 'Recent actions') redirects to the changelist."""
+        from django.urls import reverse
+
+        url = reverse("admin:constance_config_change", args=["Config"])
+        self.assertIn("Config/change/", url)
+        request = self.rf.get(url)
+        request.user = self.superuser
+
+        # The change URL is a simple lambda redirect, so invoke it via URL resolution.
+        from django.urls import resolve
+
+        match = resolve(url)
+        response = match.func(request, object_id="Config")
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "../../")
+
     def test_labels(self):
         self.assertEqual(type(self.model._meta.label), str)
         self.assertEqual(type(self.model._meta.label_lower), str)
