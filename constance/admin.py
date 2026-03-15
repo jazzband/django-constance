@@ -9,7 +9,10 @@ from django import get_version
 from django.apps import apps
 from django.contrib import admin
 from django.contrib import messages
+from django.contrib.admin.models import CHANGE
+from django.contrib.admin.models import LogEntry
 from django.contrib.admin.options import csrf_protect_m
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
@@ -94,7 +97,9 @@ class ConstanceAdmin(admin.ModelAdmin):
         if request.method == "POST" and request.user.has_perm("constance.change_config"):
             form = form_cls(data=request.POST, files=request.FILES, initial=initial, request=request)
             if form.is_valid():
-                form.save()
+                changed_fields = form.save()
+                if changed_fields:
+                    self._log_config_change(request, changed_fields)
                 messages.add_message(request, messages.SUCCESS, _("Live settings updated successfully."))
                 return HttpResponseRedirect(".")
             messages.add_message(request, messages.ERROR, _("Failed to update live settings."))
@@ -154,6 +159,24 @@ class ConstanceAdmin(admin.ModelAdmin):
             context["config_values"].sort(key=itemgetter("name"))
         request.current_app = self.admin_site.name
         return TemplateResponse(request, self.change_list_template, context)
+
+    def _log_config_change(self, request, changed_fields):
+        """
+        Create a Django admin LogEntry recording which config fields were changed.
+
+        Uses the standard Django JSON change_message format so that
+        LogEntry.get_change_message() can interpret it correctly.
+        """
+        ct = ContentType.objects.get_for_model(self.model)
+        change_message = json.dumps([{"changed": {"fields": changed_fields}}])
+        LogEntry.objects.create(
+            user_id=request.user.pk,
+            content_type_id=ct.pk,
+            object_id="Config",
+            object_repr="Config",
+            action_flag=CHANGE,
+            change_message=change_message,
+        )
 
     def has_add_permission(self, *args, **kwargs):
         return False

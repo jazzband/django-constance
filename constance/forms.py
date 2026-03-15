@@ -124,10 +124,16 @@ class ConstanceForm(forms.Form):
         self.initial["version"] = version_hash.hexdigest()
 
     def save(self):
+        """
+        Save changed config values to the backend.
+
+        Returns a list of config field names that were actually modified.
+        """
         for file_field in self.files:
             file = self.cleaned_data[file_field]
             self.cleaned_data[file_field] = default_storage.save(join(settings.FILE_ROOT, file.name), file)
 
+        changed_fields = []
         for name in settings.CONFIG:
             current = getattr(config, name)
             new = self.cleaned_data[name]
@@ -140,6 +146,9 @@ class ConstanceForm(forms.Form):
 
             if current != new:
                 setattr(config, name, new)
+                changed_fields.append(name)
+
+        return changed_fields
 
     def clean_version(self):
         value = self.cleaned_data["version"]
