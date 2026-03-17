@@ -24,7 +24,7 @@
 
 {% block content %}
   <ul class="object-tools">
-    <li><a href="history/" class="historylink">{% trans 'History' %}</a></li>
+    <li><a href="{% url 'admin:constance_config_history' %}" class="historylink">{% trans 'History' %}</a></li>
   </ul>
   <div id="content-main" class="constance">
     <div class="module" id="changelist">

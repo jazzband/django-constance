@@ -448,12 +448,15 @@ class TestAdmin(TestCase):
 
     def test_changelist_has_history_link(self):
         """Test that the changelist page contains a link to the history view."""
+        from django.urls import reverse
+
         request = self.rf.get("/admin/constance/config/")
         request.user = self.superuser
         response = self.options.changelist_view(request)
         response.render()
         content = response.content.decode()
-        self.assertIn('href="history/"', content)
+        history_url = reverse("admin:constance_config_history")
+        self.assertIn(f'href="{history_url}"', content)
         self.assertIn("History", content)
 
     def test_change_url_redirects_to_changelist(self):
