@@ -3,13 +3,18 @@ from datetime import datetime
 from unittest import mock
 
 from django.contrib import admin
+from django.contrib.admin.models import CHANGE
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth.models import Permission
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import linebreaksbr
 from django.test import RequestFactory
 from django.test import TestCase
+from django.urls import resolve
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from constance import settings
@@ -31,8 +36,6 @@ class TestAdmin(TestCase):
         self.options = admin.site._registry[self.model]
         # Clear ContentType cache to avoid stale content_type_id references
         # across tests wrapped in transactions.
-        from django.contrib.contenttypes.models import ContentType
-
         ContentType.objects.clear_cache()
 
     def test_changelist(self):
@@ -341,9 +344,6 @@ class TestAdmin(TestCase):
     @mock.patch("constance.forms.ConstanceForm.is_valid", lambda _: True)
     def test_log_entry_created_on_change(self):
         """Test that a valid LogEntry is created when config values are changed."""
-        from django.contrib.admin.models import CHANGE
-        from django.contrib.admin.models import LogEntry
-
         request = self.rf.post(
             "/admin/constance/config/",
             data={
@@ -382,8 +382,6 @@ class TestAdmin(TestCase):
     @mock.patch("constance.forms.ConstanceForm.is_valid", lambda _: True)
     def test_no_log_entry_when_no_changes(self):
         """Test that no LogEntry is created when the form is saved without any changes."""
-        from django.contrib.admin.models import LogEntry
-
         initial_count = LogEntry.objects.count()
         request = self.rf.post(
             "/admin/constance/config/",
@@ -403,10 +401,6 @@ class TestAdmin(TestCase):
 
     def test_history_view(self):
         """Test that the history view renders and shows LogEntry records."""
-        from django.contrib.admin.models import CHANGE
-        from django.contrib.admin.models import LogEntry
-        from django.contrib.contenttypes.models import ContentType
-
         ct = ContentType.objects.get_for_model(self.model)
         LogEntry.objects.create(
             user_id=self.superuser.pk,
@@ -434,12 +428,10 @@ class TestAdmin(TestCase):
         self.assertEqual(response.status_code, 200)
         response.render()
         content = response.content.decode()
-        self.assertIn("0", content)
+        self.assertIn("doesn't have a change history", content)
 
     def test_history_view_permission_denied(self):
         """Test that the history view denies access to users without permission."""
-        from django.contrib.auth.models import User
-
         unprivileged = User.objects.create_user("noperm", "noperm", "c@c.cz")
         request = self.rf.get("/admin/constance/config/history/")
         request.user = unprivileged
@@ -448,8 +440,6 @@ class TestAdmin(TestCase):
 
     def test_changelist_has_history_link(self):
         """Test that the changelist page contains a link to the history view."""
-        from django.urls import reverse
-
         request = self.rf.get("/admin/constance/config/")
         request.user = self.superuser
         response = self.options.changelist_view(request)
@@ -461,16 +451,12 @@ class TestAdmin(TestCase):
 
     def test_change_url_redirects_to_changelist(self):
         """Test that the change URL (used by 'Recent actions') redirects to the changelist."""
-        from django.urls import reverse
-
         url = reverse("admin:constance_config_change", args=["Config"])
         self.assertIn("Config/change/", url)
         request = self.rf.get(url)
         request.user = self.superuser
 
         # The change URL is a simple lambda redirect, so invoke it via URL resolution.
-        from django.urls import resolve
-
         match = resolve(url)
         response = match.func(request, object_id="Config")
         self.assertEqual(response.status_code, 302)

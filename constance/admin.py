@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.contrib.admin.models import CHANGE
 from django.contrib.admin.models import LogEntry
 from django.contrib.admin.options import csrf_protect_m
+from django.contrib.admin.views.main import PAGE_VAR
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
@@ -41,11 +42,12 @@ class ConstanceAdmin(admin.ModelAdmin):
         return [
             path("", self.admin_site.admin_view(self.changelist_view), name=f"{info}_changelist"),
             path("", self.admin_site.admin_view(self.changelist_view), name=f"{info}_add"),
-            # Redirect <object_id>/change/ to the changelist so that "Recent actions" links in the admin index point
-            # somewhere useful.
+            # Redirect <object_id>/change/ to the changelist so that "Recent actions" links in the admin index
+            # point somewhere useful.  The relative "../../" resolves to the constance changelist because the
+            # full path is <app>/<model>/<object_id>/change/ and two levels up lands on <app>/<model>/.
             path(
                 "<path:object_id>/change/",
-                lambda request, object_id: HttpResponseRedirect("../../"),
+                self.admin_site.admin_view(lambda request, object_id: HttpResponseRedirect("../../")),
                 name=f"{info}_change",
             ),
             path("history/", self.admin_site.admin_view(self.history_view), name=f"{info}_history"),
@@ -170,8 +172,6 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     def history_view(self, request, object_id=None, extra_context=None):
         """Display the change history for constance config values."""
-        from django.contrib.admin.views.main import PAGE_VAR
-
         if not self.has_view_or_change_permission(request):
             raise PermissionDenied
 
@@ -232,6 +232,11 @@ class ConstanceAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, *args, **kwargs):
         return False
+
+    def has_view_permission(self, request, obj=None):
+        if settings.SUPERUSER_ONLY:
+            return request.user.is_superuser
+        return super().has_view_permission(request, obj)
 
     def has_change_permission(self, request, obj=None):
         if settings.SUPERUSER_ONLY:
