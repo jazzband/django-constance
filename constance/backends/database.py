@@ -40,7 +40,6 @@ class DatabaseBackend(Backend):
                 )
         else:
             self._cache = None
-        self.autofill()
         # Clear simple cache.
         post_save.connect(self.clear, sender=self._model)
 
