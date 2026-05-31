@@ -72,6 +72,11 @@ class TestDatabaseBackendConstruction(TestCase):
         with self.assertNumQueries(0):
             DatabaseBackend()
 
+    def test_autofill_is_noop_without_cache(self):
+        backend = DatabaseBackend()
+        with self.assertNumQueries(0):
+            backend.autofill()
+
     def test_backend_init_does_no_queries_with_cache(self):
         old_cache_backend = settings.DATABASE_CACHE_BACKEND
         settings.DATABASE_CACHE_BACKEND = "default"
