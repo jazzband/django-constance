@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.test import TransactionTestCase
 
+from constance import LazyConfig
 from constance import settings
+from constance.backends.database import DatabaseBackend
 from constance.base import Config
 from tests.storage import StorageTestsMixin
 
@@ -56,11 +58,48 @@ class TestDatabaseWithCache(StorageTestsMixin, TestCase):
         settings.DATABASE_CACHE_BACKEND = self.old_cache_backend
 
 
+class TestDatabaseBackendConstruction(TestCase):
+    """Regression tests for #667: backend construction must not perform I/O."""
+
+    def setUp(self):
+        self.old_backend = settings.BACKEND
+        settings.BACKEND = "constance.backends.database.DatabaseBackend"
+
+    def tearDown(self):
+        settings.BACKEND = self.old_backend
+
+    def test_backend_init_does_no_queries(self):
+        with self.assertNumQueries(0):
+            DatabaseBackend()
+
+    def test_autofill_is_noop_without_cache(self):
+        backend = DatabaseBackend()
+        with self.assertNumQueries(0):
+            backend.autofill()
+
+    def test_backend_init_does_no_queries_with_cache(self):
+        old_cache_backend = settings.DATABASE_CACHE_BACKEND
+        settings.DATABASE_CACHE_BACKEND = "default"
+        try:
+            with self.assertNumQueries(0):
+                DatabaseBackend()
+        finally:
+            settings.DATABASE_CACHE_BACKEND = old_cache_backend
+
+
 class TestDatabaseAsync(TransactionTestCase):
     def setUp(self):
         self.old_backend = settings.BACKEND
         settings.BACKEND = "constance.backends.database.DatabaseBackend"
         self.config = Config()
+
+    async def test_lazy_config_first_access_in_async(self):
+        # End-to-end: LazyConfig _setup() runs from inside the loop and the
+        # awaited value resolves. Companion to TestDatabaseBackendConstruction
+        # which is the strict #667 regression test.
+        lazy = LazyConfig()
+        value = await lazy.INT_VALUE
+        self.assertEqual(value, 1)
 
     def tearDown(self):
         settings.BACKEND = self.old_backend
