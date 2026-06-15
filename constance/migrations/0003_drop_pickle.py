@@ -29,11 +29,12 @@ def import_module_attr(path):
 
 def migrate_pickled_data(apps, schema_editor) -> None:  # pragma: no cover
     Constance = apps.get_model("constance", "Constance")
+    db_alias = schema_editor.connection.alias
 
-    for constance in Constance.objects.exclude(value=None):
+    for constance in Constance.objects.using(db_alias).exclude(value=None):
         if not is_already_migrated(constance.value):
             constance.value = dumps(pickle.loads(b64decode(constance.value.encode())))  # noqa: S301
-            constance.save(update_fields=["value"])
+            constance.save(using=db_alias, update_fields=["value"])
 
     if settings.BACKEND in (
         "constance.backends.redisd.RedisBackend",
