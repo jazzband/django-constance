@@ -116,6 +116,7 @@ class ConstanceForm(forms.Form):
                     % {"config_type": config_type, "name": name}
                 )
             field_class, kwargs = FIELDS[config_type]
+            kwargs = kwargs.copy()
             if only_view:
                 kwargs["disabled"] = True
             self.fields[name] = field_class(label=name, **kwargs)
