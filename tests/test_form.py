@@ -1,3 +1,5 @@
+from unittest import mock
+
 from django.forms import fields
 from django.test import TestCase
 
@@ -21,3 +23,16 @@ class TestForm(TestCase):
         # from CONSTANCE_ADDITIONAL_FIELDS
         self.assertIsInstance(f.fields["CHOICE_VALUE"], fields.ChoiceField)
         self.assertIsInstance(f.fields["EMAIL_VALUE"], fields.EmailField)
+
+    @mock.patch("constance.forms.messages.warning")
+    def test_read_only_form_does_not_disable_later_editable_form(self, _mock_warning):
+        read_only_request = mock.Mock()
+        read_only_request.user.has_perm.return_value = False
+        editable_request = mock.Mock()
+        editable_request.user.has_perm.return_value = True
+
+        read_only_form = ConstanceForm({}, request=read_only_request)
+        editable_form = ConstanceForm({}, request=editable_request)
+
+        self.assertTrue(read_only_form.fields["INT_VALUE"].disabled)
+        self.assertFalse(editable_form.fields["INT_VALUE"].disabled)
