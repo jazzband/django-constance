@@ -47,10 +47,10 @@ redis = [
 pytest-django-constance = "constance.test.pytest"
 
 [project.urls]
-homepage = "https://github.com/jazzband/django-constance/"
+homepage = "https://github.com/django-commons/django-constance/"
 documentation = "https://django-constance.readthedocs.io/en/latest/"
-repository = "https://github.com/jazzband/django-constance/"
-changelog = "https://github.com/jazzband/django-constance/releases/"
+repository = "https://github.com/django-commons/django-constance/"
+changelog = "https://github.com/django-commons/django-constance/releases/"
 
 [tool.setuptools]
 license-files = []  # see https://github.com/pypa/twine/issues/1216#issuecomment-2609745412
