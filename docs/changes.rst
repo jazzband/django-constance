@@ -2,7 +2,7 @@ Changelog
 ---------
 Starting with version 4.0.0, the changelog is maintained at the GitHub releases `GitHub releases`_
 
-.. _GitHub releases: https://github.com/jazzband/django-constance/releases
+.. _GitHub releases: https://github.com/django-commons/django-constance/releases
 
 v4.0.0 (2024/08/21)
 ~~~~~~~~~~~~~~~~~~~
