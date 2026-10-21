@@ -75,7 +75,7 @@ class RedisBackend(Backend):
         if not keys:
             return {}
         prefixed_keys = [self.add_prefix(key) for key in keys]
-        return {key: loads(value) for key, value in zip(keys, self._rd.mget(prefixed_keys)) if value}
+        return {key: loads(value) for key, value in zip(keys, self._rd.mget(prefixed_keys), strict=False) if value}
 
     async def amget(self, keys):
         if not keys:
@@ -83,7 +83,7 @@ class RedisBackend(Backend):
         self._check_async_support()
         prefixed_keys = [self.add_prefix(key) for key in keys]
         values = await self._ard.mget(prefixed_keys)
-        return {key: loads(value) for key, value in zip(keys, values) if value}
+        return {key: loads(value) for key, value in zip(keys, values, strict=False) if value}
 
     def set(self, key, value):
         old_value = self.get(key)

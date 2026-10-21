@@ -76,9 +76,7 @@ class ConstanceAdmin(admin.ModelAdmin):
             "is_date": isinstance(default, date),
             "is_datetime": isinstance(default, datetime),
             "is_checkbox": isinstance(form_field.field.widget, forms.CheckboxInput),
-            "is_multi_select": isinstance(
-                form_field.field.widget, (forms.SelectMultiple, forms.CheckboxSelectMultiple)
-            ),
+            "is_multi_select": isinstance(form_field.field.widget, forms.SelectMultiple | forms.CheckboxSelectMultiple),
             "is_file": isinstance(form_field.field.widget, forms.FileInput),
         }
         if config_value["is_multi_select"]:
@@ -162,7 +160,7 @@ class ConstanceAdmin(admin.ModelAdmin):
                 if collapse:
                     fieldset_context["collapse"] = True
                 context["fieldsets"].append(fieldset_context)
-            if not isinstance(settings.CONFIG_FIELDSETS, (OrderedDict, tuple)):
+            if not isinstance(settings.CONFIG_FIELDSETS, OrderedDict | tuple):
                 context["fieldsets"].sort(key=itemgetter("title"))
 
         if not isinstance(settings.CONFIG, OrderedDict):

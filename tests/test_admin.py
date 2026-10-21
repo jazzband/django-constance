@@ -157,9 +157,10 @@ class TestAdmin(TestCase):
         request.user = self.superuser
         request._dont_enforce_csrf_checks = True
 
-        with mock.patch("django.contrib.messages.add_message") as mock_message, mock.patch.object(
-            ConstanceForm, "__init__", **initial_value, return_value=None
-        ) as mock_form:
+        with (
+            mock.patch("django.contrib.messages.add_message") as mock_message,
+            mock.patch.object(ConstanceForm, "__init__", **initial_value, return_value=None) as mock_form,
+        ):
             response = self.options.changelist_view(request, {})
             mock_form.assert_called_with(data=request.POST, files=request.FILES, initial=initial_value, request=request)
             mock_message.assert_called_with(request, 25, _("Live settings updated successfully."))
