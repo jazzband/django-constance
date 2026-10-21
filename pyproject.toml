@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Django live settings with pluggable backends, including Redis."
 readme = "README.rst"
 license = { text = "BSD" }
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 authors = [
     { name = "Jannis Leidel", email = "jannis@leidel.info" },
 ]
@@ -28,8 +28,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",

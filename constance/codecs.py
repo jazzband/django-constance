@@ -34,7 +34,7 @@ def _as(discriminator: str, v: Any) -> dict[str, Any]:
 def dumps(obj, _dumps=json.dumps, cls=JSONEncoder, default_kwargs=None, **kwargs):
     """Serialize object to json string."""
     default_kwargs = default_kwargs or {}
-    is_default_type = isinstance(obj, (list, dict, str, int, bool, float, type(None)))
+    is_default_type = isinstance(obj, list | dict | str | int | bool | float | type(None))
     return _dumps(
         _as(DEFAULT_DISCRIMINATOR, obj) if is_default_type else obj, cls=cls, **dict(default_kwargs, **kwargs)
     )

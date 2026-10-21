@@ -40,7 +40,7 @@ def get_values_for_keys(keys):
     :return: Dictionary with values for the specified keys.
     :raises AttributeError: If any key is not found in the configuration.
     """
-    if not isinstance(keys, (list, tuple, set)):
+    if not isinstance(keys, list | tuple | set):
         raise TypeError("keys must be a list, tuple, or set of strings")
 
     # Prepare default initial mapping
@@ -63,7 +63,7 @@ async def aget_values_for_keys(keys):
     :return: Dictionary with values for the specified keys.
     :raises AttributeError: If any key is not found in the configuration.
     """
-    if not isinstance(keys, (list, tuple, set)):
+    if not isinstance(keys, list | tuple | set):
         raise TypeError("keys must be a list, tuple, or set of strings")
 
     default_initial = {name: options[0] for name, options in settings.CONFIG.items() if name in keys}
