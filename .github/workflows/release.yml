@@ -13,7 +13,7 @@ permissions: {}
 jobs:
   build:
     name: Build distribution
-    if: github.repository == 'django-commons/django-constance'
+    if: github.repository == 'django-commons/django-constance' || github.repository == 'jazzband/django-constance'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -47,6 +47,7 @@ jobs:
 
   publish-to-pypi:
     name: Publish distribution to PyPI
+    if: github.repository == 'django-commons/django-constance'
     needs:
       - build
     runs-on: ubuntu-latest
@@ -66,10 +67,36 @@ jobs:
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@v1.14.2
 
+  publish-to-jazzband:
+    name: Publish distribution to Jazzband
+    if: github.repository == 'jazzband/django-constance'
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v8
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Upload packages to Jazzband
+        uses: pypa/gh-action-pypi-publish@v1.14.2
+        with:
+          user: jazzband
+          password: ${{ secrets.JAZZBAND_RELEASE_KEY }}
+          repository-url: https://jazzband.co/projects/django-constance/upload
+          attestations: false
+
   github-release:
     name: Upload distribution to GitHub Release
     needs:
       - publish-to-pypi
+      - publish-to-jazzband
+    if: always() && (needs.publish-to-pypi.result == 'success' || needs.publish-to-jazzband.result == 'success')
     runs-on: ubuntu-latest
     permissions:
       contents: write
