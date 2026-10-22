@@ -322,6 +322,10 @@ While synchronous access (e.g., ``config.THE_ANSWER``) still works inside async 
 
 For peak performance, especially with the Redis backend, always use the ``await`` syntax which leverages native asynchronous drivers.
 
+If you run test runners or libraries that keep a background asyncio event loop running during synchronous tests (such as ``pytest-playwright``), or if you want to disable automatic asyncio detection, set::
+
+    CONSTANCE_DETECT_ASYNCIO = False
+
 Django templates
 ^^^^^^^^^^^^^^^^
 

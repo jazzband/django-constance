@@ -1,6 +1,8 @@
 import asyncio
 import warnings
 
+from django.conf import settings as django_settings
+
 from . import settings
 from . import utils
 
@@ -95,6 +97,36 @@ class AsyncValueProxy:
     def __truediv__(self, other):
         return self._get_sync_value() / other
 
+    def __floordiv__(self, other):
+        return self._get_sync_value() // other
+
+    def __mod__(self, other):
+        return self._get_sync_value() % other
+
+    def __radd__(self, other):
+        return other + self._get_sync_value()
+
+    def __rsub__(self, other):
+        return other - self._get_sync_value()
+
+    def __rmul__(self, other):
+        return other * self._get_sync_value()
+
+    def __rtruediv__(self, other):
+        return other / self._get_sync_value()
+
+    def __rfloordiv__(self, other):
+        return other // self._get_sync_value()
+
+    def __rmod__(self, other):
+        return other % self._get_sync_value()
+
+    def __index__(self):
+        val = self._get_sync_value()
+        if hasattr(val, "__index__"):
+            return val.__index__()
+        raise TypeError(f"'{type(val).__name__}' object cannot be interpreted as an integer")
+
 
 class Config:
     """The global config wrapper that handles the backend."""
@@ -119,11 +151,13 @@ class Config:
         except KeyError as e:
             raise AttributeError(key) from e
 
-        try:
-            asyncio.get_running_loop()
-        except RuntimeError:
-            return self._get_sync_value(key, default)
-        return AsyncValueProxy(key, self, default)
+        if getattr(django_settings, "CONSTANCE_DETECT_ASYNCIO", getattr(settings, "DETECT_ASYNCIO", True)):
+            try:
+                asyncio.get_running_loop()
+            except RuntimeError:
+                return self._get_sync_value(key, default)
+            return AsyncValueProxy(key, self, default)
+        return self._get_sync_value(key, default)
 
     def __setattr__(self, key, value):
         if key == "_backend":
