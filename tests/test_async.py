@@ -1,9 +1,11 @@
 import warnings
 
 from django.test import TransactionTestCase
+from django.test import override_settings
 
 from constance import config
 from constance import utils
+from constance.base import AsyncValueProxy
 
 
 class AsyncTestCase(TransactionTestCase):
@@ -161,6 +163,70 @@ class AsyncValueProxyTestCase(TransactionTestCase):
             self.assertEqual(result, 1.0)
             self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
 
+    async def test_floordiv_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = config.INT_VALUE // 1
+            self.assertEqual(result, 1)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
+    async def test_mod_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = config.INT_VALUE % 1
+            self.assertEqual(result, 0)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
+    async def test_radd_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = 10 + config.INT_VALUE
+            self.assertEqual(result, 11)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
+    async def test_rsub_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = 10 - config.INT_VALUE
+            self.assertEqual(result, 9)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
+    async def test_rmul_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = 10 * config.INT_VALUE
+            self.assertEqual(result, 10)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
+    async def test_rtruediv_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = 10 / config.INT_VALUE
+            self.assertEqual(result, 10.0)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
+    async def test_rfloordiv_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = 10 // config.INT_VALUE
+            self.assertEqual(result, 10)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
+    async def test_rmod_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = 10 % config.INT_VALUE
+            self.assertEqual(result, 0)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
+    async def test_index_proxy(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            items = [100, 200, 300]
+            result = items[config.INT_VALUE]
+            self.assertEqual(result, 200)
+            self.assertTrue(any("Synchronous access" in str(warn.message) for warn in w))
+
     async def test_aset_invalid_key(self):
         with self.assertRaises(AttributeError):
             await config.aset("INVALID_KEY", 42)
@@ -196,3 +262,21 @@ class ConfigBaseTestCase(TransactionTestCase):
         # Test accessing _backend attribute in sync context
         backend = config._backend
         self.assertIsNotNone(backend)
+
+
+class DetectAsyncioTestCase(TransactionTestCase):
+    """Tests for CONSTANCE_DETECT_ASYNCIO setting."""
+
+    @override_settings(CONSTANCE_DETECT_ASYNCIO=False)
+    async def test_detect_asyncio_disabled_returns_sync_value_in_async_context(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            val = config.INT_VALUE
+            self.assertIsInstance(val, int)
+            self.assertEqual(val, 1)
+            self.assertEqual(len(w), 0)
+
+    @override_settings(CONSTANCE_DETECT_ASYNCIO=True)
+    async def test_detect_asyncio_enabled_returns_proxy_in_async_context(self):
+        val = config.INT_VALUE
+        self.assertIsInstance(val, AsyncValueProxy)
